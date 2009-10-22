@@ -1,0 +1,38 @@
+PAGE_REGISTER_CAPT: Регистрация пользователя
+---
+PAGE_REGISTER_BUTT: Регистрация
+---
+PAGE_REGISTER_REQUEST: Для регистрации в системе заполните форму ниже.
+ Регистрация позволяет Вам получить доступ к дополнительным функциям нашего сайта.
+---
+PAGE_REGISTER_USERNAME: Имя для отображения на сайте:
+---
+PAGE_REGISTER_LOGIN: Логин для входа в систему:
+---
+PAGE_REGISTER_PASSWORD: Пароль для входа:
+---
+PAGE_REGISTER_PASSWORDDUP: Повторите пароль:
+---
+PAGE_REGISTER_EMAIL: Укажите e-mail для связи:
+---
+PAGE_REGISTER_CAPTCHA: Введите символы на картинке:
+---
+
+ERR_REGISTER_WRONG_ASCODE: Неверно введен код защиты
+---
+ERR_REGISTER_PASSES_DIFF: Пароли не совпадают
+---
+ERR_REGISTER_WRONG_EMAIL: Указан неверный E-Mail
+---
+ERR_REGISTER_BAD_LOGIN: Логин неверный, пожалуйста, не используйте символы национальных алфавитов для логина.
+---
+ERR_REGISTER_BAD_PASS: Пароль слишком короткий.
+---
+ERR_REGISTER_USED_NICK: Это имя пользователя уже используется.
+---
+ERR_REGISTER_USED_LOGIN: Этот логин уже используется.
+---
+ERR_REGISTER_NOT_CREATED: Неизвестная ошибка при регистрации пользователя.
+---
+RES_REGISTER_OK: Пользователь <i><b>%1$s</b> (%2$s)</i> успешно зарегистрирован. Теперь Вы можете войти в систему.
+---

@@ -1,0 +1,47 @@
+<<+ 'PAGE_REGISTER'>>
+<form action="{QF_INDEX}" method="post">
+<table class="inv_grid fullwidth">
+<tr><td style="text-align: left;" colspan="2">
+{L_PAGE_REGISTER_REQUEST}
+</td></tr>
+<tr><td class="alg_l alg_m nowrap">
+{L_PAGE_REGISTER_LOGIN}
+</td><td class="alg_r alg_m">
+<input type="text" name="new_login" />
+</td></tr>
+<tr><td class="alg_l alg_m nowrap">
+{L_PAGE_REGISTER_USERNAME}
+</td><td class="alg_r alg_m">
+<input type="text" name="new_name" />
+</td></tr>
+<tr><td class="alg_l alg_m nowrap">
+{L_PAGE_REGISTER_PASSWORD}
+</td><td class="alg_r alg_m">
+<input type="password" name="new_pass" />
+</td></tr>
+<tr><td class="alg_l alg_m nowrap">
+{L_PAGE_REGISTER_PASSWORDDUP}
+</td><td class="alg_r alg_m">
+<input type="password" name="new_pass_dup" />
+</td></tr>
+<tr><td class="alg_l alg_m nowrap">
+{L_PAGE_REGISTER_EMAIL}
+</td><td class="alg_r alg_m">
+<input type="text" name="new_email" />
+</td></tr>
+{!IF:IN_DISABLE_CAPTCHA}
+<tr><td class="alg_l alg_m nowrap">
+{L_PAGE_REGISTER_CAPTCHA}
+<br /><img src="{URL:fox2_asp_code|RANDOM}" alt="{L_MISC_CAPTCHA_ALT}" />
+</td><td class="alg_r alg_m">
+<input type="text" name="asp_code" />
+</td></tr>
+{ENDIF}
+<tr><td style="text-align: right;" colspan="2">
+<input type="hidden" name="script" value="register" />
+<input type="submit" value="{L_PAGE_REGISTER_BUTT}" />
+</td></tr>
+</table>
+</form>
+{!VIS:FOX_WINDOW|CAPTION=L_PAGE_REGISTER_CAPT|CONTENTS=OUT|WIDTH="400px"}
+<<- 'PAGE_REGISTER'>>

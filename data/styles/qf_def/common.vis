@@ -1,0 +1,824 @@
+// <?xml version="1.0"?> deleted from the top... IE bugs with drawing
+
+<<+ 'GLOBAL_HTMLPAGE'>>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <!--Meta-Content-Type-->
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <!-- <meta http-equiv="MSThemeCompatible" content="no" /> -->
+  <title>{!IN_SITE_NAME}{IF:IN_PAGE_TITLE} :: {!IN_PAGE_TITLE}{IF:IN_PAGE_SUBTITLE} :: {!IN_PAGE_SUBTITLE}{ENDIF}{ENDIF}</title>
+  {IN_META}
+
+  <link rel="shortcut icon" href="{IMGS}/qf_ico.ico" />
+
+  {IF:IN_CSS}
+  <style type="text/css">
+  /* CSS starts here <![CDATA[ */
+   script { display: none; }
+   {IN_CSS}
+  /* ]]> CSS ends here */
+  </style>
+  {ENDIF}
+</head>
+<body>
+{IN_JS_BLOCKS}
+{IF:IN_JS}
+<script type="text/javascript">
+// JavaScript Starts Here <![CDATA[
+ // compatability htc rules loading for MSIE
+ if (document.all && /MSIE (5\.5|6)/.test(navigator.userAgent) &&
+  document.styleSheets && document.styleSheets[0] && document.styleSheets[0].addRule)
+ {
+  document.styleSheets[0].addRule('input', 'behavior: url("{FURL:fox2_htc_data|"ie_inputs"}")');
+  document.styleSheets[0].addRule('img', 'behavior: url("{FURL:fox2_htc_data|"ie_png"}")');
+ }
+ {IN_JS}
+//]]> JavaScript ends here
+</script>
+{ENDIF}
+
+<table class="page_outer">
+<tr>
+ <td class="outer_left">&nbsp;</td>
+ <td class="page_head"><div class="page_head_l1"><div class="page_head_l2">
+  <div class="head_site">{!IN_SITE_NAME}</div>
+  <div class="head_title">{!IN_PAGE_TITLE}{IF:IN_PAGE_SUBTITLE} :: {!IN_PAGE_SUBTITLE}{ENDIF}</div>
+  {IF:IN_MENU_ITEMS}
+  <div class="head_menu">
+   <table class="menu_table"><tr>
+   {IN_MENU_ITEMS}
+   </tr></table>
+  </div>
+  {ENDIF}
+ </div></div></td>
+ <td class="outer_right">&nbsp;</td>
+</tr>
+<tr>
+ <td class="outer_left">&nbsp;</td>
+ <td class="page_body"><div class="page_body_l1">
+  <table class="page_inner"><tr>
+  <td class="page_contents">
+   {IN_PAGE_CONT}
+  </td>
+  <td class="page_subcol" id="page_subcol"><div class="page_subcol" id="page_subcol_div">
+   <div class="logo_div">
+   {IF:IN_site_logo}
+    <img src="{IN_site_logo}" alt="SITE LOGO" />
+   {ELSE}
+    <div style="height: 50px;">&nbsp;</div>
+   {ENDIF}
+   </div>
+   {IF:IN_PANELS}
+    {IN_PANELS}
+    <hr />
+   {ENDIF}
+   <div id="adv_block" class="page_advblock" >
+    <a href="{URL:fox2_qf_about_page}" rel="external" onmousedown="this.target='_blank';"><img src="{ST_IMGS}/fox2_sm.png" alt="QuickFox" style="height: 180px; width: 180px;" /></a><br />
+    {QF_MARK}
+    {IF:IN_adv}
+    <hr />
+    {IN_adv}
+    {ENDIF}
+   </div>
+  </div>
+  {IF:IN_HIDE_PANELS}<script type="text/javascript">
+  // <![CDATA[
+  var itm = qf_getbyid('page_subcol');
+  if (itm)
+  {
+      //itm.style.position = 'absolute';
+      //itm.style.right = '10px';
+      itm.onmouseover = function() { QF_EFFECTS.Show('page_subcol_div', 5+16); };
+      itm.onmouseout = function() { QF_EFFECTS.Hide('page_subcol_div', 5+16, 15); };
+      itm.onmouseout();
+  }
+  //]]>
+  </script>{ENDIF}
+  </td>
+  </tr></table>
+ </div></td>
+ <td class="outer_right">&nbsp;</td>
+</tr>
+{IF:IN_bottom_adv}
+<tr>
+ <td class="outer_left">&nbsp;</td>
+ <td class="page_bott_adv">
+  {IN_bottom_adv}
+ </td>
+ <td class="outer_right">&nbsp;</td>
+</tr>
+{ENDIF}
+<tr>
+ <td class="outer_left_bott">&nbsp;</td>
+ <td class="outer_bott" id="page_foot">
+  <table class="page_bott"><tr>
+   <td class="page_bott_lt"><div class="page_bott_lt_l1">
+    <div id="page_genstats">
+     <!--Page-Stats-->
+    </div>
+   </div></td>
+   <td class="page_bott_mid">&nbsp;</td>
+   <td class="page_bott_rt">
+    <div id="page_staticons">
+     {IN_FOOTSTAT}
+     <a href="http://validator.w3.org/check?uri=referer">
+      <img src="http://www.w3.org/Icons/valid-xhtml10-blue.png" alt="Valid XHTML 1.0 Strict" style="height: 31px; width: 88px;" />
+     </a>
+    </div>
+   </td>
+  </tr></table>
+ </td>
+ <td class="outer_right_bott">&nbsp;</td>
+</tr>
+</table>
+{IF:IN_BOTT_JS}
+<script type="text/javascript">
+// JavaScript Starts Here (bottom section) <![CDATA[
+ {IN_BOTT_JS}
+//]]> JavaScript ends here
+</script>
+{ENDIF}
+</body>
+</html>
+<<- 'GLOBAL_HTMLPAGE'>>
+
+<<+ 'MENU_BUTTON'>>
+{IF:IN_SUBS}
+<td class="menu_butt" onmouseover="QF_EFFECTS.Show('menu{COUNTER}', 3, 85)" onmouseout="QF_EFFECTS.Hide('menu{COUNTER}', 3)"><a class="menu_butt_a" href="{!IN_url}">{!IN_caption}</a>&nbsp;
+<div class="menu_dropdown_o" >
+<div class="menu_dropdown" id="menu{COUNTER}" style="display: none;">
+ {IN_SUBS}
+</div></div>
+</td>
+{ELSE}
+<td class="menu_butt"><a class="menu_butt_a" href="{!IN_url}">{!IN_caption}</a>&nbsp;<div class="menu_dropdown_o" ></div></td>
+{ENDIF}
+<<- 'MENU_BUTTON'>>
+
+<<+ 'MENU_SUBBUTTON'>>
+<a class="menu_subbutt" href="{IN_url}">{!IN_caption}</a>
+<<- 'MENU_SUBBUTTON'>>
+
+<<+ 'ACC_LEVEL_MARK'>>
+{IF:IN_LEVEL=0}{L_LEVEL_FOR_ALL}{ELSE}{FOR:1|IN_LEVEL}<img src="{ST_IMGS}/acc_point.gif" alt="!" title="{L_ACC_LEVEL}" />{ENDFOR}{ENDIF}
+<<- 'ACC_LEVEL_MARK'>>
+
+<<+ 'ACC_LEVEL_SELECT'>>
+{IF:IN_LEVEL=0}{L_LEVEL_FOR_ALL}{ELSE}{FOR:1|IN_LEVEL}<img src="{ST_IMGS}/acc_point.gif" alt="!" title="{L_ACC_LEVEL}" />{ENDFOR}{ENDIF}
+<<- 'ACC_LEVEL_SELECT'>>
+
+<<+ 'US_LEVEL_MARK'>>
+{IF:IN_LEVEL=0}{L_US_LEVEL_NONE}{ELSE}
+{FOR:1|IN_A_LVL}<img src="{ST_IMGS}/acc_point_a.gif" alt="A" title="{L_US_ADM_LEVEL|IN_A_LVL}" />{ENDFOR}
+{FOR:I|IN_M_LVL}<img src="{ST_IMGS}/acc_point_m.gif" alt="M" title="{L_US_MOD_LEVEL|IN_M_LVL}" />{ENDFOR}
+{FOR:I|IN_LEVEL}<img src="{ST_IMGS}/acc_point.gif" alt="+" title="{L_US_ACC_LEVEL|IN_LEVEL}" />{ENDFOR}
+{ENDIF}
+<<- 'US_LEVEL_MARK'>>
+
+<<+ 'PAGE_LOGIN'>>
+<form action="{QF_INDEX}" method="post">
+<table class="inv_grid fullwidth">
+<tr><td style="text-align: left;" colspan="2">
+{IF:IN_CURUSER}{L_PAGE_LOGIN_LOGGEDAS|IN_CURUSER}{ENDIF}
+{L_PAGE_LOGIN_REQUEST}
+</td></tr>
+<tr><td style="text-align: left; white-space: nowrap; vertical-align: middle;">
+{L_PAGE_LOGIN_USERNAME}
+</td><td style="text-align: right;">
+<input type="text" name="login" />
+</td></tr>
+<tr><td style="text-align: left; white-space: nowrap; vertical-align: middle;">
+{L_PAGE_LOGIN_PASSWORD}
+</td><td style="text-align: right;">
+<input type="password" name="pass" />
+</td></tr>
+{!IF:IN_DISABLE_AL}
+<tr><td style="text-align: left;" colspan="2">
+<input name="set_auto" type="checkbox" value="1" id="set_auto_cb" /><label for="set_auto_cb"> {L_PAGE_LOGIN_SETAUTO}</label>
+</td></tr>
+{ENDIF}
+{IF:IN_SHOW_REG}
+<tr><td style="text-align: center; padding: 0px 15px;" colspan="2">
+ <a href="{URL:fox2_register}" title="{L_BTN_REGISTER}">{L_PAGE_LOGIN_REGISTER}</a>
+</td></tr>
+{ENDIF}
+<tr><td style="text-align: right;" colspan="2">
+<input type="hidden" name="script" value="login" />
+<input type="submit" value="{L_BTN_ENTER}" />
+</td></tr>
+</table>
+</form>
+{!VIS:FOX_WINDOW|CAPTION=L_PAGE_LOGIN_CAPT|CONTENTS=OUT|WIDTH="300px"}
+<<- 'PAGE_LOGIN'>>
+
+<<+ 'PANEL_BODY'>>
+<div class="qf_panel">
+<table class="inv_grid fullwidth">
+ <tr><td class="qf_panel_capt" onclick="QF_EFFECTS.Toggle('Pan{COUNTER}', 3);">
+  {IN_labels}
+  {IN_title}
+ </td></tr>
+ <tr><td>
+  <div class="inv_grid" id="Pan{COUNTER}">
+  {IF:IN_empty}
+   {IN_contents}
+  {ELSE}
+   <div class="qf_panel_body">
+    {IN_contents}
+   </div>
+  {ENDIF}
+   {IF:IN_bottline}<div class="qf_window_line">
+    {IN_bottline}
+   </div>{ENDIF}
+  </div>
+ </td></tr>
+</table>
+{IF:IN_hidden}
+<script type="text/javascript">
+// <![CDATA[
+QF_EFFECTS.Invisible('Pan{COUNTER}');
+//]]>
+</script>
+{ENDIF}
+</div>
+<<- 'PANEL_BODY'>>
+
+<<+ 'PAN_LOGIN_GREET'>>
+{L_PAN_LOGIN_GREET|IN_USER}
+<<- 'PAN_LOGIN_GREET'>>
+
+<<+ 'PAN_LOGIN_BOTTLINE'>>
+<div style="text-align: right; padding: 3px 0 0 0;">
+ {IF:IN_IS_ADM}<a class="hlight_btn" href="{URL:fox2_adm_panel}" title="{L_BTN_ADMPANEL}">{L_BTN_ADMPANEL}</a>{ENDIF}
+ <a class="hlight_btn" href="{URL:fox2_user_cabinet}" title="{L_BTN_PROFILE}">{L_BTN_PROFILE}</a>
+ <a class="hlight_btn" href="{URL:fox2_logout}" title="{L_PAN_LOGIN_LOGOUT}">{L_PAN_LOGIN_LOGOUT}</a>
+</div>
+<<- 'PAN_LOGIN_BOTTLINE'>>
+
+
+<<+ 'PAN_LOGIN_LOG'>>
+<form action="{QF_INDEX}" method="post">
+<table class="inv_grid fullwidth">
+<tr><td class="alg_l">
+ {L_PAN_LOGIN_REQUEST}
+</td></tr>
+<tr><td class="alg_l">
+ {L_PAN_LOGIN_USERNAME}
+</td></tr>
+<tr><td class="alg_r">
+ <input type="text" name="login" />
+</td></tr>
+<tr><td class="alg_l">
+ {L_PAN_LOGIN_PASSWORD}
+</td></tr>
+<tr><td class="alg_r">
+ <input type="password" name="pass" />
+</td></tr>
+{!IF:IN_DISABLE_AL}
+<tr><td class="alg_l">
+ <input name="set_auto" type="checkbox" value="1" id="set_auto_cbp" /><label for="set_auto_cbp"> {L_PAN_LOGIN_SETAUTO}</label>
+</td></tr>
+{ENDIF}
+<tr><td class="alg_r">
+ <input type="hidden" name="script" value="login" />
+ <input type="submit" value="{L_BTN_ENTER}" />
+</td></tr>
+</table>
+</form>
+<<- 'PAN_LOGIN_LOG'>>
+
+<<+ 'PAN_LOGIN_LOG_BOTTLINE'>>
+<div style="text-align: center; padding: 3px 0 0 0;">
+ <a class="hlight_btn" href="{URL:fox2_register}" title="{L_BTN_REGISTER}">{L_BTN_REGISTER}</a>
+</div>
+<<- 'PAN_LOGIN_LOG_BOTTLINE'>>
+
+<<+ 'FOX_RESULT_WINDOW'>>
+<div style="width: 400px;" class="qf_window">
+<table class="inv_grid fullwidth">
+ <tr><td class="qf_window_capt">
+  {IF:IN_is_err}
+   <span class="err_text">{L_RES_CAPT_ERR}</span>
+  {ELSE}
+   {L_RES_CAPT}
+  {ENDIF}
+ </td></tr>
+ <tr><td class="qf_window_body">
+  {IN_text}
+  {IF:IN_errors}
+   <div style="margin: 3px 0;">
+    <b class="err_text">{L_RES_GOTERRS}:</b><br />
+    {IN_errors}
+   </div>
+  {ENDIF}
+  {IF:IN_redir_url}
+   <hr />
+   {L_RES_REDIR}<br />
+   <a href="{IN_redir_url}" >{L_RES_REDIR_URL}</a>
+  {ENDIF}
+ </td></tr>
+</table>
+</div>
+<<- 'FOX_RESULT_WINDOW'>>
+
+<<+ 'FOX_RESULT_ERR_ITEM'>>
+<b>[ {IN_ERRCODE} ]</b> {IN_MESSAGE}<br />
+<<- 'FOX_RESULT_ERR_ITEM'>>
+
+<<+ 'FOX_WINDOW'>>
+<div {IF:IN_DOM_ID}id="{IN_DOM_ID}"{ENDIF} style="width: {IF:IN_WIDTH}{IN_WIDTH}{ELSE}90%{ENDIF};" class="qf_window">
+<table class="inv_grid fullwidth">
+ {IF:IN_CAPTION}<tr><td class="qf_window_capt">
+  {IN_CAPTION}
+ </td></tr>{ENDIF}
+ {IF:IN_TOPLINE}<tr><td class="qf_window_line">
+  {IN_TOPLINE}
+ </td></tr>{ENDIF}
+ <tr><td class="{!IF:IN_NO_BODY}qf_window_body{ELSE}inv_grid{ENDIF}">
+  {IN_CONTENTS}
+ </td></tr>
+ {IF:IN_BOTTLINE}<tr><td class="qf_window_line alg_r">
+  {IN_BOTTLINE}
+ </td></tr>{ENDIF}
+</table>
+</div>
+<<- 'FOX_WINDOW'>>
+
+<<+ 'FOX_WINDOW_BRDR'>>
+<div {IF:IN_DOM_ID}id="{IN_DOM_ID}"{ENDIF} style="width: {IF:IN_WIDTH}{IN_WIDTH}{ELSE}90%{ENDIF};" class="qf_window">
+ <div{!IF:IN_NO_BODY} class="qf_window_body"{ENDIF}>
+  {IN_CONTENTS}
+ </div>
+</div>
+<<- 'FOX_WINDOW_BRDR'>>
+
+<<+ 'FOX_WINDOW_TABBER'>>
+<div {IF:IN_DOM_ID}id="{IN_DOM_ID}"{ENDIF} class="qf_window" style="width: {IF:IN_WIDTH}{IN_WIDTH}{ELSE}90%{ENDIF};" >
+<table class="inv_grid fullwidth">
+ {IF:IN_CAPTION}<tr><td class="qf_window_capt">
+  {IN_CAPTION}
+ </td></tr>{ENDIF}
+ {IF:IN_TOPLINE}<tr><td class="qf_window_line">
+  {IN_TOPLINE}
+ </td></tr>{ENDIF}
+ <tr><td class="inv_grid">
+  <table class="inv_grid fullwidth"><tr>
+   <td class="qf_tabber">
+   {IN_TABS}
+   </td>
+   <td class="qf_window_body" style="height: 230px;">
+   {IN_CONTENTS}
+   </td>
+  </tr></table>
+ </td></tr>
+ {IF:IN_BOTTLINE}<tr><td class="qf_window_line alg_r">
+  {IN_BOTTLINE}
+ </td></tr>{ENDIF}
+</table>
+</div>
+<<- 'FOX_WINDOW_TABBER'>>
+
+<<+ 'FOX_WINDOW_TAB'>>
+<a class="tabber_itm {IF:IN_SELECTED}tabber_itm_s{ENDIF}" href="{IN_HREF}" title="{!IN_CAPTION}">{!IN_CAPTION}</a>
+<<- 'FOX_WINDOW_TAB'>>
+
+<<+ 'FOX_WINDOW_BUTT'>>
+  <div class="qf_twindow_tab">
+  {IN_text}
+  </div>
+<<- 'FOX_WINDOW_BUTT'>>
+
+
+
+<<+ 'CMS_PAGE_MAIN'>>
+<!-- {!IN_CAPTION} -->
+{IN_PAGE_LINKS}{IN_PAGE_MODBLOCK}
+<div class="page_text">{IN_CONTENT}</div>
+<<- 'CMS_PAGE_MAIN'>>
+
+<<+ 'CMS_PAGE_LINKS'>>
+<div class="qf_window" style="width: 170px; float: left; margin: 0 7px 7px 0;">
+<table class="inv_grid fullwidth">
+ <tr><td class="qf_panel_capt" onclick="QF_EFFECTS.Toggle('Pan{COUNTER}', 3);">
+  {L_CMS_PAGE_LINKS}
+ </td></tr>
+ <tr><td class="inv_grid">
+  <div class="qf_window_body" id="Pan{COUNTER}">
+   {IN_LINKS}
+  </div>
+ </td></tr>
+</table>
+</div>
+<<- 'CMS_PAGE_LINKS'>>
+
+<<+ 'CMS_PLINK'>>
+<a class="fw_list_itm" href="{URL:fox2_cms_page|IN_ID}" title="{!IN_caption}">{!IN_scaption}</a>
+<<- 'CMS_PLINK'>>
+
+<<+ 'CMS_PAGE_MODBLOCK'>>
+<div class="qf_window" style="float: right; margin: 0 0 7px 7px;">
+<span id="cms_modblock" >
+<a class="hlight_btn" href="{URL:fox2_cms_info_page|IN_PAGE_ID}" title="{L_CMS_PAGE_INFO_MORE}">{L_CMS_PAGE_INFO}</a>
+<a class="hlight_btn" href="{URL:fox2_cms_edit_page|IN_PAGE_ID}" title="{L_CMS_PAGE_EDIT_MORE}">{L_CMS_PAGE_EDIT}</a>
+<a class="hlight_btn" href="{URL:fox2_cms_pedit_page_ret|IN_PAGE_ID}" title="{L_CMS_PAGE_PEDIT_MORE}">{L_CMS_PAGE_PEDIT}</a>
+</span>
+<a class="hlight_btn" onclick="javascript:toggleview('cms_modblock'); return false;" href="#" title="{L_CMS_PAGE_MODBLOCK}">!</a>
+
+<script type="text/javascript">
+toggleview('cms_modblock');
+</script>
+</div>
+<<- 'CMS_PAGE_MODBLOCK'>>
+
+<<+ 'CMS_PANEL_NAVI'>>
+<div class="qf_panel_body">
+ {IN_SUBS}
+</div>
+<<- 'CMS_PANEL_NAVI'>>
+
+<<+ 'CMS_PANEL_NAVI_LINK'>>
+<a class="fw_list_itm {IF:IN_HLIGHT}hhlighted{ENDIF}" href="{URL:fox2_cms_page|IN_ID}" title="{!IN_caption}">{!IN_scaption}</a>
+{IF:IN_SUBS}
+<div style="margin: 0 0 0 10px" >
+ {IN_SUBS}
+</div>
+{ENDIF}
+<<- 'CMS_PANEL_NAVI_LINK'>>
+
+
+<<+ 'FILES_FOLDER_PAGE'>>
+<h2>{!IN_CAPTION}</h2>
+{WRITE:WIN_CAPT}{IF:IN_PARENT_ID}<a href="{URL:fox2_files_openfolder|IN_PARENT_ID}">&lt;&lt; {!IN_PARENT_CAPT}</a> :: {ENDIF}{!IN_CAPTION}&nbsp;{IF:IN_CUR_PAGE}[{L_MISC_CUR_PGNO|IN_CUR_PAGE}]{ENDIF}
+{WRITE:WIN_CONT}
+{IF:IN_ITEMS}{IN_ITEMS}{ELSE}<div class="alg_c" style="margin: 20px auto;"><b>{L_FILES_FOLDER_EMPTY}</b></div>{ENDIF}
+{WRITE:WIN_BOTTLINE}
+ {IF:IN_PAGE_BTNS}<div class="alg_c">|{IN_PAGE_BTNS}</div>{ENDIF}
+ {IN_ADD_BUTTS}
+ {IF:IN_PERM_FCREATE}<a class="hlight_btn" href="#create_form" title="{L_FILES_FOLDER_BTNCREATE}" onclick="QF_EFFECTS.Show('create_form', 3); qf_hide_div(this); return false;">{L_FILES_FOLDER_BTNCREATE}</a>{ENDIF}
+ {IF:IN_PERM_STORE}<a class="hlight_btn" href="#store_form" title="{L_FILES_FOLDER_BTNSTORE}" onclick="QF_EFFECTS.Show('store_form', 3); qf_hide_div(this); return false;">{L_FILES_FOLDER_BTNSTORE}</a>{ENDIF}
+{WRITE}
+{VIS:FOX_WINDOW|CAPTION=WIN_CAPT|CONTENTS=WIN_CONT|TOPLINE=WIN_TOPLINE|BOTTLINE=WIN_BOTTLINE}
+
+{IF:IN_PERM_STORE}
+{!WRITE:WIN_CAPT}{L_FILE_FOLDER_STORECAPT|IN_CAPTION}
+{!WRITE:WIN_CONT}{L_FILES_MYTEMPS_REQUEST}<hr />{IN_MYTEMPS}
+{!WRITE:WIN_BOTTLINE}
+ <input type="hidden" name="to_folder" value="{IN_FID}" />
+ <input type="hidden" name="script" value="folder_store" />
+ <input type="submit" value="{L_BTN_STORE}" />
+{WRITE}
+<form action="{QF_INDEX}" method="post" enctype="multipart/form-data">
+{VIS:FOX_WINDOW|CAPTION=WIN_CAPT|CONTENTS=WIN_CONT|BOTTLINE=WIN_BOTTLINE|WIDTH="70%"|DOM_ID="store_form"}
+</form>
+<script type="text/javascript">
+// <![CDATA[
+ QF_EFFECTS.Invisible('store_form');
+//]]>
+</script>
+{ENDIF}
+
+{IF:IN_PERM_FCREATE}
+{!WRITE:WIN_CAPT}{L_FILES_CFOLDER_CAPT|IN_CAPTION}
+{!WRITE:WIN_CONT}{L_FILES_CFOLDER_REQUEST}<hr />
+ {L_FILES_CFOLDER_CAPTION}: <input type="text" name="caption" style="width: 50%;" /><br />
+ {L_FILES_CFOLDER_LEVEL}: <select name="r_level" >
+   {FOR:IN_ACC_LVL|IN_MAX_LVL}<option value="{I}" >{I}</option>{ENDFOR}
+  </select>
+ {L_FILES_CFOLDER_WLEVEL}: <select name="w_level" >
+   {FOR:IN_ACC_LVL|IN_MAX_LVL}{IF:I>0}<option value="{I}" >{I}</option>{ENDIF}{ENDFOR}
+  </select><br />
+ {L_FILES_CFOLDER_T_ID}: <input type="text" name="t_id" style="width: 30%;" /><br />
+
+{!WRITE:WIN_BOTTLINE}
+ <input type="hidden" name="to_folder" value="{IN_FID}" />
+ <input type="hidden" name="script" value="folder_create" />
+ <input type="submit" value="{L_BTN_CREATE}" />
+{WRITE}
+<form action="{QF_INDEX}" method="post">
+{VIS:FOX_WINDOW|CAPTION=WIN_CAPT|CONTENTS=WIN_CONT|BOTTLINE=WIN_BOTTLINE|WIDTH="70%"|DOM_ID="create_form"}
+</form>
+<script type="text/javascript">
+// <![CDATA[
+ QF_EFFECTS.Invisible('create_form');
+//]]>
+</script>
+{ENDIF}
+<<- 'FILES_FOLDER_PAGE'>>
+
+<<+ 'FILES_FOLDER_ITEM'>>
+{IF:IN_FID}
+ {WRITE:ITEM_TOP}
+ {IF:IN_SHOW_THUMB}<a href="{URL:fox2_file_fileinfo|IN_FID}" title="{!IN_CAPTION}"><img src="{URL:fox2_file_thumb|IN_FID|IN_PICS_NAME}" alt="{!IN_CAPTION}" {IF:IN_WIDTH_HEIGHT}style="{IN_WIDTH_HEIGHT}"{ENDIF} /></a><br />
+ {ELSEIF:IN_MIME_THUMB}<a href="{URL:fox2_file_fileinfo|IN_FID}" title="{!IN_CAPTION}"><img src="{URL:fox2_file_mimepic|IN_MIME_THUMB}" alt="mimeicon" /></a><br />
+ {ELSE}<a href="{URL:fox2_file_fileinfo|IN_FID}" title="{!IN_CAPTION}"><img src="{IMGS}/file.gif" alt="fileicon" /></a><br />
+ {ENDIF}
+ {WRITE:ITEM_BOTT}<a href="{URL:fox2_file_fileinfo|IN_FID}" title="{!IN_CAPTION}" ><b>{!IN_SCAPTION}</b></a><br />
+ {IN_SIZE}
+{ELSE}
+ {WRITE:ITEM_TOP}<a href="{URL:fox2_files_openfolder|IN_FOLDID}" title="{!IN_CAPTION}" ><img src="{IMGS}/folder.gif" alt="foldericon" /></a><br />
+ {WRITE:ITEM_BOTT}<a href="{URL:fox2_files_openfolder|IN_FOLDID}" title="{!IN_CAPTION}" ><b>{!IN_SCAPTION}</b></a><br />
+{ENDIF}
+{WRITE}
+<div class="alg_c tiles sized" style="margin: 5px; padding: 0; width:140px; height: auto;">
+ <table class="inv_grid fullwidth">
+  <tr><td class="inv_grid" style="height: {IF:IN_T_HEIGHT}{IN_T_HEIGHT}px{ELSE}130px{ENDIF}; vertical-align: middle;">
+   {ITEM_TOP}
+  </td></tr>
+  <tr><td class="inv_grid" style="height: 70px; vertical-align: middle;">
+   <div class="inv_grid sized" style="width: 140px;">
+    {ITEM_BOTT}
+   </div>
+  </td></tr>
+ </table>
+</div>
+<<- 'FILES_FOLDER_ITEM'>>
+
+<<+ 'FILES_MYTEMPS'>>
+{!IF:IN_SEL_ONE}<div id="mytemps_ctrl" class="inv_grid" style="display: none;">
+ [<a href="#" onclick="qfUploader.selectAll(); return false;">{L_FILES_MYTEMPS_SELECT_ALL}</a> | <a href="#" onclick="qfUploader.selectNone(); return false;">{L_FILES_MYTEMPS_SELECT_NONE}</a>] [<a href="#" onclick="qfUploader.clearSelected(); return false;">{L_FILES_MYTEMPS_DELETE_SEL}</a>]
+</div>
+{IF:IN_ITEMS}<script type="text/javascript">// <![CDATA[
+QF_EFFECTS.Show('mytemps_ctrl', 3); //]]></script>{ENDIF}
+{ENDIF}
+<div class="inv_grid" id="temp_uploads">
+ <table class="inv_grid fullwidth">
+  {IN_ITEMS}
+ </table>
+</div>
+<div class="inv_grid" style="padding: 3px;" id="upload_lbl"></div>
+<div class="inv_grid" id="upload_inps">
+<table class="inv_grid"><tr>
+ <td class="alg_r alg_m"><input id="upload_inp" type="file" name="upl_file" onchange="qfUploader.uploadFile(this);" /></td>
+ <td class="alg_l alg_m"><div id="qfFlashUploader" style="display: none;"><input type="button" value="{L_FILES_MYTEMPS_MULTIUPLOAD}" onclick="qfUploader.startFlash('{IN_MY_SID}'); return false;" /></div></td>
+</tr></table>
+</div>
+{!IF:IN_DISABLE_FLUPLOAD}<script type="text/javascript">// <![CDATA[
+  qfUploader.setQData({valname: '{IN_VALNAME}', sel_one: '{IN_SEL_ONE}', mimes: '{IN_MIMES}'});
+  if (qfUploader.canFlash())
+      QF_EFFECTS.Show('qfFlashUploader', 1);
+//]]></script>{ENDIF}
+<<- 'FILES_MYTEMPS'>>
+
+<<+ 'FILES_MYTEMPS_AJX'>>
+ <table class="inv_grid fullwidth">
+  {IN_ITEMS}
+ </table>
+<<- 'FILES_MYTEMPS_AJX'>>
+
+<<+ 'FILES_MYTEMPS_ITEM'>>
+<tr><td class="inv_grid alg_l" >
+ <div id="preview{COUNTER}" class="overlay alg_c" style="position: absolute; display: none;">
+  {IF:IN_SHOW_THUMB}
+   <img src="{URL:fox2_file_thumb|IN_FID|IN_PICS_NAME}" alt="filethumb" {IF:IN_WIDTH_HEIGHT}style="{IN_WIDTH_HEIGHT}"{ENDIF} />
+  {ELSEIF:IN_MIME_THUMB}<img src="{URL:fox2_file_mimepic|IN_MIME_THUMB}" alt="mimeicon" />
+  {ELSE}<img src="{IMGS}/file.gif" alt="fileicon" />
+  {ENDIF}
+ </div>
+ <input {IF:IN_SEL_ONE}name="{IN_VAL_NAME}" type="radio"{ELSE}name="{IN_VAL_NAME}[{IN_FID}]" type="checkbox"{ENDIF} id="mytmp_ch{COUNTER}" value="{IN_FID}" {IF:IN_CHECKED}checked="checked"{ENDIF} />
+ <label for="mytmp_ch{COUNTER}" ><span onmousemove="QF_EFFECTS.ShowAtMouse('preview{COUNTER}', event)" onmouseout="QF_EFFECTS.Hide('preview{COUNTER}')">
+  <b>{!IN_CAPTION}</b>
+ </span></label>
+</td><td style="width: 180px; vertical-align: middle;">
+ <a href="{URL:fox2_file_fileinfo|IN_FID}">[{IN_FID}]</a> ({IN_SIZE})
+</td></tr>
+<<- 'FILES_MYTEMPS_ITEM'>>
+
+<<+ 'FILES_UPLOADER'>>
+{!WRITE:WIN_CONT}
+ {IF:IN_FILDS_COUNT=0}<div class="alg_c"><b class="err_text med_text">{L_FILES_UPL_DISALLOW}</b></div>{ELSE}
+  <table class="inv_grid fullwidth">
+  {FOR:1|IN_FILDS_COUNT}
+   <tr>
+    <td><input type="file" name="upl_file[{I}]" /></td>
+    <td class="alg_c" style="width: 70%" ><input type="text" name="upl_descr[{I}]" style="width: 95%" /></td>
+   </tr>
+  {ENDFOR}
+  </table>
+  {ENDIF}
+{!WRITE:WIN_BOTTLINE}
+  <a class="hlight_btn" href="{IN_RET_URL}#" >{L_BTN_BACK}</a>
+  <input type="hidden" name="return" value="{IN_RET_TO}" />
+  <input type="hidden" name="script" value="uploader" />
+  <input type="submit" value="{L_BTN_SEND}" />
+{!WRITE}
+<form action="{QF_INDEX}" method="post" enctype="multipart/form-data">
+{VIS:FOX_WINDOW|CAPTION=L_FILES_UPLOADER|CONTENTS=WIN_CONT|BOTTLINE=WIN_BOTTLINE|WIDTH="70%"}
+</form>
+<<- 'FILES_UPLOADER'>>
+
+<<+ 'FILES_FOLDER_PAGE_BTN'>>
+{IF:IN_SEPAR}<b class="hlight_btn"> ... </b>|{ELSE}{IF:IN_CUR}<b class="hlight_btn">[{IN_page}]</b>|{ELSE}<a class="hlight_btn" href="{URL:fox2_files_openfolder_page|IN_fold_id|IN_page}" title="{IN_page}"> {IN_page} </a>|{ENDIF}{ENDIF}
+<<- 'FILES_FOLDER_PAGE_BTN'>>
+
+<<+ 'FILES_INFOPAGE'>>
+{WRITE:WIN_CONT}
+ <table class="grid_tbl fullwidth">
+  <tr><td class="qf_window_body alg_c alg_b" colspan="2">
+   {IF:IN_ALT_PRV}{IN_ALT_PRV}
+   {ELSEIF:IN_SHOW_PREVIEW}
+    <a href="{URL:fox2_file_download|IN_FID|IN_FILENAME}"><img src="{URL:fox2_file_preview|IN_FID|IN_PICS_NAME}" alt="preview" {IF:IN_WIDTH_HEIGHT}style="{IN_WIDTH_HEIGHT}"{ENDIF} /></a><br />
+   {ELSEIF:IN_MIME_THUMB}<a href="{URL:fox2_file_download|IN_FID|IN_FILENAME}"><img src="{URL:fox2_file_mimepic|IN_MIME_THUMB|IN_FILENAME}" alt="mimeicon" /></a><br />
+   {ELSE}<a href="{URL:fox2_file_download|IN_FID|IN_FILENAME}"><img src="{IMGS}/file.gif" alt="fileicon" /></a><br />
+   {ENDIF}
+   <b>{IF:IN_GOT_ACCESS}<a href="{URL:fox2_file_download|IN_FID|IN_FILENAME}" >{!IN_CAPTION}</a>{ELSE}{!IN_CAPTION}{ENDIF}</b>
+  </td></tr>
+  <tr><td class="alg_c" colspan="2">[ {IN_FID} ]</td></tr>
+  <tr><td style="width: 40%;">{L_FILE_INFO_FILENAME}</td><td>{!IN_FILENAME}</td></tr>
+  <tr><td>{L_FILE_INFO_SIZE}</td><td>{IN_SIZE}</td></tr>
+  <tr><td>{L_FILE_INFO_TYPE}</td><td>{IN_TYPE}{IF:IN_IMAGE_W}, {L_MISC_IMAGE_WH|IN_IMAGE_W|IN_IMAGE_H}{ENDIF}</td></tr>
+  <tr><td>{L_FILE_INFO_MD5}</td><td>{IN_MD5SUM}</td></tr>
+  {IF:IN_PAR_FOLDER}
+  <tr><td>{L_FILE_INFO_FOLDER}</td><td><a href="{URL:fox2_files_openfolder|IN_PAR_FOLDER}" >{IN_PAR_FOLDER_NAME}</a></td></tr>
+  {ENDIF}
+  {IF:IN_SHOW_EXTRAS}
+  <tr><td>{L_FILE_INFO_AUTHOR}</td><td>{IN_AUTHOR}</td></tr>
+  <tr><td>{L_FILE_INFO_TIME}</td><td>{IN_TIME}</td></tr>
+  {IF:IN_SHOW_ADM}
+  <tr><td>{L_FILE_INFO_AUTHOR_IP}</td><td>{IF:IN_AUTHOR_IP}<a href="{URL:fox2_ip_manage|IN_AUTHOR_IP}">{IN_AUTHOR_IP}</a>{ELSE}{L_NO_DATA}{ENDIF}</td></tr>
+  {ENDIF}
+  <tr><td>{L_FILE_INFO_LEVEL}</td><td>{VIS:ACC_LEVEL_MARK|LEVEL=IN_LEVEL}</td></tr>
+  {ENDIF}
+  <tr><td>{L_FILE_INFO_DLOADS}</td><td>{IN_DLOADS}</td></tr>
+ </table>
+ {IF:IN_CAN_MODIFY}<div id="modif_row" style="margin: 10px 0 0 0; padding: 0;">
+ <form action="{QF_INDEX}" method="post" enctype="multipart/form-data" >
+ <table class="grid_tbl fullwidth">
+  <tr><td class="qf_window_body" colspan="2">
+   {L_FILE_INFO_MODIF_REQ}
+  </td></tr>
+  <tr><td class="alg_m" style="width: 50%;">{L_FILE_INFO_CAPT}</td><td><input type="text" name="set_capt" value="{!IN_CAPTION}" style="width: 97%;" /></td></tr>
+  <tr><td class="alg_m">{L_FILE_INFO_FILENAME}</td><td><input type="text" name="set_fname" value="{!IN_FILENAME}" style="width: 97%;" /></td></tr>
+  {IF:IN_FOLDERS_VARS}
+   <tr><td class="alg_m">{L_FILE_INFO_FOLDER}</td><td><select name="set_folder" >
+    {IN_FOLDERS_VARS}
+   </select></td></tr>
+  {ENDIF}
+  <tr><td class="alg_m">{L_FILE_INFO_LEVEL}</td><td><select name="set_acc" >
+   {FOR:0|IN_MAX_LVL}<option value="{I}" {IF:IN_LEVEL=I}selected="selected"{ENDIF}>{I}</option>{ENDFOR}
+  </select></td></tr>
+  <tr><td class="alg_m">{L_FILE_MODIF_UPLOAD}</td><td><input type="file" name="new_file" /></td></tr>
+  <tr><td class="alg_r" colspan="2">
+   <input type="hidden" name="script" value="file_modif" />
+   <input type="hidden" name="fid" value="{IN_FID}" />
+   <input name="do_delete" type="checkbox" value="1" id="del_chbox" /><label for="del_chbox"> {L_FILE_MODIF_DELETE} </label> |
+   <input type="submit" value="{L_BTN_SAVE}" />
+  </td></tr>
+ </table></form>
+ </div>
+ <script type="text/javascript">
+ // <![CDATA[
+  QF_EFFECTS.Invisible('modif_row');
+ //]]>
+ </script>{ENDIF}
+{WRITE:WIN_BOTT}
+ {IF:IN_GOT_ACCESS}
+  {IF:IN_CAN_MODIFY}<a class="hlight_btn" href="#modif_row" onclick="QF_EFFECTS.Show('modif_row', 3); qf_hide_div(this); return false;" >{L_FILE_INFO_DOEDIT}</a>{ENDIF}
+  {IF:IN_IS_ARCH}<a class="hlight_btn" href="{URL:fox2_file_viewarch|IN_FID}" >{L_FILE_INFO_VIEWARCH}</a>{ENDIF}
+  <a class="hlight_btn" href="{URL:fox2_file_download|IN_FID|IN_FILENAME}" >{L_FILE_INFO_DOWNLOAD}</a>
+ {ENDIF}
+{WRITE}
+{VIS:FOX_WINDOW|CAPTION=L_FILE_INFOPAGE_CAPT|CONTENTS=WIN_CONT|BOTTLINE=WIN_BOTT|WIDTH="400px"|NO_BODY=1}
+<<- 'FILES_INFOPAGE'>>
+
+<<+ 'FILES_VIEWARCH'>>
+<div style="width: 600px;" class="qf_window">
+<a name="win_top"></a>
+<table class="inv_grid fullwidth">
+ <tr><td class="qf_window_capt">
+  {L_FILES_VIEWARCH_PAGE_CAPT|IN_FILENAME}&nbsp;{IF:IN_CUR_PAGE}[{L_MISC_CUR_PGNO|IN_CUR_PAGE}]{ENDIF}
+ </td></tr>
+ <tr><td>
+ <table class="grid_tbl fullwidth">
+  <tr><th style="width: 60%;">{L_FILES_VIEWARCH_FILENAME}</th><th>{L_FILES_VIEWARCH_FILESIZE}</th><th>{L_FILES_VIEWARCH_FILETIME}</th></tr>
+  <tr><td colspan="3"><a href="{URL:fox2_file_fileinfo|IN_FID}" >[..] ({!IN_FILENAME} [{IN_FID}])</a></td></tr>
+  {IN_CONT_LIST}
+ </table>
+ </td></tr>
+ <tr><td class="alg_c">
+  {IF:IN_PAGE_BTNS}|{IN_PAGE_BTNS}{ENDIF}
+ </td></tr>
+</table>
+</div>
+<<- 'FILES_VIEWARCH'>>
+
+<<+ 'FILES_VIEWARCH_CONT_ROW'>>
+<tr><td>{IF:IN_NOT_FILE}[{!IN_FILENAME}]{ELSE}<a href="{URL:fox2_viewarch_download|IN_ARCHID|IN_ID|IN_BASENAME}" >{!IN_FILENAME}</a>{ENDIF}</td><td class="alg_r">{IN_FILESIZE}</td><td>{IN_FILETIME}</td></tr>
+<<- 'FILES_VIEWARCH_CONT_ROW'>>
+
+<<+ 'FILES_VIEWARCH_PAGE_BTN'>>
+{IF:IN_SEPAR}<b class="hlight_btn"> ... </b>|{ELSE}{IF:IN_CUR}<b class="hlight_btn">[{IN_page}]</b>|{ELSE}<a class="hlight_btn" href="{URL:fox2_file_viewarch_page|IN_file_id|IN_page}" title="{IN_page}"> {IN_page} </a>|{ENDIF}{ENDIF}
+<<- 'FILES_VIEWARCH_PAGE_BTN'>>
+
+<<+ 'FILES_VIEWER_MP3'>>
+<div style="padding: 0; margin: 5px auto; width: 270px; height: 20px;">
+<object type="application/x-shockwave-flash" data="{FURL:fox2_file_player}" style="width: 270px; height: 20px;">
+ <param name="bgcolor" value="#ffffff" />
+ <param name="allowScriptAccess" value="always" />
+ <param name="allowFullScreen" value="true" />
+ <param name="wmode" value="transparent" />
+ <param name="movie" value="{FURL:fox2_file_player}" />
+ <param name="flashvars" value="&amp;title={URLEN:IN_FILECAPT}&amp;file={URLEN:IN_FILENAME}&amp;backcolor=#d3d9dc&amp;lightcolor=#131d27&amp;type=sound" />
+</object>
+</div>
+<<- 'FILES_VIEWER_MP3'>>
+
+<<+ 'FILES_VIEWER_FLV'>>
+<div style="padding: 0; margin: 5px auto; width: 330px; height: 270px;">
+<object type="application/x-shockwave-flash" data="{FURL:fox2_file_player}" style="width: 330px; height: 270px;">
+ <param name="bgcolor" value="#ffffff" />
+ <param name="allowScriptAccess" value="always" />
+ <param name="allowFullScreen" value="true" />
+ <param name="wmode" value="transparent" />
+ <param name="movie" value="{FURL:fox2_file_player}" />
+ <param name="flashvars" value="&amp;title={URLEN:IN_FILECAPT}&amp;file={URLEN:IN_FILENAME}&amp;backcolor=#d3d9dc&amp;lightcolor=#131d27&amp;type=video" />
+</object>
+</div>
+<<- 'FILES_VIEWER_FLV'>>
+
+<<+ 'USER_INFO_MIN'>>
+<div id="uinfo{COUNTER}" class="overlay alg_c" style="position: absolute; display: none; white-space: nowrap;">
+{IF:IN_avatar}<img src="{IN_avatar}" alt="{L_UINFO_AVATAR_ALT|IN_nick}" {IF:IN_AVATAR_WH}style="{IN_AVATAR_WH}"{ENDIF}>{ELSE}{L_UINFO_NO_AVATAR}{ENDIF}
+{IF:IN_av_sig}<br />{!IN_av_sig}{ENDIF}
+<br />{VIS:US_LEVEL_MARK|LEVEL=IN_LEVEL|M_LVL=IN_M_LVL}
+</div>
+<span onmousemove="QF_EFFECTS.ShowAtMouse('uinfo{COUNTER}', event, 1)" onmouseout="QF_EFFECTS.Hide('uinfo{COUNTER}')">
+<a href="{URL:fox2_userinfo_page|IN_uid}">{!IN_nick}</a></span>
+<<- 'USER_INFO_MIN'>>
+
+<<+ 'USER_INFO_MIN_DIV'>>
+<div id="uinfo{COUNTER}" class="alg_c" style="{IF:IN_FLOAT}float: left; {ENDIF}white-space: nowrap; margin: 5px 3px;">
+{IF:IN_avatar}<img src="{IN_avatar}" alt="{L_UINFO_AVATAR_ALT|IN_nick}" {IF:IN_AVATAR_WH}style="{IN_AVATAR_WH}"{ENDIF}>{ELSE}{L_UINFO_NO_AVATAR}{ENDIF}
+{IF:IN_av_sig}<br />{!IN_av_sig}{ENDIF}
+{!IF:IN_HIDE_ACCESS}<br />{VIS:US_LEVEL_MARK|LEVEL=IN_LEVEL|M_LVL=IN_M_LVL}{ENDIF}
+<br /><a href="{URL:fox2_userinfo_page|IN_uid}">{!IN_nick}</a>
+</div>
+<<- 'USER_INFO_MIN_DIV'>>
+
+<<+ 'USER_PAGE_INFO'>>
+{!WRITE:WIN_CAPT}
+ {L_PAGE_UINFO_CAPT|IN_NICK}
+{!WRITE:WIN_CONT}
+<table class="inv_grid fullwidth"><tr>
+ <td class="alg_c alg_t nowrap" style="width: 100px; padding: 10px 1px;">
+  {IF:IN_avatar}<img src="{IN_avatar}" alt="{L_UINFO_AVATAR_ALT|IN_nick}" {IF:IN_AVATAR_WH}style="{IN_AVATAR_WH}"{ENDIF}>{ELSE}{L_UINFO_NO_AVATAR}{ENDIF}
+  <br />{IN_NICK}
+  <br />{VIS:US_LEVEL_MARK|LEVEL=IN_LEVEL|M_LVL=IN_M_LVL|A_LVL=IN_A_LVL}
+  {IF:IN_av_sig}<br />{!IN_av_sig}{ENDIF}
+ </td>
+ <td style="padding: 20px 1px;">
+  <table class="grid_tbl fullwidth">
+   <tr><td style="width: 50%;">{L_UINFO_LASTTIME}</td><td>{IN_STAT_LASTSEEN} {IF:IN_SHOW_ADM}{IF:IN_STAT_LAST_URL}[<a href="{!IN_STAT_LAST_URL}" title="{IN_STAT_LAST_URL}">URL</a>]{ENDIF}{ENDIF}</td></tr>
+   {IF:IN_SHOW_ADM}
+    <tr><td>{L_UINFO_LASTIP}</td><td>{IN_STAT_LAST_IP}</td></tr>
+   {ENDIF}
+   <tr><td>{L_UINFO_REGTIME}</td><td>{IN_REGTIME}</td></tr>
+  </table>
+ </td>
+</tr></table>
+{!WRITE}
+{!VIS:FOX_WINDOW|CAPTION=WIN_CAPT|CONTENTS=WIN_CONT|WIDTH="70%"}
+<<- 'USER_PAGE_INFO'>>
+
+<<+ 'USERS_PAGE_LIST'>>
+{!WRITE:WIN_CAPT}
+ {L_PAGE_UINFO_LIST}
+{WRITE:WIN_BOTTLINE}
+ {IF:IN_PAGE_BTNS}<div class="alg_c">|{IN_PAGE_BTNS}</div>{ENDIF}
+{!WRITE}
+{!VIS:FOX_WINDOW|CAPTION=WIN_CAPT|CONTENTS=IN_USER_ITEMS|BOTTLINE=WIN_BOTTLINE|WIDTH="95%"}
+<<- 'USERS_PAGE_LIST'>>
+
+<<+ 'USERS_LIST_PAGE_BTN'>>
+{IF:IN_SEPAR}<b class="hlight_btn"> ... </b>|{ELSE}{IF:IN_CUR}<b class="hlight_btn">[{IN_page}]</b>|{ELSE}<a class="hlight_btn" href="{URL:fox2_userinfo_list_page|IN_page}" title="{IN_page}"> {IN_page} </a>|{ENDIF}{ENDIF}
+<<- 'USERS_LIST_PAGE_BTN'>>
+
+<<+ 'USERS_LIST_ITEM'>>
+<div class="alg_c tiles sized" style="margin: 5px; padding: 0; width:110px; height: auto;">
+ <table class="inv_grid fullwidth">
+  <tr><td class="inv_grid" style="height: 100px; vertical-align: middle;">
+   {IF:IN_avatar}
+   <a href="{URL:fox2_userinfo_page|IN_UID}" title="{IN_NICK}"><img src="{IN_avatar}" alt="{L_UINFO_AVATAR_ALT|IN_nick}" {IF:IN_AVATAR_WH}style="{IN_AVATAR_WH}"{ENDIF}></a>
+   {ELSE}{L_UINFO_NO_AVATAR}{ENDIF}
+  </td></tr>
+  <tr><td class="inv_grid" style="height: 50px; vertical-align: middle;">
+   <div class="inv_grid sized" style="width: 110px;">
+    <a href="{URL:fox2_userinfo_page|IN_UID}">{IN_NICK}</a>
+    <br />{VIS:US_LEVEL_MARK|LEVEL=IN_LEVEL|M_LVL=IN_M_LVL|A_LVL=IN_A_LVL}
+   </div>
+  </td></tr>
+ </table>
+</div>
+<<- 'USERS_LIST_ITEM'>>
+
+<<+ 'MISC_SELECT_OPTION'>>
+<option value="{!IN_VAL}" {IF:IN_SEL}selected="selected"{ENDIF}>{!IN_CAPT}</option>
+<<- 'MISC_SELECT_OPTION'>>
+
+<<+ 'MISC_CHBOX_INPUT'>>
+<input name="{IN_VARNAME}" type="checkbox" value="{!IN_VAL}" id="chbox_{COUNTER}" {IF:IN_SEL}checked="checked"{ENDIF} /><label for="chbox_{COUNTER}">{IN_CAPT}</label>
+<<- 'MISC_CHBOX_INPUT'>>
+
+<<+ 'JS'>>
+<<- 'JS'>>

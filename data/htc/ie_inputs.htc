@@ -1,0 +1,8 @@
+<public:component>
+<script type="text/javascript">
+    var type = 'input-' + (element.type ? element.type : 'text');
+    if (element.className)
+        type += ' ' + element.className
+    element.className = type;
+</script>
+</public:component>

@@ -1,0 +1,134 @@
+FOX_GALLERY_GALLERY: Галерея
+---
+FOX_GALLERY_ITEMS: Работы
+---
+FOX_GALLERY_ALBUMS: Альбомы
+---
+FOX_GALLERY_NEW_ITEMS: Новые работы
+---
+FOX_GALLERY_LAST_ALBUMS: Последние альбомы
+---
+FOX_GALLERY_NO_ALBUMS: Альбомов нет
+---
+FOX_GALLERY_NO_ITEMS: Работ нет
+---
+FOX_GALLERY_CAPTION: Заголовок
+---
+FOX_GALLERY_MY_ALBUMS: Мои альбомы
+---
+FOX_GALLERY_US_ALBUMS: Альбомы %1$s
+---
+FOX_GALLERY_PUBLIC_ALBUMS: Публичные альбомы
+---
+FOX_GALLERY_PALBUMS: Альбомы пользователей
+---
+FOX_GALLERY_PAGE_ITEM_TIME: Загружено
+---
+FOX_GALLERY_PAGE_ITEM_DLOADS: Скачано раз
+---
+FOX_GALLERY_PAGE_ITEM_ALBUMS: Находится в альбомах
+---
+FOX_GALLERY_PAGE_ITEM_UALBUM: Работы
+---
+FOX_GALLERY_ITEM_AUTHOR: Автор
+---
+FOX_GALLERY_ALBUM_OWNER: Владелец
+---
+FOX_GALLERY_ALBUM_PUBLIC: Публичный альбом
+---
+FOX_GALLERY_ALBUM_ITEMS: Всего работ
+---
+FOX_GALLERY_ALBUM_LTIME: Нов.
+---
+FOX_GALLERY_ALBUM_EMPTY: Нет работ
+---
+
+FOX_GALLERY_PANEL_CAPT: Моя галерея
+---
+FOX_GALLERY_PAGE_USER: Работы %1$s
+---
+FOX_GALLERY_MY_ITEMS: Мои работы
+---
+FOX_GALLERY_PAGE_ALBUMS_ITEMCAPT: %1$s, автор %2$s
+---
+FOX_GALLERY_PAGE_ALBUMS_COUNT: Всего альбомов
+---
+FOX_GALLERY_PAGE_ALBUMS_VIEW: Публичные
+---
+FOX_GALLERY_PAGE_ALBUMS_PCOUNT: Всего личных альбомов
+---
+FOX_GALLERY_PAGE_PALBUMS_VIEW: Личные
+---
+FOX_GALLERY_PAGE_ALBUMS_VIEWPERS: Обзор
+---
+
+FOX_GALLERY_PAGE_UALBUM_ITEMS: Работ
+---
+FOX_GALLERY_PAGE_UALBUM_ALBUMS: Альбомов
+---
+
+
+FOX_GALLERY_NEW_ITEM: Добавить работу
+---
+FOX_GALLERY_NEW_ITEM_WCAPT: Добавление работы
+---
+FOX_GALLERY_DESCRIPTION: Описание [поддерживается bb-code]
+---
+FOX_GALLERY_NEWITEM_REQUEST: Чтобы добавить работу в галерею, заполните следующие поля.
+ Работы, не размещенные в альбомах будут доступны с Вашей личной страницы галереи.
+---
+FOX_GALLERY_FILE_REQUEST: Выберите файл из списка ваших временных файлов.
+ Для загрузки файлов с вашего компьютера используйте поле выбора файла.
+---
+
+FOX_GALLERY_EDIT_ITEM: Редактирование работы
+---
+FOX_GALLERY_EDIT_ITEM_WCAPT: Редактирование работы &quot;%1$s&quot;
+---
+FOX_GALLERY_EDITITEM_REQUEST: Для изменения параметров работы используйте предложенные поля.
+---
+FOX_GALLERY_EDITITEM_DELETE: Полностью удалить работу
+---
+
+FOX_GALLERY_NEW_ALBUM: Создать альбом
+---
+FOX_GALLERY_NEW_ALBUM_WCAPT: Создание альбома
+---
+FOX_GALLERY_NEW_ALBUM_PUBLIC: Создать публичный альбом
+---
+
+FOX_GALLERY_NEWALBUM_REQUEST: Эта форма позволяет создать новый альбом в галерее.
+ Этот альбом будет доступен для размещения Ваших работ.
+---
+
+
+ERR_GALLERY_ITEM_NOT_FOUND: Указанный элемент не существует
+---
+ERR_GALLERY_ALBUM_NOT_FOUND: Указанный альбом не существует
+---
+ERR_GALLERY_VIEW_NO_ACCESS: У Вас нет права на просмотр данной страницы
+---
+ERR_GALLERY_ITEM_NOTOWNER: Вы не являетесь владельцем данной работы
+---
+ERR_GALLERY_CANTMODIF: Ошибка внесения изменений. Проверьте данные и попробуйте еще раз.
+---
+ERR_GALLERY_NO_FILE: Нет файла для работы
+---
+ERR_GALLERY_NO_IMAGE: Файл не содержит изображений
+---
+ERR_GALLERY_SHORT_CAPT: Слишком короткое название работы
+---
+ERR_GALLERY_NEW_DUPLICATES: Ошибка добавления. Возможно, у Вас уже есть работа с таким именем, либо вы пытаетесь использовать загруженный файл повторно.
+---
+RES_GALLERY_ITEM_CREATED: Новая работа успешно добавлена в галерею. Спасибо.
+---
+ERR_GALLERY_AL_SHORT_CAPT: Слишком короткий заголовок альбома
+---
+ERR_GALLERY_AL_DUPLICATES: Ошибка добавления. Возможно, у Вас уже есть альбом с таким именем.
+---
+RES_GALLERY_AL_CREATED: Новый альбом успешно создан. Спасибо.
+---
+RES_GALLERY_ITEM_EDITED: Изменения успешно сохранены. Спасибо.
+---
+RES_GALLERY_ITEM_DELETED: Выбранныя работа успешно удалена.
+---

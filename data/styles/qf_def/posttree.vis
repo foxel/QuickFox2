@@ -1,0 +1,59 @@
+<<+ 'FOX_POSTTREE_OUTER'>>
+{!WRITE:MOD_BUTTS}
+<div class="qf_window alg_r">
+ <a class="hlight_btn" href="{URL:fox2_ptree_answer|0|IN_MYHREF}" title="{L_BTN_ANSWER}">{L_BTN_ANSWER}</a>
+</div>
+{!WRITE}
+{MOD_BUTTS}
+<div>
+ {IN_SUB_POSTS}
+</div>
+<div class="inv_grid" id="topic_answer"></div>
+{MOD_BUTTS}
+<<- 'FOX_POSTTREE_OUTER'>>
+
+<<+ 'FOX_POSTTREE_POST'>>
+<div class="qf_window" id="post{IN_POST_ID}">
+ <table class="inv_grid fullwidth"><tr>
+  <td class="qf_window_body" style="width: 100px;">{IN_AUTHOR_INFO}</td>
+  <td class="inv_grid" style="width: 2px;"></td>
+  <td class="qf_window_body">
+   <div class="qf_post_head">{FTIME:IN_TIME} [<a href="{IN_MYHREF}#post{IN_POST_ID}" title="{L_FOX2_PTREE_DIRECTLINK}">#{IN_ORDER_ID}</a>]</div>
+   {IF:IN_DO_EDIT}
+    {VIS:FOX_POSTTREE_POSTEDIT|POST_ID=IN_POST_ID|OTEXT=IN_OTEXT|PTEXT=IN_PTEXT|DO_EDIT="1"|CAN_AMD=IN_CAN_AMD|LOCKED=IN_LOCKED}
+   {ELSE}
+    {VIS:FOX_POSTTREE_POSTVIEW|POST_ID=IN_POST_ID|OTEXT=IN_OTEXT|PTEXT=IN_PTEXT|DO_EDIT="1"|CAN_AMD=IN_CAN_AMD|LOCKED=IN_LOCKED}
+   {ENDIF}
+  </td>
+ </tr><tr>
+  <td colspan="3" class="qf_window_line alg_b alg_r" style="height: 20px;">
+   <a class="hlight_btn" href="{URL:fox2_ptree_delpost|IN_POST_ID|IN_MYHREF}" title="{L_BTN_DELETE}">{L_BTN_DELETE}</a>
+   <a class="hlight_btn" href="{URL:fox2_ptree_editpost|IN_POST_ID|IN_MYHREF}" title="{L_BTN_EDIT}">{L_BTN_EDIT}</a>
+   <a class="hlight_btn" href="{URL:fox2_ptree_answer|IN_POST_ID|IN_MYHREF}" title="{L_BTN_ANSWER}">{L_BTN_ANSWER}</a>
+  </td>
+ </tr>
+</table>
+</div>
+{IF:IN_SUB_POSTS}<div style="padding: 0 0 10px 30px;">
+ <div class="inv_grid" id="post{IN_POST_ID}_answer"></div>
+ {IN_SUB_POSTS}
+</div>{ENDIF}
+<<- 'FOX_POSTTREE_POST'>>
+
+<<+ 'FOX_POSTTREE_POSTVIEW'>>
+<div id="post{IN_POST_ID}_cont" class="inv_grid">
+ <div id="post{IN_POST_ID}_cont" class="inv_grid">
+  {IN_PTEXT}
+ </div>
+</div>
+<<- 'FOX_POSTTREE_POSTVIEW'>>
+
+<<+ 'FOX_POSTTREE_POSTEDIT'>>
+<div id="post{IN_POST_ID}_cont" class="inv_grid">
+ <textarea style="width: 98%; height: 100px;">{IN_OTEXT}</textarea><br />
+ {IF:IN_DO_EDIT}
+ {IF:IN_CAN_AMD}<input id="post{IN_POST_ID}_lock" type="checkbox" {IF:IN_LOCKED}checked="checked"{ENDIF} /><label for="post{IN_POST_ID}_lock"> {L_PTREE_POSTEDIT_LOCK}</label><br />{ENDIF}
+ <input id="post{IN_POST_ID}_delete" type="checkbox" {IF_IN_DELETED}checked="checked"{ENDIF} /><label for="post{IN_POST_ID}_delete"> {L_PTREE_POSTEDIT_DELETE}</label><br />
+ {ENDIF}
+</div>
+<<- 'FOX_POSTTREE_POSTEDIT'>>

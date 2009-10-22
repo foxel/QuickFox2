@@ -1,0 +1,332 @@
+<<+ 'FOX_GALLERY_PAGE'>>
+<h2>{L_FOX_GALLERY_GALLERY}</h2>
+<h3 class="aligned">{L_FOX_GALLERY_LAST_ALBUMS}</h3>
+<script type="text/javascript">
+// <![CDATA[
+var album_setEvents = function(sub_id)
+{
+    var itm = qf_getbyid('alb_' + sub_id + '_1');
+    if (!itm) return false;
+    itm.onmouseover = function() { QF_EFFECTS.Alpha('alb_' + sub_id + '_0', 10); };
+    itm.onmouseout  = function() { QF_EFFECTS.Alpha('alb_' + sub_id + '_0', 100); };
+    var itm = qf_getbyid('alb_' + sub_id + '_2');
+    if (!itm) return false;
+    itm.onmouseover = function() { QF_EFFECTS.Alpha('alb_' + sub_id + '_0', 10); QF_EFFECTS.Alpha('alb_' + sub_id + '_1', 10); };
+    itm.onmouseout  = function() { QF_EFFECTS.Alpha('alb_' + sub_id + '_0', 100); QF_EFFECTS.Alpha('alb_' + sub_id + '_1', 100); };
+    return true;
+}
+//]]>
+</script>
+<div style="margin: 10px 10px 10px 30px;">
+ {IF:IN_ALBUMS}{IN_ALBUMS}{ELSE}<div class="alg_c" style="margin: auto; padding: 30px; clear: both;"><h3>[ {L_FOX_GALLERY_NO_ALBUMS} ]</h3></div>{ENDIF}
+ <br style="clear: both;" />
+</div>
+{IF:IN_ALBUMS_COUNT}<div style="margin-left: 350px;">{L_FOX_GALLERY_PAGE_ALBUMS_COUNT}: <b>{IN_ALBUMS_COUNT}</b>. [ <a href="{URL:FoxGal_albums}">{L_FOX_GALLERY_PAGE_ALBUMS_VIEW}</a> | <a href="{URL:FoxGal_palbums}">{L_FOX_GALLERY_PAGE_PALBUMS_VIEW}</a> ]</div>{ENDIF}
+{IF:IN_ITEMS}
+<div id="palbms_div" style="margin-top: 100px;" >
+<h3 class="aligned">{L_FOX_GALLERY_NEW_ITEMS}</h3>
+<div style="margin: 10px 20px 10px 50px;">
+ {IN_ITEMS}
+ <br style="clear: both;" />
+</div>
+</div>
+{ENDIF}
+<<- 'FOX_GALLERY_PAGE'>>
+
+
+<<+ 'FOX_GALLERY_PAGE_ITEM'>>
+{!WRITE:BBCQUOTE}[url="{FURL:FoxGal_item|IN_ID}"][img]{FURL:fox2_file_thumb|IN_FID|IN_PICS_NAME}[/img][/url]
+{!WRITE:HTMLQUOTE}<a href="{FURL:FoxGal_item|IN_ID}" ><img src="{FURL:fox2_file_thumb|IN_FID|IN_PICS_NAME}" alt="{!IN_CAPTION}" /></a>
+{!WRITE:WIN_BODY}
+ <table class="inv_grid fullwidth"><tr>
+  <td class="inv_grid alg_c" style="width: 100px;">
+   {IN_AUTHOR_INFO}
+   {IF:IN_AUTHOR_ID}[ <a href="{URL:FoxGal_user|IN_AUTHOR_ID}" >{L_FOX_GALLERY_PAGE_ITEM_UALBUM}</a> ]{ENDIF}
+  </td>
+  <td>
+   {IN_DESCR}<br />
+   <p class="alg_r">
+    {IN_TYPE}{IF:IN_IMAGE_W}, {L_MISC_IMAGE_WH|IN_IMAGE_W|IN_IMAGE_H}{ENDIF} [{IN_SIZE}]<br />
+    {L_FOX_GALLERY_PAGE_ITEM_TIME} {IN_TIME} / {L_FOX_GALLERY_PAGE_ITEM_DLOADS}: {IN_DLOADS}
+   {IF:IN_ALBUMS}<br />{L_FOX_GALLERY_PAGE_ITEM_ALBUMS}: {IN_ALBUMS}{ENDIF}<br />
+   </p>
+  </td>
+ </tr>
+ <tr><td class="alg_c" colspan="2">
+  <a class="hlight_btn" href="#" onclick="QF_EFFECTS.Toggle('SLIDE_{COUNTER}', 3); return false;" >[ bbCode/HTML ]</a>
+  <div id="SLIDE_{COUNTER}" class="inv_grid">
+   bbCode: <input type="text" value="{HTMLQUOTE:BBCQUOTE}" onclick="this.select();" style="width: 75%;" /><br />
+   HTML: <input type="text" value="{HTMLQUOTE:HTMLQUOTE}" onclick="this.select();" style="width: 75%;" />
+  </div>
+  <script type="text/javascript">
+  // <![CDATA[
+   QF_EFFECTS.Invisible('SLIDE_{COUNTER}');
+  //]]>
+  </script>
+ </td></tr>
+ </table>
+{WRITE:WIN_BOTT}
+ {IF:IN_CAN_MODIFY}<a class="hlight_btn" href="{URL:FoxGal_edit_item|IN_ID}"  >{L_FILE_INFO_DOEDIT}</a>{ENDIF}
+{WRITE}
+<h2>{!IN_CAPTION}</h2>
+{IN_PREVIEW_BLOCK}
+{VIS:FOX_WINDOW|CONTENTS=WIN_BODY|BOTTLINE=WIN_BOTT|WIDTH="500px"}
+<<- 'FOX_GALLERY_PAGE_ITEM'>>
+
+<<+ 'FOX_GALLERY_PREV_BLOCK_IMG'>>
+<div class="inv_grid alg_c">
+  <a href="{URL:fox2_file_download|IN_FID|IN_FILENAME}"><img class="bordered" src="{URL:fox2_file_preview|IN_FID|IN_PICS_NAME}" alt="{!IN_CAPTION}" {IF:IN_WIDTH_HEIGHT}style="{IN_WIDTH_HEIGHT}"{ENDIF} /></a>
+</div>
+<<- 'FOX_GALLERY_PREV_BLOCK_IMG'>>
+
+<<+ 'FOX_GALLERY_ITEM_ALBUM_LINK'>>
+<a href="{URL:FoxGal_album|IN_ID|IN_T_ID}">{!IN_CAPTION}</a>{!IF:IN__IS_LAST}, {ENDIF}
+<<- 'FOX_GALLERY_ITEM_ALBUM_LINK'>>
+
+<<+ 'FOX_GALLERY_PAGE_ALBUM'>>
+<h2 class="aligned">{!IN_CAPTION}</h2>
+<div style="margin: 10px 20px 10px 50px;">
+ {IF:IN_ITEMS}{IN_ITEMS}{ELSE}<div class="alg_c" style="margin: auto; padding: 30px; clear: both;"><h3>[ {L_FOX_GALLERY_NO_ITEMS} ]</h3></div>{ENDIF}
+ <br style="clear: both;" />
+</div>
+{IF:IN_PAGE_BTNS}<div class="alg_c" style="margin: 20px">|{IN_PAGE_BTNS}</div>{ENDIF}
+<<- 'FOX_GALLERY_PAGE_ALBUM'>>
+
+<<+ 'FOX_GALLERY_PAGE_ALBUMS'>>
+<h2 class="aligned">{IF:IN_PERSONAL}{L_FOX_GALLERY_PALBUMS}{ELSE}{L_FOX_GALLERY_PUBLIC_ALBUMS}{ENDIF}</h2>
+<script type="text/javascript">
+// <![CDATA[
+var album_setEvents = function(sub_id)
+{    var itm = qf_getbyid('alb_' + sub_id + '_1');
+    if (!itm) return false;
+    itm.onmouseover = function() { QF_EFFECTS.Alpha('alb_' + sub_id + '_0', 10); };
+    itm.onmouseout  = function() { QF_EFFECTS.Alpha('alb_' + sub_id + '_0', 100); };
+    var itm = qf_getbyid('alb_' + sub_id + '_2');
+    if (!itm) return false;
+    itm.onmouseover = function() { QF_EFFECTS.Alpha('alb_' + sub_id + '_0', 10); QF_EFFECTS.Alpha('alb_' + sub_id + '_1', 10); };
+    itm.onmouseout  = function() { QF_EFFECTS.Alpha('alb_' + sub_id + '_0', 100); QF_EFFECTS.Alpha('alb_' + sub_id + '_1', 100); };
+    return true;
+}
+//]]>
+</script>
+<div style="margin: 10px 10px 10px 30px;">
+ {IF:IN_ALBUMS}{IN_ALBUMS}{ELSE}<div class="alg_c" style="margin: auto; padding: 30px; clear: both;"><h3>[ {L_FOX_GALLERY_NO_ALBUMS} ]</h3></div>{ENDIF}
+ <br style="clear: both;" />
+</div>
+{IF:IN_PAGE_BTNS}<div class="alg_c" style="margin: 20px">|{IN_PAGE_BTNS}</div>{ENDIF}
+{IF:IN_PALBUMS}
+<div id="palbms_div" style="margin-top: 100px;" >
+<h3 class="aligned">{L_FOX_GALLERY_PALBUMS}</h3>
+<div style="margin: 10px 10px 10px 30px;">
+ {IN_PALBUMS}
+ <br style="clear: both;" />
+</div>
+<div style="margin-left: 400px;">{L_FOX_GALLERY_PAGE_ALBUMS_PCOUNT}: <b>{IN_PALBUMS_COUNT}</b>. [ <a href="{URL:FoxGal_palbums}">{L_FOX_GALLERY_PAGE_ALBUMS_VIEWPERS}</a> ]</div>
+</div>
+<script type="text/javascript">
+// <![CDATA[
+var itm = qf_getbyid('palbms_div');
+if (itm)
+{
+      itm.onmouseover = function() { QF_EFFECTS.Alpha('palbms_div', 100); };
+      itm.onmouseout  = function() { QF_EFFECTS.Alpha('palbms_div', 50); };
+      itm.onmouseout();
+}
+//]]>
+</script>{ENDIF}
+<<- 'FOX_GALLERY_PAGE_ALBUMS'>>
+
+<<+ 'FOX_GALLERY_PAGE_UALBUM'>>
+<h2>{L_FOX_GALLERY_PAGE_USER|IN_UNICK}</h2>
+
+<div class="alg_c tiles sized qf_window" style="margin: 5px 10px 10px 5px; width:195px; height: auto;">
+ <div class="alg_l qf_window_body" style="margin-top: 5px;">
+  <table class="inv_grid fullwidth"><tr>
+  <td class="alg_l alg_m inv_grid nowrap">
+  {IF:IN_uavatar}<img src="{IN_uavatar}" alt="{L_UINFO_AVATAR_ALT|IN_nick}" {IF:IN_UAVATAR_WH}style="{IN_UAVATAR_WH}"{ENDIF}>{ELSE}{L_UINFO_NO_AVATAR}{ENDIF}
+  </td>
+  <td class="inv_grid">
+   <a href="{URL:fox2_userinfo_page|IN_uid}">{!IN_unick}</a><br />
+   {L_FOX_GALLERY_PAGE_UALBUM_ITEMS}: {IN_UITEMS}<br />
+   {L_FOX_GALLERY_PAGE_UALBUM_ALBUMS}: {IN_UALBUMS}<br />
+  </td>
+  </tr></table>
+ </div>
+ {IF:IN_ALBUMS}
+ <div class="qf_window_line" style="font-weight: bold;">{L_FOX_GALLERY_ALBUMS}</div>
+ <div class="alg_l qf_window_body">
+  {IN_ALBUMS}
+ </div>
+ {ENDIF}
+</div>
+
+<div style="margin: 10px 20px 10px 50px;">
+ {IF:IN_ITEMS}{IN_ITEMS}{ELSE}<div class="alg_c" style="margin: auto; padding: 30px; clear: both;"><h3>[ {L_FOX_GALLERY_NO_ITEMS} ]</h3></div>{ENDIF}
+ <br style="clear: both;" />
+</div>
+{IF:IN_PAGE_BTNS}<div class="alg_c" style="margin: 20px">|{IN_PAGE_BTNS}</div>{ENDIF}
+<<- 'FOX_GALLERY_PAGE_UALBUM'>>
+
+<<+ 'FOX_GALLERY_UALBUM_ALBUM'>>
+<a class="fw_list_itm" href="{URL:FoxGal_album|IN_ID|IN_T_ID}" title="{!IN_CAPTION}">{!IN_CAPTION}</a>
+<<- 'FOX_GALLERY_UALBUM_ALBUM'>>
+
+<<+ 'FOX_GALLERY_ALBUMS_ALBUM'>>
+{!IF:IN_T_WIDTH}{!WRITE:IN_T_WIDTH}190{WRITE}{ENDIF}
+<div class="alg_c tiles qf_window" style="margin: 5px; height: auto;">
+ <table class="inv_grid" style="width: {IN_T_WIDTH}px;">
+  <tr><td class="inv_grid alg_c"><div class="inv_grid" style="position: relative; height: {IF:IN_T_HEIGHT}{IN_T_HEIGHT}px{ELSE}130px{ENDIF}; width:{IN_T_WIDTH}px;">
+   {IF:IN_FILE_ID2}<div id="alb_{COUNTER}_2" class="inv_grid" style="position: absolute; {IF:IN_TOP_LEFT2}{IN_TOP_LEFT2}{ELSE}top: 20px; left: 10px;{ENDIF}" >
+    <a href="{URL:FoxGal_album|IN_ID|IN_T_ID}" title="{!IN_ITMCAPT2}"><img class="bordered" src="{URL:fox2_file_thumb|IN_FILE_ID2|IN_PICS_NAME2}" alt="{!IN_ITMCAPT2}" {IF:IN_WIDTH_HEIGHT2}style="{IN_WIDTH_HEIGHT2}"{ENDIF} /></a>
+   </div>{ENDIF}
+   {IF:IN_FILE_ID1}<div id="alb_{COUNTER}_1" class="inv_grid" style="position: absolute; {IF:IN_TOP_LEFT1}{IN_TOP_LEFT1}{ELSE}top: 0px; left: 30px;{ENDIF}" >
+    <a href="{URL:FoxGal_album|IN_ID|IN_T_ID}" title="{!IN_ITMCAPT1}"><img class="bordered" src="{URL:fox2_file_thumb|IN_FILE_ID1|IN_PICS_NAME1}" alt="{!IN_ITMCAPT1}" {IF:IN_WIDTH_HEIGHT1}style="{IN_WIDTH_HEIGHT1}"{ENDIF} /></a>
+   </div>{ENDIF}
+   {IF:IN_FILE_ID0}<div id="alb_{COUNTER}_0" class="inv_grid" style="position: absolute; {IF:IN_TOP_LEFT0}{IN_TOP_LEFT0}{ELSE}top: 10px; left: 20px;{ENDIF}" >
+    <a href="{URL:FoxGal_album|IN_ID|IN_T_ID}" title="{!IN_ITMCAPT0}"><img class="bordered" src="{URL:fox2_file_thumb|IN_FILE_ID0|IN_PICS_NAME0}" alt="{!IN_ITMCAPT0}" {IF:IN_WIDTH_HEIGHT0}style="{IN_WIDTH_HEIGHT0}"{ENDIF} /></a>
+   </div>{ELSE}
+   <div class="inv_grid alg_c" style="position: relative; top: 50px; " >
+    <a href="{URL:FoxGal_album|IN_ID|IN_T_ID}" title="{!IN_CAPTION}">{L_FOX_GALLERY_ALBUM_EMPTY}</a>
+   </div>{ENDIF}
+  </div></td></tr>
+  <tr><td class="qf_window_body alg_m alg_c">
+   <div class="inv_grid sized alg_c" style="width: {IN_T_WIDTH}px; height: 90px;">
+   <table class="inv_grid fullwidth"><tr><td class="invgrid alg_m alg_c" style="height: 90px;">
+    <div style="margin: 5px 0;"><a href="{URL:FoxGal_album|IN_ID|IN_T_ID}" title="{!IN_CAPTION}" ><b>{!IN_SCAPTION}</b></a></div>
+    {L_FOX_GALLERY_ALBUM_ITEMS}: <b>{IN_COUNT}</b><br />
+    {IF:IN_LTIME}{L_FOX_GALLERY_ALBUM_LTIME} {IN_LTIME}<br />{ENDIF}
+    {IF:IN_OWNER_ID}{L_FOX_GALLERY_ALBUM_OWNER}: <a href="{URL:FoxGal_user|IN_OWNER_ID}" >{!IN_OWNER}</a>{ELSE}{L_FOX_GALLERY_ALBUM_PUBLIC}{ENDIF}
+   </td></tr></table>
+   </div>
+  </td></tr>
+ </table>
+</div>
+<script type="text/javascript">
+// <![CDATA[
+album_setEvents('{COUNTER}');
+//]]>
+</script>
+<<- 'FOX_GALLERY_ALBUMS_ALBUM'>>
+
+<<+ 'FOX_GALLERY_ALBUM_ITEM'>>
+<div class="alg_c tiles sized qf_window" style="margin: 5px; width:150px; height: auto;">
+ <table class="inv_grid fullwidth">
+  <tr><td class="inv_grid" style="height: {IF:IN_T_HEIGHT}{IN_T_HEIGHT}px{ELSE}130px{ENDIF}; vertical-align: middle;">
+   <a href="{URL:FoxGal_item|IN_ID}" title="{!IN_CAPTION}"><img src="{URL:fox2_file_thumb|IN_FILE_ID|IN_PICS_NAME}" alt="filethumb" {IF:IN_WIDTH_HEIGHT}style="{IN_WIDTH_HEIGHT}"{ENDIF} /></a>
+  </td></tr>
+  <tr><td class="qf_window_body alg_m alg_c">
+   <div class="inv_grid sized alg_c" style="width: 140px; height: 80px;">
+   <table class="inv_grid fullwidth"><tr><td class="invgrid alg_m alg_c" style="height: 80px;">
+    <a href="{URL:FoxGal_item|IN_ID}" title="{!IN_CAPTION}" ><b>{!IN_SCAPTION}</b></a><br />
+    {IF:IN_TIME}{IN_TIME}<br />{ENDIF}
+    {IF:IN_AUTHOR_ID}{L_FOX_GALLERY_ITEM_AUTHOR}: <a href="{URL:FoxGal_user|IN_AUTHOR_ID}" >{!IN_AUTHOR}</a>{ENDIF}
+   </td></tr></table>
+   </div>
+  </td></tr>
+ </table>
+</div>
+<<- 'FOX_GALLERY_ALBUM_ITEM'>>
+
+<<+ 'FOX_GALLERY_ALBUM_PG_BTN'>>
+{IF:IN_SEPAR}<b class="hlight_btn"> ... </b>|{ELSE}{IF:IN_CUR}<b class="hlight_btn">[{IN_page}]</b>|{ELSE}<a class="hlight_btn" href="{IF:IN_UALBUM}{URL:FoxGal_user_page|IN_UALBUM|IN_page}{ELSEIF:IN_AID}{URL:FoxGal_album_page|IN_AID|IN_ATID|IN_page}{ELSEIF:IN_PERSONAL}{URL:FoxGal_palbums_page|IN_page}{ELSE}{URL:FoxGal_albums_page|IN_page}{ENDIF}" title="{IN_page}"> {IN_page} </a>|{ENDIF}{ENDIF}
+<<- 'FOX_GALLERY_ALBUM_PG_BTN'>>
+
+<<+ 'FOX_GALLERY_PANEL'>>
+<a class="fw_list_itm" href="{URL:FoxGal_user|IN_UID}" title="{L_FOX_GALLERY_MY_ITEMS}">{L_FOX_GALLERY_MY_ITEMS}</a>
+<a class="fw_list_itm" href="{URL:FoxGal_new_item}" title="{L_FOX_GALLERY_NEW_ITEM}">{L_FOX_GALLERY_NEW_ITEM}</a>
+<a class="fw_list_itm" href="{URL:FoxGal_new_album}" title="{L_FOX_GALLERY_NEW_ALBUM}">{L_FOX_GALLERY_NEW_ALBUM}</a>
+<<- 'FOX_GALLERY_PANEL'>>
+
+<<+ 'FOX_GALLERY_PAGE_NEWITEM'>>
+<h2>{L_FOX_GALLERY_NEW_ITEM}</h2>
+{!WRITE:WIN_CAPT}
+ {L_FOX_GALLERY_NEW_ITEM_WCAPT}
+{!WRITE:WIN_CONT}
+ {L_FOX_GALLERY_NEWITEM_REQUEST}<br />
+ {L_FOX_GALLERY_CAPTION}: <input type="text" name="caption" style="width: 50%;" /><br />
+ {L_FOX_GALLERY_DESCRIPTION}:<br />
+ <textarea name="description" style="width: 99%; height: 200px;"></textarea>
+ {IF:IN_MY_ALBUMS}<div class="tiles sized qf_window_body" style="margin: 5px; width: 45%;">
+  <div class="inv_grid alg_c">{L_FOX_GALLERY_MY_ALBUMS}</div>
+  {IN_MY_ALBUMS}
+ </div>{ENDIF}
+ {IF:IN_PUBLIC_ALBUMS}<div class="tiles sized qf_window_body" style="margin: 5px; width: 45%;">
+  <div class="inv_grid alg_c">{L_FOX_GALLERY_PUBLIC_ALBUMS}</div>
+  {IN_PUBLIC_ALBUMS}
+ </div>{ENDIF}
+ <br style="clear: both;" />{L_FOX_GALLERY_FILE_REQUEST}
+ {IN_MYTEMPS}
+{!WRITE:WIN_BOTTLINE}
+ <input type="hidden" name="script" value="gallery" />
+ <input type="hidden" name="act" value="new_item" />
+ <input type="submit" value="{L_BTN_ADD}" />
+{WRITE}
+<form action="{QF_INDEX}" method="post" enctype="multipart/form-data">
+{VIS:FOX_WINDOW|CAPTION=WIN_CAPT|CONTENTS=WIN_CONT|BOTTLINE=WIN_BOTTLINE|WIDTH="70%"|DOM_ID="store_form"}
+</form>
+<<- 'FOX_GALLERY_PAGE_NEWITEM'>>
+
+<<+ 'FOX_GALLERY_NEWITEM_ALBUM'>>
+<input name="albums[]" type="checkbox" value="{IN_ID}" id="chbox_{COUNTER}" {IF:IN_CHECKED}checked="checked"{ENDIF}/><label for="chbox_{COUNTER}"><b> {!IN_caption}</b></label><br />
+<<- 'FOX_GALLERY_NEWITEM_ALBUM'>>
+
+<<+ 'FOX_GALLERY_PAGE_EDITITEM'>>
+<h2>{L_FOX_GALLERY_EDIT_ITEM}</h2>
+{!WRITE:WIN_CAPT}
+ {L_FOX_GALLERY_EDIT_ITEM_WCAPT|IN_CAPTION}
+{!WRITE:WIN_CONT}
+<table class="inv_grid fullwidth"><tr>
+ <td class="inv_grid alg_c" style="width: 140px;" >
+  <a href="{URL:FoxGal_item|IN_ID}" title="{!IN_CAPTION}"><img src="{URL:fox2_file_thumb|IN_FID|IN_PICS_NAME}" alt="filethumb" style="margin: 3px; {IF:IN_WIDTH_HEIGHT}{IN_WIDTH_HEIGHT}{ENDIF}" /></a><br />
+  {IF:IN_AUTHOR_INFO}<hr />{IN_AUTHOR_INFO}{ENDIF}
+ </td>
+ <td>
+  {L_FOX_GALLERY_CAPTION}: <input type="text" name="caption" style="width: 60%;" value="{!IN_CAPTION}" /><br />
+  {L_FOX_GALLERY_DESCRIPTION}:<br />
+  <textarea name="description" style="width: 99%; height: 200px;">{IN_DESCR}</textarea>
+ </td>
+</tr></table>
+ {IF:IN_MY_ALBUMS}<div class="tiles sized qf_window_body" style="margin: 5px; width: 45%;">
+  <div class="inv_grid alg_c">{L_FOX_GALLERY_MY_ALBUMS}</div>
+  {IN_MY_ALBUMS}
+  {IF:IN_US_ALBUMS}<div class="inv_grid alg_c">{L_FOX_GALLERY_US_ALBUMS|IN_AUTHOR}</div>
+  {IN_US_ALBUMS}{ENDIF}
+ </div>
+ {ELSEIF:IN_US_ALBUMS}<div class="tiles sized qf_window_body" style="margin: 5px; width: 45%;">
+  <div class="inv_grid alg_c">{L_FOX_GALLERY_US_ALBUMS|IN_AUTHOR}</div>
+  {IN_US_ALBUMS}
+ </div>{ENDIF}
+ {IF:IN_PUBLIC_ALBUMS}<div class="tiles sized qf_window_body" style="margin: 5px; width: 45%;">
+  <div class="inv_grid alg_c">{L_FOX_GALLERY_PUBLIC_ALBUMS}</div>
+  {IN_PUBLIC_ALBUMS}
+ </div>{ENDIF}
+ <br style="clear: both;" />
+{!WRITE:WIN_BOTTLINE}
+ <input type="hidden" name="item_id" value="{IN_ID}" />
+ <input type="hidden" name="script" value="gallery" />
+ <input type="hidden" name="act" value="edit_item" />
+ <input name="do_delete" type="checkbox" value="1" id="del_chbox" /><label for="del_chbox"> {L_FOX_GALLERY_EDITITEM_DELETE} </label> |
+ <input type="submit" value="{L_BTN_SAVE}" />
+{WRITE}
+<form action="{QF_INDEX}" method="post" enctype="multipart/form-data">
+{VIS:FOX_WINDOW|CAPTION=WIN_CAPT|CONTENTS=WIN_CONT|BOTTLINE=WIN_BOTTLINE|WIDTH="70%"|DOM_ID="store_form"}
+</form>
+<<- 'FOX_GALLERY_PAGE_EDITITEM'>>
+
+<<+ 'FOX_GALLERY_PAGE_NEWALBUM'>>
+<h2>{L_FOX_GALLERY_NEW_ALBUM}</h2>
+{!WRITE:WIN_CAPT}
+ {L_FOX_GALLERY_NEW_ALBUM_WCAPT}
+{!WRITE:WIN_CONT}
+ {L_FOX_GALLERY_NEWALBUM_REQUEST}<br />
+ {L_FOX_GALLERY_CAPTION}: <input type="text" name="caption" style="width: 50%;" /><br />
+ {IF:IN_CANPUBLIC}<input name="is_public" type="checkbox" value="1" id="chbox_{COUNTER}" /> <label for="chbox_{COUNTER}">{L_FOX_GALLERY_NEW_ALBUM_PUBLIC}</label><br />{ENDIF}
+{!WRITE:WIN_BOTTLINE}
+ <input type="hidden" name="script" value="gallery" />
+ <input type="hidden" name="act" value="new_album" />
+ <input type="submit" value="{L_BTN_ADD}" />
+{WRITE}
+<form action="{QF_INDEX}" method="post" enctype="multipart/form-data">
+{VIS:FOX_WINDOW|CAPTION=WIN_CAPT|CONTENTS=WIN_CONT|BOTTLINE=WIN_BOTTLINE|WIDTH="70%"|DOM_ID="store_form"}
+</form>
+<<- 'FOX_GALLERY_PAGE_NEWALBUM'>>

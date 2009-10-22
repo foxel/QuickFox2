@@ -1,0 +1,301 @@
+// CMS Special VIS
+
+<<+ 'CMS_NOINDEXPAGE'>>
+<h2>{L_CMS_NOINDEX_CAPT}</h2>
+<div class="qf_window" style="width: 500px;">
+<table class="inv_grid fullwidth">
+ <tr><td class="qf_window_body page_text">
+  {L_CMS_NOINDEX_PART1}<br />
+  {IF:IN_IS_ADM}{L_CMS_NOINDEX_ADMIN}{ELSE}{L_CMS_NOINDEX_GUEST}{ENDIF}
+ </td></tr>
+ <tr><td class="alg_c">
+  {IF:IN_IS_ADM}
+   <a class="hlight_btn" href="{URL:fox2_cms_admp}" title="{L_CMS_NOINDEX_BTN_CMSADM}">{L_CMS_NOINDEX_BTN_CMSADM}</a>
+   <a class="hlight_btn" href="{URL:fox2_adm_panel}" title="{L_BTN_ADMPANEL}">{L_BTN_ADMPANEL}</a>
+  {ELSE}<a class="hlight_btn" href="{URL:fox2_login}" title="{L_BTN_ENTER}">{L_BTN_ENTER}</a>{ENDIF}
+ </td></tr>
+</table>
+</div>
+<<- 'CMS_NOINDEXPAGE'>>
+
+<<+ 'CMS_ADM_LIST_FRAME'>>
+{L_ADMPANEL_CMS_REQUEST}
+<div style="padding: 15px 15px;">
+ <form action="{QF_INDEX}" method="post" onsubmit="return ConfirmCMSDeletedList(this)">
+ <table class="grid_tbl fullwidth">
+  <tr><th>{L_CMS_LIST_CAPT}&nbsp;/&nbsp;{L_CMS_LIST_ACTION}</th><th>[X]</th></tr>
+  {IN_ROWS_DATA}
+  {IF:IN_PAGE_BTNS}
+  <tr><td class="alg_c" colspan="2">|{IN_PAGE_BTNS}</td></tr>
+  {ENDIF}
+  <tr><td class="alg_r" colspan="2">
+   <input type="hidden" name="force_delete" value="true" />
+   <input type="hidden" name="script" value="adm_cmsedit" />
+   <input type="submit" value="{L_CMS_LIST_DELETE}" />
+  </td></tr>
+ </table>
+ </form>
+ <table class="grid_tbl fullwidth">
+  <tr><td>
+   <form action="{QF_INDEX}" method="post"><div class="inv_grid alg_r">
+    {L_CMS_LIST_CREATE}:
+    <input type="text" name="cms_id" value="" />
+    <input type="hidden" name="force_create" value="true" />
+    <input type="hidden" name="script" value="adm_cmsedit" />
+    <input type="submit" value="{L_BTN_CREATE}" />
+   </div></form>
+  </td></tr>
+ </table>
+</div>
+<<- 'CMS_ADM_LIST_FRAME'>>
+
+<<+ 'CMS_ADM_LIST_ROW'>>
+<tr>
+ <td class="alg_m">{IF:IN_T_LEVEL>0}{FOR:1|IN_T_LEVEL}+&nbsp;{ENDFOR}{ENDIF}<i><a href="{URL:fox2_cms_page|IN_ID}" >{!IN_CAPTION}</a></i> {IF:IN_SCOUNT}[{L_CMS_LIST_SUBS|IN_SCOUNT}]{ENDIF}
+ <div class="nowrap alg_r" style="margin: 5px 0 0 20px;">
+  {IN_ID}&nbsp;-
+  {IF:IN_SCOUNT>0}[<a href="{URL:fox2_cms_sort_page|IN_ID}" title="{L_CMS_PAGE_SORT_MORE}">{L_CMS_PAGE_SORT}</a>]{ENDIF}
+  [<a href="{URL:fox2_cms_info_page|IN_ID}" title="{L_CMS_PAGE_INFO_MORE}">{L_CMS_PAGE_INFO}</a>]
+  [<a href="{URL:fox2_cms_edit_page|IN_ID}" title="{L_CMS_PAGE_EDIT_MORE}">{L_CMS_PAGE_EDIT}</a>]
+  [<a href="{URL:fox2_cms_pedit_page|IN_ID}" title="{L_CMS_PAGE_PEDIT_MORE}">{L_CMS_PAGE_PEDIT}</a>]
+ </div>
+ </td>
+ <td class="alg_c alg_m"><input name="del_cms[]" type="checkbox" value="{IN_ID}" /></td>
+</tr>
+<<- 'CMS_ADM_LIST_ROW'>>
+
+<<+ 'CMS_ADM_LIST_PROW'>>
+<tr>
+ <td class="alg_m">{IF:IN_T_LEVEL>0}{FOR:1|IN_T_LEVEL}+&nbsp;{ENDFOR}{ENDIF}<i>{!IN_CAPTION}</i> {IF:IN_SCOUNT}[{L_CMS_LIST_SUBS|IN_SCOUNT}]{ENDIF}</td>
+ <td class="alg_c alg_m">---</td>
+</tr>
+<<- 'CMS_ADM_LIST_PROW'>>
+
+<<+ 'CMS_ADM_LIST_PBTN'>>
+{IF:IN_SEPAR}<b> ... </b>|{ELSE}{IF:IN_CUR}<b>[{IN_page}]</b>|{ELSE}<a href="{URL:fox2_cms_admp_page|IN_page}" title="{IN_page}"> {IN_page} </a>|{ENDIF}{ENDIF}
+<<- 'CMS_ADM_LIST_PBTN'>>
+
+<<+ 'CMS_ADM_INFO_FRAME'>>
+<div style="padding: 15px 15px;">
+ <table class="grid_tbl fullwidth">
+  <tr><th colspan="2">{L_CMS_INFO_FRAME_CAPT|IN_CAPTION}</th></tr>
+  <tr><td style="width: 50%;">{L_CMS_INFO_ID}</td><td><a href="{URL:fox2_cms_page|IN_ID}" >{IN_ID}</a></td></tr>
+  <tr><td>{L_CMS_INFO_CAPT}</td><td>{!IN_CAPTION}{IF:IN_IS_SECT} [{L_CMS_INFO_ISSECT}]{ENDIF}</td></tr>
+  <tr><td>{L_CMS_INFO_PARENT}</td><td>{IF:IN_PARENT}{IN_PARENT}{ELSE}---{ENDIF}</td></tr>
+  <tr><td>{L_CMS_INFO_FILE}</td><td><a href="{URL:fox2_adm_getfile|IN_URL_FILENAME}">{IN_FILENAME}</a></td></tr>
+  <tr><td>{L_CMS_INFO_TYPE}</td><td>{IN_TYPE}</td></tr>
+  <tr><td>{L_CMS_INFO_LINKS}</td><td>{IF:IN_LINKS}{IN_LINKS}{ELSE}---{ENDIF}</td></tr>
+  {IF:IN_IS_SECT}<tr><td>{L_CMS_INFO_SUBS}</td><td>{IF:IN_SUBS}{IN_SUBS}{ELSE}---{ENDIF}</td></tr>{ENDIF}
+  <tr><td>{L_CMS_INFO_AUTHOR}</td><td>{IN_AUTHOR}</td></tr>
+  <tr><td>{L_CMS_INFO_MODDATE}</td><td>{IN_MODDATE}</td></tr>
+  <tr><td>{L_CMS_INFO_LEVEL}</td><td>{VIS:ACC_LEVEL_MARK|LEVEL=IN_LEVEL}</td></tr>
+  <tr><td>{L_CMS_INFO_VIEWS}</td><td>{IN_VIEWS}</td></tr>
+  <tr><td>{L_CMS_INFO_V_BYREF}</td><td>{IN_V_BYREF}</td></tr>
+  <tr><td>{L_CMS_INFO_LASTVIEW}</td><td>{IN_LASTVIEW}</td></tr>
+  <tr><td>{L_CMS_INFO_DOEDIT|IN_ID}</td><td>[<a href="{URL:fox2_cms_edit_page|IN_ID}" >{L_CMS_INFO_DOEDIT_CONF}</a>] [<a href="{URL:fox2_cms_pedit_page|IN_ID}" >{L_CMS_INFO_DOEDIT_CONT}</a>]
+  {IF:IN_SUBS}[<a href="{URL:fox2_cms_sort_page|IN_ID}" >{L_CMS_INFO_DOEDIT_SORT}</a>]{ENDIF}
+  </td></tr>
+ </table>
+</div>
+<<- 'CMS_ADM_INFO_FRAME'>>
+
+<<+ 'CMS_ADM_EDIT_FRAME'>>
+<div style="padding: 15px 15px;">
+ <form action="{QF_INDEX}" method="post">
+ <table class="grid_tbl fullwidth">
+  <tr><th colspan="2">{L_CMS_EDIT_FRAME_CAPT|IN_CAPTION}</th></tr>
+  <tr><td style="width: 50%;">{L_CMS_INFO_ID}</td><td><a href="{URL:fox2_cms_page|IN_ID}" >{IN_ID}</a> [<a href="{URL:fox2_cms_info_page|IN_ID}" title="{L_CMS_PAGE_INFO_MORE}">{L_CMS_PAGE_INFO}</a>] [<a href="{URL:fox2_cms_pedit_page|IN_ID}" >{L_CMS_INFO_DOEDIT_CONT}</a>]</td></tr>
+  <tr><td class="alg_m">{L_CMS_EDIT_CAPT}</td><td><input style="width: 97%;" type="text" name="cms_capt" value="{!IN_CAPTION}" /></td></tr>
+  {IF:IN_PARENT_VARS}
+  <tr><td class="alg_m">{L_CMS_EDIT_PARENT}</td><td>
+   <select style="width: 97%;" name="cms_parent" >
+    {IN_PARENT_VARS}
+   </select>
+  </td></tr>
+  {ENDIF}
+  <tr><td class="alg_m">{L_CMS_EDIT_ISSECT}</td><td><input name="cms_issect" type="checkbox" value="1" {IF:IN_IS_SECT}checked="checked"{ENDIF} id="chbox_{COUNTER}" /><label for="chbox_{COUNTER}"> {L_MISC_YES}</label><br /></td></tr>
+  <tr><td class="alg_m">{L_CMS_EDIT_TYPE}</td><td>
+   <select style="width: 97%;" name="cms_type" >
+    {IN_TYPE_VARS}
+   </select>
+  </td></tr>
+  <tr><td class="alg_m">{L_CMS_EDIT_LINKS}</td><td>
+   {IF:IN_ELINKS}<div style="max-height: 300px; overflow: auto; border-style: solid; border-width: 1px;">{IN_ELINKS}</div>{ENDIF}
+   {L_CMS_EDIT_ADD_LINKS}:<br />
+   <input style="width: 97%;" type="text" name="cms_add_links" value="" />
+  </td></tr>
+  {!IF:IN_NOLEVEL}
+  <tr><td class="alg_m">{L_CMS_EDIT_LEVEL}</td><td>
+   <select name="cms_acc_level" >
+    <option value="0" >{L_LEVEL_FOR_ALL}</option>
+    {FOR:1|C_MAXULEVEL}<option value="{I}" {IF:IN_LEVEL=I}selected="selected"{ENDIF}>{I}</option>{ENDFOR}
+   </select>
+  </td></tr>
+  {ENDIF}
+  <tr><td class="alg_m">{L_CMS_EDIT_RESET}</td><td><input name="cms_reset" type="checkbox" value="1" id="chbox_{COUNTER}1" /><label for="chbox_{COUNTER}1"> {L_MISC_YES}</label><br /></td></tr>
+  <tr><td class="alg_r" colspan="2">
+    <input type="hidden" name="cms_id" value="{IN_ID}" />
+    <input type="hidden" name="script" value="adm_cmsedit" />
+    <input type="submit" value="{L_BTN_SAVE}" />
+  </td></tr>
+ </table>
+ </form>
+</div>
+<div style="padding: 5px 15px;">
+ <form action="{QF_INDEX}" method="post" enctype="multipart/form-data">
+ <table class="grid_tbl fullwidth">
+  <tr><th colspan="2">{L_CMS_REUPLOAD_TABLE_CAPT|IN_CAPTION}</th></tr>
+  <tr><td class="alg_m" style="width: 50%;">{L_CMS_EDIT_OLDFILE}</td><td><a href="{URL:fox2_adm_getfile|IN_URL_FILENAME}">{IN_FILENAME}</a></td></tr>
+  <tr><td class="alg_m">{L_CMS_EDIT_UPLOAD}</td><td><input name="cms_file" type="file" /></td></tr>
+  <tr><td class="alg_m">{L_CMS_EDIT_TYPE}</td><td>
+   <select style="width: 97%;" name="cms_type" >
+    {IN_TYPE_VARS}
+   </select>
+  </td></tr>
+  <tr><td class="alg_m">{L_CMS_EDIT_RECODE}</td><td>
+   <select style="width: 97%;" name="cms_file_recode" >
+    <option value="" >{L_CMS_EDIT_NORECODE}</option>
+    {IN_RECODE_VARS}
+   </select>
+  </td></tr>
+  <tr><td class="alg_r" colspan="2">
+   <input type="hidden" name="cms_id" value="{IN_ID}" />
+   <input type="hidden" name="force_upload" value="true" />
+   <input type="hidden" name="script" value="adm_cmsedit" />
+   <input style="margin: 1px 1px 1px auto;" type="submit" value="{L_BTN_UPLOAD}" />
+  </td></tr>
+ </table>
+ </form>
+</div>
+<<- 'CMS_ADM_EDIT_FRAME'>>
+
+<<+ 'CMS_ADM_SORT_FRAME'>>
+<script type="text/javascript">
+// <![CDATA[
+var cmsSortMoveUp = function(id)
+{
+    var itm = qf_getbyid(id);
+    if (!itm)
+        return;
+    s = itm.previousSibling;
+    while (s && (s.nodeType != 1 || !s.id || !s.id.match(/cItem_\d+/))) s = s.previousSibling;
+    if (s)
+    {
+        itm.parentNode.insertBefore(itm, s);
+        var itm_ord = qf_getbyid(id + '_ord');
+        var s_ord = qf_getbyid(s.id + '_ord');
+        if (itm_ord && s_ord)
+        {
+            var tmp = itm_ord.value;
+            itm_ord.value = s_ord.value;
+            s_ord.value = tmp;
+        }
+    }
+}
+
+var cmsSortPrepItem = function(id)
+{
+    var itm = qf_getbyid(id);
+    if (!itm)
+        return;
+    var itm = qf_getbyid(id + '_ord');
+    if (!itm)
+        return;
+    var stl = getStyleObj(itm);
+    stl.display = 'none';
+    but = document.createElement('button');
+    but.value = but.innerHTML = '{L_MISC_MOVEUP}'
+    but.onclick = function () { cmsSortMoveUp(id); return false; };
+    itm.parentNode.insertBefore(but, itm);
+}
+//]]>
+</script>
+
+
+{L_CMS_SORT_REQUEST}
+<div style="padding: 15px 15px;">
+ <form action="{QF_INDEX}" method="post">
+ <table class="grid_tbl fullwidth">
+  <tr><th>{L_CMS_LIST_CAPT}</th><th>{L_CMS_SORT_ORDER}</th></tr>
+  {IN_ROWS_DATA}
+  <tr><td class="alg_r" colspan="2">
+   <input type="hidden" name="cms_id" value="{IN_ID}" />
+   <input type="hidden" name="force_sort" value="true" />
+   <input type="hidden" name="script" value="adm_cmsedit" />
+   <input type="submit" value="{L_BTN_SAVE}" />
+  </td></tr>
+ </table>
+ </form>
+</div>
+<<- 'CMS_ADM_SORT_FRAME'>>
+
+<<+ 'CMS_ADM_SORT_ITEM'>>
+<tr id="cItem_{COUNTER}">
+ <td class="alg_m"><i>{!IN_CAPTION}</i> [{IN_ID}] {IF:IN_SCOUNT}[{L_CMS_LIST_SUBS|IN_SCOUNT}]{ENDIF}</td>
+ <td class="alg_c alg_m">
+  <input id="cItem_{COUNTER}_ord" type="text" style="width: 50px;" name="cms_order[{IN_ID}]" value="{IN_ORDER_ID}" />
+ </td>
+</tr>
+<script type="text/javascript">// <![CDATA[
+cmsSortPrepItem('cItem_{COUNTER}'); //]]></script>
+<<- 'CMS_ADM_SORT_ITEM'>>
+
+<<+ 'CMS_PAGEEDITOR'>>
+<div class="qf_window" style="width: 95%;">
+<table class="inv_grid fullwidth">
+ <tr><td class="qf_window_capt">
+  {L_CMS_PAGEEDITOR_CAPT} :: {!IN_PAGE_CAPTION}
+ </td></tr>
+ <tr><td>
+  <table class="inv_grid fullwidth"><tr>
+   <td>
+   <!-- Editor panels will be loaded here -->
+   </td>
+   <td class="qf_window_body"><form action="{QF_INDEX}" method="post" enctype="multipart/form-data">
+    <div class="inv_grid alg_c" >
+     <textarea name="contents" style="width: 99%; height: 400px;">{IN_PG_CONTENTS}</textarea>
+    </div>
+    <div class="inv_grid alg_r" >
+     <select style="width: 150px;" name="cms_type" >
+      {IN_TYPE_VARS}
+     </select>
+     <input type="submit" value="{L_BTN_SAVE}" />
+     <input type="hidden" name="force_editpage" value="true" />
+     <input type="hidden" name="return_to" value="{IN_RETURN_TO}" />
+     <input type="hidden" name="cms_id" value="{IN_ID}" />
+     <input type="hidden" name="script" value="adm_cmsedit" />
+    </div>
+   </form></td>
+  </tr></table>
+ </td></tr>
+</table>
+</div>
+<<- 'CMS_PAGEEDITOR'>>
+
+<<+ 'CMS_ILINK'>>
+[<a href="{URL:fox2_cms_info_page|IN_ID}" title="{!IN_caption}">{!IN_caption}</a>]&#32;
+<<- 'CMS_ILINK'>>
+
+<<+ 'CMS_ELINK'>>
+<input name="cms_links[]" type="checkbox" value="{IN_ID}" id="chbox_{COUNTER}" checked="checked" /><label for="chbox_{COUNTER}"> {!IN_caption}</label><br />
+<<- 'CMS_ELINK'>>
+
+
+
+<<+ 'JS'>>
+// needs to confirm CMS deleted list
+function ConfirmCMSDeletedList(form) {
+
+    if (typeof(window.opera) != 'undefined')
+        return true;
+
+    var is_confirmed = confirm('{L_CMS_LIST_DELETE_CONFIRM}');
+    if (is_confirmed)
+    {
+        form.submit.disabled = true;
+        return true;
+    }
+    else
+        return false;
+}
+<<- 'JS'>>

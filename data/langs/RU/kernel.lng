@@ -1,0 +1,50 @@
+// confs
+__CODEPAGES: windows-1251 koi8-r koi8-u cp866 cp855 x-mac-cyrillic iso-8859-5
+---
+__TRANSLIT_FROM: А|Б|В|Г|Д|Е|Ё|Ж|З|И|Й|К|Л|М|Н|О|П|Р|С|Т|У|Ф|Х|Ц|Ч|Ш|Щ|Ъ|Ы|Ь|Э|Ю|Я|а|б|в|г|д|е|ё|ж|з|и|й|к|л|м|н|о|п|р|с|т|у|ф|х|ц|ч|ш|щ|ъ|ы|ь|э|ю|я
+---
+__TRANSLIT_TO: A|B|V|G|D|E|JO|ZH|Z|I|J|K|L|M|N|O|P|R|S|T|U|F|KH|C|CH|SH|SCH|~|Y|'|EH|JU|JA|a|b|v|g|d|e|jo|zh|z|i|j|k|l|m|n|o|p|r|s|t|u|f|kh|c|ch|sh|sch|~|y|'|eh|ju|ja
+---
+ENCODING: utf-8
+---
+DIRECTION: ltr
+---
+// time translate
+DATETIME_TR_DAYS: Воскресенье|Понедельник|Вторник|Среда|Четверг|Пятница|Суббота
+---
+DATETIME_TR_DAYS_SHORT: Вс|Пн|Вт|Ср|Чт|Пт|Сб
+---
+DATETIME_TR_MONTHS: Январь|Февраль|Март|Апрель|Май|Июнь|Июль|Август|Сентябрь|Октябрь|Ноябрь|Декабрь
+---
+DATETIME_TR_MONTHS_SHORT: Янв|Фев|Мар|Апр|Июн|Июл|Авг|Сен|Окт|Ноя|Дек
+---
+DATETIME_FUTURE_SECS: через %1$d сек.
+---
+DATETIME_FUTURE_MINS: через %1$d мин.
+---
+DATETIME_PAST_SECS: %1$d сек. назад
+---
+DATETIME_PAST_MINS: %1$d мин. назад
+---
+DATETIME_TODAY: сегодня %1$s
+---
+DATETIME_YESTERDAY: вчера %1$s
+---
+
+BSIZE_FORM_BYTES: Байт|КБайт|МБайт|ГБайт
+---
+BSIZE_FORM_BITS: бит|Кбит|Мбит|Гбит
+---
+
+ERR_CRIT_PAGE: Произошла серьезная ошибка!
+---
+ERR_CRIT_MESS: Извините, но вывод данных невозможен.
+ Отчет об ошибке отправлен администратору.
+ Попробуйте посетить наш сайт позже.
+---
+FOOT_STATS_PAGETIME: Страница полностью сгенерирована за <b>%1$01.3f</b> сек.<br />
+---
+FOOT_STATS_SQLSTAT: Произведено SQL запросов: <b>%1$d</b> (<b>%2$01.3f</b> сек).
+---
+FOOT_STATS_SRVSTAT: Сервисное обслуживание выполнено за <b>%1$01.3f</b> сек.
+---

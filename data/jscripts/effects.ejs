@@ -1,0 +1,626 @@
+// QF_EFFECTS superClass
+
+var QF_EFFECTS = function()
+{
+    var ScrollCBs = {};
+    var ResizeCBs = {};
+    var CallBacks = {};
+    var SDatas = {};
+    var Ready = false;
+    var Interval;
+
+    var _OnScrollHandler = function()
+    {
+        for (var v in ScrollCBs)
+            ScrollCBs[v].func();
+    }
+
+    var _OnResizeHandler = function ()
+    {
+        for (var v in ResizeCBs)
+            ResizeCBs[v].func();
+    }
+
+    var _IntervalHandler = function ()
+    {
+        for (var v in CallBacks)
+            CallBacks[v].func();
+    }
+
+    var _Get_DOMNode = function(itm)
+    {
+        if ((typeof itm).toLowerCase() == 'object' && itm.tagName)
+            return itm;
+
+        if (document.getElementById)
+            return document.getElementById(itm);
+        else if (document.all)
+            return document.all[itm];
+        else if (document.layers)
+            return document.layers[itm];
+
+        return null;
+    }
+
+    var _Add_CB = function(func, type, onDropFunc)
+    {
+        if ((typeof func).toLowerCase() != 'function')
+            return null;
+
+        var new_id = (new Date().getTime()) + '' + Math.random();
+        var CBO;
+        switch (type)
+        {
+            case 'r': CBO = ResizeCBs; break; // resize
+            case 's': CBO = ScrollCBs; break; // scroll
+            default:  CBO = CallBacks; break;
+        }
+        CBO[new_id] = {func: func, onDrop: onDropFunc};
+        return new_id;
+    }
+
+    var _Drop_CB = function(id, type, noOnDrop)
+    {
+        var CBO;
+        switch (type)
+        {
+            case 'r': CBO = ResizeCBs; break; // resize
+            case 's': CBO = ScrollCBs; break; // scroll
+            default:  CBO = CallBacks; break;
+        }
+
+        if (!CallBacks[id])
+            return null;
+
+        if (!noOnDrop && (typeof CBO[id].onDrop).toLowerCase() == 'function')
+            CBO[id].onDrop();
+
+        delete CBO[id];
+    }
+
+    var Init = function()
+    {
+        // ++ some trick
+        var body = document.getElementsByTagName('body')[0];
+        var child = document.getElementsByTagName('div')[0];
+        if (!child || (child.clientHeight || child.offsetHeight) == 0)
+        {
+            var cBack = function() { Init(); };
+            QF_TIMERS.addOnLoad(cBack);
+            return false;
+        }
+        // --
+
+        Ready = true;
+        var ToDo = CallBacks;
+        CallBacks = {};
+        for (var v in ToDo)
+        {
+            ToDo[v].func();
+            delete ToDo[v];
+        }
+        Interval = window.setInterval(_IntervalHandler, 70);
+        window.onscroll = _OnScrollHandler;
+        window.onresize = _OnResizeHandler;
+    }
+
+    // this is needed for MS IE since it works slower
+    window.setTimeout(Init, (myBrowser.isMSIE) ? 500 : 100);
+
+    return {        Overlay: null,
+        isReady: function(){ return Ready; },
+        Add_CB: function(func, type, onDropFunc){ return _Add_CB(func, type, onDropFunc); },
+        Drop_CB: function(id, type, noOnDrop){ return _Drop_CD(id, type, noOnDrop); },
+        InitItem: function (id)
+        {
+            if (!Ready)
+                return _Add_CB(function() {QF_EFFECTS.InitItem(id);});
+
+            var itm = qf_getbyid(id);
+            if (!itm)
+                return;
+            var stl = getStyleObj(itm);
+            if (stl.opacity == null || !stl.opacity.length)
+                stl.opacity = 1;
+            var opacity = 100;
+            var visible = 100;
+            var my_disp = stl.display;
+            if (my_disp == 'none')
+            {
+                stl.display = '';
+                visible = 0;
+            }
+
+            if ((typeof stl.opacity).toLowerCase() == 'string' && stl.opacity)
+                opacity = stl.opacity*100;
+            else if (myBrowser.isMSIE)
+            {
+                var alpha = itm.filters['DXImageTransform.Microsoft.alpha'] || itm.filters.alpha;
+                if (alpha)
+                    opacity = alpha.opacity;
+                else
+                    stl.filter += (myBrowser.isMSIE >= 5) ? ' progid:DXImageTransform.Microsoft.Alpha(opacity=100)' : ' alpha(opacity=100)';
+                alpha = itm.filters['DXImageTransform.Microsoft.alpha'] || itm.filters.alpha;
+                alpha.enabled = (opacity != 100);
+            }
+
+            var params = {
+                width: (itm.clientWidth) ? itm.clientWidth : itm.offsetWidth,
+                height: (itm.clientHeight) ? itm.clientHeight : itm.offsetHeight,
+                cWidth: stl.width, cHeight: stl.height, overflow: stl.overflow,
+                alpha: opacity, visible: visible, vis_style: 1, showed: (visible > 0),
+                display: my_disp };
+            stl.overflow = 'hidden';
+            stl.width = params.width + 'px';
+            stl.height = params.height + 'px';
+            params.wCorr = params.width - itm.clientWidth;
+            params.hCorr = params.height - itm.clientHeight;
+            stl.width = params.cWidth;
+            stl.height = params.cHeight;
+            stl.overflow = params.overflow;
+
+            SDatas[id] = params;
+            stl.display = my_disp;
+        },
+        Update: function (id)
+        {
+            if (!Ready)
+                return false;
+
+            if (!SDatas[id])
+                return;
+
+            var itm = qf_getbyid(id);
+            if (!itm)
+                return;
+
+            var stl = getStyleObj(itm);
+            var alpha = (myBrowser.isMSIE) ? itm.filters['DXImageTransform.Microsoft.alpha'] || itm.filters.alpha : null;
+            var SData = SDatas[id];
+            var VS = SData.vis_style;
+            if (SData.visible == 100)
+            {
+                stl.width = SData.cWidth;
+                stl.height = SData.cHeight;
+                if (alpha)
+                {
+                    alpha.opacity = SData.alpha;
+                    alpha.enabled = (SData.alpha != 100) && !(VS & 16);
+                }
+                else
+                    stl.opacity = SData.alpha/100;
+                stl.overflow = SData.overflow;
+                stl.display = ''; //SData.display;
+            }
+            else if (SData.visible == 0)
+            {
+                stl.display = 'none';
+            }
+            else
+            {
+                if (VS & 1)
+                {
+                    if (alpha)
+                    {
+                        alpha.opacity = SData.alpha*SData.visible/100;
+                        alpha.enabled = !(VS & 16);
+                    }
+                    else
+                        stl.opacity = SData.alpha*SData.visible/10000;
+                }
+                if (VS & 6)
+                {
+                    stl.overflow = 'hidden';
+                    stl.height = (VS & 2) ? (SData.height + SData.hCorr)*SData.visible/100 + 'px' : SData.cHeight;
+                    stl.width  = (VS & 4) ? (SData.width  + SData.wCorr)*SData.visible/100 + 'px' : (SData.width  + SData.wCorr) + 'px';
+                }
+                else
+                {
+                    stl.width = SData.cWidth;
+                    stl.height = SData.cHeight;
+                }
+                stl.display = ''; //SData.display;
+            }
+        },
+        Resize: function (id, xsize, ysize)
+        {
+            if (!Ready)
+                return _Add_CB(function() {QF_EFFECTS.Resize(id, size, vertical);});
+
+            var itm = qf_getbyid(id);
+            if (!itm)
+                return;
+            if (!SDatas[id])
+                QF_EFFECTS.InitItem(id);
+
+            var stl = getStyleObj(itm);
+            if (itm.rsize_timer)
+                _Drop_CB(itm.rsize_timer, '', true);
+
+            SDatas[id].overflow = 'hidden';
+
+            if (!xsize || !ysize)
+                return;
+
+            var tid = null;
+            var RSize_CB = function()
+            {
+                var Now_XSize = SDatas[id].width;
+                var New_XSize = Now_XSize + (xsize - Now_XSize)/3;
+                var Now_YSize = SDatas[id].height;
+                var New_YSize = Now_YSize + (ysize - Now_YSize)/3;
+                if (Math.abs(New_XSize - Now_XSize) < 1 && Math.abs(New_YSize - Now_YSize) < 1)
+                {
+                    New_XSize = xsize;
+                    New_YSize = ysize;
+                    itm.rsize_timer = null;
+                    _Drop_CB(tid);
+                }
+
+                SDatas[id].height = New_YSize;
+                SDatas[id].cHeight = (New_YSize + SDatas[id].hCorr) + 'px';
+                SDatas[id].width = New_XSize;
+                SDatas[id].cWidth = (New_XSize + SDatas[id].wCorr) + 'px';
+                QF_EFFECTS.Update(id);
+            }
+            tid = _Add_CB(RSize_CB);
+            itm.rsize_timer = tid;
+        },
+        Alpha: function (id, alpha)
+        {
+            if (!Ready)
+                return _Add_CB(function() {QF_EFFECTS.Alpha(id, alpha);});
+
+            var itm = qf_getbyid(id);
+            if (!itm)
+                return;
+            if (!SDatas[id])
+                QF_EFFECTS.InitItem(id);
+
+            if (itm.alpha_timer)
+                _Drop_CB(itm.alpha_timer, '', true);
+
+            if (!alpha)
+                alpha = 100;
+
+            var tid = null;
+            var Alph_CB = function()
+            {
+                var Now_Alpha = SDatas[id].alpha;
+                var New_Alpha = Now_Alpha + (alpha - Now_Alpha)/3;
+                if (Math.abs(New_Alpha - Now_Alpha) < 1)
+                {
+                    New_Alpha = alpha;
+                    itm.alpha_timer = null;
+                    _Drop_CB(tid);
+                }
+                SDatas[id].alpha = New_Alpha;
+                QF_EFFECTS.Update(id);
+            }
+            tid = _Add_CB(Alph_CB);
+            itm.alpha_timer = tid;
+        },
+        Hide: function (id, style, rate, onHide)
+        {
+            if (!Ready)
+                return _Add_CB(function() {QF_EFFECTS.Hide(id, style, rate);});
+
+            var itm = qf_getbyid(id);
+            if (!itm)
+                return;
+            if (!SDatas[id])
+                QF_EFFECTS.InitItem(id);
+
+            if (itm.vis_timer)
+                _Drop_CB(itm.vis_timer, '', true);
+
+            if (style)
+                SDatas[id].vis_style = style;
+
+            if (!rate)
+                rate = 0;
+
+            var tid = null;
+            var Hide_CB = function()
+            {
+                var Now_Alpha = SDatas[id].visible;
+                var New_Alpha = Now_Alpha + (rate - Now_Alpha)/3;
+                if (Math.abs(New_Alpha - Now_Alpha) < 1)
+                {
+                    New_Alpha = rate;
+                    itm.vis_timer = null;
+                    _Drop_CB(tid);
+                }
+                SDatas[id].visible = New_Alpha;
+                QF_EFFECTS.Update(id);
+            }
+            tid = _Add_CB(Hide_CB, '', onHide);
+            itm.vis_timer = tid;
+            SDatas[id].showed = false;
+        },
+        Show: function (id, style, new_alpha, onShow)
+        {
+            if (!Ready)
+                return _Add_CB(function() {QF_EFFECTS.Show(id, style, new_alpha);});
+
+            var itm = qf_getbyid(id);
+            if (!itm)
+                return;
+            if (!SDatas[id])
+                QF_EFFECTS.InitItem(id);
+
+            if (itm.vis_timer)
+                _Drop_CB(itm.vis_timer, '', true);
+
+            if (new_alpha && new_alpha != SDatas[id].alpha)
+                QF_EFFECTS.Alpha(id, new_alpha);
+
+            if (style)
+                SDatas[id].vis_style = style;
+
+            var tid = null;
+            var Show_CB = function()
+            {
+                SDatas[id].visible+=(100 - SDatas[id].visible)/3;
+                if (SDatas[id].visible > 99)
+                {
+                    SDatas[id].visible = 100;
+                    itm.vis_timer = null;
+                    _Drop_CB(tid);
+                }
+                QF_EFFECTS.Update(id);
+            }
+            tid = _Add_CB(Show_CB, '', onShow);
+            itm.vis_timer = tid;
+            SDatas[id].showed = true;
+        },
+        ShowAtMouse: function (id, evt, style, new_alpha)
+        {
+            if (!Ready)
+                return false;
+
+            var itm = qf_getbyid(id);
+            if (!itm)
+                return;
+            if (!SDatas[id])
+                QF_EFFECTS.InitItem(id);
+
+            if (!SDatas[id].showed)
+                QF_EFFECTS.Show(id, style, new_alpha);
+
+            var mousex = evt.clientX;
+            var mousey = evt.clientY;
+            var pagexoff = 0;
+            var pageyoff = 0;
+            var stl = getStyleObj(itm);
+
+            if(myBrowser.isMSIE)
+            {
+                var oCanvas = document.getElementsByTagName(
+                    (document.compatMode && document.compatMode == 'CSS1Compat') ? 'HTML' : 'BODY'
+                )[0];
+                pagexoff = oCanvas.scrollLeft;
+                pageyoff = oCanvas.scrollTop;
+                var w_width  = oCanvas.clientWidth + oCanvas.scrollLeft;
+            }
+            else
+            {
+                pagexoff = window.pageXOffset;
+                pageyoff = window.pageYOffset;
+                var w_width  = window.innerWidth + window.pageXOffset;
+            }
+
+            //w_width = oCanvas.clientWidth ? oCanvas.clientWidth + oCanvas.scrollLeft : window.innerWidth + window.pageXOffset;
+
+            if(stl){
+                var c_width = SDatas[id].width;
+
+                if (mousex + pagexoff + c_width > w_width)
+                  stl.left = (w_width - c_width) + 'px';
+                else
+                  stl.left = (mousex + pagexoff - 0.7*c_width) + 'px';
+
+                stl.top = (mousey + pageyoff) + 25 + 'px';
+            }
+        },
+        Toggle: function (id, style, onToggle)
+        {
+            if (!Ready)
+                return false;
+
+            var itm = qf_getbyid(id);
+            if (!itm)
+                return;
+            if (!SDatas[id])
+                QF_EFFECTS.InitItem(id);
+
+            if (SDatas[id].showed)
+                QF_EFFECTS.Hide(id, style, undefined, onToggle);
+            else
+                QF_EFFECTS.Show(id, style, undefined, onToggle);
+        },
+        Invisible: function (id)
+        {
+            var itm = qf_getbyid(id);
+            if (!itm)
+                return;
+            if (!SDatas[id])
+            {
+                var stl = getStyleObj(itm);
+                stl.display = 'none';
+                return;
+            }
+
+            var stl = getStyleObj(itm);
+            if (itm.vis_timer)
+            {
+                _Drop_CB(itm.vis_timer, '', true);
+                itm.vis_timer = null;
+            }
+
+            SDatas[id].visible = 0;
+            SDatas[id].showed = false;
+            QF_EFFECTS.Update(id);
+        },
+        OpenOverlay: function (do_clear, style, onShow)
+        {
+            if (!Ready)
+                return false;
+
+            if (!QF_EFFECTS.Overlay)
+            {
+                var bitm = document.createElement('div');
+                bitm.id = 'QF_OverlayBkg';
+                document.body.insertBefore(bitm, document.body.firstChild);
+                bitm.className = 'qf_overlay_back';
+
+                var sitm = QF_EFFECTS.Overlay = document.createElement('div');
+                sitm.id = 'QF_OverlayScr';
+                document.body.insertBefore(sitm, bitm.nextSibling);
+
+
+                var bstl = getStyleObj(bitm);
+                var sstl = getStyleObj(sitm);
+
+                bstl.position = 'fixed';
+                bstl.zIndex = 10000;
+                bstl.top = '0';
+                bstl.left = '0';
+                bstl.width = '100%';
+                bstl.height = '100%';
+
+                sstl.position = 'fixed';
+                sstl.zIndex = 10001;
+                sstl.top = '0';
+                sstl.left = '0';
+                sstl.width = '100%';
+                sstl.height = '100%';
+
+                if (myBrowser.isMSIE) // trick for MS IE for fixed elements
+                {
+                    sstl.position = 'absolute';
+                    bstl.position = 'absolute';
+
+                    var oCanvas = document.getElementsByTagName(
+                        (document.compatMode && document.compatMode == 'CSS1Compat') ? 'HTML' : 'BODY'
+                    )[0];
+
+
+                    var OLay_CB = function()
+                    {
+                        sstl.top  = oCanvas.scrollTop+'px';
+                        bstl.top  = (oCanvas.scrollTop - 5)+'px';
+                        sstl.left = bstl.left = oCanvas.scrollLeft+'px';
+                        sstl.width  = bstl.width  = oCanvas.clientWidth+'px';
+                        sstl.height = oCanvas.clientHeight+'px';
+                        bstl.height = (oCanvas.clientHeight + 10)+'px';
+                    }
+                    _Add_CB(OLay_CB, 's');
+                    _Add_CB(OLay_CB, 'r');
+                    OLay_CB();
+
+                }
+
+                //sitm.innerHTML = '<div class="qf_window" style="margin: auto;">dawdawdawdadadawrfdaw</div>';
+                //sitm.onclick = function()
+                //{
+                //    QF_EFFECTS.CloseOverlay();
+                //}
+
+                QF_EFFECTS.Invisible('QF_OverlayBkg');
+                QF_EFFECTS.Invisible('QF_OverlayScr');
+                QF_EFFECTS.Alpha('QF_OverlayBkg', 75);
+            }
+            else if (do_clear)
+                QF_EFFECTS.Overlay.innerHTML = '';
+
+            style |= 1;
+
+            QF_EFFECTS.Show('QF_OverlayBkg', style);
+            QF_EFFECTS.Show('QF_OverlayScr', style, undefined, onShow);
+        },
+        CloseOverlay: function ()
+        {
+            if (!Ready)
+                return false;
+
+            if (!QF_EFFECTS.Overlay)
+                return;
+
+            QF_EFFECTS.InitItem('QF_OverlayBkg');
+            QF_EFFECTS.InitItem('QF_OverlayScr');
+            QF_EFFECTS.Hide('QF_OverlayBkg');
+            QF_EFFECTS.Hide('QF_OverlayScr');
+        },
+        CheckOverlay: function ()
+        {
+            if (!Ready)
+                return false;
+
+            if (QF_EFFECTS.Overlay && SDatas['QF_OverlayBkg'].showed)
+                return true;
+
+            return false;
+        },
+        StartDrag: function(id, evt, dragRect, dontStop)
+        {
+            if (!Ready)
+                return false;
+
+            var itm = qf_getbyid(id);
+            if (!itm)
+                return;
+            if (!SDatas[id])
+                QF_EFFECTS.InitItem(id);
+
+            if (!SDatas[id].showed)
+                QF_EFFECTS.Show(id, style, new_alpha);
+
+            if (!evt)
+                evt = window.event;
+            var stl = getStyleObj(itm);
+            var myStPos = getElementClientPos(itm);
+            var mouseX = evt.clientX || evt.x;
+            var mouseY = evt.clientY || evt.y;
+            var mouseXOffset = mouseX - myStPos.x;
+            var mouseYOffset = mouseY - myStPos.y;
+            var myRelPar = getElementOffsetParent(itm);
+            var myRelPos = getElementClientPos(myRelPar);
+
+            if ((typeof dragRect).toLowerCase()!='object')
+                dragRect = {};
+
+            var Drag_CB = function(e)
+            {
+                if (!e)
+                    e = window.event;
+                var mouseX = e.clientX || e.x;
+                var mouseY = e.clientY || e.y;
+                var newY = (mouseY - mouseYOffset);
+                var newX = (mouseX - mouseXOffset);
+                if (dragRect.minX)
+                    newX = Math.max(newX, dragRect.minX);
+                if (dragRect.maxX)
+                    newX = Math.min(newX, dragRect.maxX);
+                if (dragRect.minY)
+                    newY = Math.max(newY, dragRect.minY);
+                if (dragRect.maxY)
+                    newY = Math.min(newY, dragRect.maxY);
+                stl.top  = (newY - myRelPos.y)+'px';
+                stl.left = (newX - myRelPos.x)+'px';
+                e.returnValue = false;
+                return false;
+            }
+
+            evt.returnValue = false;
+            document.onmousemove = Drag_CB;
+            if (!dontStop)
+                document.onmouseup = QF_EFFECTS.StopDrag;
+        },
+        StopDrag: function()
+        {
+            document.onmousemove = null;
+            document.onmouseup = null;
+        }
+    }
+}();

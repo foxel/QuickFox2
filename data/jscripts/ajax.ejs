@@ -1,0 +1,503 @@
+// -------------------------------------------------------------------------- \\
+// QukckFox AXAX methods                                                      \\
+//   (based on DKLab JsHttpRequest [http://en.dklab.ru/lib/JsHttpRequest/])   \\
+//                                                  (c) Foxel the LION 2008   \\
+// -------------------------------------------------------------------------- \\
+
+var QF_AJAX = function()
+{
+    var a = {};
+    var pub = {};
+    a.qf_index = 'index.php';
+    a.session_name = 'SID';
+    a.session_ping = 600000;
+    a.pingers_made = 0;
+    a.ping_timer = null;
+    a.timeout = 180000;
+    a.XMLVers = [ 'MSXML2.XMLHttp.7.0',
+        'MSXML2.XMLHttp.6.0', 'MSXML2.XMLHttp.5.0',
+        'MSXML2.XMLHttp.4.0', 'MSXML2.XMLHttp.3.0',
+        'MSXML2.XMLHttp', 'Microsoft.XMLHttp' ];
+    a.q_data = [];
+    a.Form_Qs = {};
+
+    // sends data with no uploads in urlencoded form
+    pub.Query = function ( parser, data, onReply )
+    {
+        if ( typeof(parser) == 'string' )
+            parser = parser.toLowerCase();
+        else
+            return false;
+
+        var url = a.qf_index + '?aj=' + encodeURIComponent(parser);
+        try
+        {
+            if ( document.cookie.match(new RegExp('(?:;|^)\\s*' + a.session_name + '=([^;]*)'))
+                 || document.location.search.match(new RegExp('[&?]' + a.session_name + '=([^&?]*)')) )
+                url += (url.indexOf('?') >= 0? '&' : '?') + a.session_name + "=" + encodeURIComponent(RegExp.$1);
+        } catch (e) {}
+
+        var params = [];
+        var sendform = { f: null };
+        a._parsedata( data, params, sendform );
+
+        var new_id = (new Date().getTime()) + '' + a.q_data.length++;
+        var q = { url: url, sendform: sendform.f, params: params, onReply: onReply };
+        a.q_data[new_id] = q;
+        var is_OK = false;
+
+        // first we'll try XMLHttpRequest and only then form sender
+        if ( !sendform.f )
+            is_OK = a._run_xml( new_id ) || a._run_form( new_id );
+        else // we need to send a form
+            is_OK = a._run_form( new_id );
+
+        if ( is_OK )
+        {
+            var no_data_fnc = function ()
+            {
+                QF_AJAX.Data_Timeout(new_id);
+            }
+            // q.timer = QF_TIMERS.setTimeout(no_data_fnc, a.timeout);
+            a._RunPinger();
+            return new_id;
+        }
+        else
+        {
+            delete a.q_data[new_id];
+            return false;
+        }
+    }
+
+    // sends full form with uploads and addind set of params
+    pub.SendForm = function ( parser, form, adddata, onReply )
+    {
+        if ( (typeof parser).toLowerCase() == 'string' )
+            parser = parser.toLowerCase();
+        else
+            return false;
+
+        if ( !form || (typeof form).toLowerCase() != 'object' ||
+            !form.parentNode || !form.parentNode.appendChild ||
+            !form.tagName || form.tagName.toLowerCase() != 'form' )
+            return false; // no form given
+
+        var url = a.qf_index + '?aj=' + encodeURIComponent(parser);
+
+        var params = [];
+        var sendform = { f: null };
+        a._parsedata( adddata, params, sendform );
+
+        var new_id = (new Date().getTime()) + '' + a.q_data.length++;
+        var q = { url: url, sendform: form, wholeform: true, params: params, onReply: onReply };
+        a.q_data[new_id] = q;
+        var is_OK = false;
+
+        is_OK = a._run_form( new_id );
+
+        if ( is_OK )
+        {
+            var no_data_fnc = function ()
+            {
+                QF_AJAX.Data_Timeout(new_id);
+            }
+            // q.timer = QF_TIMERS.setTimeout(no_data_fnc, a.timeout);
+            return new_id;
+        }
+        else
+        {
+            delete a.q_data[new_id];
+            return false;
+        }
+
+    }
+
+    pub.Clear = function ( id )
+    {
+        if (!id || !a.q_data[id]) return true;
+        var span = a.q_data[id].span;
+        delete a.q_data[id];
+        a._StopPinger();
+        if (!span)
+            return true;
+
+        var closure = function() {
+            span.parentNode.removeChild(span);
+        }
+        // IE5 crashes on setTimeout(function() {...}, ...) construction! Use tmp variable.
+        QF_TIMERS.setTimeout(closure, 50);
+
+        return true;
+    }
+
+    pub.Form_Ready = function(id, d)
+    {
+        var q = a.Form_Qs[id];
+        delete a.Form_Qs[id];
+        if (q)
+        {
+            // first drot timeout timer
+            QF_TIMERS.clearTimeout (q.timer);
+            var status = 200;
+            if ( d.status ) { status = d.status; d = d.data }
+            if ( q.onReply && ( (typeof q.onReply).toLowerCase() == 'function' ))
+                q.onReply ( status, d );
+            pub.Clear(id);
+        }
+    }
+
+    pub.Form_Error = function(id)
+    {
+        var q = a.Form_Qs[id];
+        delete a.Form_Qs[id];
+        if (q)
+        {
+            if ( q.onReply && ( (typeof q.onReply).toLowerCase() == 'function' ))
+                q.onReply ( null, 'Data Error' );
+            pub.Clear(id);
+        }
+    }
+
+    pub.Data_Timeout = function(id)
+    {
+        var q = a.Form_Qs[id];
+        delete a.Form_Qs[id];
+        if (q)
+        {
+            if ( q.onReply && ( (typeof q.onReply).toLowerCase() == 'function' ))
+                q.onReply ( null, 'Data Timeout' );
+            pub.Clear(id);
+        }
+    }
+
+    pub._dummy = function() {}; // avoid memory leaks
+
+    a._run_xml = function ( id )
+    {
+        if (!id || !a.q_data[id]) return false;
+        var q = a.q_data[id];
+
+        if ( q.sendform ) return false; // cant send forms
+
+        // let's try to get XMLHttpRequest object
+        var xr = null;
+        if ( window.XMLHttpRequest )
+        {
+            try { xr = new XMLHttpRequest() } catch(err) {};
+        }
+        else if ( window.ActiveXObject )
+        {
+            for (var i = 0; i < a.XMLVers.length; i++)
+            {
+                try { xr = new ActiveXObject(a.XMLVers[i]) } catch (err) {};
+            }
+        }
+        if ( !xr ) return false; // no XMLHttpRequest created
+
+        var request = 'AJID=' + encodeURIComponent(id);
+        for ( var k in q.params )
+            request = request + '&' + encodeURIComponent(q.params[k].n) + '=' + encodeURIComponent(q.params[k].v);
+
+        xr.onreadystatechange = function()
+        {
+            if (xr.readyState != 4) return;
+            // Avoid memory leak by removing the closure.
+            xr.onreadystatechange = QF_AJAX._dummy;
+
+            var status = null;
+            var dd = null;
+            try
+            {   // In case of abort() call, xr.status is unavailable and generates exception.
+                // But xr.readyState equals to 4 in this case. Stupid behaviour. :-(
+                status = xr.status;
+                responseText = xr.responseText;
+            }
+            catch (e) {};
+
+            if ( status == 200 )
+            {
+                try
+                {
+                    eval('var d = ' + responseText + ';');
+                    if ( d.status ) { status = d.status; d = d.data }
+                    dd = d;
+                }
+                catch (e) { status = 0; }
+            }
+
+            if ( q.onReply && ( (typeof q.onReply).toLowerCase() == 'function' ))
+                q.onReply ( status, dd );
+
+            pub.Clear(id);
+        };
+
+        xr.open('POST', q.url, true);
+        xr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xr.send(request);
+
+        q.xr = xr;
+
+        return true;
+    }
+
+    a._run_form = function ( id )
+    {
+        if (!id || !a.q_data[id]) return false;
+        var q = a.q_data[id];
+
+        url = q.url + (q.url.indexOf('?') >= 0 ? '&' : '?') + 'AJMethod=form&AJID=' + encodeURIComponent(id);
+
+        var d = document;
+        var ifname = 'jshr_i_' + id;
+        var s = q.span = d.createElement('DIV');
+        s.style.position = 'absolute';
+        s.style.display = 'none';
+        s.style.visibility = 'hidden';
+        // stupid IE, MUST use innerHTML assignment :-(
+        s.innerHTML = ( q.sendform ? '' : '<form enctype="multipart/form-data" method="post"></form>') +
+            '<iframe name="' + ifname + '" id="' + ifname + '" style="width: 0px; height: 0px; overflow: hidden; border:none"></iframe>';
+        d.body.insertBefore(s, d.body.lastChild);
+
+        form = q.sendform ? q.sendform : q.span.firstChild;
+
+        // Function to safely set the form attributes. Parameter attr is NOT a hash
+        // but an array, because "for ... in" may badly iterate over derived attributes.
+        var setFormAttributes = function(e, attr) {
+            var sv = [];
+            var form = e;
+            // This strange algorythm is needed, because form may  contain element
+            // with name like 'action'. In IE for such attribute will be returned
+            // form element node, not form action. Workaround: copy all attributes
+            // to new empty form and work with it, then copy them back. This is
+            // THE ONLY working algorythm since a lot of bugs in IE5.0 (e.g.
+            // with e.attributes property: causes IE crash).
+            if (e.mergeAttributes) {
+                var form = d.createElement('form');
+                form.mergeAttributes(e, false);
+            }
+            for (var i = 0; i < attr.length; i++)
+                if (attr[i][0])
+                {
+                    var k = attr[i][0], v = attr[i][1];
+                    sv[sv.length] = [k, form[k]] //[k, form.getAttribute(k)]; // changed since had strange behaviour in Opera {Foxel}
+                    form[k] = v;                 //form.setAttribute(k, v);
+                }
+            if (e.mergeAttributes) {
+                e.mergeAttributes(form, false);
+            }
+            return sv;
+        }
+
+        // Run submit with delay - for old Opera: it needs some time to create IFRAME.
+        var closure = function()
+        {
+            // Disable ALL the form elements.
+            var savedNames = [];
+            if (!q.wholeform)
+                for (var i = 0, n = form.elements.length; i < n; i++)
+                {
+                    savedNames[i] = form.elements[i].name;
+                    form.elements[i].name = '';
+                }
+
+            // Inserting hidden fields to the form.
+            var el_inserted = 0;
+            for ( var k in q.params )
+            {
+                if (q.params[k].e && q.params[k].e.form === form)
+                    q.params[k].e.name = q.params[k].n;
+                else
+                {
+                    if ((typeof q.params[k].v).toLowerCase() == 'string' && q.params[k].v.indexOf('\n') != -1)
+                        var e = d.createElement('TEXTAREA');
+                    else
+                    {
+                        var e = d.createElement('INPUT');
+                        e.type = 'hidden';
+                    }
+                    e.name = q.params[k].n;
+                    e.value = q.params[k].v;
+                    form.appendChild(e);
+                    el_inserted++;
+                }
+            }
+
+            // Temporary modify form attributes, submit form, restore attributes back.
+            var sv = setFormAttributes(
+                form,
+                [
+                    ['action',   url],
+                    ['method',   'post'],
+                    ['onsubmit', null],
+                    ['target',   ifname],
+                    ['enctype', 'multipart/form-data']
+                ]
+            );
+
+            form.submit();
+            setFormAttributes(form, sv);
+
+            // Remove generated temporary hidden elements from the top of the form.
+            // Use "form.firstChild.parentNode", not "form", or IE5 crashes!
+            for (var i = 0; i < el_inserted; i++)
+                form.lastChild.parentNode.removeChild(form.lastChild);
+
+            // Enable all disabled elements back.
+            if (!q.wholeform)
+                for (var i = 0, n = form.elements.length; i < n; i++)
+                    form.elements[i].name = savedNames[i];
+        }
+
+        QF_TIMERS.setTimeout(closure, 100);
+        a.Form_Qs[id] = q;
+
+        return true;
+    }
+
+    a._parsedata = function ( data, params, sendform )
+    {
+        if (!data) return;
+        if ( (typeof data).toLowerCase() == 'object' )
+        {
+            // one XML element given -> we'll put it as an element
+            if ( data && data.parentNode && data.parentNode.appendChild )
+                data = { data: data };
+
+            for ( var n in data )
+            {
+                var v = data[n];
+                vtype = (typeof v).toLowerCase();
+                if ( vtype == 'object' )
+                {
+                    if ( v && v.parentNode && v.parentNode.appendChild ) // XML elements only
+                    {
+                        var ttype = v.tagName ? v.tagName.toLowerCase() : '';
+                        if ( ttype == 'form' )
+                            a._parseform ( v, params, sendform );
+                        else if ( ttype == 'input' || ttype == 'textarea' || ttype == 'select' )
+                        {
+                            var itype = v.type.toLowerCase();
+                            if ( itype == 'checkbox' || itype == 'radio' )
+                            {
+                                if ( v.checked )
+                                    params[params.length] = { n: n, v: v.value, e: v };
+                            }
+                            else if ( itype == 'select' )
+                            {
+                                if ( v.selectedIndex > -1 )
+                                    params[params.length] = { n: n, v: v.options[v.selectedIndex].value, e: v };
+                            }
+                            else
+                                params[params.length] = { n: n, v: v.value, e: v };
+
+                            if ( itype == 'file' )
+                            {
+                                if (!sendform.f && v.form)
+                                    sendform.f = v.form;
+                            }
+                        }
+                        // we'll ignore all non-form elements
+                    }
+                }
+                else if ( vtype != 'function' ) // scalar elements
+                {
+                    if (v === null) continue;
+                    // Convert JS boolean true and false to corresponding PHP values.
+                    if (v === true) v = 1;
+                    if (v === false) v = '';
+                    params[params.length] = { n: n, v: v };
+                }
+                // other objects will not be parsed
+            }
+        }
+        else if ( (typeof data).toLowerCase() != 'function' ) // one scalar given
+        {
+            if (data === null) return;
+            // Convert JS boolean true and false to corresponding PHP values.
+            if (data === true) data = 1;
+            if (data === false) data = '';
+            params[params.length] = { n: 'data', v: data };
+        }
+    }
+
+    a._parseform = function ( form, params, sendform )
+    {
+        // one XML element needed with tag 'form'
+        if ( form && ((typeof form).toLowerCase() == 'object') &&
+            form.parentNode && form.parentNode.appendChild &&
+            form.tagName && form.tagName.toLowerCase() == 'form' )
+        {
+            for ( var n in form )
+            {
+                var v = form[n];
+                vtype = (typeof v).toLowerCase();
+                if ( v && vtype == 'object' &&
+                     v.parentNode && v.parentNode.appendChild ) // XML elements
+                {
+                    var ttype = v.tagName ? v.tagName.toLowerCase() : '';
+                    if ( ttype == 'input' || ttype == 'textarea' || ttype == 'select' )
+                    {
+                        var itype = v.type.toLowerCase();
+                        if ( itype == 'checkbox' || itype == 'radio' )
+                        {
+                            if ( v.checked )
+                                params[params.length] = { n: v.name, v: v.value, e: v };
+                        }
+                        else if ( itype == 'select' )
+                        {
+                            if ( v.selectedIndex > -1 )
+                                params[params.length] = { n: v.name, v: v.options[v.selectedIndex].value, e: v };
+                        }
+                        else
+                            params[params.length] = { n: v.name, v: v.value, e: v };
+
+                        if ( itype == 'file' )
+                        {
+                            if (!sendform.f && v.form)
+                                sendform.f = v.form;
+                        }
+                    }
+                    // we'll ignore all non-form elements
+                }
+                // other elements will not be parsed
+            }
+        }
+    }
+
+    a._RunPinger = function ()
+    {
+        if (a.pingers_made == 0)
+            a.ping_timer = QF_TIMERS.setTimeout(a._Ping, a.session_ping);
+        a.pingers_made++;
+        return true;
+    }
+
+    a._StopPinger = function ()
+    {
+        if (a.pingers_made > 0)
+            a.pingers_made--;
+        if (a.pingers_made == 0 && a.ping_timer)
+            QF_TIMERS.clearTimeout(a.ping_timer);
+        return true;
+    }
+
+    a._Ping = function ()
+    {
+        if (a.pingers_made > 0)
+        {
+            a.Query( 'PING', null, a._Pong )
+        }
+    }
+
+    a._Pong = function (status, data)
+    {
+        if (a.pingers_made > 0)
+        {
+            a.ping_timer = QF_TIMERS.setTimeout(a._Ping, a.session_ping);
+        }
+    }
+
+    return pub;
+}();
+
+

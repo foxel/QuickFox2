@@ -1,0 +1,10 @@
+Mailer   => QF_Mailer|QF2_mailer.php
+Services => QF_Services|QF2_services.php
+VIS      => QF_Visual|QF2_vis.php
+Parser   => QF_BB_Parser|QF2_parser.php
+DBDump   => QF_SQL_Dumper|QF2_esql.php
+DBImport => QF_SQL_Importer|QF2_esql.php
+EFS      => QF_EFS|QF2_efs.php
+TARFS    => QF_TARLib|QF2_tar.php
+RSA      => QF_RSA|QF2_rsa.php
+Imager   => QF_Imager|QF2_imager.php

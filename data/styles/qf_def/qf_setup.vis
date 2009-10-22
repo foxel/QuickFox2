@@ -1,0 +1,110 @@
+// <?xml version="1.0"?> deleted from the top... IE bugs with drawing
+
+<<+ 'SETUP_HTMLPAGE'>>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <!--Meta-Content-Type-->
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <title>{L_QF_SETUP_CAPTION}{IF:IN_step_info} :: {!IN_step_info}{ENDIF}</title>
+  {IN_META}
+  <link rel="shortcut icon" href="{IMGS}/qf_ico.ico" />
+
+  <style type="text/css">
+  /* CSS starts here <![CDATA[ */
+   script { display: none; }
+   {IN_CSS}
+  /* ]]> CSS ends here */
+  </style>
+</head>
+<body style="max-width: 700px !important;">
+
+<script type="text/javascript">
+// JavaScript Starts Here <![CDATA[
+ {IN_JS}
+//]]> JavaScript ends here
+</script>
+<table class="page_outer">
+<tr>
+ <td class="outer_left">&nbsp;</td>
+ <td class="page_head"><div class="page_head_l1"><div class="page_head_l2">
+  <div class="head_site">{L_QF_SETUP_CAPTION}</div>
+  <div class="head_title">{!IN_step_info}</div>
+  {IF:IN_MENU_ITEMS}
+  <div class="head_menu">
+   {IN_MENU_ITEMS}
+  </div>
+  {ENDIF}
+ </div></div></td>
+ <td class="outer_right">&nbsp;</td>
+</tr>
+<tr>
+ <td class="outer_left">&nbsp;</td>
+ <td class="page_body">
+  <table class="page_inner"><tr>
+  <td class="page_contents"><form action="setup.php" method="post" name="mainform">
+   <div class="inv_grid alg_c">
+   <h2>{!IN_step_info}</h2>
+   <input type="hidden" name="step" value="{IN_step}" />
+   <input type="hidden" name="action" value="{IN_action}" />
+   {IN_form_cont}
+    <hr />
+   <input type="submit" name="OK" value="{L_BTN_GO}" />
+   </div>
+  </form></td>
+  </tr></table>
+ </td>
+ <td class="outer_right">&nbsp;</td>
+</tr>
+<tr>
+ <td class="outer_left">&nbsp;</td>
+ <td class="outer_bott" id="page_foot">
+  <table class="page_bott"><tr>
+   <td class="page_bott_lt">
+    <div id="page_genstats">
+     <!--Page-Stats-->
+    </div>
+   </td>
+   <td class="page_bott_mid">&nbsp;</td>
+   <td class="page_bott_rt">
+    <div id="page_staticons">
+     {IN_FOOTSTAT}
+     <a href="http://validator.w3.org/check?uri=referer">
+      <img src="http://www.w3.org/Icons/valid-xhtml10-blue.png" alt="Valid XHTML 1.0 Strict" style="height: 31px; width: 88px;" />
+     </a>
+    </div>
+   </td>
+  </tr></table>
+ </td>
+ <td class="outer_right_bott">&nbsp;</td>
+</tr>
+</table>
+</body>
+</html>
+<<- 'SETUP_HTMLPAGE'>>
+
+<<+ 'SETUP_STEP_DATA_ACC'>>
+{L_SETUP_STEP_DATA_ACC_REQ} <br />
+{L_SETUP_STEP_DATA_ACC_DBLOC}: <input type="text" name="dblocation" value="{!IN_db_loc}" /><br />
+{L_SETUP_STEP_DATA_ACC_DBNAME}: <input type="text" name="dbname" value="{!IN_db_name}" /><br />
+{L_SETUP_STEP_DATA_ACC_DBUSER}: <input type="text" name="dbuser" value="{!IN_db_user}" /><br />
+{L_SETUP_STEP_DATA_ACC_DBPASS}: <input type="text" name="dbpasswd" value="{!IN_db_pass}" /><br />
+{L_SETUP_STEP_DATA_ACC_DBKEY}: <input type="text" name="dbkey" value="{!IN_db_key}" /><br />
+{IF:IN_db_loaded}{L_SETUP_STEP_DATA_ACC_LOADED}{ENDIF}
+<<- 'SETUP_STEP_DATA_ACC'>>
+
+<<+ 'SETUP_STEP_DATA_IMP'>>
+{L_SETUP_STEP_DATA_IMP_REQ} <br />
+<select name="imp_mode">
+<option value="upd">{L_SETUP_STEP_DATA_IMP_UPD}</option>
+<option value="new">{L_SETUP_STEP_DATA_IMP_NEW}</option>
+</select>
+<<- 'SETUP_STEP_DATA_IMP'>>
+
+<<+ 'SETUP_STEP_ADMIN_SET'>>
+{L_SETUP_STEP_ADMIN_SET_REQ} <br />
+{L_SETUP_STEP_ADMIN_NAME}: <input type="text" name="admin_nick"  /><br />
+{L_SETUP_STEP_ADMIN_PASS}: <input type="password" name="admin_pass"  /><br />
+{L_SETUP_STEP_ADMIN_PASSD}: <input type="password" name="admin_passd"  /><br />
+{L_SETUP_STEP_ADMIN_EMAIL}: <input type="text" name="admin_email"  /><br />
+<<- 'SETUP_STEP_ADMIN_SET'>>

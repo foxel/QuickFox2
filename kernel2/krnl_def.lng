@@ -1,0 +1,28 @@
+ERR_CRIT_PAGE: Critical error!!!
+---
+ERR_CRIT_MESS: Sorry but this page can not be displayed. Please try visit us later
+---
+FOOT_STATS_PAGETIME: This page generation time: <b>%1$01.3f</b> s.<br />
+---
+FOOT_STATS_SQLSTAT: <b>%1$d</b> SQL queries done (<b>%2$01.3f</b> s).
+---
+FOOT_STATS_SRVSTAT: Service maintenance completed in <b>%1$01.3f</b> s.
+---
+NO_DATA: n/a
+---
+DATETIME_FUTURE_SECS: in %1$d seconds
+---
+DATETIME_FUTURE_MINS: in %1$d minutes
+---
+DATETIME_PAST_SECS: %1$d seconds ago
+---
+DATETIME_PAST_MINS: %1$d minutes ago
+---
+DATETIME_TODAY: today %1$s
+---
+DATETIME_YESTERDAY: yesterday %1$s
+---
+BSIZE_FORM_BYTES: B|KB|MB|GB
+---
+BSIZE_FORM_BITS: b|Kb|Mb|Gb
+---

@@ -1,0 +1,148 @@
+CMS_INFO_FRAME_CAPT: Информация :: &quot;%1$s&quot;
+---
+CMS_EDIT_FRAME_CAPT: Редактирование :: &quot;%1$s&quot;
+---
+CMS_SORT_FRAME_CAPT: Сортировка раздела :: &quot;%1$s&quot;
+---
+
+CMS_REUPLOAD_TABLE_CAPT: Файл содержимого страницы
+---
+CMS_LIST_ID: ID
+---
+CMS_LIST_CAPT: Заголовок
+---
+CMS_LIST_ACTION: Действия
+---
+CMS_LIST_SUBS: Раздел, %1$s стр.
+---
+CMS_LIST_DELETE: Удалить отмеченные
+---
+CMS_LIST_DELETE_CONFIRM: Вы действительно хотите удалить отмеченные страницы?
+---
+CMS_LIST_CREATE: Создать новую страницу с ID
+---
+CMS_INFO_ID: Идентификатор
+---
+CMS_INFO_CAPT: Заголовок
+---
+CMS_INFO_PARENT: В разделе
+---
+CMS_INFO_ISSECT: Раздел
+---
+CMS_INFO_FILE: Используемый файл
+---
+CMS_INFO_TYPE: Тип страницы
+---
+CMS_INFO_TYPE_BBC: bbCode-форматированный текст
+---
+CMS_INFO_TYPE_TEXT: Чистый текст
+---
+CMS_INFO_TYPE_HTML: Готовый HTML
+---
+CMS_INFO_LINKS: Ссылается на
+---
+CMS_INFO_SUBS: Содержит страницы
+---
+CMS_INFO_AUTHOR: Автор
+---
+CMS_INFO_MODDATE: Последние изменения
+---
+CMS_INFO_LEVEL: Уровень доступа
+---
+CMS_INFO_VIEWS: Просмотров
+---
+CMS_INFO_V_BYREF: Просмотров по внешней ссылке
+---
+CMS_INFO_LASTVIEW: Последний просмотр
+---
+CMS_INFO_DOEDIT: Править страницу %1$s
+---
+CMS_INFO_DOEDIT_CONF: Параметры
+---
+CMS_INFO_DOEDIT_CONT: Текст
+---
+CMS_INFO_DOEDIT_SORT: Сортировать
+---
+CMS_INFO_ERR_FORBIDDEN: Вы не имеете права доступа к данной информации.
+---
+CMS_EDIT_ERR_FORBIDDEN: Вы не имеете права доступа к редактированию содержимого сайта.
+---
+CMS_EDIT_CAPT: Заголовок
+---
+CMS_EDIT_PARENT: Поместить в раздел
+---
+CMS_EDIT_ISSECT: Является разделом
+---
+CMS_EDIT_TYPE: Тип страницы<br />
+ (Укажите фактический тип файла)
+---
+CMS_EDIT_LINKS: Ссылки на другие страницы (содержимое панели навигации)
+---
+CMS_EDIT_ADD_LINKS: Добавить ссылки (идентификаторы <u>через пробел</u>)
+---
+CMS_EDIT_LEVEL: Уровень доступа
+---
+CMS_EDIT_RESET: Сбросить статистику
+---
+CMS_EDIT_OLDFILE: Скачать текущий файл
+---
+CMS_EDIT_UPLOAD: Загрузить новый файл
+---
+CMS_EDIT_RECODE: Кодировка файла
+---
+CMS_EDIT_NORECODE: utf-8 (без перекодировки)
+---
+CMS_EDIT_EDITED: Новые параметры успешно сохранены
+---
+CMS_EDIT_UPLOADED: Новое содержимое успешно загружено
+---
+CMS_EDIT_PG_EDITED: Новое содержимое успешно сохранено
+---
+CMS_EDIT_CREATED: Новая страница создана
+---
+CMS_EDIT_DELETED: Отмеченные страницы удалены
+---
+CMS_EDIT_SORTED: Раздел успешно отсортирован
+---
+CMS_SORT_REQUEST: Для изменения порядка расположения страниц в списке раздела воспользуйтесь кнопками &quot;вверх&quot;
+ (при отсутствии JS измените порядковые номера в предложенном поле ввода).
+---
+CMS_SORT_ORDER: Порядок
+---
+
+CMS_PAGEEDITOR_CAPT: Редактор страниц CMS
+---
+
+ERR_CMS_EDIT_ERROR: Ошибка при попытке изменить параметры
+---
+ERR_CMS_EDIT_NOCONT: Пустое содержимое
+---
+ERR_CMS_UPLOAD_NOFILE: Вы не указали файл для загрузки
+---
+ERR_CMS_UPLOAD_ERROR: Ошибка загрузки файла на сервер
+---
+ERR_CMS_CREATE_DUPL: Такая страница уже существует
+---
+ERR_CMS_CREATE_ERROR: Ошибка при создании страницы
+---
+ERR_CMS_DELETE_NONE: Список для удаления пуст
+---
+ERR_CMS_DELETE_ERROR: Ошибка при удалении страниц
+---
+ERR_CMS_SORT_NONE: Нет страниц для сортировки
+---
+
+
+CMS_NOINDEX_CAPT: Нет начальной страницы
+---
+CMS_NOINDEX_PART1: Здравствуйте! Вас приветствует система QuickFox.<br />
+ На данном ресурсе еще нет индексной страницы. Возможно, система QuickFox развернута здесь всего несколько минут назад.
+---
+CMS_NOINDEX_BTN_CMSADM: Управление страницами
+---
+
+CMS_NOINDEX_GUEST: Если Вы являетесь администратором данного ресурса, нажмите "Войти", чтобы узнать больше.
+---
+CMS_NOINDEX_ADMIN: Создание, управление и удаление страниц осуществляется в блоке "Управление CMS" административной панели.
+ Для создания индексной страницы нажмите "Управление страницами", укажите ID "index" и нажмите кнопку "Создать", после чего отредактируйте параметры и текст вновь созданной страницы.
+---

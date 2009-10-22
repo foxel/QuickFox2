@@ -1,0 +1,43 @@
+<<+ 'FOX_PLAYER_SIDEINCL'>>
+<hr />
+<div class="alg_c">
+ <b>{L_FOX_MPLAYER_CAPT}</b>
+ <div style="margin: 3px auto; padding: 0pt; width: 180px; height: 40px;">
+  <object type="application/x-shockwave-flash" data="{FURL:fox2_player_swf}" style="width: 180px; height: 40px;">
+   <param name="bgcolor" value="#ffffff" />
+   <param name="allowScriptAccess" value="always" />
+   <param name="allowFullScreen" value="true" />
+   <param name="wmode" value="transparent" />
+   <param name="movie" value="{FURL:fox2_player_swf}" />
+   <param name="flashvars" value="&amp;client=1" />
+  </object>
+ </div>
+ [<a href="{FURL:fox2_player_player}" onclick="if (plWin = window.open('', 'the_player', 'width=250,height=70,status=no,toolbar=no,menubar=no,scrollbars=no')) {plWin.location.href='{FURL:fox2_player_player}'; return false;}">{L_FOX_MPLAYER_OPEN_WINDOW}</a>]<br />
+ [<a href="{FURL:fox2_files_openfolder|IN_FOLDER_ID}" >{L_FOX_MPLAYER_OPEN_FOLDER}</a>]<br />
+</div>
+<<- 'FOX_PLAYER_SIDEINCL'>>
+
+<<+ 'FOX_PLAYER_SIDEINCL_VAR'>>
+{!WRITE:P_BODY}
+ <div style="margin: 2px auto; padding: 0pt; width: 180px; height: 40px;">
+  <object type="application/x-shockwave-flash" data="{FURL:fox2_player_swf}" style="width: 180px; height: 40px;">
+   <param name="bgcolor" value="#ffffff" />
+   <param name="allowScriptAccess" value="always" />
+   <param name="allowFullScreen" value="true" />
+   <param name="wmode" value="transparent" />
+   <param name="movie" value="{FURL:fox2_player_swf}" />
+   <param name="flashvars" value="&amp;client=1" />
+  </object>
+ </div>
+{!WRITE:P_BOTT}
+<div style="text-align: right; padding: 3px 0 0 0;">
+ <a class="hlight_btn" href="{URL:fox2_player_player}" onclick="if (plWin = window.open('', 'the_player', 'width=250,height=70,status=no,toolbar=no,menubar=no,scrollbars=no')) {plWin.location.href='{FURL:fox2_player_player}'; return false;}">{L_FOX_MPLAYER_OPEN_WINDOW}</a><br />
+ <a class="hlight_btn" href="{URL:fox2_files_openfolder|IN_FOLDER_ID}" >{L_FOX_MPLAYER_OPEN_FOLDER}</a>
+</div>
+{!WRITE}
+{!VIS:PANEL_BODY|TITLE=L_FOX_MPLAYER_CAPT|CONTENTS=P_BODY|BOTTLINE=P_BOTT}
+<<- 'FOX_PLAYER_SIDEINCL_VAR'>>
+
+<<+ 'FOX_PLAYER_FOLDERPAGE_PLAY'>>
+<a class="hlight_btn" href="{URL:fox2_player_pl_folder|IN_FOLDER_ID}" onclick="if (plWin = window.open('', 'the_player', 'width=250,height=70,status=no,toolbar=no,menubar=no,scrollbars=no')) {plWin.location.href='{FURL:fox2_player_pl_folder|IN_FOLDER_ID}'; return false;}" title="{L_FOX_MPLAYER_PLAY_FOLDER_MORE}">{L_FOX_MPLAYER_PLAY_FOLDER}</a>
+<<- 'FOX_PLAYER_FOLDERPAGE_PLAY'>>

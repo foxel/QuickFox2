@@ -1,0 +1,237 @@
+var FOX2_IMGSHOW = function()
+{
+    var pages = [],
+        pCount = 0,
+        curId = -1,
+        pgDiv = null, pgStl = null,
+        pgPic = null, pcStl = null,
+        cpDiv = null, cpStl = null,
+        resCB = null,
+        dragRect = {minX: 0, maxX: 0, minY: 0, maxY: 0},
+        clBtn, ltBtn, rtBtn,
+        btnsCont = {
+            l: '<img src="{ST_IMGS}/img_left_btn.gif" style="width: 35px; height: 60px;" alt="go left" />',
+            r: '<img src="{ST_IMGS}/img_right_btn.gif" style="width: 35px; height: 60px;" alt="go right" />',
+            c: '<img src="{ST_IMGS}/img_exit_btn.gif" style="width: 70px; height: 70px;" alt="return" />'},
+        btnsHeight = 60;
+
+
+    var _PrepOverlay = function()
+    {
+        _PloadAround(curId);
+
+
+        QF_EFFECTS.OpenOverlay(true, 1, _ShowPage);
+
+        // buttons
+        clBtn = document.createElement('div');
+        clBtn.id = 'QF_ImgShowBtnLt';
+        QF_EFFECTS.Overlay.insertBefore(clBtn, QF_EFFECTS.Overlay.firstChild);
+        clBtn.onclick = _CloseOnClick;
+        clBtn.innerHTML = btnsCont.c;
+        var clStl = getStyleObj(clBtn);
+        clStl.position = 'absolute';
+        clStl.zIndex = 100;
+        clStl.top = '20px';
+        clStl.right = '20px';
+        clStl.cursor = 'pointer';
+
+        ltBtn = document.createElement('div');
+        ltBtn.id = 'QF_ImgShowBtnLt';
+        QF_EFFECTS.Overlay.insertBefore(ltBtn, QF_EFFECTS.Overlay.firstChild);
+        ltBtn.onclick = _PrevOnClick;
+        ltBtn.innerHTML = btnsCont.l;
+        var ltStl = getStyleObj(ltBtn);
+        ltStl.position = 'absolute';
+        ltStl.zIndex = 100;
+        ltStl.top = '200px';
+        ltStl.left = '100px';
+        ltStl.cursor = 'pointer';
+
+        rtBtn = document.createElement('div');
+        rtBtn.id = 'QF_ImgShowBtnRt';
+        QF_EFFECTS.Overlay.insertBefore(rtBtn, QF_EFFECTS.Overlay.firstChild);
+        rtBtn.onclick = _NextOnClick;
+        rtBtn.innerHTML = btnsCont.r;
+        var rtStl = getStyleObj(rtBtn);
+        rtStl.position = 'absolute';
+        rtStl.zIndex = 100;
+        rtStl.top = '200px';
+        rtStl.right = '100px';
+        rtStl.cursor = 'pointer';
+
+        // divs
+        cpDiv = document.createElement('div');
+        cpDiv.id = 'QF_ImgShowCapt';
+        QF_EFFECTS.Overlay.insertBefore(cpDiv, QF_EFFECTS.Overlay.firstChild);
+        cpDiv.className = 'overlay alg_c';
+        cpStl = getStyleObj(cpDiv);
+        cpStl.position = 'absolute';
+        cpStl.bottom = '30px';
+        cpStl.width = '70%';
+        cpStl.left = '15%';
+        QF_EFFECTS.Alpha('QF_ImgShowCapt', 80);
+
+        pgDiv = document.createElement('div');
+        pgDiv.id = 'QF_ImgShowPg';
+        QF_EFFECTS.Overlay.insertBefore(pgDiv, QF_EFFECTS.Overlay.firstChild);
+        pgDiv.className = 'overlay inv_grid';
+        pgStl = getStyleObj(pgDiv);
+        pgStl.position = 'absolute';
+        pgStl.cursor = 'pointer';
+        pgDiv.onmousedown = _PageOnPress;
+        //pgDiv.onmouseup = _PageOnRelease;
+        QF_EFFECTS.Invisible('QF_ImgShowPg');
+
+        pgPic = document.createElement('img');
+        pgPic.id = 'QF_ImgShowPic';
+        pgDiv.insertBefore(pgPic, pgDiv.firstChild);
+        pcStl = getStyleObj(pgPic);
+
+
+        if (!resCB)
+            resCB = QF_EFFECTS.Add_CB(_RepositionCB, 'r');
+
+        if (curId >= (pCount - 1))
+            QF_EFFECTS.Hide('QF_ImgShowBtnRt', 1);
+        if (curId <= 0)
+            QF_EFFECTS.Hide('QF_ImgShowBtnLt', 1);
+    }
+
+    var _PloadAround = function(id)
+    {
+        for (var i=id-1; i < id+2; i++)
+            if (pages[i] && !pages[i].tImg)
+            {
+                pages[i].tImg = new Image();
+                pages[i].tImg.src = pages[i].url;
+            }
+    }
+
+    var _RepositionCB = function()
+    {
+        if (curId < 0 || !pages[curId])
+            return;
+        var pgData = pages[curId];
+
+        var clientWidth = pgDiv.parentNode.clientWidth;
+        var clientHeight = pgDiv.parentNode.clientHeight - 50;
+        pgStl.top  = ((clientHeight - pgData.ih)/2)+'px';
+        pgStl.left = ((clientWidth - pgData.iw)/2)+'px';
+        dragRect.maxY = Math.max((clientHeight - pgData.ih)/2, 20);
+        dragRect.minY = Math.min((clientHeight - pgData.ih)/2, clientHeight - pgData.ih - 20);
+        dragRect.maxX = Math.max((clientWidth - pgData.iw)/2, 50);
+        dragRect.minX = Math.min((clientWidth - pgData.iw)/2, clientWidth - pgData.iw - 50);
+        //for (var ii in dragRect)
+        //    alert(dragRect[ii]);
+
+        var ltStl = getStyleObj(ltBtn);
+        var rtStl = getStyleObj(rtBtn);
+        ltStl.top = rtStl.top = ((clientHeight - 60)/2)+'px';
+        var btnPos = Math.max((clientWidth - pgData.iw)/2 - 70, 20);
+        rtStl.right = ltStl.left = btnPos+'px';
+    }
+
+    var _CloseOnClick = function()
+    {
+        QF_EFFECTS.CloseOverlay();
+        return false;
+    }
+
+    var _NextOnClick = function()
+    {
+        if (curId < (pCount - 1))
+        {
+            curId++;
+            _PrepShowPage();
+        }
+        return false;
+    }
+
+    var _PrevOnClick = function()
+    {
+        if (curId > 0)
+        {
+            curId--;
+            _PrepShowPage();
+        }
+        return false;
+    }
+
+    var _PageOnPress = function(event)
+    {
+        pgPic.blur();
+
+        QF_EFFECTS.StartDrag('QF_ImgShowPg', event, dragRect);
+        return false;
+    }
+
+    var _PageOnRelease = function(event)
+    {
+        QF_EFFECTS.StopDrag();
+    }
+
+    var _PrepShowPage = function()
+    {        _PloadAround(curId);
+        QF_EFFECTS.Hide('QF_ImgShowPg', 1, undefined, _ShowPage);
+        if (curId >= (pCount - 1))
+            QF_EFFECTS.Hide('QF_ImgShowBtnRt', 1);
+        else
+            QF_EFFECTS.Show('QF_ImgShowBtnRt', 1);
+        if (curId <= 0)
+            QF_EFFECTS.Hide('QF_ImgShowBtnLt', 1);
+        else
+            QF_EFFECTS.Show('QF_ImgShowBtnLt', 1);
+    }
+
+    var _ShowPage = function()
+    {
+        var pgData = pages[curId];
+        // recreating image
+        if (pgPic)
+            pgPic.parentNode.removeChild(pgPic);
+        pgPic = document.createElement('img');
+        pgPic.id = 'QF_ImgShowPic';
+        pgDiv.insertBefore(pgPic, pgDiv.firstChild);
+        pgPic.className = 'bordered';
+
+        cpDiv.innerHTML = '<b>'+pgData.icapt+'</b>';
+
+        pgPic.src = pgData.url;
+        pcStl.width  = pgData.iw+'px';
+        pcStl.height = pgData.ih+'px';
+        _RepositionCB();
+        //QF_EFFECTS.Resize('QF_ImgShowPg', pgData.iw, pgData.ih); // needed to actually change the size
+        QF_EFFECTS.Show('QF_ImgShowPg', 1, 100);
+    }
+
+    return {
+        setBtnsCont: function (conts) {btnsCont = conts;},
+        AddPage: function (id, url, iw, ih, icapt)
+        {            pages[pCount] = {id: id, url: url, iw: iw, ih: ih, icapt: icapt};
+            pCount++;
+        },
+        ShowPage: function(id)
+        {
+            if (!QF_EFFECTS.isReady())
+                return alert('{L_MISC_JS_WAIT}');
+
+            curId = -1;
+            for (var i=0; i < pCount; i++)
+            {                if (pages[i] && pages[i].id == id)
+                {
+                    curId = i;
+                    break;
+                }
+            }
+
+            if (curId >= 0)
+            {
+                if (!QF_EFFECTS.CheckOverlay())
+                    _PrepOverlay();
+                else
+                    _PrepShowPage();
+            }
+        }
+    }
+}();

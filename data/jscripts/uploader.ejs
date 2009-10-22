@@ -1,0 +1,202 @@
+var qfUploader = function()
+{
+    var flashObject;
+    var queryData = {};
+
+    var combineData = function(data)
+    {        var out = ((typeof data).toLowerCase() == 'object') ? data : {};
+        for (var i in queryData)
+            if ((typeof out[i]).toLowerCase() == 'undefined')
+                out[i] = queryData[i];
+        return out;
+    }
+
+    var redrawList = function(data)
+    {
+        var prv = qf_getbyid('temp_uploads');
+        var selected = {};
+        var inps = prv.getElementsByTagName('input');
+        for (var i in inps)
+            if (inps[i].id && inps[i].id.match(/mytmp_ch\d+/))
+                selected[inps[i].value] = inps[i].checked;
+        prv.innerHTML = data;
+        if ((inps = prv.getElementsByTagName('input')) && inps.length > 0)
+        {
+            for (var i in inps)
+                if (inps[i].id && inps[i].id.match(/mytmp_ch\d+/) && (typeof selected[inps[i].value]).toLowerCase() != 'undefined')
+                    inps[i].checked = selected[inps[i].value];
+        }
+        else
+            QF_EFFECTS.Hide('mytemps_ctrl', 3);
+    }
+
+    var pub = {};
+    pub.setQData = function(setData)
+    {        if ((typeof setData).toLowerCase() == 'object')
+            for (var i in setData)
+                queryData[i] = setData[i];
+    }
+
+    pub.uploadFile = function(file)
+    {
+
+        var old_prsr;
+        if (!file.value)
+            return;
+
+        var lbl;
+
+        var file_test = function(status, data)
+        {
+            if (lbl)
+                lbl.parentNode.removeChild(lbl);
+            if (status == 200)
+                redrawList(data);
+            else
+                alert('{L_ERR_FILES_AJXUPL_ERROR} ' + data);
+        }
+
+        var inps = document.getElementsByTagName('input');
+        var data = combineData({upl_file: file});
+        for (var i in inps)
+            if (inps[i].id && inps[i].id.match(/mytmp_ch\d+/) && inps[i].checked)
+                data['sel_files['+i+']'] = inps[i].value;
+
+        if (QF_AJAX.Query("uploader", data, file_test))
+        {
+           if (lbl = qf_getbyid('upload_lbl'))
+           {
+               var p = document.createElement('i');
+               lbl.appendChild(p);
+               lbl = p;
+               lbl.innerHTML = '<b>&quot;' + file.value + '&quot;</b> {L_FILES_MYTEMPS_UPLOADING}<br />';
+           }
+           var fclear = function ()
+           {
+               file.value = null;
+               file.outerHTML = '<input id="upload_inp" type="file" name="upl_file" onchange="qfUploader.uploadFile(this);" />';
+           }
+           QF_TIMERS.setTimeout(fclear, 200);
+        }
+    };
+    pub.selectAll = function()
+    {
+        var prv = qf_getbyid('temp_uploads');
+        if (!prv)
+            return;
+        var inps = prv.getElementsByTagName('input');
+        for (var i in inps)
+            if (inps[i].id && inps[i].id.match(/mytmp_ch\d+/))
+                inps[i].checked = true;
+    };
+    pub.selectNone = function()
+    {
+        var prv = qf_getbyid('temp_uploads');
+        if (!prv)
+            return;
+        var inps = prv.getElementsByTagName('input');
+        for (var i in inps)
+            if (inps[i].id && inps[i].id.match(/mytmp_ch\d+/))
+                inps[i].checked = false;
+    };
+    pub.clearSelected = function()
+    {
+        var doDel = false;
+        var prv = qf_getbyid('temp_uploads');
+        if (prv)
+        {
+            var inps = prv.getElementsByTagName('input');
+            var data = combineData();
+            for (var i in inps)
+            if (inps[i].id && inps[i].id.match(/mytmp_ch\d+/) && inps[i].checked)
+            {
+                data['sel_files['+i+']'] = inps[i].value;
+                doDel = true;
+            }
+        }
+
+        if (!doDel)
+            return;
+
+        var cBack = function(status, data)
+        {
+            if (status == 200)
+                redrawList(data);
+            else
+                alert('{L_ERR_FILES_AJX_ERROR} ' + data);
+        }
+
+        QF_AJAX.Query("upl_delete", data, cBack);
+    };
+
+    flUpl = {};
+    flUpl.onUplSelect = function(fid, name, size)
+    {
+        var lbl;
+        if (lbl = qf_getbyid('upload_lbl'))
+        {
+            var p = document.createElement('i');
+            lbl.appendChild(p);
+            lbl = p;
+            lbl.id = 'qFox_flUpl'+fid;
+            lbl.innerHTML = '<b>&quot;' + name + '&quot;</b> {L_FILES_MYTEMPS_UPLOADING} <b id="qFox_flUplPrg'+fid+'"></b><br />';
+        }
+    };
+    flUpl.onUplComplete = function(fid)
+    {
+        var lbl;
+        if (lbl = qf_getbyid('qFox_flUpl'+fid))
+            lbl.parentNode.removeChild(lbl);
+    };
+    flUpl.onUplProcess = function(fid, bGot, bTotal)
+    {
+        var lbl;
+        if (lbl = qf_getbyid('qFox_flUplPrg'+fid))
+            lbl.innerHTML = (Math.round(10000*bGot/bTotal)/100)+'%';
+    };
+    flUpl.onUplError = function(fid, err, fname)
+    {
+        alert('{L_ERR_FILES_AJXUPL_ERROR} ' + err + ' ['+fname+']');
+    };
+    flUpl.onUplCompleteData = function(fid, data)
+    {
+        data = unescape(data);
+        eval('var resp = ' + data + ';');
+        if (resp.status == 200)
+            redrawList(resp.data);
+        else
+            alert('{L_ERR_FILES_AJXUPL_ERROR} ' + resp.data);
+    };
+    flUpl.onUplReady = function()
+    {
+        var obj = swfobject.getObjectById("qfFlashUploader");
+        if (obj)
+        {
+            obj.setVals(queryData);
+            var upl;
+            if (upl = qf_getbyid('upload_inp'))
+            {
+                obj = upl.parentNode;
+                obj.removeChild(upl);
+                obj.innerHTML = '<b>{L_FILES_MYTEMPS_UPLOAD}:</b>';
+            }
+        }
+    };
+    flUpl.onUplDone = function()
+    {
+    };
+
+    pub.startFlash = function(SID)
+    {        if (swfobject && swfobject.hasFlashPlayerVersion("9.0.0"))
+        {
+            pub.flUpl = flUpl;
+            swfobject.embedSWF("{FURL:fox2_file_flash_uploader}", "qfFlashUploader", "100", "30", "9.0.0", "expressInstall.swf", {jsHandle: 'qfUploader.flUpl', SID: SID, URL: '{FURL:fox2_file_flash_uplscript}', jsDomain: document.domain}, {allowScriptAccess: 'always', wmode: 'transparent'});
+        }
+    }
+    pub.canFlash = function()
+    {
+        return (swfobject && swfobject.hasFlashPlayerVersion("9.0.0"))
+    }
+
+    return pub;
+}();

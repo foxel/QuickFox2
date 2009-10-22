@@ -1,0 +1,433 @@
+<<+ 'ADM_PAGE_MAIN'>>
+{!WRITE:WIN_CAPT}
+ {L_PAGE_ADMPANEL_CAPT}
+ {IF:IN_PANEL_SUBTITLE} :: {IN_PANEL_SUBTITLE}{ENDIF}
+ {IF:IN_PFRAME_SUBTITLE} :: {IN_PFRAME_SUBTITLE}{ENDIF}
+{!WRITE}
+{!VIS:FOX_WINDOW_TABBER|CAPTION=WIN_CAPT|CONTENTS=IN_ADM_FRAME|TABS=IN_TABS|WIDTH="95%"}
+<<- 'ADM_PAGE_MAIN'>>
+
+<<+ 'ADM_FRAME_CONFIGS'>>
+<table class="inv_grid fullwidth">
+ {IF:IN_SCHEMES_LIST}
+ <tr><td class="alg_r">
+  <form action="{QF_INDEX}" method="get" id="set_sel">
+  <input name="st" value="adm_panel" type="hidden" />
+  <input name="admp" value="configs" type="hidden" />
+  <input name="cfgset" value="{IN_CUR_CFGSET}" type="hidden" />
+  <label for="cfgset_list">{L_ADMPANEL_CFGSCHEME_SELECT}:</label>
+  <select name="cfgscheme" id="cfgset_list" onchange="if(this.options[this.selectedIndex].value){window.location.href = '{FURL:fox2_adm_configs_cfgscheme|"__cur_scheme__"|IN_CUR_CFGSET}'.replace('__cur_scheme__', this.options[this.selectedIndex].value);}">
+   {IN_SCHEMES_LIST}
+  </select>
+  <input value="{L_BTN_SELECT}" type="submit" />
+  </form>
+ </td></tr>
+ {ENDIF}
+ <tr><td class="alg_r">
+  <form action="{QF_INDEX}" method="get" id="set_sel">
+  <input name="st" value="adm_panel" type="hidden" />
+  <input name="admp" value="configs" type="hidden" />
+  {IF:IN_CUR_SCHEME}<input name="cfgscheme" value="{IN_CUR_SCHEME}" type="hidden" />{ENDIF}
+  <label for="cfgset_list">{L_ADMPANEL_CFGSET_SELECT}:</label>
+  <select name="cfgset" id="cfgset_list" onchange="if(this.options[this.selectedIndex].value){window.location.href = '{IF:IN_CUR_SCHEME}{FURL:fox2_adm_configs_cfgscheme|IN_CUR_SCHEME|"__cur_set__"}{ELSE}{FURL:fox2_adm_configs_cfgset|"__cur_set__"}{ENDIF}'.replace('__cur_set__', this.options[this.selectedIndex].value);}">
+   {IN_CFGSETS_LIST}
+  </select>
+  <input value="{L_BTN_SELECT}" type="submit" />
+  </form>
+ </td></tr>
+ <tr><td style="padding: 5px 15px;">
+  <form action="{QF_INDEX}" method="post" id="configs">
+  <table class="grid_tbl fullwidth">
+   <tr>
+    <th style="width: 60%;">{L_ADMPANEL_CFGS_CAPT}</th>
+    <th >{L_ADMPANEL_CFGS_VALUE}</th>
+   </tr>
+   {IN_CONFIGS_LIST}
+   <tr>
+    <td class="alg_r" colspan="2">
+     <input type="hidden" name="cfgscheme" value="{IN_CUR_SCHEME}" />
+     <input type="hidden" name="cfgset" value="{IN_CUR_CFGSET}" />
+     <input type="hidden" name="script" value="adm_config" />
+     <input type="submit" value="{L_BTN_SAVE}" />
+    </td>
+   </tr>
+  </table>
+  </form>
+ </td></tr>
+</table>
+<<- 'ADM_FRAME_CONFIGS'>>
+
+<<+ 'ADM_FRAME_CONFIGS_CFG_STRING'>>
+<tr>
+ <td class="alg_l">
+  {IN_CAPT}
+  <br />[{IN_CFG_PARENT} => {IN_CFG_NAME}] [{L_ADMPANEL_CFGS_TSTRING} {IF:IN_MAX}{L_ADMPANEL_CFGS_TSTRING_DIAP|IN_MIN|IN_MAX}{ENDIF}]
+ </td>
+ <td class="alg_c alg_m"><input type="text" name="confs[{IN_CFG_NAME}]" value="{!IN_CUR_VAL}" /></td>
+</tr>
+<<- 'ADM_FRAME_CONFIGS_CFG_STRING'>>
+
+<<+ 'ADM_FRAME_CONFIGS_CFG_TEXT'>>
+<tr>
+ <td class="alg_l" colspan="2">
+  {IN_CAPT}
+  <br />[{IN_CFG_PARENT} => {IN_CFG_NAME}] [{L_ADMPANEL_CFGS_TSTRING} {IF:IN_MAX}{L_ADMPANEL_CFGS_TSTRING_DIAP|IN_MIN|IN_MAX}{ENDIF}]
+  <div style="padding: 2px 15px; text-align: center;">
+   <textarea cols="50" rows="8" class="post" style="width:98%" name="confs[{IN_CFG_NAME}]">{IN_CUR_VAL}</textarea>
+  </div>
+ </td>
+</tr>
+<<- 'ADM_FRAME_CONFIGS_CFG_TEXT'>>
+
+<<+ 'ADM_FRAME_CONFIGS_CFG_INT'>>
+<tr>
+ <td class="alg_l">
+  {IN_CAPT}
+  <br />[{IN_CFG_PARENT} => {IN_CFG_NAME}] [{L_ADMPANEL_CFGS_TINT} {IF:IN_MAX}{L_ADMPANEL_CFGS_TINT_DIAP|IN_MIN|IN_MAX}{ENDIF}]
+ </td>
+ <td class="alg_c alg_m"><input type="text" name="confs[{IN_CFG_NAME}]" value="{IN_CUR_VAL}" style="text-align: right;" /></td>
+</tr>
+<<- 'ADM_FRAME_CONFIGS_CFG_INT'>>
+
+<<+ 'ADM_FRAME_CONFIGS_CFG_INTSEL'>>
+<tr>
+ <td class="alg_l">
+  {IN_CAPT}
+  <br />[{IN_CFG_PARENT} => {IN_CFG_NAME}] [{L_ADMPANEL_CFGS_TINT} {IF:IN_MAX}{L_ADMPANEL_CFGS_TINT_DIAP|IN_MIN|IN_MAX}{ENDIF}]
+ </td>
+ <td class="alg_c alg_m">
+  <select name="confs[{IN_CFG_NAME}]" >
+   <option value="" >{L_ADMPANEL_CFGS_VUNSET}</option>
+   {FOR:IN_MIN|IN_MAX}<option value="{I}" {IF:IN_CUR_VAL=I}selected="selected"{ENDIF}>{I}</option>{ENDFOR}
+  </select>
+ </td>
+</tr>
+<<- 'ADM_FRAME_CONFIGS_CFG_INTSEL'>>
+
+<<+ 'ADM_FRAME_CONFIGS_CFG_SELECT'>>
+<tr>
+ <td class="alg_l">
+  {IN_CAPT}
+  <br />[{IN_CFG_PARENT} => {IN_CFG_NAME}] [{L_ADMPANEL_CFGS_TSEL}]
+ </td>
+ <td class="alg_c alg_m">
+  <select name="confs[{IN_CFG_NAME}]" >
+   <option value="" >{L_ADMPANEL_CFGS_VUNSET}</option>
+   {IN_OPTIONS}
+  </select>
+ </td>
+</tr>
+<<- 'ADM_FRAME_CONFIGS_CFG_SELECT'>>
+
+<<+ 'ADM_FRAME_CONFIGS_CFG_SELOPT'>>
+<option value="{!IN_VAL}" {IF:IN_SELECTED}selected="selected"{ENDIF}>{!IN_CAPT}</option>
+<<- 'ADM_FRAME_CONFIGS_CFG_SELOPT'>>
+
+<<+ 'ADM_FRAME_CONFIGS_CFG_BOOL'>>
+<tr>
+ <td class="alg_l">
+  {IN_CAPT}
+  <br />[{IN_CFG_PARENT} => {IN_CFG_NAME}] [{L_ADMPANEL_CFGS_TBOOL}]
+ </td>
+ <td class="alg_c alg_m">
+  <select name="confs[{IN_CFG_NAME}]" >
+   <option value="" >{L_ADMPANEL_CFGS_VUNSET}</option>
+   <option value="1" {IF:IN_CUR_VAL="true"}selected="selected"{ENDIF}>{L_ADMPANEL_CFGS_VON}</option>
+   <option value="0" {IF:IN_CUR_VAL="false"}selected="selected"{ENDIF}>{L_ADMPANEL_CFGS_VOFF}</option>
+  </select>
+ </td>
+</tr>
+<<- 'ADM_FRAME_CONFIGS_CFG_BOOL'>>
+
+<<+ 'ADM_FRAME_MENUED'>>
+<script type="text/javascript">
+// <![CDATA[
+var menuEditorMoveUp = function(id)
+{
+    var itm = qf_getbyid(id);
+    if (!itm)
+        return;
+    s = itm.previousSibling;
+    while (s && (s.nodeType != 1 || !s.id || !s.id.match(/mItem_\d+/))) s = s.previousSibling;
+    if (s)
+    {
+        itm.parentNode.insertBefore(itm, s);
+        var itm_ord = qf_getbyid(id + '_ord');
+        var s_ord = qf_getbyid(s.id + '_ord');
+        if (itm_ord && s_ord)
+        {
+            var tmp = itm_ord.value;
+            itm_ord.value = s_ord.value;
+            s_ord.value = tmp;
+        }
+    }
+}
+
+var menuEditorPrepItem = function(id)
+{
+    var itm = qf_getbyid(id);
+    if (!itm)
+        return;
+    var itm = qf_getbyid(id + '_ord');
+    if (!itm)
+        return;
+    var stl = getStyleObj(itm);
+    stl.display = 'none';
+    but = document.createElement('button');
+    but.value = but.innerHTML = '{L_MISC_MOVEUP}'
+    but.onclick = function () { menuEditorMoveUp(id); return false; };
+    itm.parentNode.insertBefore(but, itm);
+}
+//]]>
+</script>
+<table class="inv_grid fullwidth">
+ <tr><td class="alg_l">
+ {L_ADMPANEL_MENUED_REQUEST}
+ </td></tr>
+ {IF:IN_SCHEMES_LIST}
+ <tr><td class="alg_r">
+  <form action="{QF_INDEX}" method="get" id="set_sel">
+  <input name="st" value="adm_panel" type="hidden" />
+  <input name="admp" value="menued" type="hidden" />
+  <label for="cfgset_list">{L_ADMPANEL_CFGSCHEME_SELECT}:</label>
+  <select name="cfgscheme" id="cfgset_list" onchange="if(this.options[this.selectedIndex].value){window.location.href = '{FURL:fox2_adm_menued_cfgscheme|"__cur_scheme__"}'.replace('__cur_scheme__', this.options[this.selectedIndex].value);}">
+   {IN_SCHEMES_LIST}
+  </select>
+  <input value="{L_BTN_SELECT}" type="submit" />
+  </form>
+ </td></tr>
+ {ENDIF}
+ <tr><td style="padding: 5px 15px;">
+  <form action="{QF_INDEX}" method="post" id="configs">
+  <table class="grid_tbl fullwidth">
+   <tr>
+    <th style="width: 30%;">{L_ADMPANEL_MENUED_ITMCAPT}</th>
+    <th style="width: 30%;">{L_ADMPANEL_MENUED_ITMURL}</th>
+    <th >{L_ADMPANEL_MENUED_ITMORDER}</th>
+    <th title="{L_ADMPANEL_MENUED_ITMSUB_MORE}">{L_ADMPANEL_MENUED_ITMSUB}</th>
+   </tr>
+   {IN_ITEMS_LIST}
+   <tr>
+    <td class="alg_r" colspan="4">
+     <input type="hidden" name="script" value="adm_menued" />
+     <input type="hidden" name="cfgscheme" value="{IN_CUR_SCHEME}" />
+     <input type="submit" value="{L_BTN_SAVE}" />
+    </td>
+   </tr>
+  </table>
+  </form>
+ </td></tr>
+</table>
+<<- 'ADM_FRAME_MENUED'>>
+
+<<+ 'ADM_FRAME_MENUED_ITEM'>>
+<tr id="mItem_{COUNTER}">
+ <td class="alg_c">
+  <input type="text" name="menuitms[{COUNTER}][caption]" value="{!IN_CAPTION}" />
+ </td>
+ <td class="alg_c">
+  <input type="text" name="menuitms[{COUNTER}][url]" value="{!IN_URL}" />
+ </td>
+ <td class="alg_c">
+  <input id="mItem_{COUNTER}_ord" type="text" style="width: 30px;" name="menuitms[{COUNTER}][order]" value="{IN_ORDER}" />
+ </td>
+ <td class="alg_c">
+  <input type="checkbox" name="menuitms[{COUNTER}][is_sub]" value="1" {IF:IN_IS_SUB=1}checked="checked"{ENDIF} />
+ </td>
+</tr>
+<script type="text/javascript">
+// <![CDATA[
+menuEditorPrepItem('mItem_{COUNTER}');
+//]]>
+</script>
+<<- 'ADM_FRAME_MENUED_ITEM'>>
+
+<<+ 'ADM_FRAME_USERS_LIST'>>
+{L_ADMPANEL_USERS_REQUEST}
+<div style="padding: 15px 15px;">
+ <form action="{QF_INDEX}" method="post">
+ <table class="grid_tbl fullwidth">
+  <tr><th>{L_ADMPANEL_USERS_ID}</th><th>{L_ADMPANEL_USERS_NICK}</th><th>{L_ADMPANEL_USERS_ACCESS}</th><th>[X]</th></tr>
+  {IN_ITEMS_DATA}
+  <tr><td class="alg_r" colspan="4">
+   {L_ADMPANEL_USERS_SET_ACC}:
+   {IF:IN_MAX_ADM>0}
+   <select name="adm_level" >
+    <option value="-1" >[{L_ADMPANEL_USERS_ADM_LVL}]</option>
+    <option value="0" >{L_ADMPANEL_USERS_NO_ADM}</option>
+    {FOR:1|IN_MAX_ADM}<option value="{I}">{I}</option>{ENDFOR}
+   </select>
+   {ENDIF}
+   <select name="mod_level" >
+    <option value="-1" >[{L_ADMPANEL_USERS_MOD_LVL}]</option>
+    <option value="0" >{L_ADMPANEL_USERS_NO_MOD}</option>
+    {FOR:1|C_MAXULEVEL}<option value="{I}">{I}</option>{ENDFOR}
+   </select>
+   <select name="acc_level" >
+    <option value="-1" >[{L_ADMPANEL_USERS_ACC_LVL}]</option>
+    <option value="0" >{L_ADMPANEL_USERS_NO_ACC}</option>
+    {FOR:1|C_MAXULEVEL}<option value="{I}">{I}</option>{ENDFOR}
+   </select>
+   <br />
+   <input type="hidden" name="mode" value="multi_edit" />
+   <input type="hidden" name="script" value="adm_users" />
+   <input type="submit" value="{L_BTN_APPLY}" />
+  </td></tr>
+ </table>
+ </form>
+ <table class="grid_tbl fullwidth">
+  <tr><td>
+   <form action="{QF_INDEX}" method="post"><div class="inv_grid alg_r">
+    {L_ADMPANEL_USERS_CREATE}:<br />
+    <input type="text" name="user_login" value="" />
+    <input type="text" name="user_pass" value="" />
+    <input type="hidden" name="mode" value="force_create" />
+    <input type="hidden" name="script" value="adm_users" />
+    <input type="submit" value="{L_BTN_CREATE}" />
+   </div></form>
+  </td></tr>
+ </table>
+</div>
+<<- 'ADM_FRAME_USERS_LIST'>>
+
+<<+ 'ADM_FRAME_USERS_ITEM'>>
+<tr>
+ <td>{IN_UID}</td>
+ <td>{!IN_NICK}</td>
+ <td>{VIS:US_LEVEL_MARK|LEVEL=IN_LEVEL|M_LVL=IN_M_LVL|A_LVL=IN_A_LVL}</td>
+ <td class="alg_c alg_m">{IF:IN_CAN_EDIT}<input name="sel_user[]" type="checkbox" value="{IN_UID}" />{ELSE}&nbsp;{ENDIF}</td>
+</tr>
+<<- 'ADM_FRAME_USERS_ITEM'>>
+
+<<+ 'ADM_FRAME_MDOMAIN'>>
+{L_ADMPANEL_MDOMAIN_REQUEST}
+<div style="padding: 15px 15px;">
+ <form action="{QF_INDEX}" method="post"><table class="grid_tbl fullwidth">
+  <tr><th>{L_ADMPANEL_MDOMAIN_DOMAIN}</th><th>{L_ADMPANEL_MDOMAIN_CFGSCHEME}</th><th title="{L_MISC_DELETE}">[X]</th></tr>
+   {IN_DOMAINS_DATA}
+  <tr><td class="alg_r" colspan="3">
+   <input name="do_delete" type="checkbox" value="1" id="del_chbox" /><label for="del_chbox"> {L_ADMPANEL_MDOMAIN_DODELETE} </label> |
+   <input type="hidden" name="script" value="adm_domains" />
+   <input type="hidden" name="action" value="d_schemes" />
+   <input type="submit" value="{L_BTN_APPLY}" />
+  </td></tr>
+ </table></form>
+ <table class="grid_tbl fullwidth">
+  <tr><td class="alg_r"><form action="{QF_INDEX}" method="post">
+   {L_ADMPANEL_MDOMAIN_ADDDOMAIN}:
+   <input type="text" name="domain" value="" />
+   <input type="hidden" name="script" value="adm_domains" />
+   <input type="hidden" name="action" value="add_domain" />
+   <input type="submit" value="{L_BTN_ADD}" />
+  </form></td></tr>
+  <tr><td class="alg_r"><form action="{QF_INDEX}" method="post">
+   {L_ADMPANEL_MDOMAIN_ADDSCHEME}:
+   <input type="text" name="scheme" value="" />
+   <input type="hidden" name="script" value="adm_domains" />
+   <input type="hidden" name="action" value="add_scheme" />
+   <input type="submit" value="{L_BTN_ADD}" />
+  </form></td></tr>
+ </table>
+</div>
+
+{L_ADMPANEL_MDOMAIN_REQUEST2}
+<div style="padding: 15px 15px;">
+ <form action="{QF_INDEX}" method="post"><table class="grid_tbl fullwidth">
+  <tr><th>{L_ADMPANEL_MDOMAIN_PACKAGE}</th><th>{L_ADMPANEL_MDOMAIN_DOMAIN}</th></tr>
+   {IN_PACKAGES_DATA}
+  <tr><td class="alg_r" colspan="2">
+   <input type="hidden" name="script" value="adm_domains" />
+   <input type="hidden" name="action" value="p_domains" />
+   <input type="submit" value="{L_BTN_APPLY}" />
+  </td></tr>
+ </table></form>
+</div>
+<<- 'ADM_FRAME_MDOMAIN'>>
+
+<<+ 'ADM_FRAME_MDOMAIN_DITEM'>>
+<tr>
+ <td class="alg_m"><b>http://{IN_DOMAIN}</b></td>
+ <td><select name="d_schemes[{!IN_DOMAIN}]">
+  {IN_SCHEME_VARS}
+ </select></td>
+ <td class="alg_c alg_m"><input name="del_domain[]" type="checkbox" value="{!IN_DOMAIN}" /></td>
+</tr>
+<<- 'ADM_FRAME_MDOMAIN_DITEM'>>
+
+<<+ 'ADM_FRAME_MDOMAIN_PITEM'>>
+<tr>
+ <td class="alg_m"><b>{IN_PACKAGE}</b></td>
+ <td><select name="p_domains[{!IN_PACKAGE}]">
+  {IN_DOMAIN_VARS}
+ </select></td>
+</tr>
+<<- 'ADM_FRAME_MDOMAIN_PITEM'>>
+
+<<+ 'ADM_FRAME_PACKAGES'>>
+{L_ADMPANEL_PACKS_REQUEST}
+<div style="padding: 15px 15px;">
+ <form action="{QF_INDEX}" method="post">
+ <table class="grid_tbl fullwidth">
+  <tr><th>{L_ADMPANEL_PACKS_ID}</th><th>{L_ADMPANEL_PACKS_CAPT}</th><th>{L_ADMPANEL_PACKS_DEVELOPER}</th><th>[X]</th></tr>
+  {IN_PACKS_DATA}
+  <tr><td class="alg_r" colspan="4">
+   {L_ADMPANEL_PACKS_ENABLE}:
+   <input type="hidden" name="script" value="adm_packs" />
+   <input type="submit" value="{L_BTN_APPLY}" />
+  </td></tr>
+ </table>
+ </form>
+</div>
+<<- 'ADM_FRAME_PACKAGES'>>
+
+<<+ 'ADM_FRAME_PACKS_ITEM'>>
+<tr>
+ <td>{IN_ID}</td>
+ <td>{!IN_CAPT}</td>
+ <td>{!IN_DEVELOPER}</td>
+ <td class="alg_c alg_m">{IF:in_is_sys}<b>!</b>{ELSE}<input name="enable[]" type="checkbox" value="{IN_ID}" {IF:IN_ENABLED}checked="checked"{ENDIF} />{ENDIF}</td>
+</tr>
+<<- 'ADM_FRAME_PACKS_ITEM'>>
+
+<<+ 'ADM_FRAME_BACKUP'>>
+{L_ADMPANEL_BACKUP_REQUEST}
+<div class="alg_r" style="padding: 5px 15px;">
+ <form action="{QF_INDEX}" method="post">
+  <input type="hidden" name="script" value="adm_backup" />
+  <input type="submit" value="{L_ADMPANEL_BACKUP_DO}" />
+ </form>
+</div>
+<<- 'ADM_FRAME_BACKUP'>>
+
+
+<<+ 'ADM_PAN_LOGIN'>>
+{WRITE:WIN_CAPT}{L_PAGE_ADMPANEL_CAPT} :: {L_ADMPANEL_LOGIN_CAPT}
+{WRITE}
+<form action="{QF_INDEX}" method="post">
+<table class="inv_grid fullwidth">
+<tr><td class="alg_l" colspan="2">
+{L_ADMPANEL_LOGIN_REQUEST}
+</td></tr>
+<tr><td class="alg_l" style="white-space: nowrap; vertical-align: middle;">
+{L_PAGE_LOGIN_USERNAME}
+</td><td class="alg_r">
+<input type="text" name="login" />
+</td></tr>
+<tr><td class="alg_l" style="white-space: nowrap; vertical-align: middle;">
+{L_PAGE_LOGIN_PASSWORD}
+</td><td class="alg_r">
+<input type="password" name="pass" />
+</td></tr>
+<tr><td class="alg_r" colspan="2">
+<input type="hidden" name="script" value="adm_login" />
+<input type="hidden" name="pan_uri" value="{IN_URI}" />
+<input type="submit" value="{L_BTN_ENTER}" />
+</td></tr>
+</table>
+</form>
+{!VIS:FOX_WINDOW|CAPTION=WIN_CAPT|CONTENTS=OUT|WIDTH="320px"}
+<<- 'ADM_PAN_LOGIN'>>
+
+<<+ 'ADM_PAGE_TAB'>>
+{!VIS:FOX_WINDOW_TAB|SELECTED=IN_SELECTED|HREF=IN_HREF|CAPTION=IN_CAPTION}
+<<- 'ADM_PAGE_TAB'>>

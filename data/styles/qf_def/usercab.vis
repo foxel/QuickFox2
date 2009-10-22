@@ -1,0 +1,123 @@
+<<+ 'USERCAB_PAGE_MAIN'>>
+{!WRITE:WIN_CAPT}
+ {L_PAGE_USERCAB_CAPT}
+ {IF:IN_PANEL_SUBTITLE} :: {IN_PANEL_SUBTITLE}{ENDIF}
+ {IF:IN_PFRAME_SUBTITLE} :: {IN_PFRAME_SUBTITLE}{ENDIF}
+{!WRITE}
+{!VIS:FOX_WINDOW_TABBER|CAPTION=WIN_CAPT|CONTENTS=IN_UCAB_FRAME|TABS=IN_TABS|WIDTH="95%"}
+<<- 'USERCAB_PAGE_MAIN'>>
+
+<<+ 'UCAB_FRAME_INFO'>>
+<div style="padding: 15px 15px;">
+<table class="grid_tbl fullwidth">
+<tr><td class="alg_l" colspan="2">
+ {IF:IN_avatar}<div class="alg_c" style="float: left; width: 100px; margin: 3px 7px 3px 3px; padding: 5px; border-right-width: 1px;">
+  <img src="{IN_avatar}" alt="{L_UINFO_AVATAR_ALT|IN_nick}" {IF:IN_AVATAR_WH}style="{IN_AVATAR_WH}"{ENDIF}>
+ </div>
+ {ELSE}{L_UINFO_NO_AVATAR}{ENDIF}
+ <br />
+ <b>{IN_NICK}</b> {VIS:US_LEVEL_MARK|LEVEL=IN_LEVEL|M_LVL=IN_M_LVL|A_LVL=IN_A_LVL}
+</td></tr>
+<tr><td style="width: 50%;">{L_USERCAB_INFO_LOGIN}</td><td>{IN_AUTH_LOGIN}</td></tr>
+<tr><td>{L_USERCAB_INFO_REGTIME}</td><td>{IN_REGTIME}</td></tr>
+<tr><td>{L_USERCAB_INFO_AUTHTIME}</td><td>{IN_AUTH_LASTAUTH}</td></tr>
+<tr><td>{L_USERCAB_INFO_SYSEMAIL}</td><td>{IF:IN_AUTH_SYS_EMAIL}{IN_AUTH_SYS_EMAIL}{ELSE}{L_NO_DATA}{ENDIF}</td></tr>
+<tr><td>{L_USERCAB_INFO_IP}</td><td>{IN_STAT_LAST_IP}</td></tr>
+
+</table>
+</div>
+<<- 'UCAB_FRAME_INFO'>>
+
+<<+ 'UCAB_FRAME_SYS'>>
+{L_USERCAB_SYS_REQUEST}
+<div style="padding: 15px 15px;">
+<form action="{QF_INDEX}" method="post">
+<table class="grid_tbl fullwidth">
+<tr><th colspan="2">{L_USERCAB_SYS_AUTH}</th></tr>
+<tr>
+ <td class="alg_m" style="width: 50%;">{L_USERCAB_SYS_NEWLOGIN}</td>
+ <td><input type="text" name="new_login" style="width: 80%;" /></td>
+</tr>
+<tr>
+ <td class="alg_m">{L_USERCAB_SYS_NEWPASS}</td>
+ <td><input type="password" name="new_pass" style="width: 80%;" /></td>
+</tr>
+<tr>
+ <td class="alg_m">{L_USERCAB_SYS_NEWPASSDUP}</td>
+ <td><input type="password" name="new_pass_dup" style="width: 80%;" /></td>
+</tr>
+<tr><td class="alg_r" colspan="2">
+ {L_USERCAB_OLDPASS_REQ}:
+ <input type="password" name="pass" />
+ <input type="hidden" name="action" value="auth" />
+ <input type="hidden" name="script" value="my_sys" />
+ <input type="submit" value="{L_BTN_SAVE}" />
+</td></tr>
+</table>
+</form>
+
+<form action="{QF_INDEX}" method="post">
+<table class="grid_tbl fullwidth">
+<tr><th colspan="2">{L_USERCAB_SYS_EMAIL}*</th></tr>
+<tr>
+ <td class="alg_m" style="width: 50%;">{L_USERCAB_SYS_NEWEMAIL}</td>
+ <td><input type="text" name="new_email" style="width: 80%;" /></td>
+</tr>
+<tr><td class="alg_r" colspan="2">
+ {L_USERCAB_OLDPASS_REQ}:
+ <input type="password" name="pass" />
+ <input type="hidden" name="action" value="email" />
+ <input type="hidden" name="script" value="my_sys" />
+ <input type="submit" value="{L_BTN_SAVE}" />
+</td></tr>
+</table>
+</form>
+</div>
+* {L_USERCAB_SYS_EMAIL_INFO}
+<<- 'UCAB_FRAME_SYS'>>
+
+<<+ 'UCAB_FRAME_SETINFO'>>
+{L_USERCAB_SETINFO_REQUEST}
+<div style="padding: 15px 15px;">
+<form action="{QF_INDEX}" method="post">
+<table class="grid_tbl fullwidth">
+<tr><th >{L_USERCAB_SETINFO_NICK}</th></tr>
+<tr><td class="alg_m" >
+ {L_USERCAB_SETINFO_NICK_REQ}: <input type="text" name="new_nick" value="{IN_NICK}" style="width: 40%;" />
+</td>
+</tr>
+<tr><td class="alg_r">
+ <input type="hidden" name="action" value="setnick" />
+ <input type="hidden" name="script" value="my_info" />
+ <input type="submit" value="{L_BTN_SAVE}" />
+</td></tr>
+</table>
+</form>
+</div>
+
+<div style="padding: 15px 15px;">
+<table class="grid_tbl fullwidth">
+<tr><th colspan="2">{L_USERCAB_SETINFO_AVATAR}</th></tr>
+<tr>
+ <td class="alg_c alg_m nowrap">
+  {IF:IN_avatar}<img src="{IN_avatar}" alt="{L_UINFO_AVATAR_ALT|IN_nick}" style="padding: 2px; {IN_AVATAR_WH}"><br />
+  <form action="{QF_INDEX}" method="post">
+   <input type="hidden" name="action" value="delavatar" />
+   <input type="hidden" name="script" value="my_info" />
+   <input type="submit" value="{L_BTN_DELETE}" />
+  </form>
+  {ELSE}{L_UINFO_NO_AVATAR}{ENDIF}
+ </td>
+ <td class="alg_m" >{L_USERCAB_SETINFO_AVATAR_REQ}</td>
+</tr>
+<tr><td class="alg_r" colspan="2">
+ <form action="{QF_INDEX}" method="post" enctype="multipart/form-data">
+  <input type="file" name="new_avatar" />
+  <input type="hidden" name="action" value="avatar" />
+  <input type="hidden" name="script" value="my_info" />
+  <input type="submit" value="{L_BTN_UPLOAD}" />
+ </form>
+</td></tr>
+</table>
+</div>
+<<- 'UCAB_FRAME_SETINFO'>>
