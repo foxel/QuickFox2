@@ -55,6 +55,8 @@ BTN_REGISTER: Регистрация
 ---
 BTN_ANSWER: Ответить
 ---
+BTN_ADDMESS: Добавить сообщение
+---
 
 // panels
 // - login
@@ -376,6 +378,8 @@ US_MLEVEL_NONE: Не модератор
 ---
 US_ALEVEL_NONE: Не админ
 ---
+US_GUEST: Гость
+---
 MISC_YES: ДА
 ---
 MISC_IMAGE_WH: %1$s&nbsp;x&nbsp;%2$s&nbsp;px
@@ -393,6 +397,9 @@ MISC_CAPTCHA_ALT: Включите загрузку изображений
 MISC_JS_WAIT: Пожалуйста, дождитесь завершения загрузки страницы
 ---
 
+
+
+// Old Ones
 
 
 PAGE: Страница

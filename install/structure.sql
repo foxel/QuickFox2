@@ -259,6 +259,99 @@ CREATE TABLE `{DBKEY}guests` (
     INDEX `last_ip` (`last_ip`)  
 ) ENGINE = MyISAM COLLATE utf8_general_ci; 
 
+# Table definition for {DBKEY}pt_peruser 
+DROP TABLE IF EXISTS `{DBKEY}pt_peruser` ;
+CREATE TABLE `{DBKEY}pt_peruser` ( 
+    `root_id` int(10) unsigned NOT NULL DEFAULT '0', 
+    `user_id` int(10) unsigned NOT NULL DEFAULT '0', 
+    `c_key` char(128) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `d_key_1` char(128) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `d_key_2` char(128) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `d_key_3` char(128) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    PRIMARY KEY (`root_id`, `user_id`) , 
+    INDEX `c_key` (`c_key`) , 
+    INDEX `d_key` (`d_key_1`, `d_key_2`, `d_key_3`)  
+) ENGINE = MyISAM COLLATE utf8_general_ci; 
+
+# Table definition for {DBKEY}pt_posts 
+DROP TABLE IF EXISTS `{DBKEY}pt_posts` ;
+CREATE TABLE `{DBKEY}pt_posts` ( 
+    `post_id` bigint(20) unsigned NOT NULL auto_increment, 
+    `root_id` int(10) unsigned NOT NULL DEFAULT '0', 
+    `parent` bigint(20) unsigned NOT NULL DEFAULT '0', 
+    `tree_idx` binary(255) DEFAULT NULL, 
+    `author_ip` int(10) unsigned NOT NULL DEFAULT '0', 
+    `author` char(16) NOT NULL DEFAULT '', 
+    `author_id` int(10) unsigned NOT NULL DEFAULT '0', 
+    `time` int(11) NOT NULL DEFAULT '0', 
+    `ch_user` char(16) NOT NULL DEFAULT '', 
+    `ch_user_id` int(10) unsigned NOT NULL DEFAULT '0', 
+    `ch_user_ip` int(10) unsigned NOT NULL DEFAULT '0', 
+    `ch_time` int(11) NOT NULL DEFAULT '0', 
+    `locked` tinyint(1) unsigned NOT NULL DEFAULT '0', 
+    `deleted` tinyint(1) unsigned NOT NULL DEFAULT '0', 
+    `marked` tinyint(1) unsigned NOT NULL DEFAULT '0', 
+    PRIMARY KEY (`post_id`) , 
+    INDEX `parents` (`root_id`, `parent`) , 
+    INDEX `post_ip` (`author_ip`) , 
+    INDEX `author_id` (`author_id`) , 
+    INDEX `time` (`time`) , 
+    INDEX `ch_user_id` (`ch_user_id`) , 
+    INDEX `ch_time` (`ch_time`) , 
+    INDEX `flags` (`locked`, `deleted`, `marked`) , 
+    INDEX `change_ip` (`ch_user_ip`)  
+) ENGINE = MyISAM COLLATE utf8_general_ci; 
+
+# Table definition for {DBKEY}pt_ptext 
+DROP TABLE IF EXISTS `{DBKEY}pt_ptext` ;
+CREATE TABLE `{DBKEY}pt_ptext` ( 
+    `post_id` bigint(20) unsigned NOT NULL DEFAULT '0', 
+    `o_text` text NOT NULL, 
+    `hash` varchar(32) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `p_text` text NOT NULL, 
+    `preparsed` tinyint(1) unsigned NOT NULL DEFAULT '0', 
+    PRIMARY KEY (`post_id`) , 
+    INDEX `hash` (`hash`)  
+) ENGINE = MyISAM COLLATE utf8_general_ci; 
+
+# Table definition for {DBKEY}pt_roots 
+DROP TABLE IF EXISTS `{DBKEY}pt_roots` ;
+CREATE TABLE `{DBKEY}pt_roots` ( 
+    `root_id` int(10) unsigned NOT NULL auto_increment, 
+    `class` varchar(8) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `a_key` varchar(128) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `b_key1` varchar(128) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `b_key2` varchar(128) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `b_key3` varchar(128) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `author` varchar(16) NOT NULL DEFAULT '', 
+    `author_id` int(10) unsigned NOT NULL DEFAULT '0', 
+    `caption` varchar(255) NOT NULL DEFAULT '', 
+    `data` blob NOT NULL, 
+    `hash` varchar(32) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `time` int(11) NOT NULL DEFAULT '0', 
+    `l_author` varchar(16) NOT NULL DEFAULT '', 
+    `l_author_id` int(10) unsigned NOT NULL DEFAULT '0', 
+    `l_time` int(11) NOT NULL DEFAULT '0', 
+    `l_post_id` bigint(20) unsigned NOT NULL DEFAULT '0', 
+    `posts` int(10) unsigned NOT NULL DEFAULT '0', 
+    `r_level` tinyint(1) unsigned NOT NULL DEFAULT '0', 
+    `w_level` tinyint(1) unsigned NOT NULL DEFAULT '1', 
+    `locked` tinyint(1) unsigned NOT NULL DEFAULT '0', 
+    `deleted` tinyint(1) unsigned NOT NULL DEFAULT '0', 
+    `marked` tinyint(1) unsigned NOT NULL DEFAULT '0', 
+    PRIMARY KEY (`root_id`) , 
+    UNIQUE `ident` (`class`, `hash`) , 
+    INDEX `a_key` (`a_key`) , 
+    INDEX `b_key` (`b_key1`, `b_key2`, `b_key3`) , 
+    INDEX `author_id` (`author_id`) , 
+    INDEX `time` (`time`) , 
+    INDEX `l_author_id` (`l_author_id`) , 
+    INDEX `l_time` (`l_time`) , 
+    INDEX `posts` (`posts`) , 
+    INDEX `levels` (`r_level`, `w_level`) , 
+    INDEX `flags` (`locked`, `deleted`, `marked`)  
+) ENGINE = MyISAM COLLATE utf8_general_ci; 
+
 # Table definition for {DBKEY}results 
 DROP TABLE IF EXISTS `{DBKEY}results` ;
 CREATE TABLE `{DBKEY}results` ( 

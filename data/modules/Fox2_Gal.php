@@ -25,6 +25,7 @@ class QF_Gallery
     function QF_Gallery()
     {        global $QF;
         $QF->Run_Module('Files');
+        $QF->Run_Module('PTree');
 
         if ($finfo = $QF->Files->Get_FolderInfo(QF_GALLERY_FOLDER_ID))
             $this->my_folder = $finfo['id'];        else
@@ -183,6 +184,8 @@ class QF_Gallery
                     );
                 $QF->Files->Modif_File($item['file_id'], $upd);
             }
+            if (!$item['pt_root'] && ($tid = $QF->PTree->Create_Tree('FOX2_GAL', Array($item['id']), Array('r_level' => $data['r_level'], 'w_level' => max($data['r_level'], 1)))))
+                $QF->DBase->Do_Update('gal_items', Array('pt_root' => $tid), Array('id' => $item['id']));
 
             unset($this->u_itms[$data['author_id']]);
             $QF->Cache->Drop(QF_GALLERY_CACHE_PREFIX);
@@ -229,6 +232,8 @@ class QF_Gallery
                     'r_level'  => $data['r_level'],
                     );
                 $QF->Files->Modif_File($file_id, $upd);
+                if ($tid = $QF->PTree->Create_Tree('FOX2_GAL', Array($new_id), Array('r_level' => $data['r_level'], 'w_level' => max($data['r_level'], 1))))
+                    $QF->DBase->Do_Update('gal_items', Array('pt_root' => $tid), Array('id' => $new_id));
 
                 unset($this->u_itms[$data['author_id']]);
                 $QF->Cache->Drop(QF_GALLERY_CACHE_PREFIX);
@@ -492,6 +497,11 @@ class QF_Gallery
 
             foreach ($datas as $data)
             {
+                if (!$data['pt_root'] && ($tid = $QF->PTree->Create_Tree('FOX2_GAL', Array($data['id']), Array('r_level' => $data['r_level'], 'w_level' => max($data['r_level'], 1)))))
+                {
+                    $QF->DBase->Do_Update('gal_items', Array('pt_root' => $tid), Array('id' => $data['id']));
+                    $data['pt_root'] = $tid;
+                }
                 $ids[] = $id = $data['id'];
                 $fids[] = $data['file_id'];
                 $data['albums'] = Array();

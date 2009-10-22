@@ -901,7 +901,7 @@ class QF_SQL_DBase
                 if ($tbl_pref)
                     $field = $tbl_pref.'.'.$field;
 
-                if (($flags & QF_SQL_USEFUNCS) && $part = $this->_Parse_FieldFunc($field, $val, true))
+                if (($flags & QF_SQL_USEFUNCS) && ($part = $this->_Parse_FieldFunc($field, $val, true)))
                     $parts[] = $part;
                 elseif (is_scalar($val))
                 {
@@ -918,8 +918,9 @@ class QF_SQL_DBase
 
                     $parts[] = $field.' = '.$val;
                 }
-                elseif (is_array($val))
+                elseif (is_array($val) && count($val))
                 {
+                    $nvals = Array();
                     foreach ($val as $id => $sub)
                     {
                         if (is_bool($sub))
@@ -933,14 +934,12 @@ class QF_SQL_DBase
                         elseif (is_null($sub))
                             $sub = 'NULL';
 
-                        if (!is_scalar($sub))
-                            unset ($val[$id]);
-                        else
-                            $val[$id] = $sub;
+                        if (is_scalar($sub))
+                            $nvals[$id] = $sub;
                     }
 
-                    if (count($val))
-                        $parts[] = $field.' IN ('.implode(', ', $val).')';
+                    if (count($nvals))
+                        $parts[] = $field.' IN ('.implode(', ', $nvals).')';
                 }
                 elseif (is_null($val))
                     $parts[] = $field.' = NULL';
@@ -1026,7 +1025,6 @@ class QF_SQL_DBase
 
     function _Parse_FieldFunc($field, $data, $is_compare = false)
     {
-
         static $set_funcs = Array(
             '++' => '%1$s = %1$s + %2$s',
             '--' => '%1$s = %1$s - %2$s',
@@ -1038,6 +1036,9 @@ class QF_SQL_DBase
             '<>' => '%1$s <> %2$s', '!=' => '%1$s != %2$s',
             'LIKE' => '%1$s LIKE %2$s',
             );
+
+        if (!is_string($data))
+            return false;
 
         $funcs_set = ($is_compare) ? $cmp_funcs : $set_funcs;
         $expr = explode(' ', $data, 2);

@@ -104,8 +104,65 @@ var QF_EFFECTS = function()
         window.onresize = _OnResizeHandler;
     }
 
+    var SetResizebleTA = function(TA)
+    {        var resizer = document.createElement('DIV');
+        //resizer.className = 'ta_resizer';
+        var TAstl = getStyleObj(TA);
+        var stl = getStyleObj(resizer);
+        TAstl.display = 'block';
+        stl.cursor = 's-resize';
+        //stl.width = styleString(TA, 'width');
+        stl.margin = styleString(TA, 'margin');
+        TAstl.marginBottom = '0';
+        TAstl.borderBottomWidth = '7px';
+        stl.marginTop = '-7px';
+        stl.height = '7px';
+        stl.padding = '0';
+        stl.backgroundColor = '#FFFFFF';
+        if (myBrowser.isMSIE)
+            stl.filter = (myBrowser.isMSIE >= 5) ? ' progid:DXImageTransform.Microsoft.Alpha(opacity=0)' : ' alpha(opacity=0)';
+        else
+            stl.opacity = 0;
+
+
+        TA.parentNode.insertBefore(resizer, TA.nextSibling);
+        resizer.onmousedown = function(e) { StartResize(TA, e); return false; };
+    }
+
+    var StartResize = function(TA, evt)
+    {        if (!evt)
+            evt = window.event;
+        var stl = getStyleObj(TA);
+        var TAh = styleNumber(TA, 'height');
+        var mouseY = evt.clientY || evt.y;
+        var mouseYOffset = mouseY - TAh;
+
+        var Drag_CB = function(e)
+        {
+            if (!e)
+                e = window.event;
+            var mouseY = e.clientY || e.y;
+            var newH = Math.max((mouseY - mouseYOffset), 50);
+            stl.height = newH+'px';
+            e.returnValue = false;
+            return false;
+        }
+
+        evt.returnValue = false;
+        document.onmousemove = Drag_CB;
+        document.onmouseup = QF_EFFECTS.StopDrag;
+    }
+
+    var InitResizebleTAs = function()
+    {        var TAs = document.getElementsByTagName('textarea');
+        for (var i in TAs)
+            if (TAs[i].tagName && TAs[i].tagName.toLowerCase() == 'textarea')
+                SetResizebleTA(TAs[i]);
+    }
+
     // this is needed for MS IE since it works slower
     window.setTimeout(Init, (myBrowser.isMSIE) ? 500 : 100);
+    QF_TIMERS.addOnLoad(InitResizebleTAs);
 
     return {        Overlay: null,
         isReady: function(){ return Ready; },

@@ -265,6 +265,8 @@ class QF_Gal_incls
                 $QF->VIS->Add_Node_Array('FOX_GALLERY_ITEM_ALBUM_LINK', 'ALBUMS', $page_node, $albums);
 
             $QF->VIS->Add_Node('FOX_GALLERY_PREV_BLOCK_IMG', 'PREVIEW_BLOCK', $page_node, $prv_params);
+            if ($info['pt_root'])
+                $QF->VIS->Append_Node($QF->PTree->Render_Tree($info['pt_root']), 'COMMENTS_PTREE', $page_node);
 
             $QF->VIS->Add_Data_Array($page_node, $page_params);
         }

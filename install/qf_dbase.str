@@ -1389,6 +1389,540 @@ Array (
         'engine' => 'MyISAM' ,
         'collate' => 'utf8_general_ci'
     )  ,
+    '{DBKEY}pt_peruser' => Array (
+        'fields' => Array (
+            'root_id' => Array (
+                'type' => 'int(10) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
+            'user_id' => Array (
+                'type' => 'int(10) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
+            'c_key' => Array (
+                'type' => 'char(128)' ,
+                'collate' => 'ascii_general_ci' ,
+                'null' => false ,
+                'def' => '' ,
+                'extra' => ''
+            )  ,
+            'd_key_1' => Array (
+                'type' => 'char(128)' ,
+                'collate' => 'ascii_general_ci' ,
+                'null' => false ,
+                'def' => '' ,
+                'extra' => ''
+            )  ,
+            'd_key_2' => Array (
+                'type' => 'char(128)' ,
+                'collate' => 'ascii_general_ci' ,
+                'null' => false ,
+                'def' => '' ,
+                'extra' => ''
+            )  ,
+            'd_key_3' => Array (
+                'type' => 'char(128)' ,
+                'collate' => 'ascii_general_ci' ,
+                'null' => false ,
+                'def' => '' ,
+                'extra' => ''
+            ) 
+        )  ,
+        'keys' => Array (
+            'PRIMARY' => Array (
+                'type' => 'PRIMARY' ,
+                'cols' => Array (
+                    0 => 'root_id' ,
+                    1 => 'user_id'
+                ) 
+            )  ,
+            'c_key' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'c_key'
+                ) 
+            )  ,
+            'd_key' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'd_key_1' ,
+                    1 => 'd_key_2' ,
+                    2 => 'd_key_3'
+                ) 
+            ) 
+        )  ,
+        'name' => '{DBKEY}pt_peruser' ,
+        'engine' => 'MyISAM' ,
+        'collate' => 'utf8_general_ci'
+    )  ,
+    '{DBKEY}pt_posts' => Array (
+        'fields' => Array (
+            'post_id' => Array (
+                'type' => 'bigint(20) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => null ,
+                'extra' => 'auto_increment'
+            )  ,
+            'root_id' => Array (
+                'type' => 'int(10) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
+            'parent' => Array (
+                'type' => 'bigint(20) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
+            'tree_idx' => Array (
+                'type' => 'binary(255)' ,
+                'collate' => null ,
+                'null' => true ,
+                'def' => null ,
+                'extra' => ''
+            )  ,
+            'author_ip' => Array (
+                'type' => 'int(10) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
+            'author' => Array (
+                'type' => 'char(16)' ,
+                'collate' => 'utf8_general_ci' ,
+                'null' => false ,
+                'def' => '' ,
+                'extra' => ''
+            )  ,
+            'author_id' => Array (
+                'type' => 'int(10) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
+            'time' => Array (
+                'type' => 'int(11)' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
+            'ch_user' => Array (
+                'type' => 'char(16)' ,
+                'collate' => 'utf8_general_ci' ,
+                'null' => false ,
+                'def' => '' ,
+                'extra' => ''
+            )  ,
+            'ch_user_id' => Array (
+                'type' => 'int(10) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
+            'ch_user_ip' => Array (
+                'type' => 'int(10) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
+            'ch_time' => Array (
+                'type' => 'int(11)' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
+            'locked' => Array (
+                'type' => 'tinyint(1) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
+            'deleted' => Array (
+                'type' => 'tinyint(1) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
+            'marked' => Array (
+                'type' => 'tinyint(1) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            ) 
+        )  ,
+        'keys' => Array (
+            'PRIMARY' => Array (
+                'type' => 'PRIMARY' ,
+                'cols' => Array (
+                    0 => 'post_id'
+                ) 
+            )  ,
+            'parents' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'root_id' ,
+                    1 => 'parent'
+                ) 
+            )  ,
+            'post_ip' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'author_ip'
+                ) 
+            )  ,
+            'author_id' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'author_id'
+                ) 
+            )  ,
+            'time' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'time'
+                ) 
+            )  ,
+            'ch_user_id' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'ch_user_id'
+                ) 
+            )  ,
+            'ch_time' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'ch_time'
+                ) 
+            )  ,
+            'flags' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'locked' ,
+                    1 => 'deleted' ,
+                    2 => 'marked'
+                ) 
+            )  ,
+            'change_ip' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'ch_user_ip'
+                ) 
+            ) 
+        )  ,
+        'name' => '{DBKEY}pt_posts' ,
+        'engine' => 'MyISAM' ,
+        'collate' => 'utf8_general_ci'
+    )  ,
+    '{DBKEY}pt_ptext' => Array (
+        'fields' => Array (
+            'post_id' => Array (
+                'type' => 'bigint(20) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
+            'o_text' => Array (
+                'type' => 'text' ,
+                'collate' => 'utf8_general_ci' ,
+                'null' => false ,
+                'def' => null ,
+                'extra' => ''
+            )  ,
+            'hash' => Array (
+                'type' => 'varchar(32)' ,
+                'collate' => 'ascii_general_ci' ,
+                'null' => false ,
+                'def' => '' ,
+                'extra' => ''
+            )  ,
+            'p_text' => Array (
+                'type' => 'text' ,
+                'collate' => 'utf8_general_ci' ,
+                'null' => false ,
+                'def' => null ,
+                'extra' => ''
+            )  ,
+            'preparsed' => Array (
+                'type' => 'tinyint(1) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            ) 
+        )  ,
+        'keys' => Array (
+            'PRIMARY' => Array (
+                'type' => 'PRIMARY' ,
+                'cols' => Array (
+                    0 => 'post_id'
+                ) 
+            )  ,
+            'hash' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'hash'
+                ) 
+            ) 
+        )  ,
+        'name' => '{DBKEY}pt_ptext' ,
+        'engine' => 'MyISAM' ,
+        'collate' => 'utf8_general_ci'
+    )  ,
+    '{DBKEY}pt_roots' => Array (
+        'fields' => Array (
+            'root_id' => Array (
+                'type' => 'int(10) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => null ,
+                'extra' => 'auto_increment'
+            )  ,
+            'class' => Array (
+                'type' => 'varchar(8)' ,
+                'collate' => 'ascii_general_ci' ,
+                'null' => false ,
+                'def' => '' ,
+                'extra' => ''
+            )  ,
+            'a_key' => Array (
+                'type' => 'varchar(128)' ,
+                'collate' => 'ascii_general_ci' ,
+                'null' => false ,
+                'def' => '' ,
+                'extra' => ''
+            )  ,
+            'b_key1' => Array (
+                'type' => 'varchar(128)' ,
+                'collate' => 'ascii_general_ci' ,
+                'null' => false ,
+                'def' => '' ,
+                'extra' => ''
+            )  ,
+            'b_key2' => Array (
+                'type' => 'varchar(128)' ,
+                'collate' => 'ascii_general_ci' ,
+                'null' => false ,
+                'def' => '' ,
+                'extra' => ''
+            )  ,
+            'b_key3' => Array (
+                'type' => 'varchar(128)' ,
+                'collate' => 'ascii_general_ci' ,
+                'null' => false ,
+                'def' => '' ,
+                'extra' => ''
+            )  ,
+            'author' => Array (
+                'type' => 'varchar(16)' ,
+                'collate' => 'utf8_general_ci' ,
+                'null' => false ,
+                'def' => '' ,
+                'extra' => ''
+            )  ,
+            'author_id' => Array (
+                'type' => 'int(10) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
+            'caption' => Array (
+                'type' => 'varchar(255)' ,
+                'collate' => 'utf8_general_ci' ,
+                'null' => false ,
+                'def' => '' ,
+                'extra' => ''
+            )  ,
+            'data' => Array (
+                'type' => 'blob' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => null ,
+                'extra' => ''
+            )  ,
+            'hash' => Array (
+                'type' => 'varchar(32)' ,
+                'collate' => 'ascii_general_ci' ,
+                'null' => false ,
+                'def' => '' ,
+                'extra' => ''
+            )  ,
+            'time' => Array (
+                'type' => 'int(11)' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
+            'l_author' => Array (
+                'type' => 'varchar(16)' ,
+                'collate' => 'utf8_general_ci' ,
+                'null' => false ,
+                'def' => '' ,
+                'extra' => ''
+            )  ,
+            'l_author_id' => Array (
+                'type' => 'int(10) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
+            'l_time' => Array (
+                'type' => 'int(11)' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
+            'l_post_id' => Array (
+                'type' => 'bigint(20) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
+            'posts' => Array (
+                'type' => 'int(10) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
+            'r_level' => Array (
+                'type' => 'tinyint(1) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
+            'w_level' => Array (
+                'type' => 'tinyint(1) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 1 ,
+                'extra' => ''
+            )  ,
+            'locked' => Array (
+                'type' => 'tinyint(1) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
+            'deleted' => Array (
+                'type' => 'tinyint(1) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
+            'marked' => Array (
+                'type' => 'tinyint(1) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            ) 
+        )  ,
+        'keys' => Array (
+            'PRIMARY' => Array (
+                'type' => 'PRIMARY' ,
+                'cols' => Array (
+                    0 => 'root_id'
+                ) 
+            )  ,
+            'ident' => Array (
+                'type' => 'UNIQUE' ,
+                'cols' => Array (
+                    0 => 'class' ,
+                    1 => 'hash'
+                ) 
+            )  ,
+            'a_key' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'a_key'
+                ) 
+            )  ,
+            'b_key' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'b_key1' ,
+                    1 => 'b_key2' ,
+                    2 => 'b_key3'
+                ) 
+            )  ,
+            'author_id' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'author_id'
+                ) 
+            )  ,
+            'time' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'time'
+                ) 
+            )  ,
+            'l_author_id' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'l_author_id'
+                ) 
+            )  ,
+            'l_time' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'l_time'
+                ) 
+            )  ,
+            'posts' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'posts'
+                ) 
+            )  ,
+            'levels' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'r_level' ,
+                    1 => 'w_level'
+                ) 
+            )  ,
+            'flags' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'locked' ,
+                    1 => 'deleted' ,
+                    2 => 'marked'
+                ) 
+            ) 
+        )  ,
+        'name' => '{DBKEY}pt_roots' ,
+        'engine' => 'MyISAM' ,
+        'collate' => 'utf8_general_ci'
+    )  ,
     '{DBKEY}results' => Array (
         'fields' => Array (
             'res_id' => Array (

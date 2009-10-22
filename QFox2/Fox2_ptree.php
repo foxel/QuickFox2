@@ -35,41 +35,63 @@ class QF2_PostTree
             return false;
 
         $data = $this->ptrees[$tid];
+        $t_acc = $QF->User->CheckAccess($data['r_level'], $data['w_level'], 0, $data['author_id']);
+
         $QF->Run_Module('VIS');
         $QF->Run_Module('UList');
 
+        $my_href_enc = qf_url_str_pack($QF->HTTP->Request);
         $QF->VIS->Load_Templates('posttree');
         $root_node = $QF->VIS->Create_Node('FOX_POSTTREE_OUTER');
+        $root_params = Array(
+            'MYHREF' => $QF->HTTP->Request,
+            'MYHREF_ENC' => $my_href_enc,
+            'TREE_ID' => $tid,
+            'CAN_ADM' => ($t_acc > 2) ? 1 : null,
+            'SHOW_ONLY' => ($t_acc < 2) ? 1 : null,
+            );
 
         $par_nodes = Array(1 => $root_node);
-        list($pids, $uids) = qf_2darray_cols($data['ptree'], Array('post_id', 'author_id'));
-        $QF->UList->Query_IDs($uids);
+        $pids = qf_2darray_cols($data['ptree'], 'post_id');
         $p_datas = $this->_Load_Posts($pids);
+        list($uids, $chuids) = qf_2darray_cols($p_datas, Array('author_id', 'ch_user_id'));
+        $QF->UList->Query_IDs($uids + $chuids);
 
         foreach($data['ptree'] as $pdata)
-        {            $cur_node = $QF->VIS->Add_Node('FOX_POSTTREE_POST', 'SUB_POSTS', $par_nodes[$pdata['t_level']], $pdata);
+        {            if ($pdata['deleted'])
+            {                $cur_node = $QF->VIS->Add_Node('FOX_POSTTREE_DELPOST', 'SUB_POSTS', $par_nodes[$pdata['t_level']], $pdata);
+                $par_nodes[$pdata['t_level']+1] = $cur_node;
+                continue;
+            }
+
+            $cur_node = $QF->VIS->Add_Node('FOX_POSTTREE_POST', 'SUB_POSTS', $par_nodes[$pdata['t_level']]);
             $par_nodes[$pdata['t_level']+1] = $cur_node;
 
             if (!isset($p_datas[$pdata['post_id']]))
                 continue;
-            $pdata = $p_datas[$pdata['post_id']];
-            $node_params = Array(
+            $pdata = $p_datas[$pdata['post_id']] + $pdata;
+            $p_acc = $QF->User->CheckAccess($data['r_level'], $data['w_level'], 0, $pdata['author_id']);
+            $node_params = $pdata + Array(
                 'PTEXT' => $pdata['p_text'],
+                'CAN_ADM' => ($p_acc > 2) ? 1 : null,
+                'SHOW_ONLY' => ($p_acc < 2) ? 1 : null,
                 );
             if ($uinfo = $QF->UList->Get_UserInfo($pdata['author_id']))
             {
-                $QF->VIS->Add_Node('USER_INFO_MIN_DIV', 'AUTHOR_INFO', $cur_node, $uinfo /*+ Array('HIDE_ACCESS' => 1)*/);
-                $node_params['AUTHOR'] = $uinfo['nick'];
+                $QF->VIS->Add_Node('USER_INFO_MIN_DIV', 'AUTHOR_INFO', $cur_node, $uinfo + Array('HIDE_ACCESS' => 1));
+                $node_params['author'] = $uinfo['nick'];
             }
-            elseif ($pdata['author'])
-                $node_params['AUTHOR_INFO'] = $pdata['author'];
-            else
+            elseif (!$pdata['author'])
                 $node_params['AUTHOR_INFO'] = Lang('NO_DATA');
+            if ($pdata['ch_user_id'] && ($uinfo = $QF->UList->Get_UserInfo($pdata['ch_user_id'])))
+                $node_params['ch_user'] = $uinfo['nick'];
+            else
+                $node_params['ch_user_id'] = null;
 
-            $QF->VIS->Add_Data_Array($cur_node, $node_params);
-
+            $QF->VIS->Add_Data_Array($cur_node, $node_params + $root_params);
         }
 
+        $QF->VIS->Add_Data_Array($root_node, $root_params);
         return $root_node;
     }
 
@@ -100,10 +122,59 @@ class QF2_PostTree
         return false;
     }
 
-    function Add_Post($tid, $text, $parent = 0, $params = null)
+    function Modify_Post($pid, $text, $params = null)
     {        global $QF, $FOX;
 
-        if (!($tree = Get_Tree($tid)))
+        $posts = $this->_Load_Posts($pid);
+        if (!isset($posts[$pid]))
+            return false;
+        $pinfo = $posts[$pid];
+
+        $tid = $pinfo['root_id'];
+        if (!($tinfo = $this->Get_Tree($tid)))
+            return false;
+
+        $data = Array(
+            'author' => $pinfo['author'], 'author_id' => $pinfo['author_id'], 'time' => $pinfo['time'],
+            'locked' => $pinfo['locked'], 'marked' => $pinfo['marked'], 'deleted' => $pinfo['deleted'],
+            'ch_user' => $QF->User->uname, 'ch_user_id' => $QF->User->UID, 'ch_time' => $QF->Timer->time,
+            );
+
+        qf_array_modify($data, $params);
+
+        $data['ch_user_ip'] = $QF->HTTP->IP_int;
+
+        $QF->Run_Module('Parser');
+        $QF->Parser->Init_Std_Tags();
+        $text = $QF->Parser->Parse($text, QF_BBPARSE_CHECK);
+        $hash = md5($text);
+
+        $t_data = Array(
+            'o_text' => $text,
+            'p_text' => $QF->Parser->Parse($text, QF_BBPARSE_PREP),
+            'preparsed' => 1,
+            'hash' => $hash,
+            );
+
+        // TODO: checking for hash
+
+        $cachename = QF_PSTTREE_CACHE_PREFIX.$tid;
+        if ($QF->DBase->Do_Update('pt_posts', $data, Array('post_id' => $pid)) !== false)
+        {
+            $t_data['post_id'] = $pid;
+            $QF->DBase->Do_Update('pt_ptext', $t_data, Array('post_id' => $pid));
+            $QF->Cache->Drop($cachename);
+            unset($this->ptrees[$tid]);
+            return true;
+        }
+        return false;
+    }
+
+    function Add_Post($tid, $text, $parent = 0, $params = null)
+    {
+        global $QF, $FOX;
+
+        if (!($tinfo = $this->Get_Tree($tid)))
             return false;
 
         if (!isset($tinfo['ptree'][$parent]))
@@ -141,7 +212,7 @@ class QF2_PostTree
             $QF->DBase->Do_Insert('pt_ptext', $t_data);
             $QF->Cache->Drop($cachename);
             unset($this->ptrees[$tid]);
-            return true;
+            return $pid;
         }
         return false;
     }
@@ -156,6 +227,20 @@ class QF2_PostTree
             return $this->ptrees[$tid];
 
         return null;
+    }
+
+    function Get_Post($pid)
+    {
+        global $QF, $FOX;
+        if (!is_numeric($pid))
+            return false;
+
+        $pid = (int) $pid;
+        $data = $this->_Load_Posts($pid);
+        if (count($data))
+            return $data[$pid];
+        else
+            return null;
     }
 
     function _Load_Posts($pids)
@@ -199,10 +284,10 @@ class QF2_PostTree
         }
         elseif ($tinfo = $QF->DBase->Do_Select('pt_roots', '*', Array('root_id' => $tid)))
         {            $pinfos = $QF->DBase->Do_Select_All('pt_posts', Array('post_id', 'parent', 'time', 'deleted'), Array('root_id' => $tid), 'ORDER BY `time` ASC' );
-            $i = 1;
-            foreach (array_keys($pinfos) as $id)
-                $pinfos[$id]['order_id'] = $i++;
             $ptree = qf_2darray_tree($pinfos, 'post_id', 'parent', 0);
+            $i = 1;
+            foreach (array_keys($ptree) as $id)
+                $ptree[$id]['order_id'] = $i++;
 
             $tinfo['ptree'] = $ptree;
 

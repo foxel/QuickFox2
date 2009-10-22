@@ -244,9 +244,9 @@ class QF2_Files
         if (!$fids)
             return false;
 
-        if ($fids == '!ALL')
-            $where = false;
-        else
+        $where = Array();
+
+        if ($fids != '!ALL')
         {
             if (!is_array($fids))
                 $fids = explode('|', $fids);
@@ -589,17 +589,18 @@ class QF2_Files
                 }
             }
 
-            $upd_data = Array('has_pics' => 0, 'pics_mime' => '', 'pics_name' => '', 'aspect_ratio' => 0, 'image_dims' => '');
-            $QF->DBase->Do_Update('files', $upd_data, Array('id' => $fid));
-            foreach ($upd_data as $key=>$val)
-                $finfo[$key] = $val;
-            $prv_file = $thb_file = false;
-
-            if (file_exists($prv_file))
-                unlink($prv_file);
-            if (file_exists($thb_file))
-                unlink($thb_file);
         }
+
+        $upd_data = Array('has_pics' => 0, 'pics_mime' => '', 'pics_name' => '', 'aspect_ratio' => 0, 'image_dims' => '');
+        $QF->DBase->Do_Update('files', $upd_data, Array('id' => $fid));
+        foreach ($upd_data as $key=>$val)
+            $finfo[$key] = $val;
+        $prv_file = $thb_file = false;
+
+        if (file_exists($prv_file))
+            unlink($prv_file);
+        if (file_exists($thb_file))
+            unlink($thb_file);
 
         return false;
     }

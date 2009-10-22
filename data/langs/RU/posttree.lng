@@ -1,2 +1,25 @@
 FOX2_PTREE_DIRECTLINK: Прямая ссылка на сообщение
 ---
+FOX2_PTREE_POSTEDITED: Изменено
+---
+FOX2_PTREE_DELPOST: Удаленное сообщение
+---
+FOX2_PTREE_POSTEDIT_LOCK: Блокировать сообщение
+---
+FOX2_PTREE_POSTEDIT_DELETE: Удалить сообщение
+---
+FOX2_PTREE_PAGEEDIT: Редактирование сообщения
+---
+FOX2_PTREE_PAGENEW: Новое сообщение
+---
+
+RES_PTREE_PTMANAGE_ADDED: Ваше сообщение успешно добавлено
+---
+RES_PTREE_PTMANAGE_MODDED: Сообщение успешно изменено
+---
+ERR_PTREE_PTMANAGE_NOTFOUND: Запрошенные данные не найдены
+---
+ERR_PTREE_PTMANAGE_ERROR: Ошибка обработки данных
+---
+RES_PTREE_PTMANAGE_LOWLEVEL: У Вас недостаточно прав
+---

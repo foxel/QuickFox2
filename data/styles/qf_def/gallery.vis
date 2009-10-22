@@ -71,6 +71,9 @@ var album_setEvents = function(sub_id)
 <h2>{!IN_CAPTION}</h2>
 {IN_PREVIEW_BLOCK}
 {VIS:FOX_WINDOW|CONTENTS=WIN_BODY|BOTTLINE=WIN_BOTT|WIDTH="500px"}
+{IF:IN_COMMENTS_PTREE}<div style="width: 550px; margin: 10px auto;">
+ {IN_COMMENTS_PTREE}
+</div>{ENDIF}
 <<- 'FOX_GALLERY_PAGE_ITEM'>>
 
 <<+ 'FOX_GALLERY_PREV_BLOCK_IMG'>>
@@ -245,15 +248,17 @@ album_setEvents('{COUNTER}');
  {L_FOX_GALLERY_NEWITEM_REQUEST}<br />
  {L_FOX_GALLERY_CAPTION}: <input type="text" name="caption" style="width: 50%;" /><br />
  {L_FOX_GALLERY_DESCRIPTION}:<br />
- <textarea name="description" style="width: 99%; height: 200px;"></textarea>
- {IF:IN_MY_ALBUMS}<div class="tiles sized qf_window_body" style="margin: 5px; width: 45%;">
+ <textarea rows="5" cols="40" name="description" style="height: 150px;"></textarea>
+<table class="inv_grid fullwidth"><tr>
+ {IF:IN_MY_ALBUMS}<td class="inv_grid" style="width: 50%;"><div class="sized qf_window_body" style="margin: 5px;">
   <div class="inv_grid alg_c">{L_FOX_GALLERY_MY_ALBUMS}</div>
   {IN_MY_ALBUMS}
- </div>{ENDIF}
- {IF:IN_PUBLIC_ALBUMS}<div class="tiles sized qf_window_body" style="margin: 5px; width: 45%;">
+ </div></td>{ENDIF}
+ {IF:IN_PUBLIC_ALBUMS}<td class="inv_grid"><div class="sized qf_window_body" style="margin: 5px;">
   <div class="inv_grid alg_c">{L_FOX_GALLERY_PUBLIC_ALBUMS}</div>
   {IN_PUBLIC_ALBUMS}
- </div>{ENDIF}
+ </div></td>{ENDIF}
+</tr></table>
  <br style="clear: both;" />{L_FOX_GALLERY_FILE_REQUEST}
  {IN_MYTEMPS}
 {!WRITE:WIN_BOTTLINE}
@@ -283,24 +288,26 @@ album_setEvents('{COUNTER}');
  <td>
   {L_FOX_GALLERY_CAPTION}: <input type="text" name="caption" style="width: 60%;" value="{!IN_CAPTION}" /><br />
   {L_FOX_GALLERY_DESCRIPTION}:<br />
-  <textarea name="description" style="width: 99%; height: 200px;">{IN_DESCR}</textarea>
+  <textarea rows="5" cols="40" name="description" style="height: 150px;">{IN_DESCR}</textarea>
  </td>
 </tr></table>
- {IF:IN_MY_ALBUMS}<div class="tiles sized qf_window_body" style="margin: 5px; width: 45%;">
+<table class="inv_grid fullwidth"><tr>
+ {IF:IN_MY_ALBUMS}<td class="inv_grid" style="width: 50%;"><div class="sized qf_window_body" style="margin: 5px;">
   <div class="inv_grid alg_c">{L_FOX_GALLERY_MY_ALBUMS}</div>
   {IN_MY_ALBUMS}
   {IF:IN_US_ALBUMS}<div class="inv_grid alg_c">{L_FOX_GALLERY_US_ALBUMS|IN_AUTHOR}</div>
   {IN_US_ALBUMS}{ENDIF}
- </div>
- {ELSEIF:IN_US_ALBUMS}<div class="tiles sized qf_window_body" style="margin: 5px; width: 45%;">
+ </div></td>
+ {ELSEIF:IN_US_ALBUMS}<td class="inv_grid" style="width: 50%;"><div class="sized qf_window_body" style="margin: 5px;">
   <div class="inv_grid alg_c">{L_FOX_GALLERY_US_ALBUMS|IN_AUTHOR}</div>
   {IN_US_ALBUMS}
- </div>{ENDIF}
- {IF:IN_PUBLIC_ALBUMS}<div class="tiles sized qf_window_body" style="margin: 5px; width: 45%;">
+ </div></td>{ENDIF}
+ {IF:IN_PUBLIC_ALBUMS}<td class="inv_grid"><div class="sized qf_window_body" style="margin: 5px;">
   <div class="inv_grid alg_c">{L_FOX_GALLERY_PUBLIC_ALBUMS}</div>
   {IN_PUBLIC_ALBUMS}
- </div>{ENDIF}
- <br style="clear: both;" />
+ </div></td>{ENDIF}
+</tr></table>
+
 {!WRITE:WIN_BOTTLINE}
  <input type="hidden" name="item_id" value="{IN_ID}" />
  <input type="hidden" name="script" value="gallery" />

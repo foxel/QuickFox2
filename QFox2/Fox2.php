@@ -666,7 +666,7 @@ class Fox2
             return '#';
     }
 
-    function On_VIS_Prep(&$indata, $type)
+    function On_VIS_Prep(&$indata, $type = false)
     {
         if (!is_array($this->URL_temps))
             $this->_Load_URLS();
@@ -674,7 +674,7 @@ class Fox2
         $indata = preg_replace_callback('#\{(?>(F)?URL:((?:\w+|\"[^\"]+\"|\|)+))\}#',Array(&$this, '_VISParse_URL_CB'),$indata);
     }
 
-    function On_EJS_Prep(&$indata, $type)
+    function On_EJS_Prep(&$indata, $type = false)
     {
         if (!is_array($this->URL_temps))
             $this->_Load_URLS();

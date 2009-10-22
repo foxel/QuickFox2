@@ -398,6 +398,28 @@ function qf_url_encode_part($string, $spec_rw = false)
     return $string;
 }
 
+// packs string data to be parsed via url :)
+function qf_url_str_pack($data)
+{
+    $data = (string) $data;
+    $hash = qf_short_hash($data);
+    $data = rawurlencode(base64_encode($hash.'|'.$data));
+    return $data;
+}
+
+// unpacks string parsed via url :)
+function qf_url_str_unpack($data)
+{
+    $data = (string) $data;
+    $data = base64_decode(rawurldecode($data));
+    list($hash, $data) = explode('|', $data, 2);
+    $rhash = qf_short_hash($data);
+    if ($hash == $rhash)
+        return $data;
+    else
+        return false;
+}
+
 // generates full url
 function qf_full_url($url, $with_amps = false, $force_host = '')
 {
@@ -844,9 +866,10 @@ function qf_array_parse($data, $call_back)
     return $data;
 }
 
-function qf_array_modify($old_one, $new_one)
+function qf_array_modify(&$old_one, $new_one)
 {
     if (!is_array($old_one) || !is_array($new_one))
+        return false;
     foreach ($new_one as $par=>$val)
         if (isset($old_one[$par]) && !is_null($val))
         {

@@ -135,6 +135,9 @@ input[type="text"]:hover, input[type="password"]:hover, input[type="file"]:hover
     { background-color: {controls_l}; border-color: {matte_brdl}; }
 input button { text-indent: 2px; }
 input.plain { background-color: inherit !important; }
+input-textarea, textarea { display: block; margin: 2px auto; min-height: 100px; width: 98%; }
+input[type="textarea"] { display: block; margin: 2px auto; min-height: 100px; width: 98%; }
+div.ta_resizer { display: block; margin: 0 auto; height: 5px; width: 98%; background-color: {matte_brd}; border-width: 0; padding: 0; }
 
 /* page text styling */
 .page_text { font-size: 110%; }

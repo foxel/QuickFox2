@@ -1370,6 +1370,14 @@ REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar
     VALUES('mod_rw_urlts', 'qf2', 'FOX2_HTC_DATA', 'htc-rules/%1$s.htc', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
     VALUES('RW_masks', 'qf2', 'htc-rules', 'a:2:{s:2:\"sr\";s:3:\"htc\";s:4:\"name\";s:2:\"$0\";}', '0', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('urltemplates', 'qf2', 'FOX2_PTREE_ANSWER', '{QF_INDEX}?st=ptmanage&amp;action=answer&amp;id=%1$s&amp;pid=%2$s&amp;return=%3$s', '1', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('mod_rw_urlts', 'qf2', 'FOX2_PTREE_ANSWER', 'ptree/answer/%1$s.html?pid=%2$s&amp;return=%3$s', '1', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('fox_pages', 'qf2', 'ptmanage', 'a:2:{s:6:\"module\";s:11:\"PTree_incls\";s:6:\"method\";s:13:\"Page_PTManage\";}', '0', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('fox_scripts', 'qf2', 'ptmanage', 'a:2:{s:6:\"module\";s:11:\"PTree_incls\";s:6:\"method\";s:15:\"Script_PTManage\";}', '0', '');
 
 
 # Data content for {DBKEY}config_sets 
