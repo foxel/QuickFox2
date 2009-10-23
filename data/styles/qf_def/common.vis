@@ -739,7 +739,7 @@ QF_EFFECTS.Show('mytemps_ctrl', 3); //]]></script>{ENDIF}
 
 <<+ 'USER_INFO_MIN'>>
 <div id="uinfo{COUNTER}" class="overlay alg_c" style="position: absolute; display: none; white-space: nowrap;">
-{IF:IN_avatar}<img src="{IN_avatar}" alt="{L_UINFO_AVATAR_ALT|IN_nick}" {IF:IN_AVATAR_WH}style="{IN_AVATAR_WH}"{ENDIF}>{ELSE}{L_UINFO_NO_AVATAR}{ENDIF}
+{IF:IN_avatar}<img src="{IN_avatar}" alt="{L_UINFO_AVATAR_ALT|IN_nick}" {IF:IN_AVATAR_WH}style="{IN_AVATAR_WH}"{ENDIF} />{ELSE}{L_UINFO_NO_AVATAR}{ENDIF}
 {IF:IN_av_sig}<br />{!IN_av_sig}{ENDIF}
 <br />{VIS:US_LEVEL_MARK|LEVEL=IN_LEVEL|M_LVL=IN_M_LVL}
 </div>
@@ -749,7 +749,7 @@ QF_EFFECTS.Show('mytemps_ctrl', 3); //]]></script>{ENDIF}
 
 <<+ 'USER_INFO_MIN_DIV'>>
 <div id="uinfo{COUNTER}" class="alg_c" style="{IF:IN_FLOAT}float: left; {ENDIF}white-space: nowrap; margin: 5px 3px;">
-{IF:IN_avatar}<img src="{IN_avatar}" alt="{L_UINFO_AVATAR_ALT|IN_nick}" {IF:IN_AVATAR_WH}style="{IN_AVATAR_WH}"{ENDIF}>{ELSE}{L_UINFO_NO_AVATAR}{ENDIF}
+{IF:IN_avatar}<img src="{IN_avatar}" alt="{L_UINFO_AVATAR_ALT|IN_nick}" {IF:IN_AVATAR_WH}style="{IN_AVATAR_WH}"{ENDIF} />{ELSE}{L_UINFO_NO_AVATAR}{ENDIF}
 {IF:IN_av_sig}<br />{!IN_av_sig}{ENDIF}
 {!IF:IN_HIDE_ACCESS}<br />{VIS:US_LEVEL_MARK|LEVEL=IN_LEVEL|M_LVL=IN_M_LVL}{ENDIF}
 <br /><a href="{URL:fox2_userinfo_page|IN_uid}">{!IN_nick}</a>
@@ -762,7 +762,7 @@ QF_EFFECTS.Show('mytemps_ctrl', 3); //]]></script>{ENDIF}
 {!WRITE:WIN_CONT}
 <table class="inv_grid fullwidth"><tr>
  <td class="alg_c alg_t nowrap" style="width: 100px; padding: 10px 1px;">
-  {IF:IN_avatar}<img src="{IN_avatar}" alt="{L_UINFO_AVATAR_ALT|IN_nick}" {IF:IN_AVATAR_WH}style="{IN_AVATAR_WH}"{ENDIF}>{ELSE}{L_UINFO_NO_AVATAR}{ENDIF}
+  {IF:IN_avatar}<img src="{IN_avatar}" alt="{L_UINFO_AVATAR_ALT|IN_nick}" {IF:IN_AVATAR_WH}style="{IN_AVATAR_WH}"{ENDIF} />{ELSE}{L_UINFO_NO_AVATAR}{ENDIF}
   <br />{IN_NICK}
   <br />{VIS:US_LEVEL_MARK|LEVEL=IN_LEVEL|M_LVL=IN_M_LVL|A_LVL=IN_A_LVL}
   {IF:IN_av_sig}<br />{!IN_av_sig}{ENDIF}
@@ -799,7 +799,7 @@ QF_EFFECTS.Show('mytemps_ctrl', 3); //]]></script>{ENDIF}
  <table class="inv_grid fullwidth">
   <tr><td class="inv_grid" style="height: 100px; vertical-align: middle;">
    {IF:IN_avatar}
-   <a href="{URL:fox2_userinfo_page|IN_UID}" title="{IN_NICK}"><img src="{IN_avatar}" alt="{L_UINFO_AVATAR_ALT|IN_nick}" {IF:IN_AVATAR_WH}style="{IN_AVATAR_WH}"{ENDIF}></a>
+   <a href="{URL:fox2_userinfo_page|IN_UID}" title="{IN_NICK}"><img src="{IN_avatar}" alt="{L_UINFO_AVATAR_ALT|IN_nick}" {IF:IN_AVATAR_WH}style="{IN_AVATAR_WH}"{ENDIF} /></a>
    {ELSE}{L_UINFO_NO_AVATAR}{ENDIF}
   </td></tr>
   <tr><td class="inv_grid" style="height: 50px; vertical-align: middle;">

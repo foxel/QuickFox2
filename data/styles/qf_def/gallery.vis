@@ -146,7 +146,7 @@ if (itm)
  <div class="alg_l qf_window_body" style="margin-top: 5px;">
   <table class="inv_grid fullwidth"><tr>
   <td class="alg_l alg_m inv_grid nowrap">
-  {IF:IN_uavatar}<img src="{IN_uavatar}" alt="{L_UINFO_AVATAR_ALT|IN_nick}" {IF:IN_UAVATAR_WH}style="{IN_UAVATAR_WH}"{ENDIF}>{ELSE}{L_UINFO_NO_AVATAR}{ENDIF}
+  {IF:IN_uavatar}<img src="{IN_uavatar}" alt="{L_UINFO_AVATAR_ALT|IN_nick}" {IF:IN_UAVATAR_WH}style="{IN_UAVATAR_WH}"{ENDIF} />{ELSE}{L_UINFO_NO_AVATAR}{ENDIF}
   </td>
   <td class="inv_grid">
    <a href="{URL:fox2_userinfo_page|IN_uid}">{!IN_unick}</a><br />

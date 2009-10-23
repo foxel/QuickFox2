@@ -181,11 +181,11 @@ c2642aa8e54b9af354211d62fc0720e7 data/langs/RU/qf2_cfgs.lng
 d761024c859c725e9b6c4fd336ef2fe4 data/styles/qf_def/admin.vis
 90650c6d6b6aa4fe92691c1e52289529 data/styles/qf_def/cms_spec.vis
 177cd04e19e6b69139885c2bda326551 data/styles/qf_def/common.ecss
-29b211fd8781d26502a68ef2a431076a data/styles/qf_def/common.vis
+96b2a66dc530b9adfc5a649bf4e17547 data/styles/qf_def/common.vis
 89b944d8a4e9f29e621b7efece0ec62a data/styles/qf_def/multiuser.vis
 17c24444c94388b77b696dcaa4b563b2 data/styles/qf_def/posttree.vis
 9d26b8056c2d90dd878c4ce4fc849258 data/styles/qf_def/qf_setup.vis
-b3dece7c725d698f5346baf8bf7d91f2 data/styles/qf_def/usercab.vis
+25262b93a47e55de974160a8c4d5d4f4 data/styles/qf_def/usercab.vis
 e1ac98d3e63c53940f691a45ef32f6d1 static/player.swf
 ea7c48d9553fc5d09bd88cec5ec023dc static/uploader.swf
 0888a6d89464491cd48d3f9794823da4 static/images/add_file.png
@@ -228,7 +228,7 @@ cc587cd7f4a4b3e054163da361b52c8f static/images/styles/qf_def/pg_bott_rt.png
 1514e32a37e6b4e47540ddd937a07f1f index.php
 62a1c54f2b8565eca6c599437f6a48a3 data/modules/Fox2_Gal.php
 8d0a8257af19a2d4b2740681b80c3156 data/modules/Fox2_Gal_Incls.php
-7f77783f384e71d7db6c85281d3c03cc data/styles/qf_def/gallery.vis
+cd75f1ca2cdcdbb52f92e31e642b613f data/styles/qf_def/gallery.vis
 4a5dc49a38a79537540fafffe65d6ffb data/langs/RU/gallery.lng
 64815bd72b137c44dcfc8143d8932ea2 data/modules/Fox2_GAdds.php
 e88aca228ef16eebbff61a74c0c2d5c8 data/langs/RU/google_adds_cfgs.lng
