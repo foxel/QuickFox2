@@ -4,6 +4,9 @@
 //            QuickFox 2 setup script                        (c) LION 2008    \\
 // -------------------------------------------------------------------------- \\
 
+if ( PHP_VERSION < '4.1.0' )
+    die('PHP 4.1.0 required');
+
 // this is TAR unpacker in gz compressed format (setup.php is 5 kB now instead of 14)
 $TAR_GZ_Class =
 'eNrdGttu00j0HYl/GCAithrSUBYtIpjdUhGWJ1alEhIXoYk9Try1PZE9bppC/33PGY9TO5lxJk2q
@@ -63,9 +66,12 @@ function setup_err_parse($errno, $errstr, $errfile, $errline)
 // Let's Set init_err_handler
 set_error_handler('setup_err_parse');
 
-$SET_step = (PHP_VERSION >= '4.1.0') ? $_POST['step'] : $HTTP_POST_VARS['step'];
-$SET_act  = (PHP_VERSION >= '4.1.0') ? $_POST['action'] : $HTTP_POST_VARS['action'];
+$SET_step = $_POST['step'];
+$SET_act  = $_POST['action'];
 $error    = '';
+
+if ($_GET['extracted'] && file_exists('index.php'))
+    $SET_step = 'data_acc';
 
 // this script only performs data extracting
 // all other operations provided by install script from the package
