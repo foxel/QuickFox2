@@ -3,7 +3,7 @@
 <h3 class="aligned">{L_FOX_GALLERY_LAST_ALBUMS}</h3>
 <script type="text/javascript">
 // <![CDATA[
-var album_setEvents = function(sub_id)
+var Fox2_Gal_album_setEvents = function(sub_id)
 {
     var itm = qf_getbyid('alb_' + sub_id + '_1');
     if (!itm) return false;
@@ -31,6 +31,11 @@ var album_setEvents = function(sub_id)
 </div>
 </div>
 {ENDIF}
+{IF:IN_ITEMS_JSLOAD}<script type="text/javascript">
+// <![CDATA[
+ {IN_ITEMS_JSLOAD}
+//]]>
+</script>{ENDIF}
 <<- 'FOX_GALLERY_PAGE'>>
 
 
@@ -93,25 +98,15 @@ var album_setEvents = function(sub_id)
  <br style="clear: both;" />
 </div>
 {IF:IN_PAGE_BTNS}<div class="alg_c" style="margin: 20px">|{IN_PAGE_BTNS}</div>{ENDIF}
+{IF:IN_ITEMS_JSLOAD}<script type="text/javascript">
+// <![CDATA[
+ {IN_ITEMS_JSLOAD}
+//]]>
+</script>{ENDIF}
 <<- 'FOX_GALLERY_PAGE_ALBUM'>>
 
 <<+ 'FOX_GALLERY_PAGE_ALBUMS'>>
 <h2 class="aligned">{IF:IN_PERSONAL}{L_FOX_GALLERY_PALBUMS}{ELSE}{L_FOX_GALLERY_PUBLIC_ALBUMS}{ENDIF}</h2>
-<script type="text/javascript">
-// <![CDATA[
-var album_setEvents = function(sub_id)
-{    var itm = qf_getbyid('alb_' + sub_id + '_1');
-    if (!itm) return false;
-    itm.onmouseover = function() { QF_EFFECTS.Alpha('alb_' + sub_id + '_0', 10); };
-    itm.onmouseout  = function() { QF_EFFECTS.Alpha('alb_' + sub_id + '_0', 100); };
-    var itm = qf_getbyid('alb_' + sub_id + '_2');
-    if (!itm) return false;
-    itm.onmouseover = function() { QF_EFFECTS.Alpha('alb_' + sub_id + '_0', 10); QF_EFFECTS.Alpha('alb_' + sub_id + '_1', 10); };
-    itm.onmouseout  = function() { QF_EFFECTS.Alpha('alb_' + sub_id + '_0', 100); QF_EFFECTS.Alpha('alb_' + sub_id + '_1', 100); };
-    return true;
-}
-//]]>
-</script>
 <div style="margin: 10px 10px 10px 30px;">
  {IF:IN_ALBUMS}{IN_ALBUMS}{ELSE}<div class="alg_c" style="margin: auto; padding: 30px; clear: both;"><h3>[ {L_FOX_GALLERY_NO_ALBUMS} ]</h3></div>{ENDIF}
  <br style="clear: both;" />
@@ -168,6 +163,11 @@ if (itm)
  <br style="clear: both;" />
 </div>
 {IF:IN_PAGE_BTNS}<div class="alg_c" style="margin: 20px">|{IN_PAGE_BTNS}</div>{ENDIF}
+{IF:IN_ITEMS_JSLOAD}<script type="text/javascript">
+// <![CDATA[
+ {IN_ITEMS_JSLOAD}
+//]]>
+</script>{ENDIF}
 <<- 'FOX_GALLERY_PAGE_UALBUM'>>
 
 <<+ 'FOX_GALLERY_UALBUM_ALBUM'>>
@@ -206,7 +206,7 @@ if (itm)
 </div>
 <script type="text/javascript">
 // <![CDATA[
-album_setEvents('{COUNTER}');
+Fox2_Gal_album_setEvents('{COUNTER}');
 //]]>
 </script>
 <<- 'FOX_GALLERY_ALBUMS_ALBUM'>>
@@ -215,7 +215,8 @@ album_setEvents('{COUNTER}');
 <div class="alg_c tiles sized qf_window" style="margin: 5px; width:150px; height: auto;">
  <table class="inv_grid fullwidth">
   <tr><td class="inv_grid" style="height: {IF:IN_T_HEIGHT}{IN_T_HEIGHT}px{ELSE}130px{ENDIF}; vertical-align: middle;">
-   <a href="{URL:FoxGal_item|IN_ID}" title="{!IN_CAPTION}"><img src="{URL:fox2_file_thumb|IN_FILE_ID|IN_PICS_NAME}" alt="filethumb" {IF:IN_WIDTH_HEIGHT}style="{IN_WIDTH_HEIGHT}"{ENDIF} /></a>
+
+   <a href="{URL:FoxGal_item|IN_ID}" title="{!IN_CAPTION}"><img id="thb_{IN_ID}" src="{URL:fox2_file_thumb|IN_FILE_ID|IN_PICS_NAME}" alt="filethumb" {IF:IN_WIDTH_HEIGHT}style="{IN_WIDTH_HEIGHT}"{ENDIF} /></a>
   </td></tr>
   <tr><td class="qf_window_body alg_m alg_c">
    <div class="inv_grid sized alg_c" style="width: 140px; height: 80px;">
@@ -227,8 +228,19 @@ album_setEvents('{COUNTER}');
    </div>
   </td></tr>
  </table>
+ <script type="text/javascript">
+ </script>
 </div>
 <<- 'FOX_GALLERY_ALBUM_ITEM'>>
+
+<<+ 'FOX_GALLERY_ALBUM_ITEM_JS'>>
+{WRITE:ICAPT}{IN_CAPTION} [{!IN_AUTHOR}]{ENDIF}
+{!WRITE}
+{IF:IN_JSPIC_WIDTH}
+ Fox2_Gal_AddPic('thb_{IN_ID}', '{IN_ID}');
+ FOX2_IMGSHOW.AddPage('{IN_ID}', '{IF:IN_JS_FULLSIZE}{FURL:fox2_file_download_bysess|IN_FILE_ID|IN_FILENAME}{ELSE}{FURL:fox2_file_preview|IN_FILE_ID|IN_PICS_NAME}{ENDIF}', {JS_DEF:IN_JSPIC_WIDTH}, {JS_DEF:IN_JSPIC_HEIGHT}, {JS_DEF:ICAPT});
+{ENDIF}
+<<- 'FOX_GALLERY_ALBUM_ITEM_JS'>>
 
 <<+ 'FOX_GALLERY_ALBUM_PG_BTN'>>
 {IF:IN_SEPAR}<b class="hlight_btn"> ... </b>|{ELSE}{IF:IN_CUR}<b class="hlight_btn">[{IN_page}]</b>|{ELSE}<a class="hlight_btn" href="{IF:IN_UALBUM}{URL:FoxGal_user_page|IN_UALBUM|IN_page}{ELSEIF:IN_AID}{URL:FoxGal_album_page|IN_AID|IN_ATID|IN_page}{ELSEIF:IN_PERSONAL}{URL:FoxGal_palbums_page|IN_page}{ELSE}{URL:FoxGal_albums_page|IN_page}{ENDIF}" title="{IN_page}"> {IN_page} </a>|{ENDIF}{ENDIF}
@@ -337,3 +349,51 @@ album_setEvents('{COUNTER}');
 {VIS:FOX_WINDOW|CAPTION=WIN_CAPT|CONTENTS=WIN_CONT|BOTTLINE=WIN_BOTTLINE|WIDTH="70%"|DOM_ID="store_form"}
 </form>
 <<- 'FOX_GALLERY_PAGE_NEWALBUM'>>
+
+
+<<+ 'JS'>>
+var Fox2_Gal_album_setEvents = function(sub_id)
+{
+    var itm = qf_getbyid('alb_' + sub_id + '_1');
+    if (!itm) return false;
+    itm.onmouseover = function() { QF_EFFECTS.Alpha('alb_' + sub_id + '_0', 10); };
+    itm.onmouseout  = function() { QF_EFFECTS.Alpha('alb_' + sub_id + '_0', 100); };
+    var itm = qf_getbyid('alb_' + sub_id + '_2');
+    if (!itm) return false;
+    itm.onmouseover = function() { QF_EFFECTS.Alpha('alb_' + sub_id + '_0', 10); QF_EFFECTS.Alpha('alb_' + sub_id + '_1', 10); };
+    itm.onmouseout  = function() { QF_EFFECTS.Alpha('alb_' + sub_id + '_0', 100); QF_EFFECTS.Alpha('alb_' + sub_id + '_1', 100); };
+    return true;
+}
+
+var Fox2_Gal_AddPic = function(pic_id, show_id)
+{    var itm = qf_getbyid(pic_id);
+    if (!itm || !itm.tagName || itm.tagName.toLowerCase() != 'img')
+        return;
+    var width = itm.offsetWidth;
+    var par;
+    while (!par || !par.tagName || !(par.tagName.toLowerCase() == 'td' || par.tagName.toLowerCase() == 'div'))
+    {        if (par)
+            itm = par;
+        par = itm.parentNode;
+    }
+    var pwidth = par.clientWidth;
+
+    if (!width || !pwidth)
+        return QF_TIMERS.addOnLoad( function(){ Fox2_Gal_AddPic(pic_id, show_id); } );
+
+    var over = document.createElement('div');
+    over.id = 'over_'+pic_id;
+    var ostl = getStyleObj(over);
+    ostl.position = 'relative';
+    ostl.zIndex = '2';
+    ostl.cursor = 'pointer';
+    ostl.width = ostl.height = '20px';
+    var sepWidth = (pwidth - width)/2;
+    ostl.margin = '0 auto -20px '+(pwidth-sepWidth-20)+'px';
+    ostl.padding = '0';
+    ostl.textAlign = 'right';
+    over.innerHTML = '<img src="{IMGS}/img_enlarge_sm.png" style="width: 20px; height: 20px;" alt="*" onclick="FOX2_IMGSHOW.ShowPage(\''+show_id+'\')" />';
+    par.insertBefore(over, itm);
+
+}
+<<- 'JS'>>

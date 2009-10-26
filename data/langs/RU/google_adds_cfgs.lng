@@ -1,10 +1,11 @@
-CFG_GADDS_ANALYTICS_ID: Идентификатор веб-ресурса в системе Google Analytics<br />
+CFG_GADDS_ANALYTICS_ID: Идентификатор веб-ресурса в системе <a href="http://www.google-analytics.com/">Google Analytics</a>.<br />
  Укажите ваш идентификатор в формате UA-xxxxxxxx-x. После указания данного параметра QuickFox автоматически добавит код слежения к страницам сайта.<br />
  Если у Вас нет аккаунта на Google Analytics, оставьте поле пустым.
 ---
-CFG_GADDS_WEBMASTERS_CODE: Google Инструменты для веб-мастеров.
- Метатег для подтверждения того, что вы являетесь владельцем сайта.
+CFG_GADDS_WEBMASTERS_CODE: <a href="https://www.google.com/webmasters/tools/">Google Инструменты для веб-мастеров</a>.<br />
+ Мета-тег для подтверждения того, что вы являетесь владельцем сайта.
  Указывайте только содержание метатега.<br />
- Пример: <i>&lt;meta name="verify-v1" content="<b>{ваш_код}</b>" /&gt;</i><br />
+ Google предложит Вам разместить мета-тэг вида: <i>&lt;meta name="google-site-verification" content="<b>{ваш_код}</b>" /&gt;</i>
+  - Вам необходимо указать в данном поле только <i>{ваш_код}</i>.<br />
  Не рекомендуется оставлять этот код установленным после его подтверждения сервисом Google.
 ---

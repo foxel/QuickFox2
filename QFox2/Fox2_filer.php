@@ -27,7 +27,7 @@ define('QF_FILES_IDIMS_PREVIEW', 2);
 
 define('FOX_ERR_FILES_DUPLICATE', 0x20);
 
-class QF2_Files
+class Fox2_Files
 {
 
     var $infos = Array();
@@ -35,7 +35,7 @@ class QF2_Files
     var $f_tids = Array();
     var $fconts = Array();
 
-    function QF2_Files()
+    function Fox2_Files()
     {
 
     }

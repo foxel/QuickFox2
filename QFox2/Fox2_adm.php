@@ -76,7 +76,7 @@ class Fox2_adm
                 $pg_node = qf_func_call_arr(Array(&$QF->$data['module'], $data['method']), Array(&$admp_subtitle, &$admd_result));
                 if ($pg_node)
                     $QF->VIS->Append_Node($pg_node, 'ADM_FRAME', $ADM_FRAME);
-                if ($p_subtitle)
+                if ($admp_subtitle)
                     $QF->VIS->Add_Data($ADM_FRAME, 'PFRAME_SUBTITLE', $admp_subtitle);
             }
 

@@ -216,6 +216,7 @@ class Fox2_CMS_Adm
 
         if (!$QF->User->UID || !$QF->User->adm_level)
         {
+            $QF->LNG->Load_Language('admin');
             $d_result = array(Lang('ADMPANEL_ERR_NOADMIN'), QF_INDEX, true);
             //header ($QF->HTTP->SERVER["SERVER_PROTOCOL"].' 403 Forbidden');
         }

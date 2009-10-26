@@ -15,7 +15,7 @@ define('QF_DATASETS_LOADED', true);
 
 define('QF_DATASETS_CACHEPREFIX', 'DSET.');
 
-class QF2_DSets
+class Fox2_DSets
 {
     var $datasets = Array();
     var $datapkgs = Array();
@@ -24,7 +24,7 @@ class QF2_DSets
     var $packages = Array();
 
 
-    function QF2_DSets()
+    function Fox2_DSets()
     {
 
     }
@@ -96,6 +96,18 @@ class QF2_DSets
         }
         else
             return Array();
+    }
+
+    function Get_DSets()
+    {
+        global $QF;
+        $data = $QF->DBase->Do_Select_All('datasets', 'set_id', Array('package' => $this->filter), 'GROUP BY `set_id`');
+        if (is_array($data) && count($data))
+        {            $data = array_unique(array_values($data));
+            return ($data);
+        }
+
+        return Array();
     }
 
     function Get_DSet($set_name, $ret_pkgs = false )

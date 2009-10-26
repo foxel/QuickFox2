@@ -31,8 +31,8 @@
  if (document.all && /MSIE (5\.5|6)/.test(navigator.userAgent) &&
   document.styleSheets && document.styleSheets[0] && document.styleSheets[0].addRule)
  {
-  document.styleSheets[0].addRule('input', 'behavior: url("{FURL:fox2_htc_data|"ie_inputs"}")');
-  document.styleSheets[0].addRule('img', 'behavior: url("{FURL:fox2_htc_data|"ie_png"}")');
+  document.styleSheets[0].addRule('input', 'behavior: url("{RURL:fox2_htc_data|"ie_inputs"}")');
+  document.styleSheets[0].addRule('img', 'behavior: url("{RURL:fox2_htc_data|"ie_png"}")');
  }
  {IN_JS}
 //]]> JavaScript ends here

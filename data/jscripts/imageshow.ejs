@@ -3,17 +3,22 @@ var FOX2_IMGSHOW = function()
     var pages = [],
         pCount = 0,
         curId = -1,
+        curLarge = false,
+        curW = 0, curH = 0,
         pgDiv = null, pgStl = null,
         pgPic = null, pcStl = null,
         cpDiv = null, cpStl = null,
         resCB = null,
         dragRect = {minX: 0, maxX: 0, minY: 0, maxY: 0},
-        clBtn, ltBtn, rtBtn,
+        clBtn, ltBtn, rtBtn, elBtn,
         btnsCont = {
-            l: '<img src="{ST_IMGS}/img_left_btn.gif" style="width: 35px; height: 60px;" alt="go left" />',
-            r: '<img src="{ST_IMGS}/img_right_btn.gif" style="width: 35px; height: 60px;" alt="go right" />',
-            c: '<img src="{ST_IMGS}/img_exit_btn.gif" style="width: 70px; height: 70px;" alt="return" />'},
-        btnsHeight = 60;
+            l: '<img src="{IMGS}/img_go_left.png" style="width: 40px; height: 60px;" alt="<=" />',
+            r: '<img src="{IMGS}/img_go_right.png" style="width: 40px; height: 60px;" alt="=>" />',
+            c: '<img src="{IMGS}/img_return.png" style="width: 60px; height: 60px;" alt="[X]" />',
+            e: '<img src="{IMGS}/img_enlarge.png" style="width: 40px; height: 40px;" alt="X" />'},
+        btnsHeight = 60,
+        maxPicWidth = (screen) ? screen.width*1.2 : 1500,
+        maxPicHeight = (screen) ? screen.height*1.2 : 1000;
 
 
     var _PrepOverlay = function()
@@ -25,7 +30,7 @@ var FOX2_IMGSHOW = function()
 
         // buttons
         clBtn = document.createElement('div');
-        clBtn.id = 'QF_ImgShowBtnLt';
+        clBtn.id = 'QF_ImgShowBtnCl';
         QF_EFFECTS.Overlay.insertBefore(clBtn, QF_EFFECTS.Overlay.firstChild);
         clBtn.onclick = _CloseOnClick;
         clBtn.innerHTML = btnsCont.c;
@@ -78,10 +83,22 @@ var FOX2_IMGSHOW = function()
         pgDiv.className = 'overlay inv_grid';
         pgStl = getStyleObj(pgDiv);
         pgStl.position = 'absolute';
-        pgStl.cursor = 'pointer';
+        pgStl.cursor = 'default';
         pgDiv.onmousedown = _PageOnPress;
         //pgDiv.onmouseup = _PageOnRelease;
         QF_EFFECTS.Invisible('QF_ImgShowPg');
+
+        elBtn = document.createElement('div');
+        elBtn.id = 'QF_ImgShowBtnEl';
+        pgDiv.insertBefore(elBtn, pgDiv.firstChild);
+        elBtn.onclick = _EnlargeOnClick;
+        elBtn.innerHTML = btnsCont.e;
+        var elStl = getStyleObj(elBtn);
+        elStl.position = 'absolute';
+        elStl.zIndex = 2;
+        elStl.top = '0px';
+        elStl.right = '0px';
+        elStl.cursor = 'pointer';
 
         pgPic = document.createElement('img');
         pgPic.id = 'QF_ImgShowPic';
@@ -116,20 +133,55 @@ var FOX2_IMGSHOW = function()
 
         var clientWidth = pgDiv.parentNode.clientWidth;
         var clientHeight = pgDiv.parentNode.clientHeight - 50;
-        pgStl.top  = ((clientHeight - pgData.ih)/2)+'px';
-        pgStl.left = ((clientWidth - pgData.iw)/2)+'px';
-        dragRect.maxY = Math.max((clientHeight - pgData.ih)/2, 20);
-        dragRect.minY = Math.min((clientHeight - pgData.ih)/2, clientHeight - pgData.ih - 20);
-        dragRect.maxX = Math.max((clientWidth - pgData.iw)/2, 50);
-        dragRect.minX = Math.min((clientWidth - pgData.iw)/2, clientWidth - pgData.iw - 50);
+
+        if (!curLarge)
+        {
+            var mult = Math.min(1, (clientWidth - 100)/pgData.iw, (clientHeight - 40)/pgData.ih);
+            curW = pgData.iw*mult;
+            curH = pgData.ih*mult;
+            pcStl.width  = curW+'px';
+            pcStl.height = curH+'px';
+            if (mult < 1)
+                QF_EFFECTS.Show('QF_ImgShowBtnEl', 1);
+            else
+                QF_EFFECTS.Hide('QF_ImgShowBtnEl', 1);
+        }
+
+        pgStl.top  = ((clientHeight - curH)/2)+'px';
+        pgStl.left = ((clientWidth - curW)/2)+'px';
+        dragRect.maxY = Math.max((clientHeight - curH)/2, 20);
+        dragRect.minY = Math.min((clientHeight - curH)/2, clientHeight - curH - 20);
+        dragRect.maxX = Math.max((clientWidth - curW)/2, 50);
+        dragRect.minX = Math.min((clientWidth - curW)/2, clientWidth - curW - 50);
         //for (var ii in dragRect)
         //    alert(dragRect[ii]);
 
         var ltStl = getStyleObj(ltBtn);
         var rtStl = getStyleObj(rtBtn);
         ltStl.top = rtStl.top = ((clientHeight - 60)/2)+'px';
-        var btnPos = Math.max((clientWidth - pgData.iw)/2 - 70, 20);
+        var btnPos = Math.max((clientWidth - curW)/2 - 70, 20);
         rtStl.right = ltStl.left = btnPos+'px';
+    }
+
+    var _EnlargeOnClick = function()
+    {
+        if (curId < 0 || !pages[curId])
+            return;
+        var pgData = pages[curId];
+
+        curW = pgData.iw;
+        curH = pgData.ih;
+        QF_EFFECTS.Hide('QF_ImgShowBtnEl', 1);
+
+        pcStl.width  = curW+'px';
+        pcStl.height = curH+'px';
+
+        pgStl.cursor = 'move';
+        curLarge = true;
+
+        _RepositionCB();
+
+        return false;
     }
 
     var _CloseOnClick = function()
@@ -192,14 +244,22 @@ var FOX2_IMGSHOW = function()
             pgPic.parentNode.removeChild(pgPic);
         pgPic = document.createElement('img');
         pgPic.id = 'QF_ImgShowPic';
+        pcStl = getStyleObj(pgPic);
         pgDiv.insertBefore(pgPic, pgDiv.firstChild);
         pgPic.className = 'bordered';
 
         cpDiv.innerHTML = '<b>'+pgData.icapt+'</b>';
 
         pgPic.src = pgData.url;
-        pcStl.width  = pgData.iw+'px';
-        pcStl.height = pgData.ih+'px';
+
+        curW = pgData.iw;
+        curH = pgData.ih;
+        pcStl.width  = curW+'px';
+        pcStl.height = curH+'px';
+
+        curLarge = false;
+        pgStl.cursor = 'default';
+
         _RepositionCB();
         //QF_EFFECTS.Resize('QF_ImgShowPg', pgData.iw, pgData.ih); // needed to actually change the size
         QF_EFFECTS.Show('QF_ImgShowPg', 1, 100);
@@ -207,8 +267,10 @@ var FOX2_IMGSHOW = function()
 
     return {
         setBtnsCont: function (conts) {btnsCont = conts;},
-        AddPage: function (id, url, iw, ih, icapt)
-        {            pages[pCount] = {id: id, url: url, iw: iw, ih: ih, icapt: icapt};
+        AddPage: function (id, url, iw, ih, icapt, forceFullSize)
+        {            var mult = forceFullSize ? 1 : Math.min(1, maxPicWidth/iw, maxPicHeight/ih);
+            pages[pCount] = {id: id, url: url, iw: iw*mult, ih: ih*mult, icapt: icapt};
+
             pCount++;
         },
         ShowPage: function(id)

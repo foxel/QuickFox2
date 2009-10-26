@@ -25,7 +25,7 @@ class Fox2_GoogleAdds
         $GWM_CODE = $QF->Config->Get('gwebmasters_code', 'googleadds');
         if (preg_match('#^[\w\/\=\+]+$#D', $GWM_CODE))
         {
-            $QF->VIS->Add_Data(0, 'META', '<meta name="verify-v1" content="'.$GWM_CODE.'" />');
+            $QF->VIS->Add_Data(0, 'META', '<meta name="google-site-verification" content="'.$GWM_CODE.'" />');
         }
     }
 }

@@ -671,7 +671,7 @@ class Fox2
         if (!is_array($this->URL_temps))
             $this->_Load_URLS();
 
-        $indata = preg_replace_callback('#\{(?>(F)?URL:((?:\w+|\"[^\"]+\"|\|)+))\}#',Array(&$this, '_VISParse_URL_CB'),$indata);
+        $indata = preg_replace_callback('#\{(?>(F|R)?URL:((?:\w+|\"[^\"]+\"|\|)+))\}#',Array(&$this, '_VISParse_URL_CB'),$indata);
     }
 
     function On_EJS_Prep(&$indata, $type = false)
@@ -679,7 +679,7 @@ class Fox2
         if (!is_array($this->URL_temps))
             $this->_Load_URLS();
 
-        $indata = preg_replace_callback('#\{(?>(F)?URL:((?:\w+|\"[^\"]+\"|\|)+))\}#',Array(&$this, '_VISParse_URL_CB'),$indata);
+        $indata = preg_replace_callback('#\{(?>(F|R)?URL:((?:\w+|\"[^\"]+\"|\|)+))\}#',Array(&$this, '_VISParse_URL_CB'),$indata);
     }
 
     function _VISParse_URL_CB($matches)
@@ -703,6 +703,8 @@ class Fox2
         $url = $this->Gen_URL($url_id, $params, true, true);
         if ($matches[1] == 'F')
             $url = qf_full_url($url, true);
+        elseif ($matches[1] == 'R' && !parse_url($url, PHP_URL_SCHEME))
+            $url = '{QF_ROOT}'.$url;
         return $url;
     }
 

@@ -16,11 +16,11 @@ define('QF_PSTTREE_LOADED', true);
 
 define('QF_PSTTREE_CACHE_PREFIX', 'POSTTREE.');
 
-class QF2_PostTree
+class Fox2_PostTree
 {
     var $ptrees = Array();
 
-    function QF2_PostTree()
+    function Fox2_PostTree()
     {
     }
 
@@ -210,6 +210,14 @@ class QF2_PostTree
         {
             $t_data['post_id'] = $pid;
             $QF->DBase->Do_Insert('pt_ptext', $t_data);
+            $t_data = Array(
+                'posts' => $tinfo['posts']+1,
+                'l_author' => $data['author'],
+                'l_author_id' => $data['author_id'],
+                'l_time' => $data['time'],
+                'l_post_id' => $pid,
+                );
+            $QF->DBase->Do_Update('pt_roots', $t_data, Array('root_id' => $tid));
             $QF->Cache->Drop($cachename);
             unset($this->ptrees[$tid]);
             return $pid;
@@ -290,6 +298,18 @@ class QF2_PostTree
                 $ptree[$id]['order_id'] = $i++;
 
             $tinfo['ptree'] = $ptree;
+            if ($tinfo['posts'] != count($ptree)) // we'll need to repair this tree stats
+            {                $pid = max(array_keys($ptree));
+                $pdata = $QF->DBase->Do_Select('pt_posts', '*', Array('post_id' => $pid));
+                $t_data = Array(
+                    'posts' => count($ptree),
+                    'l_author' => $pdata['author'],
+                    'l_author_id' => $pdata['author_id'],
+                    'l_time' => $pdata['time'],
+                    'l_post_id' => $pid,
+                    );
+                $QF->DBase->Do_Update('pt_roots', $t_data, Array('root_id' => $tid));
+            }
 
             $this->ptrees[$tid] = $tinfo;
             $QF->Cache->Set($cachename, $tinfo);

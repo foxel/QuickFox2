@@ -131,7 +131,7 @@ function qf_value_JS_definition($data)
 // replaces & with &amp; but does not touch &foo;
 function qf_smart_ampersands($string)
 {
-    return preg_replace('#\&(?![A-z]+;)#', '&amp;', $string);
+    return preg_replace('#\&(?!([A-z]+|\#\d{1,5}|\#x[0-9a-fA-F]{2,4});)#', '&amp;', $string);
 }
 
 // replaces HTML spec chars with &foo; but does not touch existing ones
@@ -144,7 +144,7 @@ function qf_smart_htmlschars($string)
         unset($trans_table['&']);
     }
 
-    return strtr(preg_replace('#\&(?![A-z]+;)#', '&amp;', $string), $trans_table);
+    return strtr(qf_smart_ampersands($string), $trans_table);
 }
 
 function qf_2darray_sort(&$array, $field, $rsort = false, $sort_flags = SORT_REGULAR)

@@ -8,9 +8,9 @@
 if ( !defined('QF_STARTED') )
         die('Hacking attempt');
 
-class QF2_PTree_Incls
+class Fox2_PTree_Incls
 {
-    function QF2_PTree_Incls()
+    function Fox2_PTree_Incls()
     {        global $QF, $FOX;
         $QF->Run_Module('PTree');
         $QF->LNG->Load_Language('posttree');

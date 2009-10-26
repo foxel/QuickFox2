@@ -11,6 +11,7 @@ class QF_Gal_incls
     var $prv_w = 256;
     var $prv_h = 256;
     var $per_page = 15;
+    var $do_fullsize_js = false;
 
     function QF_Gal_incls()
     {
@@ -19,6 +20,7 @@ class QF_Gal_incls
 
         list($this->th_w, $this->th_h) = explode('|', $QF->Config->Get('thb_size', 'files_cfg', '96|96'));
         list($this->prv_w, $this->prv_h) = explode('|', $QF->Config->Get('prv_size', 'files_cfg', '256|256'));
+        $this->do_fullsize_js = $QF->Config->Get('jsshow_fullsize', 'gallery', false);
     }
 
     function Page_Gallery(&$p_title, &$p_subtitle, &$d_result, &$d_status)
@@ -145,6 +147,7 @@ class QF_Gal_incls
 
         if ($items = $QF->Gallery->Get_Items(QF_GALLERY_SEARCH_LAST10, 0, $QF->User->acc_level))
         {
+            $FOX->Link_JScript('imageshow');
             $QF->Gallery->Load_ItemInfos($items, true);
             $draw_items = $datas = Array();
             foreach ($items as $id)
@@ -161,6 +164,9 @@ class QF_Gal_incls
                     $item['WIDTH_HEIGHT'] = 'width: '.$wh[0].'px; height: '.$wh[1].'px;';
                     $item['FILENAME'] = $finfo['filename'];
                     $item['PICS_NAME'] = $finfo['pics_name'];
+                    $QF->Files->Get_ImageDims($finfo['id'], $whf, $this->do_fullsize_js ? QF_FILES_IDIMS_IMAGE : QF_FILES_IDIMS_PREVIEW);
+                    $item['JSPIC_WIDTH'] = $whf[0];
+                    $item['JSPIC_HEIGHT'] = $whf[1];
                 }
                 if ($uinfo = $QF->UList->Get_UserInfo($item['author_id']))
                     $item['author'] = $uinfo['nick'];
@@ -168,11 +174,13 @@ class QF_Gal_incls
                 $item['time'] = $QF->LNG->Time_Format($item['time']);
                 $item['SCAPTION'] = $QF->USTR->Str_SmartTrim($item['caption'], 32);
                 $item['T_HEIGHT'] = $this->th_h + 20;
+                $item['JS_FULLSIZE'] = $this->do_fullsize_js ? 1 : null;
 
                 $draw_items[] = $item;
             }
 
             $QF->VIS->Add_Node_Array('FOX_GALLERY_ALBUM_ITEM', 'ITEMS', $page_node, $draw_items);
+            $QF->VIS->Add_Node_Array('FOX_GALLERY_ALBUM_ITEM_JS', 'ITEMS_JSLOAD', $page_node, $draw_items);
         }
 
         $QF->VIS->Add_Data_Array($page_node, $page_params);
@@ -414,6 +422,7 @@ class QF_Gal_incls
 
         if ($info = $QF->Gallery->Get_Album_Info($album))
         {
+            $FOX->Link_JScript('imageshow');
             $p_subtitle = $info['caption'];
             $page_node = $QF->VIS->Create_Node('FOX_GALLERY_PAGE_ALBUM' );
 
@@ -469,6 +478,9 @@ class QF_Gal_incls
                         $item['WIDTH_HEIGHT'] = 'width: '.$wh[0].'px; height: '.$wh[1].'px;';
                         $item['FILENAME'] = $finfo['filename'];
                         $item['PICS_NAME'] = $finfo['pics_name'];
+                        $QF->Files->Get_ImageDims($finfo['id'], $whf, $this->do_fullsize_js ? QF_FILES_IDIMS_IMAGE : QF_FILES_IDIMS_PREVIEW);
+                        $item['JSPIC_WIDTH'] = $whf[0];
+                        $item['JSPIC_HEIGHT'] = $whf[1];
                     }
                     if ($uinfo = $QF->UList->Get_UserInfo($item['author_id']))
                         $item['author'] = $uinfo['nick'];
@@ -476,10 +488,12 @@ class QF_Gal_incls
                     $item['time'] = $QF->LNG->Time_Format($item['time']);
                     $item['SCAPTION'] = $QF->USTR->Str_SmartTrim($item['caption'], 32);
                     $item['T_HEIGHT'] = $this->th_h + 20;
+                    $item['JS_FULLSIZE'] = $this->do_fullsize_js ? 1 : null;
                     $items[$id] = $item;
                 }
 
                 $QF->VIS->Add_Node_Array('FOX_GALLERY_ALBUM_ITEM', 'ITEMS', $page_node, $items);
+                $QF->VIS->Add_Node_Array('FOX_GALLERY_ALBUM_ITEM_JS', 'ITEMS_JSLOAD', $page_node, $items);
             }
 
             $QF->VIS->Add_Data_Array($page_node, $page_params);
@@ -501,6 +515,7 @@ class QF_Gal_incls
 
         if ($uinfo = $QF->UList->Get_UserInfo($uid))
         {
+            $FOX->Link_JScript('imageshow');
             //$QF->VIS->Add_Data(0, 'HIDE_PANELS', '1');
 
             $page_node = $QF->VIS->Create_Node('FOX_GALLERY_PAGE_UALBUM' );
@@ -549,16 +564,20 @@ class QF_Gal_incls
                         $item['WIDTH_HEIGHT'] = 'width: '.$wh[0].'px; height: '.$wh[1].'px;';
                         $item['FILENAME'] = $finfo['filename'];
                         $item['PICS_NAME'] = $finfo['pics_name'];
+                        $QF->Files->Get_ImageDims($finfo['id'], $whf, $this->do_fullsize_js ? QF_FILES_IDIMS_IMAGE : QF_FILES_IDIMS_PREVIEW);
+                        $item['JSPIC_WIDTH'] = $whf[0];
+                        $item['JSPIC_HEIGHT'] = $whf[1];
                     }
                     unset($item['author_id']);
                     $item['time'] = $QF->LNG->Time_Format($item['time']);
                     $item['SCAPTION'] = $QF->USTR->Str_SmartTrim($item['caption'], 32);
                     $item['T_HEIGHT'] = $this->th_h + 20;
-
+                    $item['JS_FULLSIZE'] = $this->do_fullsize_js ? 1 : null;
                     $items[$id] = $item;
                 }
 
                 $QF->VIS->Add_Node_Array('FOX_GALLERY_ALBUM_ITEM', 'ITEMS', $page_node, $items);
+                $QF->VIS->Add_Node_Array('FOX_GALLERY_ALBUM_ITEM_JS', 'ITEMS_JSLOAD', $page_node, $items);
             }
 
             if (count($albums))

@@ -90,6 +90,7 @@ class QF_Visual
         $this->node_flags = Array(0 => 0);
         $this->named_node = Array('PAGE' => 0, 'MAIN' => 0);
         $this->func_parsers = Array(
+            'FULLURL' => 'qf_full_url',
             'HTMLQUOTE' => 'htmlspecialchars',
             'URLEN' => 'qf_url_encode_part',
             'JS_DEF' => 'qf_value_JS_definition',
@@ -771,6 +772,7 @@ class QF_Visual
             'QF_INDEX' => QF_INDEX,
             );
 
+        $consts['QF_ROOT'] = $QF->HTTP->RootUrl;
         $text = trim($text);
 
         if ($this->force_compact)

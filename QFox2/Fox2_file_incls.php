@@ -6,7 +6,7 @@ if ( !defined('QF_STARTED') )
 
 define('QF_VIEWARCH_CACHEPREFIX', 'TARS.');
 
-class QF2_file_incls
+class Fox2_file_incls
 {
     var $th_w = 64;
     var $th_h = 64;
