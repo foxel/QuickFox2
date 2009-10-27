@@ -703,8 +703,13 @@ class Fox2
         $url = $this->Gen_URL($url_id, $params, true, true);
         if ($matches[1] == 'F')
             $url = qf_full_url($url, true);
-        elseif ($matches[1] == 'R' && !parse_url($url, PHP_URL_SCHEME))
-            $url = '{QF_ROOT}'.$url;
+        elseif ($matches[1] == 'R') // && $url{0} != '/'
+        {
+            $comps = parse_url($url);
+            if (!$comps['scheme'])
+                $url = '{QF_ROOT}'.$url;
+        }
+
         return $url;
     }
 

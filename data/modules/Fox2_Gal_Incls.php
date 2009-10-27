@@ -154,7 +154,8 @@ class QF_Gal_incls
                 if ($item = $QF->Gallery->Get_Item_Info($id))
                     $datas[] = $item;
 
-            $uids = qf_2darray_cols($datas, 'author_id');
+            list($uids, $tids) = qf_2darray_cols($datas, Array('author_id', 'pt_root'));
+            $pt_stats = $QF->PTree->Get_Stats($tids);
             $QF->UList->Query_IDs($uids);
 
             foreach ($datas as $item)
@@ -174,6 +175,8 @@ class QF_Gal_incls
                 $item['time'] = $QF->LNG->Time_Format($item['time']);
                 $item['SCAPTION'] = $QF->USTR->Str_SmartTrim($item['caption'], 32);
                 $item['T_HEIGHT'] = $this->th_h + 20;
+                if ($item['pt_root'] && isset($pt_stats[$item['pt_root']]) && $pt_stats[$item['pt_root']]['posts'])
+                    $item['comments'] = $pt_stats[$item['pt_root']]['posts'];
                 $item['JS_FULLSIZE'] = $this->do_fullsize_js ? 1 : null;
 
                 $draw_items[] = $item;
@@ -469,7 +472,8 @@ class QF_Gal_incls
                       $datas[] = $item;
                 }
 
-                $uids = qf_2darray_cols($datas, 'author_id');
+                list($uids, $tids) = qf_2darray_cols($datas, Array('author_id', 'pt_root'));
+                $pt_stats = $QF->PTree->Get_Stats($tids);
                 $QF->UList->Query_IDs($uids);
                 foreach ($datas as $id => $item)
                 {
@@ -489,6 +493,8 @@ class QF_Gal_incls
                     $item['SCAPTION'] = $QF->USTR->Str_SmartTrim($item['caption'], 32);
                     $item['T_HEIGHT'] = $this->th_h + 20;
                     $item['JS_FULLSIZE'] = $this->do_fullsize_js ? 1 : null;
+                    if ($item['pt_root'] && isset($pt_stats[$item['pt_root']]) && $pt_stats[$item['pt_root']]['posts'])
+                        $item['comments'] = $pt_stats[$item['pt_root']]['posts'];
                     $items[$id] = $item;
                 }
 
@@ -559,6 +565,15 @@ class QF_Gal_incls
                 foreach ($items as $id)
                 {
                     $item = $QF->Gallery->Get_Item_Info($id);
+                    if ($QF->User->CheckAccess($item['r_level']))
+                      $datas[] = $item;
+                }
+
+                $tids = qf_2darray_cols($datas, 'pt_root');
+                $pt_stats = $QF->PTree->Get_Stats($tids);
+                foreach ($datas as $item)
+                {
+                    $id = $item['id'];
                     if (($finfo = $QF->Files->Get_FileInfo($item['file_id'])) && $finfo['aspect_ratio'] != 0 && $QF->Files->Get_ImageDims($finfo['id'], $wh, QF_FILES_IDIMS_THUMB))
                     {
                         $item['WIDTH_HEIGHT'] = 'width: '.$wh[0].'px; height: '.$wh[1].'px;';
@@ -572,6 +587,8 @@ class QF_Gal_incls
                     $item['time'] = $QF->LNG->Time_Format($item['time']);
                     $item['SCAPTION'] = $QF->USTR->Str_SmartTrim($item['caption'], 32);
                     $item['T_HEIGHT'] = $this->th_h + 20;
+                    if ($item['pt_root'] && isset($pt_stats[$item['pt_root']]) && $pt_stats[$item['pt_root']]['posts'])
+                        $item['comments'] = $pt_stats[$item['pt_root']]['posts'];
                     $item['JS_FULLSIZE'] = $this->do_fullsize_js ? 1 : null;
                     $items[$id] = $item;
                 }

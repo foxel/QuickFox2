@@ -144,7 +144,7 @@ ec6c3aedf3451ccaf0fdcb45fe2885b7 kernel2/chars/x-mac-greek.ltt
 989489290036483052d960d6ec7f72c2 kernel2/chars/x-mac-roman.ltt
 fb9375c8f8c5fc54000ba23e31f6ce2d kernel2/chars/zdingbat.chr
 8f80cc35ff7453a2be7fa926f31383e3 QFox2/as_data.dat
-0d687804a7275e8c88a4f9e5595b7faf QFox2/Fox2.php
+a914c703da4e7cd36404054522b72de0 QFox2/Fox2.php
 53600c837c8fb0c7bf938a68d2e8d650 QFox2/Fox2_adm.php
 5c24b3ffa072e02cb45a11d69a917f34 QFox2/Fox2_cfgsets.php
 df38420db58537fab40f0ea2dc9f465a QFox2/Fox2_cms.php
@@ -153,7 +153,7 @@ fc85f9e083ca8336bca9174d26ffc856 QFox2/Fox2_datasets.php
 09f947696a68c21735fa78d3b560c33f QFox2/Fox2_filer.php
 2b7b03d21f16dbe3ea7b146cf1fc1b0e QFox2/Fox2_file_incls.php
 b4be04c6036d7897e3e40680458e15ca QFox2/Fox2_incls.php
-3e7ffee4e5178739efd97b2b77594dc8 QFox2/Fox2_ptree.php
+3d1b52f0bb4701b3149fb8c66ad8e7f2 QFox2/Fox2_ptree.php
 33b1159e3d40b817f52604d880a8c53c QFox2/Fox2_ptree_incls.php
 e8828e0eeece4300ca5cf6035b53ffb6 QFox2/Fox2_userlib.php
 66f0365cefcf45172a81536a9fef39cc QFox2/modules.qfc
@@ -226,9 +226,9 @@ cc587cd7f4a4b3e054163da361b52c8f static/images/styles/qf_def/pg_bott_rt.png
 3b543391fbe6cabec6bb6065ca3e5929 static/images/styles/qf_def/win_grd.png
 1514e32a37e6b4e47540ddd937a07f1f index.php
 62a1c54f2b8565eca6c599437f6a48a3 data/modules/Fox2_Gal.php
-e7dbc2f29586417db78f356d52af57ed data/modules/Fox2_Gal_Incls.php
-2845e231081af7e159346ad404d2cd1a data/styles/qf_def/gallery.vis
-4a5dc49a38a79537540fafffe65d6ffb data/langs/RU/gallery.lng
+168a91571dc8caee635f2d3633172e40 data/modules/Fox2_Gal_Incls.php
+7f3a30a8fffa27522600d7c82579abbc data/styles/qf_def/gallery.vis
+e9b172286b8bd68830d6ed1be0f6af04 data/langs/RU/gallery.lng
 4a7a06fea3ba65a3eb1d5c58f9ee55ae data/langs/RU/gallery_cfgs.lng
 af0228da70f871b661067283ef45669e data/modules/Fox2_GAdds.php
 f2e38a1c9352b89914a12be1b6a39a75 data/langs/RU/google_adds_cfgs.lng

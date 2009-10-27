@@ -8,17 +8,18 @@
 if ( !defined('QF_STARTED') )
         die('Hacking attempt');
 
-if (defined('QF_PSTTREE_LOADED'))
+if (defined('QF_POSTTREE_LOADED'))
     die('Scripting error');
 
-define('QF_PSTTREE_LOADED', true);
+define('QF_POSTTREE_LOADED', true);
 
 
-define('QF_PSTTREE_CACHE_PREFIX', 'POSTTREE.');
+define('QF_POSTTREE_CACHE_PREFIX', 'POSTTREE.');
 
 class Fox2_PostTree
 {
     var $ptrees = Array();
+    var $stats = Array();
 
     function Fox2_PostTree()
     {
@@ -116,7 +117,8 @@ class Fox2_PostTree
         $new_data['w_level'] = max($new_data['w_level'], $new_data['r_level']);
 
         if ($tid = $QF->DBase->Do_Insert('pt_roots', $new_data))
-        {
+        {            $cachename = QF_POSTTREE_CACHE_PREFIX.'tstats';
+            $QF->Cache->Drop($cachename);
             return $tid;
         }
         return false;
@@ -158,7 +160,7 @@ class Fox2_PostTree
 
         // TODO: checking for hash
 
-        $cachename = QF_PSTTREE_CACHE_PREFIX.$tid;
+        $cachename = QF_POSTTREE_CACHE_PREFIX.$tid;
         if ($QF->DBase->Do_Update('pt_posts', $data, Array('post_id' => $pid)) !== false)
         {
             $t_data['post_id'] = $pid;
@@ -205,7 +207,7 @@ class Fox2_PostTree
 
         // TODO: checking for hash
 
-        $cachename = QF_PSTTREE_CACHE_PREFIX.$tid;
+        $cachename = QF_POSTTREE_CACHE_PREFIX.$tid;
         if ($pid = $QF->DBase->Do_Insert('pt_posts', $data))
         {
             $t_data['post_id'] = $pid;
@@ -235,6 +237,24 @@ class Fox2_PostTree
             return $this->ptrees[$tid];
 
         return null;
+    }
+
+    function Get_Stats($tids)
+    {
+        global $QF, $FOX;
+        if (!count($this->stats) && !$this->_Load_Stats())
+            return null;
+
+        if (is_numeric($tids))
+            return (isset($this->stats[$tids])) ? $this->stats[$tids] : null;
+        elseif (is_array($tids))
+        {            $out = Array();
+            foreach ($tids as $tid)
+                $out[$tid] = (isset($this->stats[$tid])) ? $this->stats[$tid] : null;
+            return $out;
+        }
+        else
+            return $this->stats;
     }
 
     function Get_Post($pid)
@@ -284,7 +304,7 @@ class Fox2_PostTree
     {        global $QF, $FOX;        if (!is_numeric($tid))
             return false;
 
-        $tid = (int) $tid;        $cachename = QF_PSTTREE_CACHE_PREFIX.$tid;
+        $tid = (int) $tid;        $cachename = QF_POSTTREE_CACHE_PREFIX.$tid;
 
         if ($tdata = $QF->Cache->Get($cachename))
         {            $this->ptrees[$tid] = $tdata;
@@ -313,6 +333,34 @@ class Fox2_PostTree
 
             $this->ptrees[$tid] = $tinfo;
             $QF->Cache->Set($cachename, $tinfo);
+            return true;
+        }
+
+        return false;
+    }
+
+    function _Load_Stats()
+    {        global $QF, $FOX;
+
+        $cachename = QF_POSTTREE_CACHE_PREFIX.'tstats';
+        if ($data = $QF->Cache->Get($cachename))
+        {
+            $this->stats = $data;
+            return true;
+        }
+        elseif ($tinfos = $QF->DBase->Do_Select_All('pt_roots', Array('root_id', 'class', 'posts', 'l_post_id', 'l_time', 'l_author_id')))
+        {            $stats = Array();
+            list($tposts, $l_posts, $l_times) = qf_2darray_cols($tinfos, Array('posts', 'l_post_id', 'l_time'));
+            $stats[0] = Array(
+                'posts' => array_sum($tposts),
+                'l_post_id' => max($tposts),
+                'l_time' => max($l_times),
+                );
+            foreach ($tinfos as $tinfo)
+                $stats[$tinfo['root_id']] = $tinfo;
+
+            $QF->Cache->Set($cachename, $stats);
+            $this->stats = $stats;
             return true;
         }
 

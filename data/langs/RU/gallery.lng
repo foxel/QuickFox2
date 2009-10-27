@@ -32,6 +32,8 @@ FOX_GALLERY_PAGE_ITEM_UALBUM: Работы
 ---
 FOX_GALLERY_ITEM_AUTHOR: Автор
 ---
+FOX_GALLERY_ITEM_COMMENTS: Комментарии
+---
 FOX_GALLERY_ALBUM_OWNER: Владелец
 ---
 FOX_GALLERY_ALBUM_PUBLIC: Публичный альбом
