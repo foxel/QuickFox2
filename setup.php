@@ -99,19 +99,33 @@ else
         eval(gzuncompress(base64_decode($TAR_GZ_Class)));
 
     	$arch = new TGZRead($file);
-    	if (!$arch->stream)
-    	    $error='Error loading archive';
-    	else {
+    	if ($arch->stream)
+    	{
     	    $arch->ExtractArchive('',True);
 
             if (!file_exists('index.php'))
                 $error='Error extracting pack';
         }
+        elseif ($chmods = file('.qf_chmods'))
+        {            foreach ($chmods as $chmod)
+            {
+                $chmod = explode('|', $chmod);
+                if (file_exists($chmod[0]))
+                    @chmod($chmod[0], octdec($chmod[1]));
+                else
+                    $error = 'Some files are missing!';
+            }
+            unlink('.qf_chmods');
+        }
+    	else
+    	    $error='No data to install!';
+
+
 
         if (!$error) {
     	    chmod($file,octdec('600'));
     	    print '
-            <h3>All the data is extracted!</h3>
+            <h3>All the data is extracted and prepared!</h3>
             <input type="hidden" name="step" value="data_acc" />
             <input type="submit" name="OK" value="GO!" />';
         }
@@ -123,7 +137,7 @@ else
     {        print '
         <h3>Now We are ready to install QuickFox 2 on this server!</h3>
         <input type="hidden" name="action" value="GO" />
-        First We must Extract data. <br />
+        First We must extract/prepare data. <br />
         <input type="submit" name="OK" value="GO!" />';
     }
 
