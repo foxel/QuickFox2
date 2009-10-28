@@ -43,6 +43,8 @@ class Fox2_PostTree
 
         $my_href_enc = qf_url_str_pack($QF->HTTP->Request);
         $QF->VIS->Load_Templates('posttree');
+        $FOX->Link_JScript('posttree');
+
         $root_node = $QF->VIS->Create_Node('FOX_POSTTREE_OUTER');
         $root_params = Array(
             'MYHREF' => $QF->HTTP->Request,
@@ -51,6 +53,14 @@ class Fox2_PostTree
             'CAN_ADM' => ($t_acc > 2) ? 1 : null,
             'SHOW_ONLY' => ($t_acc < 2) ? 1 : null,
             );
+        if ($QF->User->UID)
+        {
+            $uinfo = $QF->UList->Get_UserInfo($QF->User->UID);
+            $QF->VIS->Add_Node('USER_INFO_MIN_DIV', 'USER_INFO', $root_node, $uinfo /*+ Array('HIDE_ACCESS' => 1)*/);
+            $root_params['USER_NAME'] = $uinfo['nick'];
+        }
+        else
+            $root_params['USER_NAME'] = Lang('US_GUEST');
 
         $par_nodes = Array(1 => $root_node);
         $pids = qf_2darray_cols($data['ptree'], 'post_id');
@@ -58,6 +68,7 @@ class Fox2_PostTree
         list($uids, $chuids) = qf_2darray_cols($p_datas, Array('author_id', 'ch_user_id'));
         $QF->UList->Query_IDs($uids + $chuids);
 
+        $pids = Array();
         foreach($data['ptree'] as $pdata)
         {            if ($pdata['deleted'])
             {                $cur_node = $QF->VIS->Add_Node('FOX_POSTTREE_DELPOST', 'SUB_POSTS', $par_nodes[$pdata['t_level']], $pdata);
@@ -90,8 +101,9 @@ class Fox2_PostTree
                 $node_params['ch_user_id'] = null;
 
             $QF->VIS->Add_Data_Array($cur_node, $node_params + $root_params);
+            $pids[] = $pdata['post_id'];
         }
-
+        $root_params['JS_POSTSARR'] = implode(', ', $pids);
         $QF->VIS->Add_Data_Array($root_node, $root_params);
         return $root_node;
     }

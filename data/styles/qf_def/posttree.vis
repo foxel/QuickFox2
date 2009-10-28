@@ -1,7 +1,7 @@
 <<+ 'FOX_POSTTREE_OUTER'>>
 {!WRITE:MOD_BUTTS}
 {!IF:IN_SHOW_ONLY}<div class="qf_window alg_r">
- <a class="hlight_btn" href="{URL:fox2_ptree_answer|IN_TREE_ID|0|IN_MYHREF_ENC}" title="{L_BTN_ADDMESS}">{L_BTN_ADDMESS}</a>
+ <a class="hlight_btn" href="{URL:fox2_ptree_answer|IN_TREE_ID|0|IN_MYHREF_ENC}" onclick="FOX2_POSTTREE.OpenAnswer(0); return false;" title="{L_BTN_ADDMESS}">{L_BTN_ADDMESS}</a>
 </div>{ENDIF}
 {!WRITE}
 <div id="ptree{IN_TREE_ID}" class="inv_grid">
@@ -9,9 +9,24 @@
 <div id="ptree{IN_TREE_ID}_posts">
  {IN_SUB_POSTS}
 </div>
-<div class="inv_grid" id="topic_answer"></div>
 {MOD_BUTTS}
+<div class="inv_grid" id="topic_answer"></div>
 </div>
+<div id="ptree_preps" style="display: none;">
+ <form id="new_post_form" action="{QF_INDEX}" method="post" enctype="multipart/form-data">
+  {VIS:FOX_POSTTREE_POST|DO_NEW=1|TIME=C_TIME|POST_ID="_new"|AUTHOR_INFO=IN_USER_INFO}
+  <input type="hidden" name="script" value="ptmanage" />
+  <input type="hidden" name="action" value="answer" />
+  <input type="hidden" name="tree_id" value="{IN_TREE_ID}" />
+  <input type="hidden" name="post_id" value="0" />
+  <input type="hidden" name="return" value="{IN_MYHREF}" />
+ </form>
+</div>
+{IF:IN_JS_POSTSARR}<script type="text/javascript">
+// <![CDATA[
+ FOX2_POSTTREE.PrepPosts([{IN_JS_POSTSARR}]);
+//]]>
+</script>{ENDIF}
 <<- 'FOX_POSTTREE_OUTER'>>
 
 <<+ 'FOX_POSTTREE_MANAGE'>>
@@ -66,17 +81,17 @@
     {ELSE}
      {IF:IN_CAN_ADM}<!-- <a class="hlight_btn" href="{URL:fox2_ptree_delpost|IN_POST_ID|IN_MYHREF_ENC}" title="{L_BTN_DELETE}">{L_BTN_DELETE}</a> -->
      <a class="hlight_btn" href="{URL:fox2_ptree_editpost|IN_POST_ID|IN_MYHREF_ENC}" title="{L_BTN_EDIT}">{L_BTN_EDIT}</a>{ENDIF}
-     <a class="hlight_btn" href="{URL:fox2_ptree_answer|IN_TREE_ID|IN_POST_ID|IN_MYHREF_ENC}" title="{L_BTN_ANSWER}">{L_BTN_ANSWER}</a>
+     <a id="post{IN_POST_ID}_btn_answ" class="hlight_btn" href="{URL:fox2_ptree_answer|IN_TREE_ID|IN_POST_ID|IN_MYHREF_ENC}" title="{L_BTN_ANSWER}">{L_BTN_ANSWER}</a>
     {ENDIF}
    </div>
   </td>
  </tr>{ENDIF}
 </table>
 </div>
-{IF:IN_SUB_POSTS}<div style="padding: 0 0 10px 30px;">
+<div style="padding: 0 0 0 30px;">
  <div class="inv_grid" id="post{IN_POST_ID}_answer"></div>
  {IN_SUB_POSTS}
-</div>{ENDIF}
+</div>
 <<- 'FOX_POSTTREE_POST'>>
 
 <<+ 'FOX_POSTTREE_DELPOST'>>
@@ -94,7 +109,7 @@
 <<- 'FOX_POSTTREE_POSTVIEW'>>
 
 <<+ 'FOX_POSTTREE_POSTEDIT'>>
-<textarea rows="5" cols="40" style="height: 150px;" name="post_text">{IN_OTEXT}</textarea><br />
+<textarea id="post{IN_POST_ID}_text" rows="5" cols="40" style="height: 150px;" name="post_text">{IN_OTEXT}</textarea><br />
 {IF:IN_DO_EDIT}
 {IF:IN_CAN_AMD}<input name="do_lock" id="post{IN_POST_ID}_lock" type="checkbox" {!IF:IN_LOCKED=0}checked="checked"{ENDIF} /><label for="post{IN_POST_ID}_lock"> {L_FOX2_PTREE_POSTEDIT_LOCK}</label>{ENDIF}
 <input name="do_delete" id="post{IN_POST_ID}_delete" type="checkbox" {!IF:IN_DELETED=0}checked="checked"{ENDIF} /><label for="post{IN_POST_ID}_delete"> {L_FOX2_PTREE_POSTEDIT_DELETE}</label>

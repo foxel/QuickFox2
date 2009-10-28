@@ -97,7 +97,9 @@ class QF_Visual
             'FTIME' => Array(&$QF->LNG, 'Time_Format'),
             'FBYTES' => Array(&$QF->LNG, 'Size_Format'),
             );
-
+        $this->vis_consts = Array(
+            'TIME' => $QF->Timer->time,
+            );
     }
 
     function _Start()
@@ -178,14 +180,14 @@ class QF_Visual
         }
     }
 
-    function Set_VConsts($consts, $no_clear = false)
+    function Set_VConsts($consts, $no_replace = false)
     {        if (!is_array($consts))
             return false;
 
-        if ($no_clear)
-            $this->vis_consts = $consts + $this->vis_consts;
+        if ($no_replace)
+            $this->vis_consts = $this->vis_consts + $consts;
         else
-            $this->vis_consts = $consts;
+            $this->vis_consts = $consts + $this->vis_consts;
 
         return true;
     }

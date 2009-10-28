@@ -98,10 +98,10 @@ else
 
         eval(gzuncompress(base64_decode($TAR_GZ_Class)));
 
-    	$arch = new TGZRead($file);
-    	if ($arch->stream)
-    	{
-    	    $arch->ExtractArchive('',True);
+        $arch = new TGZRead($file);
+        if ($arch->stream)
+        {
+            $arch->ExtractArchive('',True);
 
             if (!file_exists('index.php'))
                 $error='Error extracting pack';
@@ -117,14 +117,14 @@ else
             }
             unlink('.qf_chmods');
         }
-    	else
-    	    $error='No data to install!';
+        else
+            $error='No data to install!';
 
 
 
         if (!$error) {
-    	    chmod($file,octdec('600'));
-    	    print '
+            chmod($file,octdec('600'));
+            print '
             <h3>All the data is extracted and prepared!</h3>
             <input type="hidden" name="step" value="data_acc" />
             <input type="submit" name="OK" value="GO!" />';
