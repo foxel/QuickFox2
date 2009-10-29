@@ -150,7 +150,7 @@ a914c703da4e7cd36404054522b72de0 QFox2/Fox2.php
 df38420db58537fab40f0ea2dc9f465a QFox2/Fox2_cms.php
 b2282c00aff1ea8b361dc1cc78f5fd09 QFox2/Fox2_cmsadm.php
 fc85f9e083ca8336bca9174d26ffc856 QFox2/Fox2_datasets.php
-09f947696a68c21735fa78d3b560c33f QFox2/Fox2_filer.php
+6e33b25f9786722403483c4622357657 QFox2/Fox2_filer.php
 2b7b03d21f16dbe3ea7b146cf1fc1b0e QFox2/Fox2_file_incls.php
 b4be04c6036d7897e3e40680458e15ca QFox2/Fox2_incls.php
 bc52bcc47095e4347583281355b8f557 QFox2/Fox2_ptree.php
@@ -179,7 +179,7 @@ c2642aa8e54b9af354211d62fc0720e7 data/langs/RU/qf2_cfgs.lng
 d761024c859c725e9b6c4fd336ef2fe4 data/styles/qf_def/admin.vis
 90650c6d6b6aa4fe92691c1e52289529 data/styles/qf_def/cms_spec.vis
 177cd04e19e6b69139885c2bda326551 data/styles/qf_def/common.ecss
-8e282cb0820831f291e313a51b7c585f data/styles/qf_def/common.vis
+ead4ac3223689fb65fe510e74bd8acde data/styles/qf_def/common.vis
 1d1823fc454d5a8d8a7405eb04f55d1a data/styles/qf_def/posttree.vis
 9d26b8056c2d90dd878c4ce4fc849258 data/styles/qf_def/qf_setup.vis
 25262b93a47e55de974160a8c4d5d4f4 data/styles/qf_def/usercab.vis

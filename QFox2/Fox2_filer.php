@@ -580,7 +580,7 @@ class Fox2_Files
                     'image_dims' => $iinfo[0].'|'.$iinfo[1],
                     );
 
-                if ($QF->DBase->Do_Update('files', $upd_data, Array('id' => $fid)))
+                if ($QF->DBase->Do_Update('files', $upd_data, Array('id' => $fid)) !== false)
                 {
                     foreach ($upd_data as $key=>$val)
                         $finfo[$key] = $val;

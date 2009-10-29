@@ -24,7 +24,7 @@
 </head>
 <body>
 {IN_JS_BLOCKS}
-{IF:IN_JS}
+
 <script type="text/javascript">
 // JavaScript Starts Here <![CDATA[
  // compatability htc rules loading for MSIE
@@ -37,7 +37,6 @@
  {IN_JS}
 //]]> JavaScript ends here
 </script>
-{ENDIF}
 
 <table class="page_outer">
 <tr>
