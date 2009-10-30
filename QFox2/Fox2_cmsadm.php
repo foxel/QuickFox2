@@ -139,9 +139,11 @@ class Fox2_CMS_Adm
 
             return $cms_page;
         }
-        elseif (($pg = $QF->GPC->Get_String('sort', QF_GPC_GET, QF_STR_WORD)) && $QF->CMS->Load_Page($pg))
+        elseif (!is_null($pg = $QF->GPC->Get_String('sort', QF_GPC_GET, QF_STR_WORD)) && ($QF->CMS->Load_Page($pg) || !$pg))
         {
-            $data = $QF->CMS->Get_Info();
+            $data = ($pg) ? $QF->CMS->Get_Info() : Array(
+                'id' => '', 'r_level' => 0, 'is_sect' => 1, 'caption' => Lang('CMS_MISC_ROOT_NAME'),
+                );
             $cms_page = $QF->VIS->Create_Node('CMS_ADM_SORT_FRAME');
             $PageInfo = Array(
                     'ID' => $data['id'],
@@ -181,6 +183,9 @@ class Fox2_CMS_Adm
                 $page = 1;
             elseif ($page > $pages)
                 $page = $pages;
+
+            if (isset($lst[0]) && $lst[0]['is_section'])
+                $QF->VIS->Add_Data($lst_page, 'SCOUNT', '1');
 
             if ($pages > 1)
             {
@@ -344,7 +349,7 @@ class Fox2_CMS_Adm
                         $QF->DBase->Do_Update('cms_pgs', Array('order_id' => $order++), Array('id' => $id));
 
                 $QF->Cache->Drop(QF_CMS_TREE_CACHENAME);
-                return Array($QF->LNG->lang('CMS_EDIT_SORTED'), $FOX->Gen_URL('fox2_cms_info_page', Array($pg_id)));
+                return Array($QF->LNG->lang('CMS_EDIT_SORTED'), $pg_id ? $FOX->Gen_URL('fox2_cms_info_page', Array($pg_id)) : $FOX->Gen_URL('fox2_adm_panel_admp', Array('cms')));
             }
             else
                 return Array($QF->LNG->lang('ERR_CMS_SORT_NONE'), $FOX->Gen_URL('fox2_adm_panel_admp', Array('cms')), true);

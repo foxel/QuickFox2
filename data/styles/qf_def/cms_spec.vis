@@ -29,6 +29,7 @@
   <tr><td class="alg_c" colspan="2">|{IN_PAGE_BTNS}</td></tr>
   {ENDIF}
   <tr><td class="alg_r" colspan="2">
+   {IF:IN_SCOUNT}[<a href="{URL:fox2_cms_sort_page|0}" title="{L_CMS_PAGE_SORTROOT_MORE}">{L_CMS_PAGE_SORTROOT}</a>]{ENDIF}
    <input type="hidden" name="force_delete" value="true" />
    <input type="hidden" name="script" value="adm_cmsedit" />
    <input type="submit" value="{L_CMS_LIST_DELETE}" />

@@ -148,7 +148,7 @@ a914c703da4e7cd36404054522b72de0 QFox2/Fox2.php
 53600c837c8fb0c7bf938a68d2e8d650 QFox2/Fox2_adm.php
 5c24b3ffa072e02cb45a11d69a917f34 QFox2/Fox2_cfgsets.php
 df38420db58537fab40f0ea2dc9f465a QFox2/Fox2_cms.php
-b2282c00aff1ea8b361dc1cc78f5fd09 QFox2/Fox2_cmsadm.php
+1ef1ca98fade36ca95e21300f6ccbda8 QFox2/Fox2_cmsadm.php
 fc85f9e083ca8336bca9174d26ffc856 QFox2/Fox2_datasets.php
 6e33b25f9786722403483c4622357657 QFox2/Fox2_filer.php
 2b7b03d21f16dbe3ea7b146cf1fc1b0e QFox2/Fox2_file_incls.php
@@ -169,7 +169,7 @@ e8828e0eeece4300ca5cf6035b53ffb6 QFox2/Fox2_userlib.php
 b33dce8752784b2d6784639dea4cee4b data/jscripts/uploader.ejs
 c1a079d7456de608617485941d478c40 data/langs/RU/admin.lng
 66b9094436aeab0317cc2d09237cd501 data/langs/RU/cms_spec.lng
-cf628cfd00d65765dcb8c1602a4098d8 data/langs/RU/common.lng
+8bc25a8f0b3fc5cb7dd0e50c1d0bfd2b data/langs/RU/common.lng
 26f346ecc562ed90fc818de2728eb5a7 data/langs/RU/kernel.lng
 a2fa0afd55500564b038b8f2bd485bd1 data/langs/RU/posttree.lng
 4a200ba8cda777dbebf5f5a1fb7919a5 data/langs/RU/qf2_base_errs.lng
@@ -177,7 +177,7 @@ c2642aa8e54b9af354211d62fc0720e7 data/langs/RU/qf2_cfgs.lng
 33e905310a38145ada7f0e0bf02538d8 data/langs/RU/qf_setup.lng
 7c23427a997d61b4d08ae34f9b8bb00f data/langs/RU/usercab.lng
 d761024c859c725e9b6c4fd336ef2fe4 data/styles/qf_def/admin.vis
-90650c6d6b6aa4fe92691c1e52289529 data/styles/qf_def/cms_spec.vis
+f49d9df5f4be562929668e1fcd4d4756 data/styles/qf_def/cms_spec.vis
 177cd04e19e6b69139885c2bda326551 data/styles/qf_def/common.ecss
 ead4ac3223689fb65fe510e74bd8acde data/styles/qf_def/common.vis
 1d1823fc454d5a8d8a7405eb04f55d1a data/styles/qf_def/posttree.vis
