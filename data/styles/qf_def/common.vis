@@ -511,12 +511,12 @@ toggleview('cms_modblock');
  {WRITE:ITEM_TOP}
  {IF:IN_SHOW_THUMB}<a href="{URL:fox2_file_fileinfo|IN_FID}" title="{!IN_CAPTION}"><img src="{URL:fox2_file_thumb|IN_FID|IN_PICS_NAME}" alt="{!IN_CAPTION}" {IF:IN_WIDTH_HEIGHT}style="{IN_WIDTH_HEIGHT}"{ENDIF} /></a><br />
  {ELSEIF:IN_MIME_THUMB}<a href="{URL:fox2_file_fileinfo|IN_FID}" title="{!IN_CAPTION}"><img src="{URL:fox2_file_mimepic|IN_MIME_THUMB}" alt="mimeicon" /></a><br />
- {ELSE}<a href="{URL:fox2_file_fileinfo|IN_FID}" title="{!IN_CAPTION}"><img src="{IMGS}/file.gif" alt="fileicon" /></a><br />
+ {ELSE}<a href="{URL:fox2_file_fileinfo|IN_FID}" title="{!IN_CAPTION}"><img src="{IMGS}/file.png" style="width: 49px; height: 64px;" alt="fileicon" /></a><br />
  {ENDIF}
  {WRITE:ITEM_BOTT}<a href="{URL:fox2_file_fileinfo|IN_FID}" title="{!IN_CAPTION}" ><b>{!IN_SCAPTION}</b></a><br />
  {IN_SIZE}
 {ELSE}
- {WRITE:ITEM_TOP}<a href="{URL:fox2_files_openfolder|IN_FOLDID}" title="{!IN_CAPTION}" ><img src="{IMGS}/folder.gif" alt="foldericon" /></a><br />
+ {WRITE:ITEM_TOP}<a href="{URL:fox2_files_openfolder|IN_FOLDID}" title="{!IN_CAPTION}" ><img src="{IMGS}/folder.png" style="width: 53px; height: 64px;" alt="foldericon" /></a><br />
  {WRITE:ITEM_BOTT}<a href="{URL:fox2_files_openfolder|IN_FOLDID}" title="{!IN_CAPTION}" ><b>{!IN_SCAPTION}</b></a><br />
 {ENDIF}
 {WRITE}
@@ -572,7 +572,7 @@ QF_EFFECTS.Show('mytemps_ctrl', 3); //]]></script>{ENDIF}
   {IF:IN_SHOW_THUMB}
    <img src="{URL:fox2_file_thumb|IN_FID|IN_PICS_NAME}" alt="filethumb" {IF:IN_WIDTH_HEIGHT}style="{IN_WIDTH_HEIGHT}"{ENDIF} />
   {ELSEIF:IN_MIME_THUMB}<img src="{URL:fox2_file_mimepic|IN_MIME_THUMB}" alt="mimeicon" />
-  {ELSE}<img src="{IMGS}/file.gif" alt="fileicon" />
+  {ELSE}<img src="{IMGS}/file.png" style="width: 49px; height: 64px;" alt="fileicon" />
   {ENDIF}
  </div>
  <input {IF:IN_SEL_ONE}name="{IN_VAL_NAME}" type="radio"{ELSE}name="{IN_VAL_NAME}[{IN_FID}]" type="checkbox"{ENDIF} id="mytmp_ch{COUNTER}" value="{IN_FID}" {IF:IN_CHECKED}checked="checked"{ENDIF} />
@@ -619,7 +619,7 @@ QF_EFFECTS.Show('mytemps_ctrl', 3); //]]></script>{ENDIF}
    {ELSEIF:IN_SHOW_PREVIEW}
     <a href="{URL:fox2_file_download|IN_FID|IN_FILENAME}"><img src="{URL:fox2_file_preview|IN_FID|IN_PICS_NAME}" alt="preview" {IF:IN_WIDTH_HEIGHT}style="{IN_WIDTH_HEIGHT}"{ENDIF} /></a><br />
    {ELSEIF:IN_MIME_THUMB}<a href="{URL:fox2_file_download|IN_FID|IN_FILENAME}"><img src="{URL:fox2_file_mimepic|IN_MIME_THUMB|IN_FILENAME}" alt="mimeicon" /></a><br />
-   {ELSE}<a href="{URL:fox2_file_download|IN_FID|IN_FILENAME}"><img src="{IMGS}/file.gif" alt="fileicon" /></a><br />
+   {ELSE}<a href="{URL:fox2_file_download|IN_FID|IN_FILENAME}"><img src="{IMGS}/file.png" style="width: 49px; height: 64px;" alt="fileicon" /></a><br />
    {ENDIF}
    <b>{IF:IN_GOT_ACCESS}<a href="{URL:fox2_file_download|IN_FID|IN_FILENAME}" >{!IN_CAPTION}</a>{ELSE}{!IN_CAPTION}{ENDIF}</b>
   </td></tr>

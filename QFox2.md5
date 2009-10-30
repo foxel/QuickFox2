@@ -179,7 +179,7 @@ c2642aa8e54b9af354211d62fc0720e7 data/langs/RU/qf2_cfgs.lng
 d761024c859c725e9b6c4fd336ef2fe4 data/styles/qf_def/admin.vis
 f49d9df5f4be562929668e1fcd4d4756 data/styles/qf_def/cms_spec.vis
 177cd04e19e6b69139885c2bda326551 data/styles/qf_def/common.ecss
-ead4ac3223689fb65fe510e74bd8acde data/styles/qf_def/common.vis
+6dfebefd42bd8f1fd883f84105de4886 data/styles/qf_def/common.vis
 1d1823fc454d5a8d8a7405eb04f55d1a data/styles/qf_def/posttree.vis
 9d26b8056c2d90dd878c4ce4fc849258 data/styles/qf_def/qf_setup.vis
 25262b93a47e55de974160a8c4d5d4f4 data/styles/qf_def/usercab.vis
@@ -190,8 +190,8 @@ a2c53c7b3b9387b4b3cbe2fa6e01d7b8 static/images/att_ferr.gif
 0e9769cf4974dceafd4e94335816e75a static/images/att_low.gif
 fa68b4d43b11e46394c6cbcd8e945d5a static/images/att_nofile.gif
 56398e76be6355ad5999b262208a17c9 static/images/blank.gif
-28eaba2ee0c1b308d4a4764cac842103 static/images/file.gif
-f4a5af8c889e74ef63b929a748f0b951 static/images/folder.gif
+63659d9c5fcda28d168748e4202d3436 static/images/file.png
+4cd41864b336a171f5fedf3db9ec2fd7 static/images/folder.png
 4211d86d28bb0ac0c2b58077cce3e46f static/images/FOX2.png
 f7042a29b2bae190689c9811e271579f static/images/gzip.gif
 856d3570310d1b1271f60918bc409299 static/images/img_enlarge.png
@@ -199,7 +199,7 @@ f7042a29b2bae190689c9811e271579f static/images/gzip.gif
 bdb076662984754f1f8a8bd2a865f9c1 static/images/img_go_left.png
 fee809b65072e29e17e17bbecd0955e8 static/images/img_go_right.png
 daf755a94a877529629a1495ca389e29 static/images/img_return.png
-e9416e75e138e052e63bfd9a03a39c91 static/images/qfl_sm.png
+6e2c32b35968eabb9ad7f5be8b7806e8 static/images/qfl_sm.png
 b9c39b8ef2b05d79120c3e8a4613e9a9 static/images/qf_ico.ico
 57f5a95a3e9259687c0bde2be4587068 static/images/styles/qf_def/acc_point.gif
 8bc81442ed1f34b7ee27edd11a0fbb46 static/images/styles/qf_def/acc_point_a.gif
