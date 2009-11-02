@@ -253,18 +253,19 @@ cmsSortPrepItem('cItem_{COUNTER}'); //]]></script>
    <!-- Editor panels will be loaded here -->
    </td>
    <td class="qf_window_body"><form action="{QF_INDEX}" method="post" enctype="multipart/form-data">
-    <div class="inv_grid alg_c" >
+    <div class="inv_grid" >
      <textarea rows="50" cols="40" name="contents" style="width: 99%; height: 400px;">{IN_PG_CONTENTS}</textarea>
     </div>
     <div class="inv_grid alg_r" >
      <select style="width: 150px;" name="cms_type" >
       {IN_TYPE_VARS}
      </select>
-     <input type="submit" value="{L_BTN_SAVE}" />
      <input type="hidden" name="force_editpage" value="true" />
      <input type="hidden" name="return_to" value="{IN_RETURN_TO}" />
      <input type="hidden" name="cms_id" value="{IN_ID}" />
      <input type="hidden" name="script" value="adm_cmsedit" />
+     <input type="button" value="{L_BTN_PREVIEW}" onclick="qfCMS_preview(this.form, this); return false;" />
+     <input type="submit" value="{L_BTN_SAVE}" />
     </div>
    </form></td>
   </tr></table>
@@ -298,5 +299,84 @@ function ConfirmCMSDeletedList(form) {
     }
     else
         return false;
+}
+
+var qfCMS_preview = function(form, button)
+{    if ( !form || ((typeof form).toLowerCase() != 'object') ||
+        !form.parentNode || !form.parentNode.appendChild ||
+        !form.tagName || form.tagName.toLowerCase() != 'form' )
+            return;
+    var myTA, pvArea, btStl, taStl, pvStyle, tmp, prevOnClick;
+    var TAs = form.getElementsByTagName('textarea');
+    for (var i in TAs)
+        if (TAs[i] && TAs[i].tagName && TAs[i].name && TAs[i].name == 'contents')
+            myTA = TAs[i];
+    if (!myTA)
+        return false;
+    taStl = getStyleObj(myTA);
+    if (button)
+        btStl = getStyleObj(button);
+
+    var links_dummy = function(e)
+    {        if (!e)
+            e = window.event;
+        alert('{L_MISC_LINK}: '+this.href);
+        e.returnValue = false;
+        e.stopPropagation && e.stopPropagation();
+        e.cancelBubble = true;
+        return false;
+    }
+
+    var showPreview = function(status, data)
+    {
+        if (status != 200)
+            alert(data);
+        else if (pvArea)
+        {
+            pvArea.innerHTML = data;
+            var links = form.getElementsByTagName('a');
+            for (var i in links)
+                if (links[i] && links[i].tagName && links[i].tagName.toLowerCase() == 'a')
+                    links[i].onclick = links_dummy;
+        }
+    }
+
+    var hidePreview = function()
+    {        taStl.height = pvArea.clientHeight+'px';
+        if (tmp = pvArea.qfResizer)
+            tmp.parentNode.removeChild(tmp);
+        pvArea.parentNode.removeChild(pvArea);
+        pvArea = null;
+        if (btStl)
+            btStl.display = '';
+        taStl.display = '';
+        if ((tmp = myTA.qfResizer) && (tmp = getStyleObj(tmp)))
+            tmp.display = '';
+    }
+
+    if (QF_AJAX.Query("adm_cmspview", form, showPreview))
+    {        pvArea = document.createElement('div');
+        pvStyle = getStyleObj(pvArea);
+        myTA.parentNode.insertBefore(pvArea, myTA);
+        pvStyle.height = myTA.clientHeight+'px';
+        pvStyle.overflow = 'auto';
+        pvArea.innerHTML = '{L_MISC_LOADING}';
+        pvArea.className = 'textarea_like';
+        pvArea.title = '{L_CMS_PEDIT_TAOPEN}';
+        if (btStl)
+        {
+            btStl.display = 'none';
+            /*prevOnClick = button.onclick;
+            button.onclick = hidePreview;*/
+        }
+        taStl.display = 'none';
+        if ((tmp = myTA.qfResizer) && (tmp = getStyleObj(tmp)))
+            tmp.display = 'none';
+        pvArea.onclick = hidePreview;
+        QF_EFFECTS.SetResizebleElem(pvArea);
+        return true;
+    }
+
+    return false;
 }
 <<- 'JS'>>

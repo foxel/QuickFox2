@@ -124,20 +124,21 @@ a.tabber_itm_s { -moz-border-radius: 2px; border-width: 1px 0 1px 1px; border-co
 
 /* inputs styling */
 input.input-text, input.input-password, input.input-file, input.input-button, input.input-submit, input-textarea,
-textarea, select, button
+textarea, select, button, div.textarea_like
     { background-color: {controls}; border-style: solid; border-color: {matte_brd}; border-width: 2px 1px 2px 1px; font-weight: normal; margin: 2px 1px 2px 1px; -moz-border-radius: 2px; }
 input[type="text"], input[type="password"], input[type="file"], input[type="button"], input[type="submit"], input[type="textarea"]
     { background-color: {controls}; border-style: solid; border-color: {matte_brd}; border-width: 2px 1px 2px 1px; font-weight: normal; margin: 2px 1px 2px 1px; -moz-border-radius: 2px; }
 input.input-text:hover, input.input-password:hover, input.input-file:hover, input.input-button:hover, input.input-submit:hover, input-textarea:hover,
-textarea:hover, select:hover, button:hover
+textarea:hover, select:hover, button:hover, div.textarea_like:hover
     { background-color: {controls_l}; border-color: {matte_brdl}; }
 input[type="text"]:hover, input[type="password"]:hover, input[type="file"]:hover, input[type="button"]:hover, input[type="submit"]:hover, input[type="textarea"]:hover
     { background-color: {controls_l}; border-color: {matte_brdl}; }
 input button { text-indent: 2px; }
 input.plain { background-color: inherit !important; }
-input-textarea, textarea { display: block; margin: 2px auto; min-height: 100px; width: 98%; }
+input-textarea, textarea, div.textarea_like { display: block; margin: 2px auto; min-height: 100px; width: 98%; }
 input[type="textarea"] { display: block; margin: 2px auto; min-height: 100px; width: 98%; }
 div.ta_resizer { display: block; margin: 0 auto; height: 5px; width: 98%; background-color: {matte_brd}; border-width: 0; padding: 0; }
+div.textarea_like { padding: 2px; cursor: text; }
 
 /* page text styling */
 .page_text { font-size: 110%; }

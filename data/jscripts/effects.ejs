@@ -104,36 +104,11 @@ var QF_EFFECTS = function()
         window.onresize = _OnResizeHandler;
     }
 
-    var SetResizebleTA = function(TA)
-    {        var resizer = document.createElement('div');
-        //resizer.className = 'ta_resizer';
-        var TAstl = getStyleObj(TA);
-        var stl = getStyleObj(resizer);
-        TAstl.display = 'block';
-        stl.cursor = 's-resize';
-        //stl.width = styleString(TA, 'width');
-        stl.margin = styleString(TA, 'margin');
-        TAstl.marginBottom = '0';
-        TAstl.borderBottomWidth = '7px';
-        stl.marginTop = '-7px';
-        stl.height = '7px';
-        stl.padding = '0';
-        stl.backgroundColor = '#FFFFFF';
-        if (myBrowser.isMSIE)
-            stl.filter = (myBrowser.isMSIE >= 5) ? ' progid:DXImageTransform.Microsoft.Alpha(opacity=0)' : ' alpha(opacity=0)';
-        else
-            stl.opacity = 0;
-
-
-        TA.parentNode.insertBefore(resizer, TA.nextSibling);
-        resizer.onmousedown = function(e) { StartResize(TA, e); return false; };
-    }
-
-    var StartResize = function(TA, evt)
+    var SizerStartResize = function(elem, evt)
     {        if (!evt)
             evt = window.event;
-        var stl = getStyleObj(TA);
-        var TAh = styleNumber(TA, 'height');
+        var stl = getStyleObj(elem);
+        var TAh = styleNumber(elem, 'height');
         var mouseY = evt.clientY || evt.y;
         var mouseYOffset = mouseY - TAh;
 
@@ -157,7 +132,7 @@ var QF_EFFECTS = function()
     {        var TAs = document.getElementsByTagName('textarea');
         for (var i in TAs)
             if (TAs[i].tagName && TAs[i].tagName.toLowerCase() == 'textarea')
-                SetResizebleTA(TAs[i]);
+                QF_EFFECTS.SetResizebleElem(TAs[i]);
     }
 
     // this is needed for MS IE since it works slower
@@ -168,6 +143,36 @@ var QF_EFFECTS = function()
         isReady: function(){ return Ready; },
         Add_CB: function(func, type, onDropFunc){ return _Add_CB(func, type, onDropFunc); },
         Drop_CB: function(id, type, noOnDrop){ return _Drop_CD(id, type, noOnDrop); },
+        SetResizebleElem: function(el)
+        {
+            var elem = _Get_DOMNode(el);
+            if (!elem)
+                return false;
+
+            var resizer = document.createElement('div');
+            //resizer.className = 'ta_resizer';
+            var Estl = getStyleObj(elem);
+            var stl = getStyleObj(resizer);
+            Estl.display = 'block';
+            stl.cursor = 's-resize';
+            //stl.width = styleString(elem, 'width');
+            stl.margin = styleString(elem, 'margin');
+            Estl.marginBottom = '0';
+            Estl.borderBottomWidth = '7px';
+            stl.marginTop = '-7px';
+            stl.marginBottom = '7px';
+            stl.height = '7px';
+            stl.padding = '0';
+            stl.backgroundColor = '#FFFFFF';
+            if (myBrowser.isMSIE)
+                stl.filter = (myBrowser.isMSIE >= 5) ? ' progid:DXImageTransform.Microsoft.Alpha(opacity=0)' : ' alpha(opacity=0)';
+            else
+                stl.opacity = 0;
+
+            elem.parentNode.insertBefore(resizer, elem.nextSibling);
+            resizer.onmousedown = function(e) { SizerStartResize(elem, e); return false; };
+            elem.qfResizer = resizer;
+        },
         InitItem: function (id)
         {
             if (!Ready)

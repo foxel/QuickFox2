@@ -232,7 +232,7 @@ class QF_Gallery
                     'r_level'  => $data['r_level'],
                     );
                 $QF->Files->Modif_File($file_id, $upd);
-                if ($tid = $QF->PTree->Create_Tree('FOX2_GAL', Array($new_id), Array('r_level' => $data['r_level'], 'w_level' => max($data['r_level'], 1))))
+                if ($tid = $QF->PTree->Create_Tree('FOX2_GAL', Array($new_id), Array('r_level' => $data['r_level'], 'w_level' => max($data['r_level'], 1), 'author_id' => $data['author_id'], 'author' => $data['author'])))
                     $QF->DBase->Do_Update('gal_items', Array('pt_root' => $tid), Array('id' => $new_id));
 
                 unset($this->u_itms[$data['author_id']]);
@@ -497,7 +497,7 @@ class QF_Gallery
 
             foreach ($datas as $data)
             {
-                if (!$data['pt_root'] && ($tid = $QF->PTree->Create_Tree('FOX2_GAL', Array($data['id']), Array('r_level' => $data['r_level'], 'w_level' => max($data['r_level'], 1)))))
+                if (!$data['pt_root'] && ($tid = $QF->PTree->Create_Tree('FOX2_GAL', Array($data['id']), Array('r_level' => $data['r_level'], 'w_level' => max($data['r_level'], 1), 'author_id' => $data['author_id'], 'author' => $data['author']))))
                 {
                     $QF->DBase->Do_Update('gal_items', Array('pt_root' => $tid), Array('id' => $data['id']));
                     $data['pt_root'] = $tid;

@@ -2,7 +2,8 @@ var FOX2_POSTTREE = function()
 {
     var inited = false,
         newPostTmp = null,
-        newPostParF = null;
+        newPostParF = null,
+        newPostTA = null;
 
     var Init = function()
     {        newPostTmp = qf_getbyid('new_post_form');
@@ -16,6 +17,12 @@ var FOX2_POSTTREE = function()
         for (var i in inputs)
             if (inputs[i].name && inputs[i].name == 'post_id')
                 newPostParF = inputs[i];
+
+        inputs = newPostTmp.getElementsByTagName('textarea');
+        for (var i in inputs)
+            if (inputs[i].name && inputs[i].tagName && inputs[i].tagName.toLowerCase() == 'textarea')
+                newPostTA = inputs[i];
+
         inited = true;
         return true;
     }
@@ -46,6 +53,8 @@ var FOX2_POSTTREE = function()
                 parBlock.insertBefore(newPostTmp, null);
                 if (newPostParF)
                     newPostParF.value = postId;
+                if (newPostTA)
+                    newPostTA.focus();
             }
         }
     };

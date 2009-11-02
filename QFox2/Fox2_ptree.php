@@ -15,6 +15,7 @@ define('QF_POSTTREE_LOADED', true);
 
 
 define('QF_POSTTREE_CACHE_PREFIX', 'POSTTREE.');
+define('QF_POSTTREE_CACHE_STATS', QF_POSTTREE_CACHE_PREFIX.'TSTATS');
 
 class Fox2_PostTree
 {
@@ -128,9 +129,11 @@ class Fox2_PostTree
         $new_data['w_level'] = min($new_data['w_level'], QF_FOX2_MAXULEVEL);
         $new_data['w_level'] = max($new_data['w_level'], $new_data['r_level']);
 
-        if ($tid = $QF->DBase->Do_Insert('pt_roots', $new_data))
-        {            $cachename = QF_POSTTREE_CACHE_PREFIX.'tstats';
-            $QF->Cache->Drop($cachename);
+        if ($tid = $QF->DBase->Do_Select('pt_roots', 'root_id', Array('hash' => $new_data['hash'])))
+        {
+        }
+        elseif ($tid = $QF->DBase->Do_Insert('pt_roots', $new_data))
+        {            $QF->Cache->Drop(QF_POSTTREE_CACHE_STATS);
             return $tid;
         }
         return false;
@@ -178,6 +181,7 @@ class Fox2_PostTree
             $t_data['post_id'] = $pid;
             $QF->DBase->Do_Update('pt_ptext', $t_data, Array('post_id' => $pid));
             $QF->Cache->Drop($cachename);
+            $QF->Cache->Drop(QF_POSTTREE_CACHE_STATS);
             unset($this->ptrees[$tid]);
             return true;
         }
@@ -233,10 +237,25 @@ class Fox2_PostTree
                 );
             $QF->DBase->Do_Update('pt_roots', $t_data, Array('root_id' => $tid));
             $QF->Cache->Drop($cachename);
+            $QF->Cache->Drop(QF_POSTTREE_CACHE_STATS);
             unset($this->ptrees[$tid]);
             return $pid;
         }
         return false;
+    }
+
+    // TODO: gets tree by any of 4 keys
+    function Get_ByKey($tid)
+    {
+        global $QF, $FOX;
+        if (!is_numeric($tid))
+            return false;
+
+        $tid = (int) $tid;
+        if (isset($this->ptrees[$tid]) || $this->_Load_Tree($tid))
+            return $this->ptrees[$tid];
+
+        return null;
     }
 
     function Get_Tree($tid)
@@ -354,7 +373,7 @@ class Fox2_PostTree
     function _Load_Stats()
     {        global $QF, $FOX;
 
-        $cachename = QF_POSTTREE_CACHE_PREFIX.'tstats';
+        $cachename = QF_POSTTREE_CACHE_STATS;
         if ($data = $QF->Cache->Get($cachename))
         {
             $this->stats = $data;
