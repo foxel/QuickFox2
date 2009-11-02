@@ -303,6 +303,7 @@ class Fox2_CMS_Adm
                         break;
                 }
             }
+            $QF->Events->Call_Event_Ref('HTML_block_parse', $filedata );
             return $filedata;
         }
 
