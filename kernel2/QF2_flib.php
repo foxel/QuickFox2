@@ -916,7 +916,7 @@ function qf_file_mime($filename, $try_ext='')
             $ctype = $values[0];
     }
 
-    if (!$ctype || $ctype == 'application/octet-stream')
+    if (!$ctype || $ctype == 'application/octet-stream' || $ctype == 'text/plain')
     {
         if (!$ext_mime)
             $ext_mime = qf_file_get_carray(QF_KERNEL_DIR.'by_ext.mime', true);
@@ -924,7 +924,7 @@ function qf_file_mime($filename, $try_ext='')
     	$ext = ($try_ext) ? $try_ext : pathinfo($filename, PATHINFO_EXTENSION);
     	$ext = strtoupper($ext);
 
-    	$ctype = (isset($ext_mime[$ext])) ? $ext_mime[$ext] : 'application/octet-stream';
+    	$ctype = (isset($ext_mime[$ext])) ? $ext_mime[$ext] : ($ctype ? $ctype : 'application/octet-stream');
     }
 
     return $ctype;

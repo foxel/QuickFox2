@@ -8,3 +8,7 @@ FOX_MPLAYER_PLAY_FOLDER: Проигрыватель
 ---
 FOX_MPLAYER_PLAY_FOLDER_MORE: Воспроизвести содержимое папки в проигрывателе
 ---
+FOX_MPLAYER_PLAY_FOLDER_M3U: M3U
+---
+FOX_MPLAYER_PLAY_FOLDER_M3U_MORE: Воспроизвести содержимое папки в Вашем проигрывателе (m3u-список воспроизведения)
+---

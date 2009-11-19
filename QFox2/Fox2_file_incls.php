@@ -421,8 +421,8 @@ class Fox2_file_incls
             $fold_id = 0;
         if (($info = $QF->Files->Get_FolderInfo($fold_id)) && !$info['is_sys'] && ($my_acc = $QF->User->CheckAccess($info['r_level'], $info['w_level'], $info['acc_gr'])))
         {
-            $fold_id = $info['id'];
-            $conts = $QF->Files->Get_FolderConts($fold_id, $QF->User->acc_level);
+            //$fold_id = $info['id'];
+            $conts = $QF->Files->Get_FolderConts($info['id'], $QF->User->acc_level);
             $folds = $QF->Files->Get_FoldersTree();
             while ($fold = array_pop($folds))
             {

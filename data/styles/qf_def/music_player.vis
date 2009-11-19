@@ -13,7 +13,7 @@
   </object>
  </div>
  [<a href="{FURL:fox2_player_player}" onclick="if (plWin = window.open('', 'the_player', 'width=250,height=70,status=no,toolbar=no,menubar=no,scrollbars=no')) {plWin.location.href='{FURL:fox2_player_player}'; return false;}">{L_FOX_MPLAYER_OPEN_WINDOW}</a>]<br />
- [<a href="{FURL:fox2_files_openfolder|IN_FOLDER_ID}" >{L_FOX_MPLAYER_OPEN_FOLDER}</a>]<br />
+ [<a href="{FURL:fox2_files_openfolder|IN_FOLDER_ID}" >{L_FOX_MPLAYER_OPEN_FOLDER}</a>] [<a href="{FURL:fox2_player_m3u}" >M3U</a>]<br />
 </div>
 <<- 'FOX_PLAYER_SIDEINCL'>>
 
@@ -39,5 +39,6 @@
 <<- 'FOX_PLAYER_SIDEINCL_VAR'>>
 
 <<+ 'FOX_PLAYER_FOLDERPAGE_PLAY'>>
-<a class="hlight_btn" href="{URL:fox2_player_pl_folder|IN_FOLDER_ID}" onclick="if (plWin = window.open('', 'the_player', 'width=250,height=70,status=no,toolbar=no,menubar=no,scrollbars=no')) {plWin.location.href='{FURL:fox2_player_pl_folder|IN_FOLDER_ID}'; return false;}" title="{L_FOX_MPLAYER_PLAY_FOLDER_MORE}">{L_FOX_MPLAYER_PLAY_FOLDER}</a>
+{IF:IN_CAN_PLAY}<a class="hlight_btn" href="{URL:fox2_player_pl_folder|IN_FOLDER_ID}" onclick="if (plWin = window.open('', 'the_player', 'width=250,height=70,status=no,toolbar=no,menubar=no,scrollbars=no')) {plWin.location.href='{FURL:fox2_player_pl_folder|IN_FOLDER_ID}'; return false;}" title="{L_FOX_MPLAYER_PLAY_FOLDER_MORE}">{L_FOX_MPLAYER_PLAY_FOLDER}</a>{ENDIF}
+<a class="hlight_btn" href="{URL:fox2_player_m3u_folder|IN_FOLDER_ID}" title="{L_FOX_MPLAYER_PLAY_FOLDER_M3U_MORE}">{L_FOX_MPLAYER_PLAY_FOLDER_M3U}</a>
 <<- 'FOX_PLAYER_FOLDERPAGE_PLAY'>>

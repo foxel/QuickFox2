@@ -330,7 +330,10 @@ var qfCMS_preview = function(form, button)
     var showPreview = function(status, data)
     {
         if (status != 200)
+        {
             alert(data);
+            hidePreview();
+        }
         else if (pvArea)
         {
             pvArea.innerHTML = data;

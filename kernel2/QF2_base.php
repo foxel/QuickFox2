@@ -988,7 +988,7 @@ class QF_HTTP
         }
     }
 
-    function Send_Buffer($recode_to = '', $c_type = '', $force_cache = 0)
+    function Send_Buffer($recode_to = '', $c_type = '', $force_cache = 0, $send_filename = '')
     {
         Global $QF;
 
@@ -1049,13 +1049,16 @@ class QF_HTTP
         else
             header('Cache-Control: no-cache');
 
+        if ($send_filename)
+            header('Content-Disposition: attachment; filename="'.$send_filename.'"');
+
         header('Content-Length: '.strlen($this->buffer));
         header('X-QF-Page-GenTime: '.$QF->Timer->Time_Spent());
         print $this->buffer;
         exit();
     }
 
-    function Send_Binary($data = '', $c_type = '', $force_cache = 0)
+    function Send_Binary($data = '', $c_type = '', $force_cache = 0, $send_filename = '')
     {
         Global $QF;
 
@@ -1084,6 +1087,9 @@ class QF_HTTP
             header('Cache-Control: no-cache');
 
         $data = ($data) ? $data : $this->buffer;
+
+        if ($send_filename)
+            header('Content-Disposition: attachment; filename="'.$send_filename.'"');
 
         header('Content-Length: '.strlen($data));
         header('X-QF-Page-GenTime: '.$QF->Timer->Time_Spent());

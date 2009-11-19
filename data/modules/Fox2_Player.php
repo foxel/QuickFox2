@@ -35,17 +35,29 @@ class Fox2_MPlayer
     function _OnFolderPageDraw($finfo_page, $fold_id, $conts)
     {        global $QF, $FOX;
 
+        $got_mus = $got_mp3 = false;
         foreach ($conts as $cont_id)
         {
             if (is_array($cont_id))
                 continue;
 
             $cont_item = $QF->Files->Get_FileInfo($cont_id);
-            if ($cont_item['mime'] == 'audio/mpeg' && $QF->User->CheckAccess($cont_item['r_level']))
-            {                $QF->VIS->Load_Templates('music_player');
-                $QF->VIS->Add_Node('FOX_PLAYER_FOLDERPAGE_PLAY', 'ADD_BUTTS', $finfo_page, Array('FOLDER_ID' => $fold_id));
-                return;
+            if (!$QF->User->CheckAccess($cont_item['r_level']))
+                continue;
+
+            if ($cont_item['mime'] == 'audio/mpeg')
+            {
+                $got_mus = $got_mp3 = true;
+                break;
             }
+            if (strpos($cont_item['mime'], 'audio/') === 0)
+                $got_mus = true;
+        }
+
+        if ($got_mus)
+        {
+            $QF->VIS->Load_Templates('music_player');
+            $QF->VIS->Add_Node('FOX_PLAYER_FOLDERPAGE_PLAY', 'ADD_BUTTS', $finfo_page, Array('FOLDER_ID' => $fold_id, 'CAN_PLAY' => $got_mp3 ? 1 : null));
         }
     }
 
@@ -55,6 +67,8 @@ class Fox2_MPlayer
         switch($p_type)
         {            case 'playlist':
                 return $this->DPage_PL();
+            case 'm3u':
+                return $this->DPage_PL(true);
             default:
                 return $this->DPage_Player();
         }
@@ -62,7 +76,7 @@ class Fox2_MPlayer
         return false;
     }
 
-    function DPage_PL()
+    function DPage_PL($is_m3u = false)
     {        global $QF, $FOX;
         $QF->Run_Module('Files');
 
@@ -82,23 +96,42 @@ class Fox2_MPlayer
         }
         $QF->Files->Load_FileInfos($conts);
 
-        $output = Array('<?xml version="1.0" encoding="'.QF_INTERNAL_ENCODING.'"?>', '<list folder="'.$my_fold.'" >');
-        foreach ($conts as $cont_id)
-        {
-            $cont_item = $QF->Files->Get_FileInfo($cont_id);
-            if ($cont_item['mime'] != 'audio/mpeg' || !$QF->User->CheckAccess($cont_item['r_level']))
-                continue;
+        $mime = 'text/xml';
+        $filename = null;
+        $output = Array();
+        if ($is_m3u)
+        {            $mime = 'audio/mpegurl';
+            $filename = ($fold['t_id'] ? $fold['t_id'] : $fold['id']).'.m3u8';
+            $output[] = '#EXTM3U';
+            foreach ($conts as $cont_id)
+            {
+                $cont_item = $QF->Files->Get_FileInfo($cont_id);
+                if (strpos($cont_item['mime'], 'audio/') !== 0 || !$QF->User->CheckAccess($cont_item['r_level']))
+                    continue;
 
-            $output[] = ' <item href="'.qf_full_url($FOX->Gen_URL('fox2_file_download_bysess', Array($cont_item['id'], $cont_item['filename']), true, true)).'" capt="'.$cont_item['caption'].'" />';
+                $output[] = '#EXTINF:-1,'.$cont_item['caption'];
+                $output[] = qf_full_url($FOX->Gen_URL('fox2_file_download_bysess', Array($cont_item['id'], $cont_item['filename']), true, true));
+            }
         }
-        $output[] = '</list>';
+        else
+        {
+            $output = Array('<?xml version="1.0" encoding="'.QF_INTERNAL_ENCODING.'"?>', '<list folder="'.$my_fold.'" >');
+            foreach ($conts as $cont_id)
+            {
+                $cont_item = $QF->Files->Get_FileInfo($cont_id);
+                if ($cont_item['mime'] != 'audio/mpeg' || !$QF->User->CheckAccess($cont_item['r_level']))
+                    continue;
 
+                $output[] = ' <item href="'.qf_full_url($FOX->Gen_URL('fox2_file_download_bysess', Array($cont_item['id'], $cont_item['filename']), true, true)).'" capt="'.$cont_item['caption'].'" />';
+            }
+            $output[] = '</list>';
+        }
         $output = implode("\n", $output);
 
         $QF->HTTP->do_HTML = false;
         $QF->HTTP->Clear();
         $QF->HTTP->Write($output);
-        $QF->HTTP->Send_Buffer('', 'text/xml', 60);
+        $QF->HTTP->Send_Buffer('', $mime, 60, $filename);
     }
 
     function DPage_Player()

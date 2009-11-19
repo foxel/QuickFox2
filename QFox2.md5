@@ -1,13 +1,13 @@
-81b57b6db020bd32850880e6253179b8 kernel2/by_ext.mime
+53f0bc920d7a3626efc6ebee8e9c150e kernel2/by_ext.mime
 52b61c555d9f78e7dbffcd4aa83302ef kernel2/krnl_def.lng
 e1b405e8844770ab09fe0acadd9b5de9 kernel2/magic.mime
 76e7208935e003758f501e6664433596 kernel2/modules.qfc
-df3e7a78124475ab8805437ad5c6c4b5 kernel2/QF2_base.php
+bf2a7b0967598be80494cc71816fc6b7 kernel2/QF2_base.php
 028285095eae16a0d8ee234f64b29840 kernel2/QF2_cache.php
 f0448df743a846948f48a8e47893a036 kernel2/QF2_configs.php
 d9b1ac909a20a6ba39d4662822af601e kernel2/QF2_efs.php
 ba5ee72586fe61ceb045839138e7caaa kernel2/QF2_esql.php
-4dd5ab1fd6066c89c2b54cd952ead731 kernel2/QF2_flib.php
+bf491f178089a7aa564a0553925f5e03 kernel2/QF2_flib.php
 5ed39655d040492f571de528768dab1a kernel2/QF2_imager.php
 841471159a2a033f83ad3ba566ef591a kernel2/QF2_lang.php
 fabbb52cdc1076e14281f30e06eadae6 kernel2/QF2_mailer.php
@@ -151,7 +151,7 @@ df38420db58537fab40f0ea2dc9f465a QFox2/Fox2_cms.php
 807558ccfc7a3666882d0830067e942f QFox2/Fox2_cmsadm.php
 fc85f9e083ca8336bca9174d26ffc856 QFox2/Fox2_datasets.php
 6e33b25f9786722403483c4622357657 QFox2/Fox2_filer.php
-2b7b03d21f16dbe3ea7b146cf1fc1b0e QFox2/Fox2_file_incls.php
+facfac4dae61a904fb5de611195a9d3c QFox2/Fox2_file_incls.php
 b4be04c6036d7897e3e40680458e15ca QFox2/Fox2_incls.php
 594d9b145d0792fdb24bf83ed9fb2a03 QFox2/Fox2_ptree.php
 33b1159e3d40b817f52604d880a8c53c QFox2/Fox2_ptree_incls.php
@@ -177,7 +177,7 @@ c2642aa8e54b9af354211d62fc0720e7 data/langs/RU/qf2_cfgs.lng
 33e905310a38145ada7f0e0bf02538d8 data/langs/RU/qf_setup.lng
 7c23427a997d61b4d08ae34f9b8bb00f data/langs/RU/usercab.lng
 d761024c859c725e9b6c4fd336ef2fe4 data/styles/qf_def/admin.vis
-edb6545490ed35d4415716782fed91dc data/styles/qf_def/cms_spec.vis
+ca480224e35c62d7c2e91aca4716c356 data/styles/qf_def/cms_spec.vis
 50a4826046088f4f817ebfff2b07cabb data/styles/qf_def/common.ecss
 6dfebefd42bd8f1fd883f84105de4886 data/styles/qf_def/common.vis
 1d1823fc454d5a8d8a7405eb04f55d1a data/styles/qf_def/posttree.vis
@@ -232,9 +232,9 @@ e9b172286b8bd68830d6ed1be0f6af04 data/langs/RU/gallery.lng
 4a7a06fea3ba65a3eb1d5c58f9ee55ae data/langs/RU/gallery_cfgs.lng
 af0228da70f871b661067283ef45669e data/modules/Fox2_GAdds.php
 f2e38a1c9352b89914a12be1b6a39a75 data/langs/RU/google_adds_cfgs.lng
-8b36cfd5a499037e7dc08140888c8a35 data/modules/Fox2_Player.php
-549deb78f4b685a484dbb323807f263e data/styles/qf_def/music_player.vis
-3381088fcb891141af25b816ce1c43f5 data/langs/RU/music_player.lng
+40021ebc0f63f5a70b1dfc32578df2cf data/modules/Fox2_Player.php
+09a5f728f31c7cd39d7adb8988c8ae2f data/styles/qf_def/music_player.vis
+543f2be2eb0c5ef730589f5923ee4c59 data/langs/RU/music_player.lng
 12511fba970616c8be171f7761742e56 data/langs/RU/music_player_cfgs.lng
 cdaa2651b24ebee928a163ef159bffd1 static/MPlayer.swf
 20da573d0f4adc0af97124453ec44563 QFox2/Fox2_muuser.php
