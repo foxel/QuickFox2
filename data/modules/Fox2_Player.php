@@ -100,7 +100,7 @@ class Fox2_MPlayer
         $filename = null;
         $output = Array();
         if ($is_m3u)
-        {            $mime = 'audio/mpegurl';
+        {            $mime = 'audio/x-mpegurl';
             $filename = ($fold['t_id'] ? $fold['t_id'] : $fold['id']).'.m3u8';
             $output[] = '#EXTM3U';
             foreach ($conts as $cont_id)
