@@ -262,6 +262,8 @@ class QuickFox_kernel2
             if (method_exists($object, '_Close'))
                 $this->need_close[] = Array(&$object, '_Close');
 
+            $this->Events->Call_Event($mod_name.'_module_start');
+
             return true;
         }
 

@@ -1467,5 +1467,7 @@ REPLACE INTO  `{DBKEY}config_sets` (`set_id`, `sec_set_id`, `package`, `capt`, `
     VALUES('visual_main', '', 'music_player', 'L_CFG_MPLAYER_SHOW_INPANELS', 'fox_player', 'show_in_panels', 'bool', NULL, '0', NULL, '1', '84');
 REPLACE INTO  `{DBKEY}config_sets` (`set_id`, `sec_set_id`, `package`, `capt`, `cfg_parent`, `cfg_name`, `cfg_type`, `src_data`, `drops_cache`, `drops_confs`, `schemable`, `order_id`) 
     VALUES('gallery', 'visual_specs', 'gallery', 'L_CFG_GALLERY_JS_FULLSIZE', 'gallery', 'jsshow_fullsize', 'bool', NULL, '0', NULL, '0', '0');
+REPLACE INTO  `{DBKEY}config_sets` (`set_id`, `sec_set_id`, `package`, `capt`, `cfg_parent`, `cfg_name`, `cfg_type`, `src_data`, `drops_cache`, `drops_confs`, `schemable`, `order_id`) 
+    VALUES('visual_specs', '', 'qf2', 'L_CFG_VISUAL_USE_REDEFINED', 'fox2', 'vis_redefined', 'bool', NULL, '0', NULL, '0', '0');
 
 

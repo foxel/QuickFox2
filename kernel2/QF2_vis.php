@@ -110,6 +110,7 @@ class QF_Visual
         $this->lang       =& $data['lang'];
         $this->lang_name  =& $data['lang_name'];
         $this->LNG_loaded =& $data['LNG_loaded'];
+        $this->Configure(Array(), true);
     }
 
     // configuring and loading functions

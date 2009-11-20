@@ -17,8 +17,8 @@ d1d6b0215ddc71abfcb838b660c82e31 kernel2/QF2_parser.php
 46b7e94d411d843ea0240e067f6c53d5 kernel2/QF2_services.php
 fbb868231380f53d44908e433a0fd439 kernel2/QF2_sess.php
 18bfe0a124d426ef047aca980f23e9cd kernel2/QF2_tar.php
-90a93836b3be66d39ebded861dcc3fd2 kernel2/QF2_vis.php
-ce24bebed8fbad237f7f65532c7e7bf3 kernel2/QF_kernel2.php
+653770c691a34847f8b02da2b92446d4 kernel2/QF2_vis.php
+8ef38381b6b5c6b075ac3f0d8e3adc96 kernel2/QF_kernel2.php
 96831fd122fe8a3ddf9dfc8563729ab3 kernel2/chars/cp037.chr
 b2f6c332aaf70db2501afeba2c75bb5d kernel2/chars/cp037.ltt
 a88a36da7c30a4415d54b276cc7eea38 kernel2/chars/cp1006.chr
@@ -144,7 +144,7 @@ ec6c3aedf3451ccaf0fdcb45fe2885b7 kernel2/chars/x-mac-greek.ltt
 989489290036483052d960d6ec7f72c2 kernel2/chars/x-mac-roman.ltt
 fb9375c8f8c5fc54000ba23e31f6ce2d kernel2/chars/zdingbat.chr
 8f80cc35ff7453a2be7fa926f31383e3 QFox2/as_data.dat
-a914c703da4e7cd36404054522b72de0 QFox2/Fox2.php
+d7d0423749bf5b62f4b4358037a09691 QFox2/Fox2.php
 53600c837c8fb0c7bf938a68d2e8d650 QFox2/Fox2_adm.php
 5c24b3ffa072e02cb45a11d69a917f34 QFox2/Fox2_cfgsets.php
 64569999e61fcffd3d2f824bce1c1806 QFox2/Fox2_cms.php
@@ -173,7 +173,7 @@ a16095c426c0ee7586d5a1f4c0538d38 data/langs/RU/cms_spec.lng
 26f346ecc562ed90fc818de2728eb5a7 data/langs/RU/kernel.lng
 a2fa0afd55500564b038b8f2bd485bd1 data/langs/RU/posttree.lng
 4a200ba8cda777dbebf5f5a1fb7919a5 data/langs/RU/qf2_base_errs.lng
-c2642aa8e54b9af354211d62fc0720e7 data/langs/RU/qf2_cfgs.lng
+f4af1e890d7ed4745c4b0f468489a243 data/langs/RU/qf2_cfgs.lng
 33e905310a38145ada7f0e0bf02538d8 data/langs/RU/qf_setup.lng
 7c23427a997d61b4d08ae34f9b8bb00f data/langs/RU/usercab.lng
 d761024c859c725e9b6c4fd336ef2fe4 data/styles/qf_def/admin.vis

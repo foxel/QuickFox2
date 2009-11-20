@@ -115,6 +115,9 @@ class Fox2
 
         $QF->Events->Set_On_Event('VIS_PreParse',  Array(&$this, 'On_VIS_Prep') );
         $QF->Events->Set_On_Event('EJS_PreParse',  Array(&$this, 'On_EJS_Prep') );
+        if ($QF->Config->Get('vis_redefined', 'fox2'))
+            $QF->Events->Set_On_Event('VIS_module_start',  Array(&$this, '_VISUserMods_Preload') );
+
         if ($rw_id = $QF->GPC->Get_String('rw_id', QF_GPC_GET, QF_STR_WORD))
         {
             $this->_Parse_RW($rw_id, $QF->GPC->Get_String('rw_data', QF_GPC_GET, QF_STR_LINE));
@@ -159,7 +162,7 @@ class Fox2
             'root_node' => 'GLOBAL_HTMLPAGE',
             'style' => $vis_style[0],
             'CSS' => $vis_style[1],
-            ), true);
+            ), false);
 
 
         if ($QF->Config->Get('css_separate'))
@@ -680,6 +683,11 @@ class Fox2
             $this->_Load_URLS();
 
         $indata = preg_replace_callback('#\{(?>(F|R)?URL:((?:\w+|\"[^\"]+\"|\|)+))\}#',Array(&$this, '_VISParse_URL_CB'),$indata);
+    }
+
+    function _VISUserMods_Preload()
+    {        global $QF;
+        $QF->VIS->Load_Templates('user_redefined');
     }
 
     function _VISParse_URL_CB($matches)
