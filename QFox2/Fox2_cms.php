@@ -193,7 +193,8 @@ class Fox2_CMS
         {
             $file_id = preg_replace('#[^A-Za-z0-9_\-]#', '', $PData['file_id']);
             $filename = QF_CMS_PGS_DIR.$file_id.'.htf';
-            if ($file_data = qf_file_get_contents($filename))
+            $file_data = qf_file_get_contents($filename);
+            if (is_string($file_data))
             {
                 $links = Array();
 

@@ -7,7 +7,7 @@ bf2a7b0967598be80494cc71816fc6b7 kernel2/QF2_base.php
 f0448df743a846948f48a8e47893a036 kernel2/QF2_configs.php
 d9b1ac909a20a6ba39d4662822af601e kernel2/QF2_efs.php
 ba5ee72586fe61ceb045839138e7caaa kernel2/QF2_esql.php
-bf491f178089a7aa564a0553925f5e03 kernel2/QF2_flib.php
+f2eab96224f7e1bbbc1c93b45f97b854 kernel2/QF2_flib.php
 5ed39655d040492f571de528768dab1a kernel2/QF2_imager.php
 841471159a2a033f83ad3ba566ef591a kernel2/QF2_lang.php
 fabbb52cdc1076e14281f30e06eadae6 kernel2/QF2_mailer.php
@@ -147,7 +147,7 @@ fb9375c8f8c5fc54000ba23e31f6ce2d kernel2/chars/zdingbat.chr
 a914c703da4e7cd36404054522b72de0 QFox2/Fox2.php
 53600c837c8fb0c7bf938a68d2e8d650 QFox2/Fox2_adm.php
 5c24b3ffa072e02cb45a11d69a917f34 QFox2/Fox2_cfgsets.php
-df38420db58537fab40f0ea2dc9f465a QFox2/Fox2_cms.php
+64569999e61fcffd3d2f824bce1c1806 QFox2/Fox2_cms.php
 807558ccfc7a3666882d0830067e942f QFox2/Fox2_cmsadm.php
 fc85f9e083ca8336bca9174d26ffc856 QFox2/Fox2_datasets.php
 6e33b25f9786722403483c4622357657 QFox2/Fox2_filer.php

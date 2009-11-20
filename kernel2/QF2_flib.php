@@ -592,7 +592,7 @@ function qf_md5_file($filename, $raw_output = false)
 function qf_file_get_contents($filename)
 {
     if (!file_exists($filename))
-        return null;
+        return false;
 
     if (function_exists('file_get_contents'))
         return file_get_contents($filename);
@@ -604,7 +604,7 @@ function qf_file_get_contents($filename)
         return $data;
     }
     else
-        return null;
+        return false;
 }
 
 // provides file_put_contents function on PHP 4
