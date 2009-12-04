@@ -575,7 +575,7 @@ REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
     VALUES('spiders', 'qf2', 'Merc Spider', 'a:1:{s:5:\"masks\";a:1:{i:0;s:23:\"Tv_Merc_resh_26_1_D-1.0\";}}', '0', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('spiders', 'qf2', 'All The Web', 'a:1:{s:5:\"masks\";a:1:{i:0;s:4:\"Wget\";}}', '0', '');
+    VALUES('spiders', 'qf2', 'All The Web', 'a:1:{s:5:\"masks\";a:1:{i:0;s:15:\"Fast-WebCrawler\";}}', '0', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
     VALUES('spiders', 'qf2', 'AntiSearch.net', 'a:1:{s:5:\"masks\";a:1:{i:0;s:7:\"antibot\";}}', '0', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 

@@ -80,7 +80,7 @@
      <input type="submit" value="{L_BTN_SAVE}" />
     {ELSE}
      {IF:IN_CAN_ADM}<!-- <a class="hlight_btn" href="{URL:fox2_ptree_delpost|IN_POST_ID|IN_MYHREF_ENC}" title="{L_BTN_DELETE}">{L_BTN_DELETE}</a> -->
-     <a class="hlight_btn" href="{URL:fox2_ptree_editpost|IN_POST_ID|IN_MYHREF_ENC}" title="{L_BTN_EDIT}">{L_BTN_EDIT}</a>{ENDIF}
+     <a id="post{IN_POST_ID}_btn_edit" class="hlight_btn" href="{URL:fox2_ptree_editpost|IN_POST_ID|IN_MYHREF_ENC}" title="{L_BTN_EDIT}">{L_BTN_EDIT}</a>{ENDIF}
      <a id="post{IN_POST_ID}_btn_answ" class="hlight_btn" href="{URL:fox2_ptree_answer|IN_TREE_ID|IN_POST_ID|IN_MYHREF_ENC}" title="{L_BTN_ANSWER}">{L_BTN_ANSWER}</a>
     {ENDIF}
    </div>

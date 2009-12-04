@@ -9,7 +9,7 @@ d9b1ac909a20a6ba39d4662822af601e kernel2/QF2_efs.php
 ba5ee72586fe61ceb045839138e7caaa kernel2/QF2_esql.php
 f2eab96224f7e1bbbc1c93b45f97b854 kernel2/QF2_flib.php
 5ed39655d040492f571de528768dab1a kernel2/QF2_imager.php
-841471159a2a033f83ad3ba566ef591a kernel2/QF2_lang.php
+b47033974abbe43b80b2b11cf93906f8 kernel2/QF2_lang.php
 fabbb52cdc1076e14281f30e06eadae6 kernel2/QF2_mailer.php
 9e94ea71821d98b55a3029a25d49d8f7 kernel2/QF2_mysql.php
 d1d6b0215ddc71abfcb838b660c82e31 kernel2/QF2_parser.php
@@ -164,7 +164,7 @@ e8828e0eeece4300ca5cf6035b53ffb6 QFox2/Fox2_userlib.php
 4cd71d6dcfb211aa3a70d75d172a85f5 data/jscripts/common.ejs
 46dc22c80e50f614fcd8f0626545f97c data/jscripts/effects.ejs
 018a526d7d33860d68774113c75e6215 data/jscripts/imageshow.ejs
-1f6f3da203a2d2500326881cd929786f data/jscripts/posttree.ejs
+096b7401be60ada65f31bac9a5dc867e data/jscripts/posttree.ejs
 68d3a34972bbe96da822faff4b5835d2 data/jscripts/swfobject.ejs
 b33dce8752784b2d6784639dea4cee4b data/jscripts/uploader.ejs
 c1a079d7456de608617485941d478c40 data/langs/RU/admin.lng
@@ -180,7 +180,7 @@ d761024c859c725e9b6c4fd336ef2fe4 data/styles/qf_def/admin.vis
 ca480224e35c62d7c2e91aca4716c356 data/styles/qf_def/cms_spec.vis
 50a4826046088f4f817ebfff2b07cabb data/styles/qf_def/common.ecss
 6dfebefd42bd8f1fd883f84105de4886 data/styles/qf_def/common.vis
-1d1823fc454d5a8d8a7405eb04f55d1a data/styles/qf_def/posttree.vis
+e7779fabddb2c5495305cc1240105ec5 data/styles/qf_def/posttree.vis
 9d26b8056c2d90dd878c4ce4fc849258 data/styles/qf_def/qf_setup.vis
 25262b93a47e55de974160a8c4d5d4f4 data/styles/qf_def/usercab.vis
 e1ac98d3e63c53940f691a45ef32f6d1 static/player.swf
@@ -236,7 +236,7 @@ fc9c79155a930d5fcd710f13237afa4d data/modules/Fox2_Player.php
 09a5f728f31c7cd39d7adb8988c8ae2f data/styles/qf_def/music_player.vis
 543f2be2eb0c5ef730589f5923ee4c59 data/langs/RU/music_player.lng
 12511fba970616c8be171f7761742e56 data/langs/RU/music_player_cfgs.lng
-cdaa2651b24ebee928a163ef159bffd1 static/MPlayer.swf
+58fa721f23eea86f2bd5078efc5957f9 static/MPlayer.swf
 20da573d0f4adc0af97124453ec44563 QFox2/Fox2_muuser.php
 80d59ba15577bae6a4174a9359145463 QFox2/Fox2_mu_incls.php
 89b944d8a4e9f29e621b7efece0ec62a data/styles/qf_def/multiuser.vis

@@ -92,7 +92,7 @@ class QF_Lang
 
             if ($Ldata = $QF->Cache->Get($cachename))
             {
-                $this->lang = $Ldata + $this->lang;
+                $this->lang += $Ldata;
                 $QF->Timer->Time_Log($this->lang_name.'.'.$part.' language loaded (from global cache)');
             }
             else
@@ -111,7 +111,7 @@ class QF_Lang
                 {
 
                     $QF->Cache->Set($cachename, $Ldata);
-                    $this->lang = $Ldata + $this->lang;
+                    $this->lang += $Ldata;
                     $QF->Timer->Time_Log($this->lang_name.'.'.$part.' language file loaded (from lang file)');
                     //trigger_error('LANG: error parsing '.$this->lang_name.'.'.$part.' lang file', E_USER_WARNING );
                 }
