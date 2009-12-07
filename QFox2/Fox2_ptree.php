@@ -45,6 +45,7 @@ class Fox2_PostTree
         $my_href_enc = qf_url_str_pack($QF->HTTP->Request);
         $QF->VIS->Load_Templates('posttree');
         $FOX->Link_JScript('posttree');
+        $FOX->Link_JScript('ajax');
 
         $root_node = $QF->VIS->Create_Node('FOX_POSTTREE_OUTER');
         $root_params = Array(

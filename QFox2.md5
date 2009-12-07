@@ -153,8 +153,8 @@ fc85f9e083ca8336bca9174d26ffc856 QFox2/Fox2_datasets.php
 6e33b25f9786722403483c4622357657 QFox2/Fox2_filer.php
 04b479b69840bc42284b95fe43c25da9 QFox2/Fox2_file_incls.php
 b4be04c6036d7897e3e40680458e15ca QFox2/Fox2_incls.php
-594d9b145d0792fdb24bf83ed9fb2a03 QFox2/Fox2_ptree.php
-33b1159e3d40b817f52604d880a8c53c QFox2/Fox2_ptree_incls.php
+8e04fe1d34fa61e2a7d6e81c3c73b672 QFox2/Fox2_ptree.php
+bbf87f2d69c444bcaf010b94700ffbb0 QFox2/Fox2_ptree_incls.php
 e8828e0eeece4300ca5cf6035b53ffb6 QFox2/Fox2_userlib.php
 66f0365cefcf45172a81536a9fef39cc QFox2/modules.qfc
 7bcf7068fb9f13611d23bbe7a8d6fc79 data/certifs/root.qfct
@@ -164,7 +164,7 @@ e8828e0eeece4300ca5cf6035b53ffb6 QFox2/Fox2_userlib.php
 4cd71d6dcfb211aa3a70d75d172a85f5 data/jscripts/common.ejs
 46dc22c80e50f614fcd8f0626545f97c data/jscripts/effects.ejs
 018a526d7d33860d68774113c75e6215 data/jscripts/imageshow.ejs
-096b7401be60ada65f31bac9a5dc867e data/jscripts/posttree.ejs
+185803808513e3301345f22f15004870 data/jscripts/posttree.ejs
 68d3a34972bbe96da822faff4b5835d2 data/jscripts/swfobject.ejs
 b33dce8752784b2d6784639dea4cee4b data/jscripts/uploader.ejs
 c1a079d7456de608617485941d478c40 data/langs/RU/admin.lng
@@ -180,7 +180,7 @@ d761024c859c725e9b6c4fd336ef2fe4 data/styles/qf_def/admin.vis
 ca480224e35c62d7c2e91aca4716c356 data/styles/qf_def/cms_spec.vis
 50a4826046088f4f817ebfff2b07cabb data/styles/qf_def/common.ecss
 6dfebefd42bd8f1fd883f84105de4886 data/styles/qf_def/common.vis
-e7779fabddb2c5495305cc1240105ec5 data/styles/qf_def/posttree.vis
+237286aae3192e0ca629b3c86131333e data/styles/qf_def/posttree.vis
 9d26b8056c2d90dd878c4ce4fc849258 data/styles/qf_def/qf_setup.vis
 25262b93a47e55de974160a8c4d5d4f4 data/styles/qf_def/usercab.vis
 e1ac98d3e63c53940f691a45ef32f6d1 static/player.swf
@@ -199,6 +199,8 @@ f7042a29b2bae190689c9811e271579f static/images/gzip.gif
 bdb076662984754f1f8a8bd2a865f9c1 static/images/img_go_left.png
 fee809b65072e29e17e17bbecd0955e8 static/images/img_go_right.png
 daf755a94a877529629a1495ca389e29 static/images/img_return.png
+05db7cc2e6331ceed14dd01b3968aa97 static/images/loading-ru.png
+05db7cc2e6331ceed14dd01b3968aa97 static/images/loading.png
 6e2c32b35968eabb9ad7f5be8b7806e8 static/images/qfl_sm.png
 b9c39b8ef2b05d79120c3e8a4613e9a9 static/images/qf_ico.ico
 57f5a95a3e9259687c0bde2be4587068 static/images/styles/qf_def/acc_point.gif

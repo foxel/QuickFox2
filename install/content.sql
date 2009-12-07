@@ -1388,6 +1388,8 @@ REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar
     VALUES('mod_rw_urlts', 'music_player', 'FOX2_PLAYER_M3U', 'mplayer/m3u/pl-{TIME}.m3u8', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
     VALUES('mod_rw_urlts', 'music_player', 'FOX2_PLAYER_M3U_FOLDER', 'mplayer/m3u/pl-{TIME}.m3u8?folder=%1$s', '1', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('fox_ajax_scripts', 'qf2', 'ptree_getpost', 'a:2:{s:6:\"module\";s:11:\"PTree_incls\";s:6:\"method\";s:11:\"AJX_getpost\";}', '0', '');
 
 
 # Data content for {DBKEY}config_sets 

@@ -16,6 +16,13 @@ class Fox2_PTree_Incls
         $QF->LNG->Load_Language('posttree');
     }
 
+    function AJX_getpost(&$AJAX_STATUS)
+    {        global $QF, $FOX;
+        $pid = $QF->GPC->Get_Num('post_id', QF_GPC_POST);
+        $pdata = $QF->PTree->Get_Post($pid);
+        return $pdata;
+    }
+
     function Script_PTManage()
     {        global $QF, $FOX;
         $mode = $QF->GPC->Get_String('action', QF_GPC_POST, QF_STR_WORD);
