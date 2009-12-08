@@ -84,6 +84,12 @@ class Fox2
                 $QF->Config->Select_Scheme($d_schemas[$domain]);
         }
 
+        // starting neded modules
+        $QF->Run_Module('DSets');
+        $QF->Run_Module('User');
+
+        $revision = $QF->DSets->Get_DSet_Value('dev_rev_info', 'qf2');
+        header('X-Powered-By: QuickFox 2 ['.$revision.'] (PHP/'.PHP_VERSION.')');
 
         // running the services
         $next_start = $QF->Config->Get('service_nextstart', 'temp');
@@ -92,10 +98,6 @@ class Fox2
             $QF->Run_Module('Services');
             $QF->Config->Set('service_nextstart', ($QF->Timer->time + QF_FOX2_RESULT_LIFETIME), 'temp', true);
         }
-
-        // starting neded modules
-        $QF->Run_Module('DSets');
-        $QF->Run_Module('User');
 
         // registering extended modules
         if ($r_mods = $QF->DSets->Get_DSet('fox_modules'))
