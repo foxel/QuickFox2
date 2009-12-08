@@ -31,15 +31,15 @@ var QF_EFFECTS = function()
     {
         if ((typeof itm).toLowerCase() == 'object' && itm.tagName)
             return itm;
-
+        var out = null
         if (document.getElementById)
-            return document.getElementById(itm);
+            out = document.getElementById(itm);
         else if (document.all)
-            return document.all[itm];
+            out = document.all[itm];
         else if (document.layers)
-            return document.layers[itm];
+            out = document.layers[itm];
 
-        return null;
+        return out;
     }
 
     var _Add_CB = function(func, type, onDropFunc)
@@ -150,6 +150,7 @@ var QF_EFFECTS = function()
                 return false;
 
             var resizer = document.createElement('div');
+            resizer.id = 'qf_resizer'+(new Date().getTime());
             //resizer.className = 'ta_resizer';
             var Estl = getStyleObj(elem);
             var stl = getStyleObj(resizer);
@@ -173,6 +174,23 @@ var QF_EFFECTS = function()
             resizer.onmousedown = function(e) { SizerStartResize(elem, e); return false; };
             elem.qfResizer = resizer;
         },
+        ClearResizers: function (el)
+        {
+            var elem = _Get_DOMNode(el);
+            if (!elem)
+                return false;
+
+            if (elem && elem.children)
+            {
+                if (elem.id && elem.id.match(/^qf_resizer/))
+                {
+                    elem.parentNode.removeChild(elem);
+                    return;
+                }
+                for (var i=0; i < elem.children.length; i++)
+                    QF_EFFECTS.ClearResizers(elem.children[i]);
+            }
+        },
         InitItem: function (id)
         {
             if (!Ready)
@@ -191,6 +209,21 @@ var QF_EFFECTS = function()
             {
                 stl.display = '';
                 visible = 0;
+            }
+
+            if (SDatas[id])
+            {                var alpha = (myBrowser.isMSIE) ? itm.filters['DXImageTransform.Microsoft.alpha'] || itm.filters.alpha : null;
+                var SData = SDatas[id];
+                stl.width = SData.cWidth;
+                stl.height = SData.cHeight;
+                if (alpha)
+                {
+                    alpha.opacity = SData.alpha;
+                    alpha.enabled = (SData.alpha != 100) && !(VS & 16);
+                }
+                else
+                    stl.opacity = SData.alpha/100;
+                stl.overflow = SData.overflow;
             }
 
             if ((typeof stl.opacity).toLowerCase() == 'string' && stl.opacity)

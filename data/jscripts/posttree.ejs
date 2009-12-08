@@ -1,51 +1,56 @@
 var FOX2_POSTTREE = function()
 {
     var inited = false,
+        newPostID = 'post_new_block',
         newPostTmp = null,
         newPostParF = null,
         newPostActF = null,
         newPostTA = null,
         newPostStock = null,
-        postEditOpened = 0;
+        newPostOpened = false;
+    var myEditors = {},
+        editorOpened = '';
 
     var Init = function()
-    {        newPostTmp = qf_getbyid('new_post_form');
+    {        newPostTmp = qf_getbyid(newPostID);
         if (!newPostTmp)
         {
             QF_TIMERS.addOnLoad(Init);
             return false;
         }
         newPostStock = newPostTmp.parentNode;
-
-        var inputs = newPostTmp.getElementsByTagName('input');
-        for (var i in inputs)
-        {
-            if (!inputs[i].name)
-                continue;
-            if (inputs[i].name == 'post_id')
-                newPostParF = inputs[i];
-            else if (inputs[i].name == 'action')
-                newPostActF = inputs[i];
+        QF_EFFECTS.ClearResizers(newPostTmp);
+        var btnSave = qf_getbyid('post_new_btn_save');
+        if (btnSave)
+        {            var btnCancel = document.createElement('button');
+            btnCancel.id = 'post_new_btn_canc';
+            btnCancel.innerHTML = '{L_BTN_CANCEL}';
+            btnCancel.onclick = function() { doCloseEditor(); return false; };
+            btnSave.parentNode.insertBefore(btnCancel, btnSave.nextSibling);
         }
-
-        inputs = newPostTmp.getElementsByTagName('textarea');
-        for (var i in inputs)
-            if (inputs[i].name && inputs[i].tagName && inputs[i].tagName.toLowerCase() == 'textarea')
-                newPostTA = inputs[i];
-
+        QF_EFFECTS.Invisible(newPostID);
         inited = true;
         return true;
     }
 
-    var SetPostFormValue = function(name, value)
-    {        var inputs = newPostTmp.getElementsByTagName('input');
+    var doRenameFormIDs = function(item, new_prefix)
+    {        if (item && item.children)
+        {            if (item.id)
+                item.id = item.id.replace(/^post_new_/, new_prefix+'_');
+            for (var i=0; i < item.children.length; i++)
+                doRenameFormIDs(item.children[i], new_prefix);
+        }
+    }
+
+    var doSetFormValue = function(form, name, value)
+    {        var inputs = form.getElementsByTagName('input');
         for (var i in inputs)
             if (inputs[i].name && inputs[i].name == name)
             {
                 inputs[i].value = value;
                 return true;
             }
-        inputs = newPostTmp.getElementsByTagName('textarea');
+        inputs = form.getElementsByTagName('textarea');
         for (var i in inputs)
             if (inputs[i].name && inputs[i].name == name && inputs[i].tagName && inputs[i].tagName.toLowerCase() == 'textarea')
             {
@@ -56,7 +61,73 @@ var FOX2_POSTTREE = function()
         return false;
     }
 
-    var PrepPostNode = function(postId)
+    var doEditorFocus = function(editorId)
+    {        var ta = qf_getbyid(editorId+'_text');
+        if (ta && ta.focus)
+            ta.focus();
+    }
+
+    var doOpenEditor = function(postId, doEdit)
+    {        var editorId = 'postEd'+postId+(doEdit ? '_edit' : '_answ');
+        if (!myEditors[editorId])
+        {            var divId = postId ? 'post'+postId : 'topic';
+            var postDiv = qf_getbyid(divId);
+
+            var clone = newPostTmp.cloneNode(true);
+            doRenameFormIDs(clone, editorId);
+
+            var parBlock = (doEdit) ? postDiv.parentNode : qf_getbyid(divId + '_answer');
+            if (parBlock && parBlock.insertBefore)
+                parBlock.insertBefore(clone, doEdit ? postDiv.nextSibling : null);
+            QF_EFFECTS.Invisible(editorId+'_block');
+
+            var btnCancel = qf_getbyid(editorId+'_btn_canc');
+            if (btnCancel)
+                btnCancel.onclick = function() { doCloseEditor(); return false; };
+
+            if (!doEdit)
+            {
+                var tmp;
+                if (tmp = qf_getbyid(editorId+'_editblock'))
+                    tmp.parentNode.removeChild(tmp);
+            }
+
+            doSetFormValue(clone, 'post_id', postId);
+            doSetFormValue(clone, 'action', doEdit ? 'editpost' : 'answer');
+
+            myEditors[editorId] = {obj: clone, divId: divId, doEdit: doEdit};
+
+            var ta = qf_getbyid(editorId+'_text');
+            if (ta)
+                QF_EFFECTS.SetResizebleElem(ta);
+        }
+
+
+        var editor = myEditors[editorId].obj;
+        if (editorId != editorOpened)
+        {
+            doCloseEditor();
+            QF_EFFECTS.Show(editorId+'_block', 3, 100, function() {doEditorFocus(editorId);});
+            if (myEditors[editorId].doEdit)
+                QF_EFFECTS.Hide(myEditors[editorId].divId, 3);
+        }
+
+        editorOpened = editorId;
+        return editor;
+    }
+
+    var doCloseEditor = function()
+    {        if (!editorOpened)
+            return false;
+        QF_EFFECTS.InitItem(editorOpened+'_block'); /* TODO: more accurate restoring of params */
+        QF_EFFECTS.Hide(editorOpened+'_block', 3);
+        if (myEditors[editorOpened].doEdit)
+            QF_EFFECTS.Show(myEditors[editorOpened].divId, 3);
+        editorOpened = '';
+        return true;
+    }
+
+    var doPrepPostNode = function(postId)
     {        var divId = 'post'+postId;
         var postDiv = qf_getbyid(divId);
         var answBtn = qf_getbyid(divId+'_btn_answ');
@@ -105,25 +176,14 @@ var FOX2_POSTTREE = function()
         }
     }
 
-    var doOpenEdit = function(postId, data)
+    var doOpenEdit = function(postId, data, onOpen)
     {        var divId = 'post'+postId;
-        var postDiv = qf_getbyid(divId);
-        postDiv.parentNode.insertBefore(newPostTmp, postDiv);
-        getStyleObj(postDiv).display = 'none';
-        newPostParF.value = postId;
-        newPostActF.value = 'editpost';
-        newPostTA.value = data['o_text'];
-        newPostTA.focus();
-        postEditOpened = postId;
+        var editor = doOpenEditor(postId, true);
+        doSetFormValue(editor, 'post_text', data['o_text']);
     }
 
-    var doCloseEdit = function(postId)
+    var doCloseEdit = function(postId, onClose)
     {
-        var divId = 'post'+postId;
-        var postDiv = qf_getbyid(divId);
-        newPostStock.insertBefore(newPostTmp, null);
-        getStyleObj(postDiv).display = '';
-        postEditOpened = 0;
     }
 
     var pub = {        PrepPosts: function(posts)
@@ -131,33 +191,21 @@ var FOX2_POSTTREE = function()
                 return;
 
             for (var i in posts)
-                PrepPostNode(posts[i]);
+                doPrepPostNode(posts[i]);
         },
         OpenAnswer: function(postId)
         {            if (!inited && !Init())
                 return Alert('{L_MISC_JS_WAIT}');
 
-            if (postEditOpened)
-                doCloseEdit(postEditOpened);
-
-            var parId = postId ? 'post'+postId : 'topic';
-            var parBlock = qf_getbyid(parId + '_answer');
-            if (parBlock && parBlock.insertBefore)
-            {
-                parBlock.insertBefore(newPostTmp, null);
-                newPostParF.value = postId;
-                newPostActF.value = 'answer';
-                newPostTA.value = '';
-                newPostTA.focus();
-            }
+            doOpenEditor(postId);
         },
         OpenEdit: function(postId)
         {
             if (!inited && !Init())
                 return Alert('{L_MISC_JS_WAIT}');
 
-            if (postEditOpened)
-                doCloseEdit(postEditOpened);
+            if (editorOpened)
+                doCloseEditor();
 
 
             var handle = function(status, data)

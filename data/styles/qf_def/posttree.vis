@@ -13,14 +13,16 @@
 <div class="inv_grid" id="topic_answer"></div>
 </div>
 <div id="ptree_preps" style="display: none;">
- <form id="new_post_form" action="{QF_INDEX}" method="post" enctype="multipart/form-data">
-  {VIS:FOX_POSTTREE_POST|DO_NEW=1|TIME=C_TIME|POST_ID="_new"|AUTHOR_INFO=IN_USER_INFO}
+ <div id="post_new_block" class="inv_grid" >
+ <form id="post_new_form" action="{QF_INDEX}" method="post" enctype="multipart/form-data">
+  {VIS:FOX_POSTTREE_POST|DO_EDIT=1|CAN_ADM=1|TIME=C_TIME|POST_ID="_new"|AUTHOR_INFO=IN_USER_INFO}
   <input type="hidden" name="script" value="ptmanage" />
   <input type="hidden" name="action" value="answer" />
   <input type="hidden" name="tree_id" value="{IN_TREE_ID}" />
   <input type="hidden" name="post_id" value="0" />
   <input type="hidden" name="return" value="{IN_MYHREF}" />
  </form>
+ </div>
 </div>
 {IF:IN_JS_POSTSARR}<script type="text/javascript">
 // <![CDATA[
@@ -79,7 +81,7 @@
     {ELSEIF:IN_DO_EDIT}
      <input id="post{IN_POST_ID}_btn_save" type="submit" value="{L_BTN_SAVE}" />
     {ELSE}
-     {IF:IN_CAN_ADM}<!-- <a class="hlight_btn" href="{URL:fox2_ptree_delpost|IN_POST_ID|IN_MYHREF_ENC}" title="{L_BTN_DELETE}">{L_BTN_DELETE}</a> -->
+     {IF:IN_CAN_ADM}<!-- <a id="post{IN_POST_ID}_btn_delete" class="hlight_btn" href="{URL:fox2_ptree_delpost|IN_POST_ID|IN_MYHREF_ENC}" title="{L_BTN_DELETE}">{L_BTN_DELETE}</a> -->
      <a id="post{IN_POST_ID}_btn_edit" class="hlight_btn" href="{URL:fox2_ptree_editpost|IN_POST_ID|IN_MYHREF_ENC}" title="{L_BTN_EDIT}">{L_BTN_EDIT}</a>{ENDIF}
      <a id="post{IN_POST_ID}_btn_answ" class="hlight_btn" href="{URL:fox2_ptree_answer|IN_TREE_ID|IN_POST_ID|IN_MYHREF_ENC}" title="{L_BTN_ANSWER}">{L_BTN_ANSWER}</a>
     {ENDIF}
@@ -109,9 +111,9 @@
 <<- 'FOX_POSTTREE_POSTVIEW'>>
 
 <<+ 'FOX_POSTTREE_POSTEDIT'>>
-<textarea id="post{IN_POST_ID}_text" rows="5" cols="40" style="height: 150px;" name="post_text">{IN_OTEXT}</textarea><br />
-{IF:IN_DO_EDIT}
+<textarea id="post{IN_POST_ID}_text" rows="5" cols="40" style="height: 150px;" name="post_text">{IN_OTEXT}</textarea>
+{IF:IN_DO_EDIT}<div id="post{IN_POST_ID}_editblock" class="inv_grid">
 {IF:IN_CAN_AMD}<input name="do_lock" id="post{IN_POST_ID}_lock" type="checkbox" {!IF:IN_LOCKED=0}checked="checked"{ENDIF} /><label for="post{IN_POST_ID}_lock"> {L_FOX2_PTREE_POSTEDIT_LOCK}</label>{ENDIF}
 <input name="do_delete" id="post{IN_POST_ID}_delete" type="checkbox" {!IF:IN_DELETED=0}checked="checked"{ENDIF} /><label for="post{IN_POST_ID}_delete"> {L_FOX2_PTREE_POSTEDIT_DELETE}</label>
-{ENDIF}
+</div>{ENDIF}
 <<- 'FOX_POSTTREE_POSTEDIT'>>
