@@ -1,11 +1,9 @@
 var FOX2_POSTTREE = function()
 {
     var inited = false,
-        newPostID = 'post_new_block',
+        newPostID = 'post_new',
         newPostTmp = null,
-        newPostParF = null,
-        newPostActF = null,
-        newPostTA = null,
+        newPostForm = null,
         newPostStock = null,
         newPostOpened = false;
     var myEditors = {},
@@ -13,12 +11,17 @@ var FOX2_POSTTREE = function()
 
     var Init = function()
     {        newPostTmp = qf_getbyid(newPostID);
-        if (!newPostTmp)
+        newPostForm = qf_getbyid(newPostID+'_form');
+        newPostStock = qf_getbyid(newPostID+'_block');
+        if (!newPostTmp || !newPostForm || !newPostStock)
         {
             QF_TIMERS.addOnLoad(Init);
             return false;
         }
-        newPostStock = newPostTmp.parentNode;
+
+        newPostStock.insertBefore(newPostTmp, null);
+        newPostStock.insertBefore(newPostForm, null);
+
         QF_EFFECTS.ClearResizers(newPostTmp);
         var btnSave = qf_getbyid('post_new_btn_save');
         if (btnSave)
@@ -28,7 +31,7 @@ var FOX2_POSTTREE = function()
             btnCancel.onclick = function() { doCloseEditor(); return false; };
             btnSave.parentNode.insertBefore(btnCancel, btnSave.nextSibling);
         }
-        QF_EFFECTS.Invisible(newPostID);
+        QF_EFFECTS.Invisible(newPostID+'_block');
         inited = true;
         return true;
     }
@@ -36,7 +39,7 @@ var FOX2_POSTTREE = function()
     var doRenameFormIDs = function(item, new_prefix)
     {        if (item && item.children)
         {            if (item.id)
-                item.id = item.id.replace(/^post_new_/, new_prefix+'_');
+                item.id = item.id.replace(/^post_new/, new_prefix);
             for (var i=0; i < item.children.length; i++)
                 doRenameFormIDs(item.children[i], new_prefix);
         }
@@ -70,61 +73,109 @@ var FOX2_POSTTREE = function()
     var doOpenEditor = function(postId, doEdit)
     {        var editorId = 'postEd'+postId+(doEdit ? '_edit' : '_answ');
         if (!myEditors[editorId])
-        {            var divId = postId ? 'post'+postId : 'topic';
-            var postDiv = qf_getbyid(divId);
+        {            if (doEdit)
+            {                var divId = 'post'+postId;
+                var postDiv = qf_getbyid(divId);
 
-            var clone = newPostTmp.cloneNode(true);
-            doRenameFormIDs(clone, editorId);
+                var conts = qf_getbyid(divId+'_cont');
+                var butts = qf_getbyid(divId+'_butts');
 
-            var parBlock = (doEdit) ? postDiv.parentNode : qf_getbyid(divId + '_answer');
-            if (parBlock && parBlock.insertBefore)
-                parBlock.insertBefore(clone, doEdit ? postDiv.nextSibling : null);
-            QF_EFFECTS.Invisible(editorId+'_block');
+                var nConts = qf_getbyid(newPostID+'_cont');
+                var nButts = qf_getbyid(newPostID+'_butts');
+                nConts = nConts.cloneNode(true);
+                nButts = nButts.cloneNode(true);
+
+                doRenameFormIDs(nConts, editorId);
+                doRenameFormIDs(nButts, editorId);
+
+                conts.parentNode.insertBefore(nConts, conts);
+                butts.parentNode.insertBefore(nButts, butts);
+
+                var cloneF = newPostForm.cloneNode(true);
+                postDiv.parentNode.insertBefore(cloneF, postDiv);
+                cloneF.insertBefore(postDiv, cloneF.firstChild);
+
+                doSetFormValue(cloneF, 'post_id', postId);
+                doSetFormValue(cloneF, 'action', 'editpost');
+
+                QF_EFFECTS.Invisible(editorId+'_cont');
+                QF_EFFECTS.Invisible(editorId+'_butts');
+
+                myEditors[editorId] = {parts: [editorId+'_cont', editorId+'_butts'], hides: [divId+'_cont', divId+'_butts'], form: cloneF};
+            }
+            else
+            {
+                var divId = postId ? 'post'+postId : 'topic';
+                var postDiv = qf_getbyid(divId);
+
+                var stock = document.createElement('div');
+                stock.id = editorId+'_block';
+                var clone = newPostTmp.cloneNode(true);
+                var cloneF = newPostForm.cloneNode(true);
+
+                doSetFormValue(cloneF, 'post_id', postId);
+                doSetFormValue(cloneF, 'action', 'answer');
+
+                doRenameFormIDs(clone, editorId);
+                doRenameFormIDs(cloneF, editorId);
+                cloneF.insertBefore(clone, cloneF.firstChild);
+                stock.insertBefore(cloneF, null);
+
+                var parBlock = qf_getbyid(divId + '_answer');
+                if (parBlock && parBlock.insertBefore)
+                    parBlock.insertBefore(stock, doEdit ? postDiv.nextSibling : null);
+                QF_EFFECTS.Invisible(editorId+'_block');
+
+                var tmp;
+                if (tmp = qf_getbyid(editorId+'_editblock'))
+                    tmp.parentNode.removeChild(tmp);
+
+                myEditors[editorId] = {parts: [editorId+'_block'], hides: [], form: cloneF};
+            }
 
             var btnCancel = qf_getbyid(editorId+'_btn_canc');
             if (btnCancel)
                 btnCancel.onclick = function() { doCloseEditor(); return false; };
 
-            if (!doEdit)
-            {
-                var tmp;
-                if (tmp = qf_getbyid(editorId+'_editblock'))
-                    tmp.parentNode.removeChild(tmp);
-            }
-
-            doSetFormValue(clone, 'post_id', postId);
-            doSetFormValue(clone, 'action', doEdit ? 'editpost' : 'answer');
-
-            myEditors[editorId] = {obj: clone, divId: divId, doEdit: doEdit};
-
             var ta = qf_getbyid(editorId+'_text');
             if (ta)
                 QF_EFFECTS.SetResizebleElem(ta);
+
         }
 
 
-        var editor = myEditors[editorId].obj;
         if (editorId != editorOpened)
         {
             doCloseEditor();
-            QF_EFFECTS.Show(editorId+'_block', 3, 100, function() {doEditorFocus(editorId);});
-            if (myEditors[editorId].doEdit)
-                QF_EFFECTS.Hide(myEditors[editorId].divId, 3);
+            var i;
+            for (i = 0; i < myEditors[editorId].parts.length; i++)
+            {
+                if (i == 0)
+                    QF_EFFECTS.Show(myEditors[editorId].parts[i], 3, 100, function() {doEditorFocus(editorId);});
+                else
+                    QF_EFFECTS.Show(myEditors[editorId].parts[i], 3, 100, function() {doEditorFocus(editorId);});
+            }
+            for (i = 0; i < myEditors[editorId].hides.length; i++)
+                QF_EFFECTS.Hide(myEditors[editorId].hides[i], 3);
         }
         else
             doEditorFocus(editorId);
 
         editorOpened = editorId;
-        return editor;
+        return myEditors[editorId];
     }
 
     var doCloseEditor = function()
     {        if (!editorOpened)
             return false;
-        QF_EFFECTS.InitItem(editorOpened+'_block'); /* TODO: more accurate restoring of params */
-        QF_EFFECTS.Hide(editorOpened+'_block', 3);
-        if (myEditors[editorOpened].doEdit)
-            QF_EFFECTS.Show(myEditors[editorOpened].divId, 3);
+        var editorId = editorOpened;
+        for (i = 0; i < myEditors[editorId].parts.length; i++)
+        {
+            QF_EFFECTS.InitItem(myEditors[editorId].parts[i]); /* TODO: more accurate restoring of params */
+            QF_EFFECTS.Hide(myEditors[editorId].parts[i], 3);
+        }
+        for (i = 0; i < myEditors[editorId].hides.length; i++)
+            QF_EFFECTS.Show(myEditors[editorId].hides[i], 3);
         editorOpened = '';
         return true;
     }
@@ -181,7 +232,7 @@ var FOX2_POSTTREE = function()
     var doOpenEdit = function(postId, data, onOpen)
     {        var divId = 'post'+postId;
         var editor = doOpenEditor(postId, true);
-        doSetFormValue(editor, 'post_text', data['o_text']);
+        doSetFormValue(editor.form, 'post_text', data['o_text']);
     }
 
     var doCloseEdit = function(postId, onClose)

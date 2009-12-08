@@ -90,7 +90,7 @@
  </tr>{ENDIF}
 </table>
 </div>
-<div style="padding: 0 0 0 30px;">
+<div style="padding: 0 0 0 15px;">
  <div class="inv_grid" id="post{IN_POST_ID}_answer"></div>
  {IN_SUB_POSTS}
 </div>
