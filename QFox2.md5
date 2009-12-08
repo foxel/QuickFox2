@@ -162,9 +162,9 @@ e8828e0eeece4300ca5cf6035b53ffb6 QFox2/Fox2_userlib.php
 02c2a55d7c8966ef559971492b874c6c data/htc/ie_png.htc
 11da1c55a2b8ef24374c4fe99383dd5d data/jscripts/ajax.ejs
 4cd71d6dcfb211aa3a70d75d172a85f5 data/jscripts/common.ejs
-46dc22c80e50f614fcd8f0626545f97c data/jscripts/effects.ejs
+24410387a79fca98ec595864a0386d4a data/jscripts/effects.ejs
 018a526d7d33860d68774113c75e6215 data/jscripts/imageshow.ejs
-185803808513e3301345f22f15004870 data/jscripts/posttree.ejs
+51211a0558085125ec7496dde942fbd0 data/jscripts/posttree.ejs
 68d3a34972bbe96da822faff4b5835d2 data/jscripts/swfobject.ejs
 b33dce8752784b2d6784639dea4cee4b data/jscripts/uploader.ejs
 c1a079d7456de608617485941d478c40 data/langs/RU/admin.lng
@@ -180,7 +180,7 @@ d761024c859c725e9b6c4fd336ef2fe4 data/styles/qf_def/admin.vis
 ca480224e35c62d7c2e91aca4716c356 data/styles/qf_def/cms_spec.vis
 50a4826046088f4f817ebfff2b07cabb data/styles/qf_def/common.ecss
 6dfebefd42bd8f1fd883f84105de4886 data/styles/qf_def/common.vis
-237286aae3192e0ca629b3c86131333e data/styles/qf_def/posttree.vis
+4d146c0bdbae959a4bc75a00d3081203 data/styles/qf_def/posttree.vis
 9d26b8056c2d90dd878c4ce4fc849258 data/styles/qf_def/qf_setup.vis
 25262b93a47e55de974160a8c4d5d4f4 data/styles/qf_def/usercab.vis
 e1ac98d3e63c53940f691a45ef32f6d1 static/player.swf

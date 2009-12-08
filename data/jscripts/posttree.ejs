@@ -111,6 +111,8 @@ var FOX2_POSTTREE = function()
             if (myEditors[editorId].doEdit)
                 QF_EFFECTS.Hide(myEditors[editorId].divId, 3);
         }
+        else
+            doEditorFocus(editorId);
 
         editorOpened = editorId;
         return editor;
