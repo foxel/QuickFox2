@@ -1391,19 +1391,19 @@ REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
     VALUES('fox_ajax_scripts', 'qf2', 'ptree_getpost', 'a:2:{s:6:\"module\";s:11:\"PTree_incls\";s:6:\"method\";s:11:\"AJX_getpost\";}', '0', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'qf2', 'qf2', 'PA.091208.1810', '1', '');
+    VALUES('dev_rev_info', 'qf2', 'qf2', 'PA.091208.1836', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'qf2_base', 'qf2_base', 'PA.091208.1810', '1', '');
+    VALUES('dev_rev_info', 'qf2_base', 'qf2_base', 'PA.091208.1836', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'qf2_adm', 'qf2_adm', 'PA.091208.1810', '1', '');
+    VALUES('dev_rev_info', 'qf2_adm', 'qf2_adm', 'PA.091208.1836', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'qf2_multiuser', 'qf2_multiuser', 'PA.091208.1810', '1', '');
+    VALUES('dev_rev_info', 'qf2_multiuser', 'qf2_multiuser', 'PA.091208.1836', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'google_adds', 'google_adds', 'PA.091208.1810', '1', '');
+    VALUES('dev_rev_info', 'google_adds', 'google_adds', 'PA.091208.1836', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'gallery', 'gallery', 'PA.091208.1810', '1', '');
+    VALUES('dev_rev_info', 'gallery', 'gallery', 'PA.091208.1836', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'music_player', 'music_player', 'PA.091208.1810', '1', '');
+    VALUES('dev_rev_info', 'music_player', 'music_player', 'PA.091208.1836', '1', '');
 
 
 # Data content for {DBKEY}config_sets 

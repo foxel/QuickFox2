@@ -90,7 +90,7 @@
  </tr>{ENDIF}
 </table>
 </div>
-<div style="padding: 0 0 0 15px;">
+<div style="padding: 0 0 0 10px;">
  <div class="inv_grid" id="post{IN_POST_ID}_answer"></div>
  {IN_SUB_POSTS}
 </div>
@@ -100,7 +100,7 @@
 <div class="qf_window alg_c" style="margin: 5px 10px 10px 10px;" id="post{IN_POST_ID}">
  <b>{L_FOX2_PTREE_DELPOST} [{FTIME:IN_TIME}]</b>
 </div>
-{IF:IN_SUB_POSTS}<div style="padding: 0 0 10px 30px;">
+{IF:IN_SUB_POSTS}<div style="padding: 0 0 0px 10px;">
  <div class="inv_grid" id="post{IN_POST_ID}_answer"></div>
  {IN_SUB_POSTS}
 </div>{ENDIF}
