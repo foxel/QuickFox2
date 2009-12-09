@@ -37,11 +37,11 @@ var FOX2_POSTTREE = function()
     }
 
     var doRenameFormIDs = function(item, new_prefix)
-    {        if (item && item.children)
+    {        if (item && item.childNodes)
         {            if (item.id)
                 item.id = item.id.replace(/^post_new/, new_prefix);
-            for (var i=0; i < item.children.length; i++)
-                doRenameFormIDs(item.children[i], new_prefix);
+            for (var i=0; i < item.childNodes.length; i++)
+                doRenameFormIDs(item.childNodes[i], new_prefix);
         }
     }
 
