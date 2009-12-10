@@ -544,15 +544,18 @@ class Fox2_file_incls
             {                $QF->Session->Open_Session(false, true);
                 $sessName = 'dcode_'.$file_id;
                 $dcode = $QF->Session->Get($sessName);
-                if (is_null($dcode))
+                if (is_null($dcode) || $QF->Files->Check_DCode($file_id, $dcode))
                 {                    if ($dcode = $QF->Files->Gen_DCode($file_id))
                         $QF->Session->Set($sessName, $dcode);
                     else
                         $FOX->Set_Result(Lang('ERR_FILE_NOACCESS'), $FOX->Gen_URL('fox2_files_viewrootdir'), true);
                 }
+                $itsOK = true;
             }
+            else
+                $itsOK = $QF->Files->Check_DCode($file_id, $dcode);
 
-            if ($QF->Files->Check_DCode($file_id, $dcode))
+            if ($itsOK)
             {
                 $flags = 0;
                 if ($QF->Config->Get('tricky_gecko', 'files_cfg') && preg_match('#\WGecko\/#i', $QF->HTTP->UAgent))
