@@ -569,13 +569,13 @@ class Fox2_CMS_Adm
                 $new_links = implode('|', $new_links);
 
                 $upd_data = Array(
-                    'caption'    => $new_capt,
+                    'caption'    => (string) $new_capt,
                     'is_section' => ($new_issect) ? 1 : 0,
-                    'parent'     => $new_parent,
-                    'file_type'  => $new_type,
-                    'links_to'   => $new_links,
-                    'r_level'    => $new_level,
-                    'mod_date'   => $QF->Timer->time,
+                    'parent'     => (string) $new_parent,
+                    'file_type'  => (string) $new_type,
+                    'links_to'   => (string) $new_links,
+                    'r_level'    => (int) $new_level,
+                    'mod_date'   => (int) $QF->Timer->time,
                     );
 
                 if ($QF->DBase->Do_Update('cms_pgs', $upd_data, Array('id' => $pg_id)))
