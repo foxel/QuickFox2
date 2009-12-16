@@ -99,6 +99,7 @@
 <<+ 'FOX_POSTTREE_DELPOST'>>
 <div class="qf_window alg_c" style="margin: 5px 10px 10px 10px;" id="post{IN_POST_ID}">
  <b>{L_FOX2_PTREE_DELPOST} [{FTIME:IN_TIME}]</b>
+ {IF:IN_CAN_ADM}<a id="post{IN_POST_ID}_btn_edit" class="hlight_btn" href="{URL:fox2_ptree_editpost|IN_POST_ID|IN_MYHREF_ENC}" title="{L_BTN_EDIT}">{L_BTN_EDIT}</a>{ENDIF}
 </div>
 {IF:IN_SUB_POSTS}<div style="padding: 0 0 0px 5px;">
  <div class="inv_grid" id="post{IN_POST_ID}_answer"></div>

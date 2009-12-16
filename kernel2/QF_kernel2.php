@@ -26,6 +26,7 @@ if (!extension_loaded('pcre'))
 define('QF_KERNEL_LOADED', True);
 define('QF_KERNEL_DIR', dirname(__FILE__).'/');
 define('QF_INDEX', basename($_SERVER['PHP_SELF']));
+define('QF_KERNEL_DB_REOPTIMIZE_PERIOD', 86400);
 
 if (!defined('QF_SITE_ROOT'))
     define('QF_SITE_ROOT', getcwd().'/');
@@ -293,6 +294,11 @@ class QuickFox_kernel2
         for ($i=count($this->need_close); $i>0; $i--)
             call_user_func($this->need_close[$i-1]);
 
+        if ($this->DBase->Check() && $this->Config->loaded && ($this->Config->Get('dbase_optimize', 'kernel2', 0) < $this->Timer->time))
+        {
+            $this->DBase->Optimize();
+            $this->Config->Set('dbase_optimize', $this->Timer->time + QF_KERNEL_DB_REOPTIMIZE_PERIOD, 'kernel2', true);
+        }
         $this->Session->_Close();
         $this->HTTP->_Close();
         $this->Config->_Close();

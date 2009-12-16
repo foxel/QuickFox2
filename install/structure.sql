@@ -11,7 +11,7 @@ CREATE TABLE `{DBKEY}cms_pgs` (
     `caption` varchar(255) NOT NULL DEFAULT '', 
     `file_id` varchar(32) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
     `file_type` varchar(5) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
-    `links_to` mediumtext COLLATE ascii_general_ci DEFAULT NULL, 
+    `links_to` text COLLATE ascii_general_ci DEFAULT NULL, 
     `author_id` int(10) unsigned NOT NULL DEFAULT '0', 
     `mod_date` int(11) NOT NULL DEFAULT '0', 
     `is_section` tinyint(1) unsigned NOT NULL DEFAULT '0', 
@@ -29,7 +29,7 @@ CREATE TABLE `{DBKEY}cms_pgs` (
 # Table definition for {DBKEY}cms_stats 
 DROP TABLE IF EXISTS `{DBKEY}cms_stats` ;
 CREATE TABLE `{DBKEY}cms_stats` ( 
-    `id` varchar(16) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `id` char(16) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
     `views` int(10) unsigned NOT NULL DEFAULT '0', 
     `v_by_refer` int(10) unsigned NOT NULL DEFAULT '0', 
     `last_view` int(11) NOT NULL DEFAULT '0', 
@@ -62,7 +62,7 @@ CREATE TABLE `{DBKEY}config_sets` (
     `cfg_type` varchar(32) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
     `src_data` blob DEFAULT NULL, 
     `drops_cache` tinyint(1) unsigned NOT NULL DEFAULT '0', 
-    `drops_confs` mediumtext COLLATE ascii_general_ci DEFAULT NULL, 
+    `drops_confs` text COLLATE ascii_general_ci DEFAULT NULL, 
     `schemable` tinyint(1) unsigned NOT NULL DEFAULT '0', 
     `order_id` smallint(5) NOT NULL DEFAULT '0', 
     PRIMARY KEY (`cfg_name`, `cfg_parent`) , 
@@ -174,12 +174,12 @@ CREATE TABLE `{DBKEY}files` (
 DROP TABLE IF EXISTS `{DBKEY}fox_logs` ;
 CREATE TABLE `{DBKEY}fox_logs` ( 
     `ev_id` int(10) unsigned NOT NULL auto_increment, 
-    `log_id` varchar(32) COLLATE ascii_general_ci NOT NULL DEFAULT 'common', 
+    `log_id` char(32) COLLATE ascii_general_ci NOT NULL DEFAULT 'common', 
     `time` int(11) NOT NULL DEFAULT '0', 
-    `event` mediumtext NOT NULL, 
+    `event` char(255) NOT NULL DEFAULT '', 
     `cl_ip` int(11) NOT NULL DEFAULT '0', 
-    `cl_req` varchar(255) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
-    `cl_uagent` varchar(255) NOT NULL DEFAULT '', 
+    `cl_req` char(255) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `cl_uagent` char(255) NOT NULL DEFAULT '', 
     PRIMARY KEY (`ev_id`) , 
     INDEX `log_id` (`log_id`) , 
     INDEX `time` (`time`) , 
@@ -223,8 +223,8 @@ CREATE TABLE `{DBKEY}gal_albums` (
 # Table definition for {DBKEY}gal_items 
 DROP TABLE IF EXISTS `{DBKEY}gal_items` ;
 CREATE TABLE `{DBKEY}gal_items` ( 
-    `id` varchar(8) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
-    `file_id` varchar(8) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `id` char(8) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `file_id` char(8) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
     `author` varchar(16) NOT NULL DEFAULT '', 
     `author_id` int(10) unsigned NOT NULL DEFAULT '0', 
     `caption` varchar(128) NOT NULL DEFAULT '', 
@@ -243,7 +243,7 @@ CREATE TABLE `{DBKEY}gal_items` (
 # Table definition for {DBKEY}guests 
 DROP TABLE IF EXISTS `{DBKEY}guests` ;
 CREATE TABLE `{DBKEY}guests` ( 
-    `gid` varchar(32) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `gid` char(32) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
     `nick` varchar(15) NOT NULL DEFAULT '', 
     `lastseen` int(11) NOT NULL DEFAULT '0', 
     `last_url` varchar(255) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
@@ -252,7 +252,7 @@ CREATE TABLE `{DBKEY}guests` (
     `long_reg` tinyint(1) unsigned NOT NULL DEFAULT '0', 
     `reg_till` int(11) NOT NULL DEFAULT '0', 
     `views` int(10) unsigned NOT NULL DEFAULT '0', 
-    `g_sets` mediumblob DEFAULT NULL, 
+    `g_sets` blob DEFAULT NULL, 
     PRIMARY KEY (`gid`) , 
     INDEX `lastseen` (`lastseen`) , 
     INDEX `gcode` (`long_reg`) , 
@@ -307,27 +307,28 @@ DROP TABLE IF EXISTS `{DBKEY}pt_ptext` ;
 CREATE TABLE `{DBKEY}pt_ptext` ( 
     `post_id` bigint(20) unsigned NOT NULL DEFAULT '0', 
     `o_text` text NOT NULL, 
-    `hash` varchar(32) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `hash` char(32) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
     `p_text` text NOT NULL, 
     `preparsed` tinyint(1) unsigned NOT NULL DEFAULT '0', 
     PRIMARY KEY (`post_id`) , 
-    INDEX `hash` (`hash`)  
+    INDEX `hash` (`hash`) , 
+    INDEX `preparsed` (`preparsed`)  
 ) ENGINE = MyISAM COLLATE utf8_general_ci; 
 
 # Table definition for {DBKEY}pt_roots 
 DROP TABLE IF EXISTS `{DBKEY}pt_roots` ;
 CREATE TABLE `{DBKEY}pt_roots` ( 
     `root_id` int(10) unsigned NOT NULL auto_increment, 
-    `class` varchar(8) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
-    `a_key` varchar(128) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
-    `b_key1` varchar(128) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
-    `b_key2` varchar(128) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
-    `b_key3` varchar(128) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `class` char(8) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `a_key` char(128) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `b_key1` char(128) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `b_key2` char(128) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `b_key3` char(128) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
     `author` varchar(16) NOT NULL DEFAULT '', 
     `author_id` int(10) unsigned NOT NULL DEFAULT '0', 
     `caption` varchar(255) NOT NULL DEFAULT '', 
     `data` blob NOT NULL, 
-    `hash` varchar(32) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `hash` char(32) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
     `time` int(11) NOT NULL DEFAULT '0', 
     `l_author` varchar(16) NOT NULL DEFAULT '', 
     `l_author_id` int(10) unsigned NOT NULL DEFAULT '0', 
@@ -355,15 +356,15 @@ CREATE TABLE `{DBKEY}pt_roots` (
 # Table definition for {DBKEY}results 
 DROP TABLE IF EXISTS `{DBKEY}results` ;
 CREATE TABLE `{DBKEY}results` ( 
-    `res_id` varchar(8) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
-    `code` varchar(16) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `res_id` char(8) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `code` char(16) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
     `text` text NOT NULL, 
     `is_err` tinyint(1) unsigned NOT NULL DEFAULT '0', 
     `tr_errs` varchar(255) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
     `time` int(11) NOT NULL DEFAULT '0', 
     `got_at` varchar(255) NOT NULL DEFAULT '', 
     `redir_to` varchar(255) NOT NULL DEFAULT '', 
-    `u_sid` varchar(32) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `u_sid` char(32) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
     `u_id` int(10) unsigned NOT NULL DEFAULT '0', 
     PRIMARY KEY (`res_id`) , 
     INDEX `code` (`code`, `is_err`) , 
@@ -373,10 +374,10 @@ CREATE TABLE `{DBKEY}results` (
 # Table definition for {DBKEY}services 
 DROP TABLE IF EXISTS `{DBKEY}services` ;
 CREATE TABLE `{DBKEY}services` ( 
-    `name` varchar(64) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
-    `descr` varchar(255) NOT NULL DEFAULT '', 
+    `name` char(64) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `descr` char(255) NOT NULL DEFAULT '', 
     `run_period` mediumint(8) unsigned NOT NULL DEFAULT '3600', 
-    `run_php` varchar(255) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `run_php` char(255) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
     `next_run` int(11) NOT NULL DEFAULT '0', 
     `active` tinyint(1) unsigned NOT NULL DEFAULT '1', 
     PRIMARY KEY (`name`) , 
@@ -389,8 +390,8 @@ CREATE TABLE `{DBKEY}services` (
 # Table definition for {DBKEY}sess_cache 
 DROP TABLE IF EXISTS `{DBKEY}sess_cache` ;
 CREATE TABLE `{DBKEY}sess_cache` ( 
-    `sid` varchar(32) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
-    `ch_name` varchar(32) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `sid` char(32) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `ch_name` char(32) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
     `ch_data` mediumblob NOT NULL, 
     `ch_stored` int(11) NOT NULL DEFAULT '0', 
     PRIMARY KEY (`sid`, `ch_name`) , 
@@ -400,7 +401,7 @@ CREATE TABLE `{DBKEY}sess_cache` (
 # Table definition for {DBKEY}sessions 
 DROP TABLE IF EXISTS `{DBKEY}sessions` ;
 CREATE TABLE `{DBKEY}sessions` ( 
-    `sid` varchar(32) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `sid` char(32) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
     `ip` int(10) unsigned NOT NULL DEFAULT '0', 
     `vars` blob DEFAULT NULL, 
     `starttime` int(11) NOT NULL DEFAULT '0', 
@@ -445,7 +446,7 @@ CREATE TABLE `{DBKEY}users` (
     `last_url` varchar(255) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
     `last_uagent` varchar(255) NOT NULL DEFAULT '', 
     `last_ip` int(10) unsigned NOT NULL DEFAULT '0', 
-    `sess_id` varchar(32) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `sess_id` char(32) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
     `us_info` mediumblob DEFAULT NULL, 
     `us_sets` mediumblob DEFAULT NULL, 
     `us_flags` blob DEFAULT NULL, 

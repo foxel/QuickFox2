@@ -37,7 +37,7 @@ Array (
                 'extra' => ''
             )  ,
             'links_to' => Array (
-                'type' => 'mediumtext' ,
+                'type' => 'text' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => true ,
                 'def' => null ,
@@ -130,7 +130,7 @@ Array (
     '{DBKEY}cms_stats' => Array (
         'fields' => Array (
             'id' => Array (
-                'type' => 'varchar(16)' ,
+                'type' => 'char(16)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
                 'def' => '' ,
@@ -307,7 +307,7 @@ Array (
                 'extra' => ''
             )  ,
             'drops_confs' => Array (
-                'type' => 'mediumtext' ,
+                'type' => 'text' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => true ,
                 'def' => null ,
@@ -930,7 +930,7 @@ Array (
                 'extra' => 'auto_increment'
             )  ,
             'log_id' => Array (
-                'type' => 'varchar(32)' ,
+                'type' => 'char(32)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
                 'def' => 'common' ,
@@ -944,10 +944,10 @@ Array (
                 'extra' => ''
             )  ,
             'event' => Array (
-                'type' => 'mediumtext' ,
+                'type' => 'char(255)' ,
                 'collate' => 'utf8_general_ci' ,
                 'null' => false ,
-                'def' => null ,
+                'def' => '' ,
                 'extra' => ''
             )  ,
             'cl_ip' => Array (
@@ -958,14 +958,14 @@ Array (
                 'extra' => ''
             )  ,
             'cl_req' => Array (
-                'type' => 'varchar(255)' ,
+                'type' => 'char(255)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
                 'def' => '' ,
                 'extra' => ''
             )  ,
             'cl_uagent' => Array (
-                'type' => 'varchar(255)' ,
+                'type' => 'char(255)' ,
                 'collate' => 'utf8_general_ci' ,
                 'null' => false ,
                 'def' => '' ,
@@ -1181,14 +1181,14 @@ Array (
     '{DBKEY}gal_items' => Array (
         'fields' => Array (
             'id' => Array (
-                'type' => 'varchar(8)' ,
+                'type' => 'char(8)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
                 'def' => '' ,
                 'extra' => ''
             )  ,
             'file_id' => Array (
-                'type' => 'varchar(8)' ,
+                'type' => 'char(8)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
                 'def' => '' ,
@@ -1289,7 +1289,7 @@ Array (
     '{DBKEY}guests' => Array (
         'fields' => Array (
             'gid' => Array (
-                'type' => 'varchar(32)' ,
+                'type' => 'char(32)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
                 'def' => '' ,
@@ -1352,7 +1352,7 @@ Array (
                 'extra' => ''
             )  ,
             'g_sets' => Array (
-                'type' => 'mediumblob' ,
+                'type' => 'blob' ,
                 'collate' => null ,
                 'null' => true ,
                 'def' => null ,
@@ -1649,7 +1649,7 @@ Array (
                 'extra' => ''
             )  ,
             'hash' => Array (
-                'type' => 'varchar(32)' ,
+                'type' => 'char(32)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
                 'def' => '' ,
@@ -1682,6 +1682,12 @@ Array (
                 'cols' => Array (
                     0 => 'hash'
                 ) 
+            )  ,
+            'preparsed' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'preparsed'
+                ) 
             ) 
         )  ,
         'name' => '{DBKEY}pt_ptext' ,
@@ -1698,35 +1704,35 @@ Array (
                 'extra' => 'auto_increment'
             )  ,
             'class' => Array (
-                'type' => 'varchar(8)' ,
+                'type' => 'char(8)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
                 'def' => '' ,
                 'extra' => ''
             )  ,
             'a_key' => Array (
-                'type' => 'varchar(128)' ,
+                'type' => 'char(128)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
                 'def' => '' ,
                 'extra' => ''
             )  ,
             'b_key1' => Array (
-                'type' => 'varchar(128)' ,
+                'type' => 'char(128)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
                 'def' => '' ,
                 'extra' => ''
             )  ,
             'b_key2' => Array (
-                'type' => 'varchar(128)' ,
+                'type' => 'char(128)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
                 'def' => '' ,
                 'extra' => ''
             )  ,
             'b_key3' => Array (
-                'type' => 'varchar(128)' ,
+                'type' => 'char(128)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
                 'def' => '' ,
@@ -1761,7 +1767,7 @@ Array (
                 'extra' => ''
             )  ,
             'hash' => Array (
-                'type' => 'varchar(32)' ,
+                'type' => 'char(32)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
                 'def' => '' ,
@@ -1926,14 +1932,14 @@ Array (
     '{DBKEY}results' => Array (
         'fields' => Array (
             'res_id' => Array (
-                'type' => 'varchar(8)' ,
+                'type' => 'char(8)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
                 'def' => '' ,
                 'extra' => ''
             )  ,
             'code' => Array (
-                'type' => 'varchar(16)' ,
+                'type' => 'char(16)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
                 'def' => '' ,
@@ -1982,7 +1988,7 @@ Array (
                 'extra' => ''
             )  ,
             'u_sid' => Array (
-                'type' => 'varchar(32)' ,
+                'type' => 'char(32)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
                 'def' => '' ,
@@ -2025,14 +2031,14 @@ Array (
     '{DBKEY}services' => Array (
         'fields' => Array (
             'name' => Array (
-                'type' => 'varchar(64)' ,
+                'type' => 'char(64)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
                 'def' => '' ,
                 'extra' => ''
             )  ,
             'descr' => Array (
-                'type' => 'varchar(255)' ,
+                'type' => 'char(255)' ,
                 'collate' => 'utf8_general_ci' ,
                 'null' => false ,
                 'def' => '' ,
@@ -2046,7 +2052,7 @@ Array (
                 'extra' => ''
             )  ,
             'run_php' => Array (
-                'type' => 'varchar(255)' ,
+                'type' => 'char(255)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
                 'def' => '' ,
@@ -2107,14 +2113,14 @@ Array (
     '{DBKEY}sess_cache' => Array (
         'fields' => Array (
             'sid' => Array (
-                'type' => 'varchar(32)' ,
+                'type' => 'char(32)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
                 'def' => '' ,
                 'extra' => ''
             )  ,
             'ch_name' => Array (
-                'type' => 'varchar(32)' ,
+                'type' => 'char(32)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
                 'def' => '' ,
@@ -2157,7 +2163,7 @@ Array (
     '{DBKEY}sessions' => Array (
         'fields' => Array (
             'sid' => Array (
-                'type' => 'varchar(32)' ,
+                'type' => 'char(32)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
                 'def' => '' ,
@@ -2413,7 +2419,7 @@ Array (
                 'extra' => ''
             )  ,
             'sess_id' => Array (
-                'type' => 'varchar(32)' ,
+                'type' => 'char(32)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
                 'def' => '' ,

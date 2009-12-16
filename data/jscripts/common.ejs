@@ -1,18 +1,34 @@
 // PreInit
 
-var myBrowser = {};myBrowser.Features = {xpath: !!(document.evaluate), air: !!(window.runtime), query: !!(document.querySelector)};
-myBrowser.isDOM = (document.getElementById) ? true : false; //DOM1 browser (MSIE 5+, Netscape 6, Opera 5+)
-myBrowser.isMSIE = (document.all && document.all.item && !window.opera) ? ((myBrowser.isDOM) ? 5 : 4) : false; //Microsoft Internet Explorer 4+
-myBrowser.isOpera = (window.opera) ? ((myBrowser.isDOM) ? 5 : 4) : false; //Opera
-myBrowser.isNetscape = (document.layers) ? ((myBrowser.isDOM && !myBrowser.isMSIE && !myBrowser.isOpera) ? 6 : 4) : false, //Netscape 4.*
-myBrowser.isMozilla = myBrowser.isDOM && !myBrowser.isMSIE && !myBrowser.isOpera;
-//myBrowser.presto = (!window.opera) ? false : ((arguments.callee.caller) ? 960 : ((document.getElementsByClassName) ? 950 : 925));
-//myBrowser.trident = (!window.ActiveXObject) ? false : ((window.XMLHttpRequest) ? 5 : 4);
-//myBrowser.webkit = (navigator.taintEnabled) ? false : ((myBrowser.Features.xpath) ? ((myBrowser.Features.query) ? 525 : 420) : 419);
-myBrowser.gecko = (document.getBoxObjectFor == undefined) ? false : ((document.getElementsByClassName) ? 19 : 18);
+var myBrowser = function()
+{    var a = {};
+    a.features = {xpath: !!(document.evaluate), air: !!(window.runtime), query: !!(document.querySelector), DOM: !!(document.getElementById)};
+    a.isMSIE = !!(document.all && document.all.item && !window.opera); //Microsoft Internet Explorer 4+
+    a.isOpera = !!(window.opera); //Opera
+    a.isNetscape = !!(document.layers); //Netscape 4+
+    a.isMozilla = !!(a.features.DOM && !a.isMSIE && !a.isOpera);
+    //myBrowser.presto = (!window.opera) ? false : ((arguments.callee.caller) ? 960 : ((document.getElementsByClassName) ? 950 : 925));
+    //myBrowser.trident = (!window.ActiveXObject) ? false : ((window.XMLHttpRequest) ? 5 : 4);
+    //myBrowser.webkit = (navigator.taintEnabled) ? false : ((myBrowser.features.xpath) ? ((myBrowser.features.query) ? 525 : 420) : 419);
+    a.isGecko = !!(document.getBoxObjectFor);
+    a.version = 0;
 
-//var xmlhttp = false;
-//var _ms_xmlHttpVersion = "";
+    var tmp1;
+    if (a.isMSIE && (tmp1 = navigator.appVersion.match(/MSIE (\d+(\.\d+)?)/)))
+        a.version = Number(tmp1[1]);
+    else if (a.isOpera && (tmp1 = navigator.appVersion.match(/^\d+(\.\d+)?/)))
+        a.version = Number(tmp1[0]);
+    else if (a.isGecko && (tmp1 = navigator.userAgent.match(/rv:(\d+(\.\d+)?)/)))
+        a.version = Number(tmp1[1]);
+
+    else if (tmp1 = navigator.appVersion.match(/^\d+(\.\d+)*/))
+        a.version = Number(tmp1[0]);
+
+    //var xmlhttp = false;
+    //var _ms_xmlHttpVersion = "";
+
+    return a;
+}();
 
 function isElement(itm)
 {    return ((typeof itm).toLowerCase()=='object' && itm.tagName) ? true : false;
@@ -249,7 +265,7 @@ function getElementClientPos(itm)
 		position.x += element.offsetLeft;
 		position.y += element.offsetTop;
 
-		if (myBrowser.gecko)
+		if (myBrowser.isGecko)
 		{
 			//if (!borderBox(element))
 			//{
@@ -266,7 +282,7 @@ function getElementClientPos(itm)
 		isFixed = (styleString(element, 'position') == 'fixed');
 		element = getElementOffsetParent(element);
 	} while (element && !isBody(element) && !isFixed)
-	//if (myBrowser.gecko && !borderBox(itm)){
+	//if (myBrowser.isGecko && !borderBox(itm)){
 	//	position.x -= leftBorder(itm);
 	//	position.y -= topBorder(itm);
 	//}

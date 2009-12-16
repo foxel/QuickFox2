@@ -1080,6 +1080,37 @@ class QF_SQL_DBase
     }
 
     // Maintenance functions
+    function Optimize($dbase = '')
+    {        static $Got_Optimized = Array();
+
+        if (!$dbase)
+            $dbase = $this->database;
+
+        if (isset($Got_Optimized[$dbase]))
+            return $Got_Optimized[$dbase];
+
+        if (!($result = mysql_query('SHOW TABLES FROM '.$dbase, $this->db_connect_id)))
+            return ($Got_Optimized[$dbase] = false);
+
+        $tbls = Array();
+        while (list($tbl) = mysql_fetch_array($result, MYSQL_NUM))
+            $tbls[] = '`'.$tbl.'`';
+        mysql_free_result($result);
+
+        if (count($tbls) == 0)
+            return ($Got_Optimized[$dbase] = true);
+
+        $query = 'OPTIMIZE TABLE '.implode(', ', $tbls);
+        if (!($result = mysql_query($query, $this->db_connect_id)))
+            {
+                trigger_error('MYSQL FastCheck: Query error while optimizing: '.mysql_error($this->db_connect_id), E_USER_ERROR);
+                return ($Got_Optimized[$dbase] = false);
+            }
+
+        mysql_free_result($result);
+        return ($Got_Optimized[$dbase] = true);
+    }
+
     function Fast_DbCheck($dbase = '', $no_quick = false)
     {
         static $Got_Checked = Array();
@@ -1096,6 +1127,8 @@ class QF_SQL_DBase
         $tbls = Array();
         while (list($tbl) = mysql_fetch_array($result, MYSQL_NUM))
             $tbls[] = '`'.$tbl.'`';
+        mysql_free_result($result);
+
         if (count($tbls) == 0)
             return ($Got_Checked[$dbase] = true);
 
@@ -1113,6 +1146,7 @@ class QF_SQL_DBase
                 trigger_error('MYSQL FastCheck: Table "'.$tbl['Table'].'" is corrupted: '.$tbl['Msg_text'], E_USER_WARNING);
                 $tbls[] = str_replace($dbase.'.', $dbase.'.`', $tbl['Table']).'`';
             }
+        mysql_free_result($result);
         if (count($tbls) == 0)
             return ($Got_Checked[$dbase] = true);
 
@@ -1130,6 +1164,7 @@ class QF_SQL_DBase
                 return ($Got_Checked[$dbase] = false);
             }
 
+        mysql_free_result($result);
         return ($Got_Checked[$dbase] = true);
     }
 

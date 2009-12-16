@@ -11,14 +11,14 @@ f2eab96224f7e1bbbc1c93b45f97b854 kernel2/QF2_flib.php
 5ed39655d040492f571de528768dab1a kernel2/QF2_imager.php
 841471159a2a033f83ad3ba566ef591a kernel2/QF2_lang.php
 fabbb52cdc1076e14281f30e06eadae6 kernel2/QF2_mailer.php
-9e94ea71821d98b55a3029a25d49d8f7 kernel2/QF2_mysql.php
+14ba43b048dc73efbff21572186fedea kernel2/QF2_mysql.php
 d1d6b0215ddc71abfcb838b660c82e31 kernel2/QF2_parser.php
 29a8d6fd942f98dd45882fef16592c23 kernel2/QF2_rsa.php
 46b7e94d411d843ea0240e067f6c53d5 kernel2/QF2_services.php
 fbb868231380f53d44908e433a0fd439 kernel2/QF2_sess.php
 18bfe0a124d426ef047aca980f23e9cd kernel2/QF2_tar.php
 653770c691a34847f8b02da2b92446d4 kernel2/QF2_vis.php
-8ef38381b6b5c6b075ac3f0d8e3adc96 kernel2/QF_kernel2.php
+216f7ef0f383e5d56fdab9e65e7f93cd kernel2/QF_kernel2.php
 96831fd122fe8a3ddf9dfc8563729ab3 kernel2/chars/cp037.chr
 b2f6c332aaf70db2501afeba2c75bb5d kernel2/chars/cp037.ltt
 a88a36da7c30a4415d54b276cc7eea38 kernel2/chars/cp1006.chr
@@ -161,8 +161,8 @@ e8828e0eeece4300ca5cf6035b53ffb6 QFox2/Fox2_userlib.php
 639068662cd3afa253ba17e304a89ccb data/htc/ie_inputs.htc
 02c2a55d7c8966ef559971492b874c6c data/htc/ie_png.htc
 11da1c55a2b8ef24374c4fe99383dd5d data/jscripts/ajax.ejs
-4cd71d6dcfb211aa3a70d75d172a85f5 data/jscripts/common.ejs
-24410387a79fca98ec595864a0386d4a data/jscripts/effects.ejs
+6e975efd21790e14f0d62421ed473357 data/jscripts/common.ejs
+dc9999ca3c47adb7c36f236dc0cd85a7 data/jscripts/effects.ejs
 018a526d7d33860d68774113c75e6215 data/jscripts/imageshow.ejs
 cd8db02116257d250033f2c031bbeec3 data/jscripts/posttree.ejs
 68d3a34972bbe96da822faff4b5835d2 data/jscripts/swfobject.ejs
@@ -180,7 +180,7 @@ d761024c859c725e9b6c4fd336ef2fe4 data/styles/qf_def/admin.vis
 ca480224e35c62d7c2e91aca4716c356 data/styles/qf_def/cms_spec.vis
 50a4826046088f4f817ebfff2b07cabb data/styles/qf_def/common.ecss
 6dfebefd42bd8f1fd883f84105de4886 data/styles/qf_def/common.vis
-4c41b95abbb62330e134524c5402bc28 data/styles/qf_def/posttree.vis
+dc192052f899c9905a8d97b1d9093117 data/styles/qf_def/posttree.vis
 9d26b8056c2d90dd878c4ce4fc849258 data/styles/qf_def/qf_setup.vis
 25262b93a47e55de974160a8c4d5d4f4 data/styles/qf_def/usercab.vis
 e1ac98d3e63c53940f691a45ef32f6d1 static/player.swf
@@ -239,7 +239,7 @@ fc9c79155a930d5fcd710f13237afa4d data/modules/Fox2_Player.php
 543f2be2eb0c5ef730589f5923ee4c59 data/langs/RU/music_player.lng
 12511fba970616c8be171f7761742e56 data/langs/RU/music_player_cfgs.lng
 58fa721f23eea86f2bd5078efc5957f9 static/MPlayer.swf
-20da573d0f4adc0af97124453ec44563 QFox2/Fox2_muuser.php
+3146aff13491173823c5325328f26757 QFox2/Fox2_muuser.php
 80d59ba15577bae6a4174a9359145463 QFox2/Fox2_mu_incls.php
 89b944d8a4e9f29e621b7efece0ec62a data/styles/qf_def/multiuser.vis
 42d03880abb88379021cb94158845069 data/langs/RU/multiuser.lng
