@@ -26,7 +26,7 @@ class Fox2_PostTree
     {
     }
 
-    function Render_Tree($tid)
+    function Render_Tree($tid, $open_answer = false)
     {        global $QF, $FOX;
 
         if (!is_numeric($tid))
@@ -63,6 +63,8 @@ class Fox2_PostTree
         }
         else
             $root_params['USER_NAME'] = Lang('US_GUEST');
+        if ($open_answer)
+            $root_params['OPEN_ANSWER'] = '1';
 
         $par_nodes = Array(1 => $root_node);
         $pids = qf_2darray_cols($data['ptree'], 'post_id');
@@ -324,7 +326,7 @@ class Fox2_PostTree
                     $QF->DBase->Do_Update('pt_ptext', Array('p_text' => $data['p_text'], 'preparsed' => $data['preparsed']), Array('post_id' => $data['post_id']));
                 }
 
-                $data['p_text'] = $QF->Parser->Parse($data['p_text'], QF_BBPARSE_POSTPREP);
+                $data['p_text'] = $QF->Parser->Parse($data['p_text'], QF_BBPARSE_POSTPREP);  /* !!!!! */
                 $got_data[$data['post_id']] = $data;
             }
             return $got_data;

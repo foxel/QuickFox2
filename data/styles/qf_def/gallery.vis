@@ -76,7 +76,7 @@ var Fox2_Gal_album_setEvents = function(sub_id)
 <h2>{!IN_CAPTION}</h2>
 {IN_PREVIEW_BLOCK}
 {VIS:FOX_WINDOW|CONTENTS=WIN_BODY|BOTTLINE=WIN_BOTT|WIDTH="500px"}
-{IF:IN_COMMENTS_PTREE}<div style="width: 550px; margin: 10px auto;">
+{IF:IN_COMMENTS_PTREE}<div style="width: 600px; margin: 10px auto;">
  {IN_COMMENTS_PTREE}
 </div>{ENDIF}
 <<- 'FOX_GALLERY_PAGE_ITEM'>>

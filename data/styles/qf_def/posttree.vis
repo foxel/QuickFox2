@@ -27,6 +27,7 @@
 {IF:IN_JS_POSTSARR}<script type="text/javascript">
 // <![CDATA[
  FOX2_POSTTREE.PrepPosts([{IN_JS_POSTSARR}]);
+ {IF:IN_OPEN_ANSWER}FOX2_POSTTREE.OpenAnswer(0);{ENDIF}
 //]]>
 </script>{ENDIF}
 <<- 'FOX_POSTTREE_OUTER'>>

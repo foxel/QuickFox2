@@ -1,0 +1,48 @@
+FOX_BLOGS_CAPTION: Блоги
+---
+FOX_BLOGS_CAPT_RECENT: Новое
+---
+FOX_BLOGS_CAPT_USERBLOG: Блог %1$s
+---
+FOX_BLOGS_CAPT_NEW: Добавление записи
+---
+FOX_BLOGS_CAPT_EDIT: Редактирование &quot;%1$s&quot;
+---
+FOX_BLOGS_COMMENTS_COUNT: Комментариев: %1$s
+---
+FOX_BLOGS_COMMENTS_ADD: Добавить комментарий
+---
+FOX_BLOGS_USERBLOG: Блог пользователя
+---
+FOX_BLOGS_UINFO_USERBLOG: Блог
+---
+FOX_BLOGS_ENTRY_AUTHOR: Автор
+---
+FOX_BLOGS_ENTRY_CAPTION: Заголовок
+---
+FOX_BLOGS_NOENTRIES: Записей нет
+---
+
+FOX_BLOGS_MY_ENTRIES: Мои записи
+---
+FOX_BLOGS_NEW_ENTRY: Новая запись
+---
+FOX_BLOGS_PANEL_CAPT: Мой блог
+---
+FOX_BLOGS_ENTRY_EDIT: Редактировать запись
+---
+
+
+ERR_BLOGS_SHORT_CAPT: Слишком короткий заголовок
+---
+ERR_BLOGS_SHORT_TEXT: Слишком короткое сообщение
+---
+ERR_BLOGS_NOT_OWNER: Вы не являетесь автором данной записи и не можете ее редактировать
+---
+ERR_BLOGS_ERROR: Ошибка при обработке запроса
+---
+
+RES_BLOGS_EDITED: Запись успешно изменена
+---
+RES_BLOGS_ADDED: Новая запись успешно добавлена
+---

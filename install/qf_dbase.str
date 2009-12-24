@@ -1,4 +1,175 @@
 Array (
+    '{DBKEY}blog_entries' => Array (
+        'fields' => Array (
+            'id' => Array (
+                'type' => 'char(8)' ,
+                'collate' => 'ascii_general_ci' ,
+                'null' => false ,
+                'def' => '' ,
+                'extra' => ''
+            )  ,
+            'author' => Array (
+                'type' => 'char(16)' ,
+                'collate' => 'utf8_general_ci' ,
+                'null' => false ,
+                'def' => '' ,
+                'extra' => ''
+            )  ,
+            'author_id' => Array (
+                'type' => 'int(10) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
+            'caption' => Array (
+                'type' => 'varchar(128)' ,
+                'collate' => 'utf8_general_ci' ,
+                'null' => false ,
+                'def' => '' ,
+                'extra' => ''
+            )  ,
+            'time' => Array (
+                'type' => 'int(11)' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
+            'r_level' => Array (
+                'type' => 'tinyint(1) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
+            'mu_acc_r' => Array (
+                'type' => 'binary(255)' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => '' ,
+                'extra' => ''
+            )  ,
+            'mu_acc_w' => Array (
+                'type' => 'binary(255)' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => '' ,
+                'extra' => ''
+            )  ,
+            'pt_root' => Array (
+                'type' => 'int(10) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            ) 
+        )  ,
+        'keys' => Array (
+            'PRIMARY' => Array (
+                'type' => 'PRIMARY' ,
+                'cols' => Array (
+                    0 => 'id'
+                ) 
+            )  ,
+            'pt_root' => Array (
+                'type' => 'UNIQUE' ,
+                'cols' => Array (
+                    0 => 'pt_root'
+                ) 
+            )  ,
+            'author_id' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'author_id'
+                ) 
+            )  ,
+            'time' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'time'
+                ) 
+            )  ,
+            'r_level' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'r_level'
+                ) 
+            ) 
+        )  ,
+        'name' => '{DBKEY}blog_entries' ,
+        'engine' => 'MyISAM' ,
+        'collate' => 'utf8_general_ci'
+    )  ,
+    '{DBKEY}blog_texts' => Array (
+        'fields' => Array (
+            'id' => Array (
+                'type' => 'char(8)' ,
+                'collate' => 'ascii_general_ci' ,
+                'null' => false ,
+                'def' => '' ,
+                'extra' => ''
+            )  ,
+            'o_text' => Array (
+                'type' => 'text' ,
+                'collate' => 'utf8_general_ci' ,
+                'null' => false ,
+                'def' => null ,
+                'extra' => ''
+            )  ,
+            'hash' => Array (
+                'type' => 'char(32)' ,
+                'collate' => 'ascii_general_ci' ,
+                'null' => false ,
+                'def' => '' ,
+                'extra' => ''
+            )  ,
+            'p_text' => Array (
+                'type' => 'text' ,
+                'collate' => 'utf8_general_ci' ,
+                'null' => false ,
+                'def' => null ,
+                'extra' => ''
+            )  ,
+            'is_raw' => Array (
+                'type' => 'tinyint(1) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
+            'preparsed' => Array (
+                'type' => 'tinyint(1) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            ) 
+        )  ,
+        'keys' => Array (
+            'PRIMARY' => Array (
+                'type' => 'PRIMARY' ,
+                'cols' => Array (
+                    0 => 'id'
+                ) 
+            )  ,
+            'hash' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'hash'
+                ) 
+            )  ,
+            'preparsed' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'preparsed'
+                ) 
+            ) 
+        )  ,
+        'name' => '{DBKEY}blog_texts' ,
+        'engine' => 'MyISAM' ,
+        'collate' => 'utf8_general_ci'
+    )  ,
     '{DBKEY}cms_pgs' => Array (
         'fields' => Array (
             'id' => Array (
@@ -2646,6 +2817,62 @@ Array (
             ) 
         )  ,
         'name' => '{DBKEY}users_auth' ,
+        'engine' => 'MyISAM' ,
+        'collate' => 'utf8_general_ci'
+    )  ,
+    '{DBKEY}users_rel' => Array (
+        'fields' => Array (
+            'uid' => Array (
+                'type' => 'int(10) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
+            'rel_uid' => Array (
+                'type' => 'int(10) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
+            'relation' => Array (
+                'type' => 'tinyint(1)' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
+            'group' => Array (
+                'type' => 'char(15)' ,
+                'collate' => 'ascii_general_ci' ,
+                'null' => false ,
+                'def' => '' ,
+                'extra' => ''
+            ) 
+        )  ,
+        'keys' => Array (
+            'PRIMARY' => Array (
+                'type' => 'PRIMARY' ,
+                'cols' => Array (
+                    0 => 'uid' ,
+                    1 => 'rel_uid'
+                ) 
+            )  ,
+            'relation' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'relation'
+                ) 
+            )  ,
+            'group' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'group'
+                ) 
+            ) 
+        )  ,
+        'name' => '{DBKEY}users_rel' ,
         'engine' => 'MyISAM' ,
         'collate' => 'utf8_general_ci'
     ) 

@@ -254,6 +254,10 @@ static/images/styles/qf_def/subcol_line.png|644
 static/images/styles/qf_def/submenu_grd.png|644
 static/images/styles/qf_def/win_grd.png|644
 index.php|755
+data/modules/Fox2_Blogs.php|600
+data/styles/qf_def/blogs.vis|600
+data/langs/RU/blogs.lng|600
+data/langs/RU/blogs_cfgs.lng|600
 data/modules/Fox2_Gal.php|600
 data/modules/Fox2_Gal_Incls.php|600
 data/styles/qf_def/gallery.vis|600

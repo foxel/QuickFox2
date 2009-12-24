@@ -1,0 +1,89 @@
+<<+ 'FOX_BLOGS_INDEXPAGE'>>
+{IF:IN_ENTRIES}
+ {IN_ENTRIES}
+{ELSE}
+ <div class="alg_c" style="margin: auto; padding: 30px; clear: both;"><h3>[ {L_FOX_BLOGS_NOENTRIES} ]</h3></div>
+{ENDIF}
+<<- 'FOX_BLOGS_INDEXPAGE'>>
+
+<<+ 'FOX_BLOGS_ENTRY'>>
+{WRITE:WIN_BODY}
+ <div class="qf_post_head" style="margin-left: 115px !important;"><a href="{URL:FoxBlogs_entry|IN_ID}" title="{!IN_CAPTION}">{!IN_CAPTION}</a>  [{FTIME:IN_TIME}]</div>
+ {IN_TEXT}
+ <div style="clear: both;"></div>
+{WRITE:WIN_BOTT}
+ {IF:IN_COMMENTS}<a class="hlight_btn" href="{URL:FoxBlogs_entry|IN_ID}#blog_entry_comments">{L_FOX_BLOGS_COMMENTS_COUNT|IN_COMMENTS}</a>{ENDIF}
+ <a class="hlight_btn" href="{URL:FoxBlogs_entry|IN_ID}#blog_entry_comments">{L_FOX_BLOGS_COMMENTS_ADD}</a>
+{!WRITE}
+<div class="qf_blogs_entry">
+ <div class="qf_window_body qf_blogs_entry_author alg_c">
+  {IN_AUTHOR_INFO}
+  {IF:IN_AUTHOR_ID}[<a href="{URL:FoxBlogs_userblog|IN_AUTHOR_ID}" title="{L_FOX_BLOGS_USERBLOG}">{L_FOX_BLOGS_UINFO_USERBLOG}</a>]{ENDIF}
+ </div>
+ {VIS:FOX_WINDOW_BRDR|CONTENTS=WIN_BODY|BOTTLINE=WIN_BOTT|WIDTH="auto"}
+</div>
+<<- 'FOX_BLOGS_ENTRY'>>
+
+<<+ 'FOX_BLOGS_ENTRYPAGE'>>
+<h2>{IN_CAPTION}</h2>
+ <div class="qf_window_body qf_blogs_entry_author alg_c">
+  {IN_AUTHOR_INFO}
+  {IF:IN_AUTHOR_ID}[<a href="{URL:FoxBlogs_userblog|IN_AUTHOR_ID}" title="{L_FOX_BLOGS_USERBLOG}">{L_FOX_BLOGS_UINFO_USERBLOG}</a>]{ENDIF}
+ </div>
+<div class="page_text">
+{IN_TEXT}
+</div>
+<div class="alg_r" style="clear: both; margin: 10px 50px;">
+ {IF:IN_CAN_MODIFY}<a class="hlight_btn" href="{URL:FoxBlogs_editentry|IN_ID}" title="{L_FOX_BLOGS_ENTRY_EDIT}">{L_BTN_EDIT}</a>{ENDIF}
+ {FTIME:IN_TIME}
+</div>
+<div style="width: 600px; margin: 10px auto;">
+ <hr />
+ {IF:IN_COMMENTS_PTREE}<div class="inv_grid" id="blog_entry_comments">
+  {IN_COMMENTS_PTREE}
+ </div>{ENDIF}
+</div>
+
+<<- 'FOX_BLOGS_ENTRYPAGE'>>
+
+<<+ 'FOX_BLOGS_ENTRYFORM'>>
+<h2>{IF:IN_DO_EDIT}{L_FOX_BLOGS_CAPT_EDIT|IN_CAPTION}{ELSE}{L_FOX_BLOGS_CAPT_NEW}{ENDIF}</h2>
+<form action="{QF_INDEX}" method="post" enctype="multipart/form-data">
+ <div class="page_text">
+  {L_FOX_BLOGS_ENTRY_CAPTION}: <input type="text" name="entry_capt" value="{!IN_CAPTION}" style="width: 400px;" /><br />
+  <textarea id="blog_entry_text" rows="5" cols="40" style="height: 150px;" name="entry_text">{IN_OTEXT}</textarea>
+ </div>
+ <div style="clear: both; margin: 10px 50px;">
+  <table class="inv_grid fullwidth"><tr>
+   <td class="inv_grid alg_l">
+    {L_FOX_BLOGS_ENTRY_AUTHOR}: {IN_AUTHOR_INFO} [{FTIME:IN_TIME}]
+   </td>
+   <td class="inv_grid alg_r">
+    <input id="blog_entry_btn_save" type="submit" value="{IF:IN_DO_EDIT}{L_BTN_SAVE}{ELSE}{L_BTN_ADD}{ENDIF}" />
+   </td>
+  </tr></table>
+ </div>
+ <input type="hidden" name="script" value="blogs" />
+ {IF:IN_DO_EDIT}
+ <input type="hidden" name="mode" value="edit" />
+ <input type="hidden" name="id" value="{IN_ID}" />
+ {ELSE}
+ <input type="hidden" name="mode" value="new" />
+ {ENDIF}
+</form>
+<div style="width: 600px; margin: 10px auto;">
+ <hr />
+</div>
+<<- 'FOX_BLOGS_ENTRYFORM'>>
+
+<<+ 'CSS'>>
+div.qf_blogs_entry { margin: 40px 50px 10px;  }
+div.qf_blogs_entry_author { postition: relative; float: left; margin: -20px 10px 10px 10px !important; width: 100px; z-index: 10; padding-bottom: 7px; }
+
+<<- 'CSS'>>
+
+<<+ 'FOX_BLOGS_PANEL'>>
+<a class="fw_list_itm" href="{URL:FoxBlogs_root}" title="{L_FOX_BLOGS_CAPTION}">{L_FOX_BLOGS_CAPTION}</a>
+<a class="fw_list_itm" href="{URL:FoxBlogs_userblog|IN_UID}" title="{L_FOX_BLOGS_MY_ENTRIES}">{L_FOX_BLOGS_MY_ENTRIES}</a>
+<a class="fw_list_itm" href="{URL:FoxBlogs_newentry}" title="{L_FOX_BLOGS_NEW_ENTRY}">{L_FOX_BLOGS_NEW_ENTRY}</a>
+<<- 'FOX_BLOGS_PANEL'>>

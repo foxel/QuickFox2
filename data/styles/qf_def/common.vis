@@ -350,6 +350,9 @@ QF_EFFECTS.Invisible('Pan{COUNTER}');
  <div{!IF:IN_NO_BODY} class="qf_window_body"{ENDIF}>
   {IN_CONTENTS}
  </div>
+ {IF:IN_BOTTLINE}<div class="qf_window_line alg_r">
+  {IN_BOTTLINE}
+ </div>{ENDIF}
 </div>
 <<- 'FOX_WINDOW_BRDR'>>
 

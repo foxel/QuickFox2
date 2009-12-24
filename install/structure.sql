@@ -3,6 +3,39 @@
 #
 
 
+# Table definition for {DBKEY}blog_entries 
+DROP TABLE IF EXISTS `{DBKEY}blog_entries` ;
+CREATE TABLE `{DBKEY}blog_entries` ( 
+    `id` char(8) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `author` char(16) NOT NULL DEFAULT '', 
+    `author_id` int(10) unsigned NOT NULL DEFAULT '0', 
+    `caption` varchar(128) NOT NULL DEFAULT '', 
+    `time` int(11) NOT NULL DEFAULT '0', 
+    `r_level` tinyint(1) unsigned NOT NULL DEFAULT '0', 
+    `mu_acc_r` binary(255) NOT NULL DEFAULT '', 
+    `mu_acc_w` binary(255) NOT NULL DEFAULT '', 
+    `pt_root` int(10) unsigned NOT NULL DEFAULT '0', 
+    PRIMARY KEY (`id`) , 
+    UNIQUE `pt_root` (`pt_root`) , 
+    INDEX `author_id` (`author_id`) , 
+    INDEX `time` (`time`) , 
+    INDEX `r_level` (`r_level`)  
+) ENGINE = MyISAM COLLATE utf8_general_ci; 
+
+# Table definition for {DBKEY}blog_texts 
+DROP TABLE IF EXISTS `{DBKEY}blog_texts` ;
+CREATE TABLE `{DBKEY}blog_texts` ( 
+    `id` char(8) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `o_text` text NOT NULL, 
+    `hash` char(32) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `p_text` text NOT NULL, 
+    `is_raw` tinyint(1) unsigned NOT NULL DEFAULT '0', 
+    `preparsed` tinyint(1) unsigned NOT NULL DEFAULT '0', 
+    PRIMARY KEY (`id`) , 
+    INDEX `hash` (`hash`) , 
+    INDEX `preparsed` (`preparsed`)  
+) ENGINE = MyISAM COLLATE utf8_general_ci; 
+
 # Table definition for {DBKEY}cms_pgs 
 DROP TABLE IF EXISTS `{DBKEY}cms_pgs` ;
 CREATE TABLE `{DBKEY}cms_pgs` ( 
@@ -487,5 +520,17 @@ CREATE TABLE `{DBKEY}users_auth` (
     PRIMARY KEY (`uid`) , 
     UNIQUE `login` (`login`) , 
     INDEX `pass_dropcode` (`pass_dropcode`)  
+) ENGINE = MyISAM COLLATE utf8_general_ci; 
+
+# Table definition for {DBKEY}users_rel 
+DROP TABLE IF EXISTS `{DBKEY}users_rel` ;
+CREATE TABLE `{DBKEY}users_rel` ( 
+    `uid` int(10) unsigned NOT NULL DEFAULT '0', 
+    `rel_uid` int(10) unsigned NOT NULL DEFAULT '0', 
+    `relation` tinyint(1) NOT NULL DEFAULT '0', 
+    `group` char(15) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    PRIMARY KEY (`uid`, `rel_uid`) , 
+    INDEX `relation` (`relation`) , 
+    INDEX `group` (`group`)  
 ) ENGINE = MyISAM COLLATE utf8_general_ci; 
 

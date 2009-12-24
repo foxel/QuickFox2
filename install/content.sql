@@ -1391,19 +1391,69 @@ REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
     VALUES('fox_ajax_scripts', 'qf2', 'ptree_getpost', 'a:2:{s:6:\"module\";s:11:\"PTree_incls\";s:6:\"method\";s:11:\"AJX_getpost\";}', '0', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'qf2', 'qf2', 'PA.091216.1201', '1', '');
+    VALUES('dev_rev_info', 'qf2', 'qf2', 'PA.091222.1055', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'qf2_base', 'qf2_base', 'PA.091216.1201', '1', '');
+    VALUES('dev_rev_info', 'qf2_base', 'qf2_base', 'PA.091222.1055', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'qf2_adm', 'qf2_adm', 'PA.091216.1201', '1', '');
+    VALUES('dev_rev_info', 'qf2_adm', 'qf2_adm', 'PA.091222.1055', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'qf2_multiuser', 'qf2_multiuser', 'PA.091216.1201', '1', '');
+    VALUES('dev_rev_info', 'qf2_multiuser', 'qf2_multiuser', 'PA.091222.1055', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'google_adds', 'google_adds', 'PA.091216.1201', '1', '');
+    VALUES('dev_rev_info', 'google_adds', 'google_adds', 'PA.091222.1055', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'gallery', 'gallery', 'PA.091216.1201', '1', '');
+    VALUES('dev_rev_info', 'gallery', 'gallery', 'PA.091222.1055', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'music_player', 'music_player', 'PA.091216.1201', '1', '');
+    VALUES('dev_rev_info', 'music_player', 'music_player', 'PA.091222.1055', '1', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('package_dbases', 'qf2_multiuser', 'qf2_multiuser', 'a:1:{i:0;s:9:\"users_rel\";}', '0', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('packages', 'blogs', 'blogs', 'a:2:{s:4:\"Name\";s:24:\"QuickFox Blogs Pre Alpha\";s:9:\"Developer\";s:5:\"Foxel\";}', '0', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('package_dbases', 'blogs', 'blogs', 'a:2:{i:0;s:12:\"blog_entries\";i:1;s:10:\"blog_texts\";}', '0', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('package_files', 'blogs', 'blogs', 'a:1:{i:600;a:4:{i:0;s:27:\"data/modules/Fox2_Blogs.php\";i:1;s:28:\"data/styles/qf_def/blogs.vis\";i:2;s:23:\"data/langs/RU/blogs.lng\";i:3;s:28:\"data/langs/RU/blogs_cfgs.lng\";}}', '0', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('fox_modules', 'blogs', 'Blogs', 'QF_Blogs|Fox2_Blogs.php', '1', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('fox_pages', 'blogs', 'blogs', 'a:2:{s:6:\"module\";s:5:\"Blogs\";s:6:\"method\";s:10:\"Page_Blogs\";}', '0', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('fox_scripts', 'blogs', 'blogs', 'a:2:{s:6:\"module\";s:5:\"Blogs\";s:6:\"method\";s:12:\"Script_Blogs\";}', '0', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('urltemplates', 'blogs', 'FOXBLOGS_ROOT', '{QF_INDEX}?st=blogs', '1', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('urltemplates', 'blogs', 'FOXBLOGS_ENTRY', '{QF_INDEX}?st=blogs&amp;mode=entry&amp;id=%1$s', '1', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('urltemplates', 'blogs', 'FOXBLOGS_USERBLOG', '{QF_INDEX}?st=blogs&amp;mode=user&amp;id=%1$s', '1', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('urltemplates', 'blogs', 'FOXBLOGS_BYDATE', '{QF_INDEX}?st=blogs&amp;mode=date&amp;id=%1$s', '1', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('urltemplates', 'blogs', 'FOXBLOGS_CALENDAR', '{QF_INDEX}?st=blogs&amp;mode=date', '1', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('mod_rw_urlts', 'blogs', 'FOXBLOGS_ROOT', 'blogs/', '1', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('mod_rw_urlts', 'blogs', 'FOXBLOGS_ENTRY', 'blogs/entry/%1$s.html', '1', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('mod_rw_urlts', 'blogs', 'FOXBLOGS_USERBLOG', 'blogs/user/%1$s.html', '1', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('mod_rw_urlts', 'blogs', 'FOXBLOGS_BYDATE', 'blogs/date/%1$s.html', '1', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('mod_rw_urlts', 'blogs', 'FOXBLOGS_CALENDAR', 'blogs/date/', '1', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('RW_masks', 'blogs', 'blogs', 'a:3:{s:2:\"st\";s:5:\"blogs\";s:4:\"mode\";s:2:\"$0\";s:2:\"id\";s:2:\"$1\";}', '0', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('fox_panels', 'blogs', 'my_blog', 'a:2:{s:6:\"module\";s:5:\"Blogs\";s:6:\"method\";s:13:\"Panel_My_Blog\";}', '0', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('urltemplates', 'blogs', 'FOXBLOGS_EDITENTRY', '{QF_INDEX}?st=blogs&amp;mode=edit&amp;id=%1$s', '1', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('mod_rw_urlts', 'blogs', 'FOXBLOGS_EDITENTRY', 'blogs/edit/%1$s.html', '1', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('urltemplates', 'blogs', 'FOXBLOGS_NEWENTRY', '{QF_INDEX}?st=blogs&amp;mode=new', '1', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('mod_rw_urlts', 'blogs', 'FOXBLOGS_NEWENTRY', 'blogs/new.html', '1', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('fox_index_dps', 'blogs', 'blogs', 'Blogs root', '1', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('dev_rev_info', 'blogs', 'blogs', 'PA.091222.1055', '1', '');
 
 
 # Data content for {DBKEY}config_sets 
