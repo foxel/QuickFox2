@@ -30,6 +30,8 @@ DATETIME_TODAY: сегодня %1$s
 ---
 DATETIME_YESTERDAY: вчера %1$s
 ---
+QUOTE_CAPT: Цитата
+---
 
 BSIZE_FORM_BYTES: Байт|КБайт|МБайт|ГБайт
 ---

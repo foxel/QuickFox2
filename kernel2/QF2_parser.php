@@ -50,6 +50,8 @@ class QF_BB_Parser
 
     function Init_Std_Tags()
     {
+        global $QF;
+
         $this->Add_Tag('b', 'b');
         $this->Add_Tag('i', 'i');
         $this->Add_Tag('u', 'u');
@@ -77,7 +79,7 @@ class QF_BB_Parser
         $this->Add_Preg(QF_FURL_MASK, '[url]{data}[/url]');
         //$this->Add_Preg(QF_EMAIL_MASK, '[email]{data}[/email]');
 
-        $this->Add_Tag('quote', '<table><tr><td>Quote: {param}</td></tr><tr><td style="border: solid #107010 1px;">{data}</td></tr></table>', QF_BBTAG_BLLEV | QF_BBTAG_FHTML | QF_BBTAG_SUBDUP );
+        $this->Add_Tag('quote', '<div class="qf_quote_outer"><div class="qf_quote_capt">'.$QF->LNG->Lang('QUOTE_CAPT').': <b>{param}</b></div><div class="qf_quote_text">{data}</div></div>', QF_BBTAG_BLLEV | QF_BBTAG_FHTML | QF_BBTAG_SUBDUP );
     }
 
     function Add_Tag($bbtag, $html, $tag_mode=0, $extra = null)
@@ -89,7 +91,7 @@ class QF_BB_Parser
             return false;
 
         $newtag = Array(
-            'html'       => strtolower($html),
+            'html'       => $html,
             'mode'       => (int) $tag_mode,
             );
 

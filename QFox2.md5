@@ -1,5 +1,5 @@
 b92be6c47d1a7c6ac6fcf3a3184b1462 kernel2/by_ext.mime
-52b61c555d9f78e7dbffcd4aa83302ef kernel2/krnl_def.lng
+8e765881bb31e3069ca6489f524139cc kernel2/krnl_def.lng
 e1b405e8844770ab09fe0acadd9b5de9 kernel2/magic.mime
 76e7208935e003758f501e6664433596 kernel2/modules.qfc
 bf2a7b0967598be80494cc71816fc6b7 kernel2/QF2_base.php
@@ -12,7 +12,7 @@ f2eab96224f7e1bbbc1c93b45f97b854 kernel2/QF2_flib.php
 841471159a2a033f83ad3ba566ef591a kernel2/QF2_lang.php
 fabbb52cdc1076e14281f30e06eadae6 kernel2/QF2_mailer.php
 14ba43b048dc73efbff21572186fedea kernel2/QF2_mysql.php
-d1d6b0215ddc71abfcb838b660c82e31 kernel2/QF2_parser.php
+7c70ed3cfbad43ebca7495c26238a9f6 kernel2/QF2_parser.php
 29a8d6fd942f98dd45882fef16592c23 kernel2/QF2_rsa.php
 46b7e94d411d843ea0240e067f6c53d5 kernel2/QF2_services.php
 fbb868231380f53d44908e433a0fd439 kernel2/QF2_sess.php
@@ -144,7 +144,7 @@ ec6c3aedf3451ccaf0fdcb45fe2885b7 kernel2/chars/x-mac-greek.ltt
 989489290036483052d960d6ec7f72c2 kernel2/chars/x-mac-roman.ltt
 fb9375c8f8c5fc54000ba23e31f6ce2d kernel2/chars/zdingbat.chr
 8f80cc35ff7453a2be7fa926f31383e3 QFox2/as_data.dat
-d26d325cfb5bf62626b46622f701226d QFox2/Fox2.php
+967c9d4fa4eee23875292a487472afd1 QFox2/Fox2.php
 53600c837c8fb0c7bf938a68d2e8d650 QFox2/Fox2_adm.php
 5c24b3ffa072e02cb45a11d69a917f34 QFox2/Fox2_cfgsets.php
 64569999e61fcffd3d2f824bce1c1806 QFox2/Fox2_cms.php
@@ -170,7 +170,7 @@ b33dce8752784b2d6784639dea4cee4b data/jscripts/uploader.ejs
 c1a079d7456de608617485941d478c40 data/langs/RU/admin.lng
 a16095c426c0ee7586d5a1f4c0538d38 data/langs/RU/cms_spec.lng
 92769b489804b2bdcb8730fcac56823b data/langs/RU/common.lng
-26f346ecc562ed90fc818de2728eb5a7 data/langs/RU/kernel.lng
+06e7dbcf9e0e5c2029c1b033c97b5ba8 data/langs/RU/kernel.lng
 a2fa0afd55500564b038b8f2bd485bd1 data/langs/RU/posttree.lng
 4a200ba8cda777dbebf5f5a1fb7919a5 data/langs/RU/qf2_base_errs.lng
 f4af1e890d7ed4745c4b0f468489a243 data/langs/RU/qf2_cfgs.lng
@@ -178,7 +178,7 @@ f4af1e890d7ed4745c4b0f468489a243 data/langs/RU/qf2_cfgs.lng
 7c23427a997d61b4d08ae34f9b8bb00f data/langs/RU/usercab.lng
 d761024c859c725e9b6c4fd336ef2fe4 data/styles/qf_def/admin.vis
 ca480224e35c62d7c2e91aca4716c356 data/styles/qf_def/cms_spec.vis
-50a4826046088f4f817ebfff2b07cabb data/styles/qf_def/common.ecss
+f790ff7c18208d1e74fd54bcbe476b5c data/styles/qf_def/common.ecss
 041f0b16649c5f8201aeb9a394c7a734 data/styles/qf_def/common.vis
 ab6a8a2591e13db50849a22ff0e83a36 data/styles/qf_def/posttree.vis
 9d26b8056c2d90dd878c4ce4fc849258 data/styles/qf_def/qf_setup.vis
@@ -231,7 +231,7 @@ cc587cd7f4a4b3e054163da361b52c8f static/images/styles/qf_def/pg_bott_rt.png
 8710262c0e6935391c497cb293a7dd47 data/styles/qf_def/blogs.vis
 8e8a3466ac7c5c702c78db314662bf3a data/langs/RU/blogs.lng
 d41d8cd98f00b204e9800998ecf8427e data/langs/RU/blogs_cfgs.lng
-d2286fd524637a9451deca53e4bf6302 data/modules/Fox2_Gal.php
+b72875d0432b555b3d2bf041e82402f0 data/modules/Fox2_Gal.php
 168a91571dc8caee635f2d3633172e40 data/modules/Fox2_Gal_Incls.php
 59e856cfeeeba4a99c3bd40860e8dc19 data/styles/qf_def/gallery.vis
 e9b172286b8bd68830d6ed1be0f6af04 data/langs/RU/gallery.lng

@@ -34,6 +34,7 @@ define('QF_FOX2_URLTEMPS_RW_CACHENAME', 'FOX2.RW_URLTEMPS');
 class Fox2
 {
     var $URL_temps;
+    var $URL_domain = null;
     var $err_traced = Array();
 
     function Fox2()
@@ -66,8 +67,20 @@ class Fox2
             $QF->Cache->Clear();
 
         $QF->LNG->Load_Language('common');
+        //$QF->Config->Set('linked_domains', Array('gallery' => 'www.quickfox.dev'), 'fox2');
+        //$QF->Config->Set('basic_domain', 'quickfox.dev', 'fox2');
 
-        // applying per domain scheme
+        // starting neded modules
+        $QF->Run_Module('DSets');
+        $QF->Run_Module('User');
+
+        $revision = $QF->DSets->Get_DSet_Value('dev_rev_info', 'qf2');
+        header('X-Powered-By: QuickFox 2 ['.$revision.'] (PHP/'.PHP_VERSION.')');
+
+        // url reparsing
+        $rw_id = $QF->GPC->Get_String('rw_id', QF_GPC_GET, QF_STR_WORD);
+        $rw_data = $QF->GPC->Get_String('rw_data', QF_GPC_GET, QF_STR_LINE);
+        // working with multidomain
         if ($QF->Config->Get('tgl_multidomain', 'fox2'))
         {
             $d_schemas = $QF->Config->Get('domain_schemas', 'fox2');
@@ -82,14 +95,26 @@ class Fox2
             }
             elseif ($d_schemas[$domain])
                 $QF->Config->Select_Scheme($d_schemas[$domain]);
+
+            if (($domains = $QF->Config->Get('linked_domains', 'fox2'))
+                && ($basic_domain = $QF->Config->Get('basic_domain', 'fox2'))
+                && is_array($domains) && count($domains))
+            {                list($link) = array_keys($domains, $domain);
+                if ($link)
+                {                    $this->URL_domain = $basic_domain;
+                    if ($rw_id && $rw_id != $link)
+                        $rw_data = $rw_id.'/'.$rw_data;
+                    $rw_id = $link;
+                }
+            }
         }
-
-        // starting neded modules
-        $QF->Run_Module('DSets');
-        $QF->Run_Module('User');
-
-        $revision = $QF->DSets->Get_DSet_Value('dev_rev_info', 'qf2');
-        header('X-Powered-By: QuickFox 2 ['.$revision.'] (PHP/'.PHP_VERSION.')');
+        // rewrited url reparsing
+        if ($rw_id)
+        {
+            $this->_Parse_RW($rw_id, $rw_data);
+            $QF->Events->Set_On_Event('HTTP_HTML_parse', Array(&$this, 'HTML_FullURLs') );
+            $QF->Events->Set_On_Event('HTML_block_parse', Array(&$this, 'HTML_FullURLs') );
+        }
 
         // running the services
         $next_start = $QF->Config->Get('service_nextstart', 'temp');
@@ -119,13 +144,6 @@ class Fox2
         $QF->Events->Set_On_Event('EJS_PreParse',  Array(&$this, 'On_EJS_Prep') );
         if ($QF->Config->Get('vis_redefined', 'fox2'))
             $QF->Events->Set_On_Event('VIS_module_start',  Array(&$this, '_VISUserMods_Preload') );
-
-        if ($rw_id = $QF->GPC->Get_String('rw_id', QF_GPC_GET, QF_STR_WORD))
-        {
-            $this->_Parse_RW($rw_id, $QF->GPC->Get_String('rw_data', QF_GPC_GET, QF_STR_LINE));
-            $QF->Events->Set_On_Event('HTTP_HTML_parse', Array(&$this, 'HTML_FullURLs') );
-            $QF->Events->Set_On_Event('HTML_block_parse', Array(&$this, 'HTML_FullURLs') );
-        }
 
         // running any autoruns from packages
         if ($ar_datas = $QF->DSets->Get_DSet('fox_autoruns'))
@@ -389,7 +407,7 @@ class Fox2
             foreach ($menubts as $butt)
                 if (is_array($butt) && qf_str_is_url($butt['url']))
                 {
-                    $butt['url'] = qf_full_url($butt['url'], true);
+                    $butt['url'] = qf_full_url($butt['url'], true, $this->URL_domain);
                     if (isset($butt['is_sub']) && $butt['is_sub'] && $cur_butt)
                         $QF->VIS->Add_Node('MENU_SUBBUTTON', 'SUBS', $cur_butt, $butt);
                     else
@@ -549,7 +567,7 @@ class Fox2
 
         if ($redir_to)
         {
-            $url = qf_full_url($redir_to);
+            $url = qf_full_url($redir_to, false, $this->URL_domain);
             $QF->Events->Call_Event_Ref('HTTP_URL_Parse', $url );
             $hurl = strtr($url, Array('&' => '&amp;'));
 
@@ -712,7 +730,7 @@ class Fox2
 
         $url = $this->Gen_URL($url_id, $params, true, true);
         if ($matches[1] == 'F')
-            $url = qf_full_url($url, true);
+            $url = qf_full_url($url, true, $this->URL_domain);
         elseif ($matches[1] == 'R') // && $url{0} != '/'
         {
             $comps = parse_url($url);
@@ -750,18 +768,37 @@ class Fox2
             $data = str_replace(array_keys($consts), array_values($consts), $data);
 
 
-            if ($QF->Config->Get('tgl_multidomain', 'fox2') && ($domains = $QF->Config->Get('package_domains', 'fox2')) && is_array($domains) && count($domains))
-            {
-                $domains = preg_replace('#^http\:(?:/)*|/$#i', '', $domains);
+            if ($QF->Config->Get('tgl_multidomain', 'fox2'))
+            {                $domains  = $QF->Config->Get('package_domains', 'fox2');
+                $ldomains = $QF->Config->Get('linked_domains', 'fox2');
+                $basedomain = $QF->Config->Get('basic_domain', 'fox2');
+                if (!is_array($domains))
+                    $domains  = Array();
+                if (!is_array($ldomains) || !$basedomain)
+                    $ldomains = Array();
 
-                foreach ($data as $key => $val)
+                if (count($domains) || count($ldomains))
                 {
-                    $cur_pkg = $pkgs[$key];
-                    if (isset($domains[$cur_pkg]))
+                    $domains  = preg_replace('#^http\:(?:/)*|/$#i', '', $domains);
+                    $ldomains = preg_replace('#^http\:(?:/)*|/$#i', '', $ldomains);
+                    $basedomain = preg_replace('#^http\:(?:/)*|/$#i', '', $basedomain);
+
+                    foreach ($data as $key => $val)
                     {
-                        $domain = $domains[$cur_pkg];
-                        $val = qf_full_url($val, true, $domain);
-                        $data[$key] = $val;
+                        $cur_pkg = $pkgs[$key];
+                        list($cur_link, $cur_url) = explode('/', $val, 2);
+                        if ($cur_link && isset($ldomains[$cur_link]))
+                        {
+                            $domain = $ldomains[$cur_link];
+                            $val = qf_full_url($cur_url, true, $domain);
+                            $data[$key] = $val;
+                        }
+                        elseif (isset($domains[$cur_pkg]))
+                        {
+                            $domain = $domains[$cur_pkg];
+                            $val = qf_full_url($val, true, $domain);
+                            $data[$key] = $val;
+                        }
                     }
                 }
             }
@@ -854,7 +891,7 @@ class Fox2
         }
 
         if (qf_str_is_url($url) == 2)
-            $url = qf_full_url($url, true);
+            $url = qf_full_url($url, true, $this->URL_domain);
 
         return $vars[1].$vars[3].'='.$bounds.$url.$bounds;
 

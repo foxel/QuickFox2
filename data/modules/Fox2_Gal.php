@@ -266,7 +266,7 @@ class QF_Gallery
             'lasttime' => $QF->Timer->time,
             );
 
-        if (!$owner)
+        if (!$owner && is_array($access))
         {            if (isset($access['r_level']))
                 $data['w_level'] = $data['r_level'] = min(abs($access['r_level']), QF_FOX2_MAXULEVEL);
             if (isset($access['w_level']))

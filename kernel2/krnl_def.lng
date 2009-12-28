@@ -26,3 +26,5 @@ BSIZE_FORM_BYTES: B|KB|MB|GB
 ---
 BSIZE_FORM_BITS: b|Kb|Mb|Gb
 ---
+QUOTE_CAPT: Quote
+---
