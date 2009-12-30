@@ -732,7 +732,7 @@ class Fox2
             return true;
 
         $cachename = QF_KERNEL_VIS_VPREFIX.$style.'_redefs';
-        $cfile = QF_STYLES_DIR.$style.'/redefined.vis';
+        $cfile = QF_STYLES_DIR.$style.'/user_redefined.vis';
         if ($data = $QF->Cache->Get($cachename))
             $this->VIS_redefs[$style] = $data;
         elseif ($data = qf_file_get_contents($cfile))
