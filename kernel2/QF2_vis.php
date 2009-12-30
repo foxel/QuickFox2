@@ -356,6 +356,7 @@ class QF_Visual
                     // not used for now - not needed
                     //if ($add_Consts = qf_file_load_datafile(QF_STCNTS_DIR.$part.'.cnt', true))
                     //    $this->Consts += $add_Consts;
+                    $QF->Events->Call_Event_Ref('VIS_RawParse', $indata, $style, $part);
 
                     $indata = str_replace('{ST_IMGS}', QF_ST_IMGS_DIR.$style, $indata);
                     $indata = str_replace('{IMGS}', QF_IMAGES_DIR, $indata);
@@ -364,7 +365,7 @@ class QF_Visual
                     $indata = preg_replace_callback('#\{(?>L_((?:\w+|\"[^\"]+\"|\|)+))\}#',Array(&$this, '_Templ_Lang_CB'),$indata);
                     $indata = preg_replace('#\{(?>CONST:([\w\|]+))\}#e','(isset(\$this->Templ_Consts("$1"))) ? \$this->Templ_Consts("$1") : ""',$indata);
 
-                    $QF->Events->Call_Event_Ref('VIS_PreParse', $indata);
+                    $QF->Events->Call_Event_Ref('VIS_PreParse', $indata, $style, $part);
 
                     preg_match_all("#<<\+ '(?>(\w+))'>>(.*?)<<- '\\1'>>#s", $indata, $blocks);
 

@@ -35,6 +35,7 @@ class Fox2
 {
     var $URL_temps;
     var $URL_domain = null;
+    var $VIS_redefs = Array();
     var $err_traced = Array();
 
     function Fox2()
@@ -143,7 +144,7 @@ class Fox2
         $QF->Events->Set_On_Event('VIS_PreParse',  Array(&$this, 'On_VIS_Prep') );
         $QF->Events->Set_On_Event('EJS_PreParse',  Array(&$this, 'On_EJS_Prep') );
         if ($QF->Config->Get('vis_redefined', 'fox2'))
-            $QF->Events->Set_On_Event('VIS_module_start',  Array(&$this, '_VISUserMods_Preload') );
+            $QF->Events->Set_On_Event('VIS_RawParse',  Array(&$this, '_VISUserMods_Add') );
 
         // running any autoruns from packages
         if ($ar_datas = $QF->DSets->Get_DSet('fox_autoruns'))
@@ -705,9 +706,54 @@ class Fox2
         $indata = preg_replace_callback('#\{(?>(F|R)?URL:((?:\w+|\"[^\"]+\"|\|)+))\}#',Array(&$this, '_VISParse_URL_CB'),$indata);
     }
 
-    function _VISUserMods_Preload()
+    function _VISUserMods_Add(&$indata, $style, $part)
+    {
+        global $QF;
+
+        if (!isset($this->VIS_redefs[$style]) && !$this->_VISUserMods_Preload($style))
+            return;
+
+        if (isset($this->VIS_redefs[$style]) && isset($this->VIS_redefs[$style][$part]))
+            $indata.= $this->VIS_redefs[$style][$part];
+    }
+
+    /*function _VISUserMods_Preload()
     {        global $QF;
         $QF->VIS->Load_Templates('user_redefined');
+    } */
+
+    function _VISUserMods_Preload($style)
+    {        global $QF;
+        if (!$QF->Check_Module('VIS'))
+            return false;
+
+        $style = strtolower($style);
+        if (isset($this->VIS_redefs[$style]))
+            return true;
+
+        $cachename = QF_KERNEL_VIS_VPREFIX.$style.'_redefs';
+        $cfile = QF_STYLES_DIR.$style.'/redefined.vis';
+        if ($data = $QF->Cache->Get($cachename))
+            $this->VIS_redefs[$style] = $data;
+        elseif ($data = qf_file_get_contents($cfile))
+        {            preg_match_all('#\<\<part \'(\w+)\'\>\>|[^\<]+|\<#', $data, $struct, PREG_SET_ORDER);
+            $data = Array();
+            $p_name = QF_KERNEL_VIS_COMMON;
+            foreach ($struct as $part)
+            {
+                if ($part[1])
+                    $p_name = strtolower($part[1]);
+                elseif (isset($data[$p_name]))
+                    $data[$p_name].= $part[0];
+                else
+                    $data[$p_name] = $part[0];
+            }
+            $QF->Cache->Set($cachename, $data);
+            $this->VIS_redefs[$style] = $data;
+            return true;
+        }
+        else
+            return false;
     }
 
     function _VISParse_URL_CB($matches)
