@@ -42,14 +42,15 @@ class Fox2_PostTree
         $QF->Run_Module('VIS');
         $QF->Run_Module('UList');
 
-        $my_href_enc = qf_url_str_pack($QF->HTTP->Request);
+        $my_href = qf_full_url($QF->HTTP->Request);
+        $my_href_enc = qf_url_str_pack($my_href);
         $QF->VIS->Load_Templates('posttree');
         $FOX->Link_JScript('posttree');
         $FOX->Link_JScript('ajax');
 
         $root_node = $QF->VIS->Create_Node('FOX_POSTTREE_OUTER');
         $root_params = Array(
-            'MYHREF' => $QF->HTTP->Request,
+            'MYHREF' => $my_href,
             'MYHREF_ENC' => $my_href_enc,
             'TREE_ID' => $tid,
             'CAN_ADM' => ($t_acc > 2) ? 1 : null,
