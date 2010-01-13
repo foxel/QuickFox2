@@ -17,7 +17,7 @@ fabbb52cdc1076e14281f30e06eadae6 kernel2/QF2_mailer.php
 46b7e94d411d843ea0240e067f6c53d5 kernel2/QF2_services.php
 fbb868231380f53d44908e433a0fd439 kernel2/QF2_sess.php
 18bfe0a124d426ef047aca980f23e9cd kernel2/QF2_tar.php
-bf189c45b93961a4c6c773feda3b03f6 kernel2/QF2_vis.php
+4de91cf4904fad3ea77ce9a56c4ce86a kernel2/QF2_vis.php
 216f7ef0f383e5d56fdab9e65e7f93cd kernel2/QF_kernel2.php
 96831fd122fe8a3ddf9dfc8563729ab3 kernel2/chars/cp037.chr
 b2f6c332aaf70db2501afeba2c75bb5d kernel2/chars/cp037.ltt
@@ -162,7 +162,7 @@ e8828e0eeece4300ca5cf6035b53ffb6 QFox2/Fox2_userlib.php
 02c2a55d7c8966ef559971492b874c6c data/htc/ie_png.htc
 11da1c55a2b8ef24374c4fe99383dd5d data/jscripts/ajax.ejs
 6e975efd21790e14f0d62421ed473357 data/jscripts/common.ejs
-dc9999ca3c47adb7c36f236dc0cd85a7 data/jscripts/effects.ejs
+42597d4250f1193e6f15d74785bfae5c data/jscripts/effects.ejs
 018a526d7d33860d68774113c75e6215 data/jscripts/imageshow.ejs
 cd8db02116257d250033f2c031bbeec3 data/jscripts/posttree.ejs
 68d3a34972bbe96da822faff4b5835d2 data/jscripts/swfobject.ejs
@@ -178,8 +178,8 @@ f4af1e890d7ed4745c4b0f468489a243 data/langs/RU/qf2_cfgs.lng
 7c23427a997d61b4d08ae34f9b8bb00f data/langs/RU/usercab.lng
 d761024c859c725e9b6c4fd336ef2fe4 data/styles/qf_def/admin.vis
 ca480224e35c62d7c2e91aca4716c356 data/styles/qf_def/cms_spec.vis
-f790ff7c18208d1e74fd54bcbe476b5c data/styles/qf_def/common.ecss
-041f0b16649c5f8201aeb9a394c7a734 data/styles/qf_def/common.vis
+acbbd3355c83a73529293cf273535462 data/styles/qf_def/common.ecss
+9ade61c4d055269a5c314cda3045d2cd data/styles/qf_def/common.vis
 ab6a8a2591e13db50849a22ff0e83a36 data/styles/qf_def/posttree.vis
 9d26b8056c2d90dd878c4ce4fc849258 data/styles/qf_def/qf_setup.vis
 25262b93a47e55de974160a8c4d5d4f4 data/styles/qf_def/usercab.vis
@@ -227,6 +227,16 @@ cc587cd7f4a4b3e054163da361b52c8f static/images/styles/qf_def/pg_bott_rt.png
 6d37499f2ffaa6592a00e21d28d04651 static/images/styles/qf_def/submenu_grd.png
 3b543391fbe6cabec6bb6065ca3e5929 static/images/styles/qf_def/win_grd.png
 1514e32a37e6b4e47540ddd937a07f1f index.php
+dc5bf24b8a9598296a19c621936a6d40 data/modules/Fox2_AntiIE.php
+56e4ca28a08ae090d482509c1e773e30 data/langs/RU/antiie.lng
+ data/langs/RU/antiie_addon_cfgs.lng
+fd8c4123ffa977678e6acef57cb3b180 data/styles/qf_def/antiie.vis
+7308547429cff13f09dceaab1592a883 static/images/anti_ie6/ie6.png
+0fb90ec6e954b30fb24f4d6064ed5499 static/images/anti_ie6/firefox.png
+9291435a7d01a35065191e70fc61b77d static/images/anti_ie6/opera.png
+3e41d67dceb146ef0151775f6a79cceb static/images/anti_ie6/safari.png
+0487fe9c519acc9232acde3b3f894177 static/images/anti_ie6/chrome.png
+35544e9a8b5c009c0561a8a0d17c55f9 static/images/anti_ie6/ie.png
 9d86e1dd92b55f7c130da7eb15c77f0d data/modules/Fox2_Blogs.php
 8710262c0e6935391c497cb293a7dd47 data/styles/qf_def/blogs.vis
 8e8a3466ac7c5c702c78db314662bf3a data/langs/RU/blogs.lng

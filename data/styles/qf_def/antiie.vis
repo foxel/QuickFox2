@@ -1,0 +1,65 @@
+<<+ 'FOXADD_ANTIIE_BLOCK'>>
+{!WRITE:WIN_BODY}
+<img src="{IMGS}/anti_ie6/ie6.png" alt="Internet Explorer 6" style="width: 64px; height: 98px; float: right; margin: 20px 10px;" />
+<div class="alg_j" style="margin: 10px 85px 10px 10px;">
+ {L_FOXADD_ANTIIE_IE6_FOUND}
+ <br style="clear: both" />
+</div>
+<hr />
+<div class="inv_grid alg_c">
+ <div class="alg_c" style="margin: 0 25px 25px;">{L_FOXADD_ANTIIE_IE6_RECOMMEND}</div>
+ __browsers__
+</div>
+{!WRITE:WIN_BOTTLINE}
+ <a class="hlight_btn" onclick="QF_EFFECTS.CloseOverlay(); var tmp; if (tmp = qf_getbyid('foxadd_antiie6_window')) tmp.parentNode.removeChild(tmp); return false;" href="#" title="{L_FOXADD_ANTIIE_IE6_BYPASS}">{L_FOXADD_ANTIIE_IE6_BYPASS}</a>
+{!WRITE:ANTI_IE_WINDOW}
+{VIS:FOX_WINDOW|CAPTION="{L_FOXADD_ANTIIE_IE6_CAPT}"|CONTENTS=WIN_BODY|BOTTLINE=WIN_BOTTLINE|WIDTH="500px"}
+{!WRITE}
+<hr id="foxadd_antiie6_hr" style="display: none;" />
+<div id="foxadd_antiie6_box" class="inv_grid" style="display: none;"></div>
+<script type="text/javascript">
+// <![CDATA[
+QF_TIMERS.addOnLoad(function(){    var ua = navigator.userAgent.toLowerCase();
+    var box = qf_getbyid('foxadd_antiie6_box');
+    if (!box)
+        return;
+
+    var infos = {        'firefox': {n: 'Mozilla FireFox', l: 'http://www.mozilla.com/', p: 'firefox.png'},
+        'chrome': {n: 'Google Chrome', l: 'http://www.google.com/chrome/', p: 'chrome.png'},
+        'opera': {n: 'Opera', l: 'http://www.opera.com/download/', p: 'opera.png'},
+        'safari': {n: 'Apple Safari', l: 'http://www.apple.com/safari/download/', p: 'safari.png'},
+        'ienew': {n: 'Internet Explorer', l: 'http://www.microsoft.com/windows/internet-explorer/default.aspx', p: 'ie.png'}
+        };
+    var info = null;
+    if (myBrowser.isMSIE)
+    {        if (myBrowser.version < 7) // here we go
+        {            {!IF:IN_NO_WARNING}QF_EFFECTS.OpenOverlay(true, 1);
+            var window_tmpl = {JS_DEF:ANTI_IE_WINDOW};
+            var browsers = '';
+            for (var i in infos)
+                if ((typeof infos[i]).toLowerCase() == 'object')
+                    browsers+= '<a rel="external" href="'+infos[i].l+'"><img src="{IMGS}/anti_ie6/'+infos[i].p+'" alt="'+infos[i].n+'" style="width: 64px; height: 98px; margin: 0 5px;" /></a> ';
+            var tmp = document.createElement('div');
+            tmp.id = 'foxadd_antiie6_window';
+            getStyleObj(tmp).marginTop = '100px';
+            QF_EFFECTS.PlaceAtOverlay(tmp);
+            tmp.innerHTML=window_tmpl.replace('__browsers__', browsers);{ENDIF}
+            info = {n: 'Internet Explorer&nbsp;6', l: 'http://www.microsoft.com/windows/internet-explorer/default.aspx', p: 'ie6.png'}
+        }
+        else
+            info = infos['ienew'];
+    }
+    else
+        for (var i in infos)
+            if ((typeof infos[i]).toLowerCase() == 'object' && ua.indexOf(i) != -1)
+            { info = infos[i]; break; }
+
+    if (info)
+    {        box.innerHTML = '<img src="{IMGS}/anti_ie6/'+info.p+'" alt="'+info.n+'" style="width: 64px; height: 98px; float: left; margin: 0 5px;" /><div class="alg_c" style="margin: 0 5px 0 74px;">{L_FOXADD_ANTIIE_YOUR_BROWSER}:<br /><b>'+info.n+'</b><br /><hr /><a rel="external" onmousedown="this.target=\'_blank\';" href="'+info.l+'">{L_FOXADD_ANTIIE_UPDATE}</a><br style="clear: both" /></div>';
+        QF_EFFECTS.Show('foxadd_antiie6_box', myBrowser.isMSIE ? 2 : 3);
+        QF_EFFECTS.Show('foxadd_antiie6_hr', 1);
+    }
+});
+//]]>
+</script>
+<<- 'FOXADD_ANTIIE_BLOCK'>>

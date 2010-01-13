@@ -178,6 +178,7 @@ div.sized_scroll { overflow: auto; }
 .alg_r { text-align: right; }
 .alg_l { text-align: left; }
 .alg_c { text-align: center; }
+.alg_j { text-align: justify; }
 .alg_m { vertical-align: middle; }
 .alg_t { vertical-align: top; }
 .alg_b { vertical-align: bottom; }

@@ -1085,6 +1085,12 @@ Array (
                 'cols' => Array (
                     0 => 'last_dload'
                 ) 
+            )  ,
+            'file_md5' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'file_md5'
+                ) 
             ) 
         )  ,
         'name' => '{DBKEY}files' ,

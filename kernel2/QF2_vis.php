@@ -358,8 +358,8 @@ class QF_Visual
                     //    $this->Consts += $add_Consts;
                     $QF->Events->Call_Event_Ref('VIS_RawParse', $indata, $style, $part);
 
-                    $indata = str_replace('{ST_IMGS}', QF_ST_IMGS_DIR.$style, $indata);
-                    $indata = str_replace('{IMGS}', QF_IMAGES_DIR, $indata);
+                    $indata = str_replace('{ST_IMGS}', qf_full_url(QF_ST_IMGS_DIR.$style), $indata);
+                    $indata = str_replace('{IMGS}', qf_full_url(QF_IMAGES_DIR), $indata);
                     $indata = str_replace('{STATICS}', qf_full_url(QF_STATICS_DIR), $indata);
 
                     $indata = preg_replace_callback('#\{(?>L_((?:\w+|\"[^\"]+\"|\|)+))\}#',Array(&$this, '_Templ_Lang_CB'),$indata);

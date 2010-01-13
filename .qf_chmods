@@ -254,6 +254,16 @@ static/images/styles/qf_def/subcol_line.png|644
 static/images/styles/qf_def/submenu_grd.png|644
 static/images/styles/qf_def/win_grd.png|644
 index.php|755
+data/modules/Fox2_AntiIE.php|600
+data/langs/RU/antiie.lng|600
+data/styles/qf_def/antiie.vis|600
+static/images/anti_ie6|755
+static/images/anti_ie6/ie6.png|644
+static/images/anti_ie6/firefox.png|644
+static/images/anti_ie6/opera.png|644
+static/images/anti_ie6/safari.png|644
+static/images/anti_ie6/chrome.png|644
+static/images/anti_ie6/ie.png|644
 data/modules/Fox2_Blogs.php|600
 data/styles/qf_def/blogs.vis|600
 data/langs/RU/blogs.lng|600

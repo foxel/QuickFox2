@@ -7,6 +7,9 @@
   <!--Meta-Content-Type-->
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <meta name="Generator" Content="QuickFox 2" />
+  {IF:IN_META_DESCRIPTION}<meta name="Description" content="{!IN_META_DESCRIPTION}" />{ENDIF}
+  {IF:IN_META_KEYWORDS}<meta name="Keywords" content="{!IN_META_KEYWORDS}" />{ENDIF}
   <!-- <meta http-equiv="MSThemeCompatible" content="no" /> -->
   <title>{!IN_SITE_NAME}{IF:IN_PAGE_TITLE} :: {!IN_PAGE_TITLE}{IF:IN_PAGE_SUBTITLE} :: {!IN_PAGE_SUBTITLE}{ENDIF}{ENDIF}</title>
   {IN_META}

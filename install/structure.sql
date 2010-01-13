@@ -200,7 +200,8 @@ CREATE TABLE `{DBKEY}files` (
     INDEX `dloads` (`dloads`) , 
     INDEX `has_pics` (`has_pics`) , 
     INDEX `is_temp` (`is_temp`) , 
-    INDEX `last_dload` (`last_dload`)  
+    INDEX `last_dload` (`last_dload`) , 
+    INDEX `file_md5` (`file_md5`)  
 ) ENGINE = MyISAM COLLATE utf8_general_ci; 
 
 # Table definition for {DBKEY}fox_logs 

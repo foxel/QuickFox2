@@ -135,8 +135,9 @@ var QF_EFFECTS = function()
                 QF_EFFECTS.SetResizebleElem(TAs[i]);
     }
 
-    // this is needed for MS IE since it works slower
-    window.setTimeout(Init, (myBrowser.isMSIE) ? 500 : 100);
+    /* this is needed for MS IE since it works slower
+    window.setTimeout(Init, (myBrowser.isMSIE) ? 500 : 100); */
+    window.setTimeout(Init, 100);
     QF_TIMERS.addOnLoad(InitResizebleTAs);
 
     return {        Overlay: null,
@@ -560,7 +561,7 @@ var QF_EFFECTS = function()
         OpenOverlay: function (do_clear, style, onShow)
         {
             if (!Ready)
-                return false;
+                return _Add_CB(function() {QF_EFFECTS.OpenOverlay(do_clear, style, onShow);});
 
             if (!QF_EFFECTS.Overlay)
             {
@@ -646,6 +647,20 @@ var QF_EFFECTS = function()
             QF_EFFECTS.InitItem('QF_OverlayScr');
             QF_EFFECTS.Hide('QF_OverlayBkg');
             QF_EFFECTS.Hide('QF_OverlayScr');
+        },
+        PlaceAtOverlay: function (item)
+        {
+            item = _Get_DOMNode(item);
+            if (!item)
+                return false;
+
+            if (!Ready)
+                return _Add_CB(function() {QF_EFFECTS.PlaceAtOverlay(item);});
+
+            if (!QF_EFFECTS.Overlay)
+                QF_EFFECTS.OpenOverlay();
+
+            return QF_EFFECTS.Overlay.insertBefore(item, QF_EFFECTS.Overlay.firstChild);
         },
         CheckOverlay: function ()
         {
