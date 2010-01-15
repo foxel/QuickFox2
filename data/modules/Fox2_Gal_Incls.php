@@ -221,6 +221,12 @@ class QF_Gal_incls
 
         if (($info = $QF->Gallery->Get_Item_Info($item)) && ($finfo = $QF->Files->Get_FileInfo($info['file_id'])))
         {
+            if (!$QF->User->CheckAccess($info['r_level']))
+            {                $d_result = Array(Lang('ERR_GALLERY_ITEM_NO_ACCESS'), $FOX->Gen_URL('FoxGal_albums'), true);
+                $d_status = 404;
+                return null;
+            }
+
             $p_subtitle = $info['caption'];
             $page_node = $QF->VIS->Create_Node('FOX_GALLERY_PAGE_ITEM' );
 
@@ -631,6 +637,12 @@ class QF_Gal_incls
 
         $p_subtitle = Lang('FOX_GALLERY_NEW_ITEM');
         $page_node = $QF->VIS->Create_Node('FOX_GALLERY_PAGE_NEWITEM' );
+        $page_params = Array(
+            );
+
+        if ($QF->Config->Get('allow_levels', 'gallery', false))
+            $page_params['MAX_LVL'] = $QF->User->acc_level;
+
 
         $temps = $QF->File_incls->Node_MyTemps('file', 'image/', true);
         $QF->VIS->Append_Node($temps, 'MYTEMPS', $page_node);
@@ -654,6 +666,8 @@ class QF_Gal_incls
                 }
             }
         }
+
+        $QF->VIS->Add_Data_Array($page_node, $page_params);
 
         if (count($albums))
             $QF->VIS->Add_Node_Array('FOX_GALLERY_NEWITEM_ALBUM', 'PUBLIC_ALBUMS', $page_node, $albums);
@@ -696,7 +710,10 @@ class QF_Gal_incls
                 'PICS_NAME' => $finfo['pics_name'],
                 'AUTHOR'   => $info['author'],
                 'AUTHOR_ID' => $info['author_id'],
+                'R_LEVEL'  => $info['r_level'],
                 );
+            if ($QF->Config->Get('allow_levels', 'gallery', false) || $QF->User->adm_level)
+                $page_params['MAX_LVL'] = ($QF->User->UID && $QF->User->UID == $info['author_id']) ? $QF->User->acc_level : $QF->User->mod_level;
 
             if ($uinfo = $QF->UList->Get_UserInfo($info['author_id']))
             {
@@ -779,6 +796,7 @@ class QF_Gal_incls
         $new_name = $QF->GPC->Get_String('caption', QF_GPC_POST, QF_STR_LINE);
         $new_desc = $QF->GPC->Get_String('description', QF_GPC_POST);
         $file_id  = $QF->GPC->Get_String('file', QF_GPC_POST, QF_STR_WORD);
+        $new_level = $QF->GPC->Get_Num('r_level', QF_GPC_POST);
         $albums   = $QF->GPC->Get_Raw('albums', QF_GPC_POST);
 
         if ($finfo = $QF->Files->Get_FileInfo($file_id)) {} // do nothing - we've got the file
@@ -801,7 +819,7 @@ class QF_Gal_incls
         $QF->Parser->Init_Std_Tags();
         $new_desc = $QF->Parser->Parse($new_desc, QF_BBPARSE_CHECK);
 
-        $item_id = $QF->Gallery->Create_Item($new_name, $file_id, Array('description' => $new_desc));
+        $item_id = $QF->Gallery->Create_Item($new_name, $file_id, Array('description' => $new_desc, 'r_level' => min($QF->User->acc_level, max($new_level, 0))));
         if (!$item_id)
             return Array(Lang('ERR_GALLERY_NEW_DUPLICATES'), $FOX->Gen_URL('FoxGal_new_item'), true);
 
@@ -830,6 +848,7 @@ class QF_Gal_incls
         $item_id  = $QF->GPC->Get_String('item_id', QF_GPC_POST, QF_STR_WORD);
         $new_name = $QF->GPC->Get_String('caption', QF_GPC_POST, QF_STR_LINE);
         $new_desc = $QF->GPC->Get_String('description', QF_GPC_POST);
+        $new_level = $QF->GPC->Get_Num('r_level', QF_GPC_POST);
         $albums   = $QF->GPC->Get_Raw('albums', QF_GPC_POST);
         $do_del   = $QF->GPC->Get_Bin('do_delete', QF_GPC_POST);
 
@@ -851,7 +870,8 @@ class QF_Gal_incls
         $QF->Parser->Init_Std_Tags();
         $new_desc = $QF->Parser->Parse($new_desc, QF_BBPARSE_CHECK);
 
-        if (!$QF->Gallery->Modif_Item($item_id, $new_name, Array('description' => $new_desc)))
+        $max_level = ($QF->User->UID && $QF->User->UID == $info['author_id']) ? $QF->User->acc_level : $QF->User->mod_level;
+        if (!$QF->Gallery->Modif_Item($item_id, $new_name, Array('description' => $new_desc, 'r_level' => min($max_level, max($new_level, 0)))))
             return Array(Lang('ERR_GALLERY_CANTMODIF'), $FOX->Gen_URL('FoxGal_edit_item', $item_id), true);
 
         $galbums = $QF->Gallery->Get_Albums(0, 0, $QF->User->acc_level);

@@ -1391,19 +1391,19 @@ REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
     VALUES('fox_ajax_scripts', 'qf2', 'ptree_getpost', 'a:2:{s:6:\"module\";s:11:\"PTree_incls\";s:6:\"method\";s:11:\"AJX_getpost\";}', '0', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'qf2', 'qf2', 'PA.100113.2006', '1', '');
+    VALUES('dev_rev_info', 'qf2', 'qf2', 'PA.100115.1638', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'qf2_base', 'qf2_base', 'PA.100113.2006', '1', '');
+    VALUES('dev_rev_info', 'qf2_base', 'qf2_base', 'PA.100115.1638', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'qf2_adm', 'qf2_adm', 'PA.100113.2006', '1', '');
+    VALUES('dev_rev_info', 'qf2_adm', 'qf2_adm', 'PA.100115.1638', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'qf2_multiuser', 'qf2_multiuser', 'PA.100113.2006', '1', '');
+    VALUES('dev_rev_info', 'qf2_multiuser', 'qf2_multiuser', 'PA.100115.1638', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'google_adds', 'google_adds', 'PA.100113.2006', '1', '');
+    VALUES('dev_rev_info', 'google_adds', 'google_adds', 'PA.100115.1638', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'gallery', 'gallery', 'PA.100113.2006', '1', '');
+    VALUES('dev_rev_info', 'gallery', 'gallery', 'PA.100115.1638', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'music_player', 'music_player', 'PA.100113.2006', '1', '');
+    VALUES('dev_rev_info', 'music_player', 'music_player', 'PA.100115.1638', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
     VALUES('package_dbases', 'qf2_multiuser', 'qf2_multiuser', 'a:1:{i:0;s:9:\"users_rel\";}', '0', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
@@ -1453,7 +1453,7 @@ REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
     VALUES('fox_index_dps', 'blogs', 'blogs', 'Blogs root', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'blogs', 'blogs', 'PA.100113.2006', '1', '');
+    VALUES('dev_rev_info', 'blogs', 'blogs', 'PA.100115.1638', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
     VALUES('packages', 'antiie_addon', 'antiie_addon', 'a:2:{s:4:\"Name\";s:31:\"Browsers Update/Anti-IE6 add-on\";s:9:\"Developer\";s:5:\"Foxel\";}', '0', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
@@ -1463,7 +1463,7 @@ REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
     VALUES('package_files', 'antiie_addon', 'antiie_addon', 'a:2:{i:600;a:4:{i:0;s:28:\"data/modules/Fox2_AntiIE.php\";i:1;s:24:\"data/langs/RU/antiie.lng\";i:2;s:35:\"data/langs/RU/antiie_addon_cfgs.lng\";i:3;s:29:\"data/styles/qf_def/antiie.vis\";}i:644;a:6:{i:0;s:30:\"static/images/anti_ie6/ie6.png\";i:1;s:34:\"static/images/anti_ie6/firefox.png\";i:2;s:32:\"static/images/anti_ie6/opera.png\";i:3;s:33:\"static/images/anti_ie6/safari.png\";i:4;s:33:\"static/images/anti_ie6/chrome.png\";i:5;s:29:\"static/images/anti_ie6/ie.png\";}}', '0', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'antiie_addon', 'antiie_addon', 'PA.100113.2006', '1', '');
+    VALUES('dev_rev_info', 'antiie_addon', 'antiie_addon', 'PA.100115.1638', '1', '');
 
 
 # Data content for {DBKEY}config_sets 
@@ -1545,5 +1545,7 @@ REPLACE INTO  `{DBKEY}config_sets` (`set_id`, `sec_set_id`, `package`, `capt`, `
     VALUES('gallery', 'visual_specs', 'gallery', 'L_CFG_GALLERY_JS_FULLSIZE', 'gallery', 'jsshow_fullsize', 'bool', NULL, '0', NULL, '0', '0');
 REPLACE INTO  `{DBKEY}config_sets` (`set_id`, `sec_set_id`, `package`, `capt`, `cfg_parent`, `cfg_name`, `cfg_type`, `src_data`, `drops_cache`, `drops_confs`, `schemable`, `order_id`) 
     VALUES('visual_specs', '', 'qf2', 'L_CFG_VISUAL_USE_REDEFINED', 'fox2', 'vis_redefined', 'bool', NULL, '0', NULL, '0', '0');
+REPLACE INTO  `{DBKEY}config_sets` (`set_id`, `sec_set_id`, `package`, `capt`, `cfg_parent`, `cfg_name`, `cfg_type`, `src_data`, `drops_cache`, `drops_confs`, `schemable`, `order_id`) 
+    VALUES('gallery', '', 'gallery', 'L_CFG_GALLERY_ALLOW_LEVELS', 'gallery', 'allow_levels', 'bool', NULL, '1', NULL, '0', '0');
 
 

@@ -35,7 +35,7 @@
 </div>
 <div class="alg_r" style="clear: both; margin: 10px 50px;">
  {IF:IN_CAN_MODIFY}<a class="hlight_btn" href="{URL:FoxBlogs_editentry|IN_ID}" title="{L_FOX_BLOGS_ENTRY_EDIT}">{L_BTN_EDIT}</a>{ENDIF}
- {FTIME:IN_TIME}
+ {FTIME:IN_TIME}{!IF:IN_R_LEVEL=0} | {VIS:ACC_LEVEL_MARK|LEVEL=IN_R_LEVEL}{ENDIF}
 </div>
 <div style="width: 600px; margin: 10px auto;">
  <hr />
@@ -59,6 +59,9 @@
     {L_FOX_BLOGS_ENTRY_AUTHOR}: {IN_AUTHOR_INFO} [{FTIME:IN_TIME}]
    </td>
    <td class="inv_grid alg_r">
+    {IF:IN_MAX_LVL}{L_FOX_BLOGS_ENTRY_LEVEL}: <select name="entry_r_level" >
+     {FOR:0|IN_MAX_LVL}<option value="{I}" {IF:IN_R_LEVEL=I}selected="selected"{ENDIF}>{I}</option>{ENDFOR}
+    </select>{ENDIF}
     <input id="blog_entry_btn_save" type="submit" value="{IF:IN_DO_EDIT}{L_BTN_SAVE}{ELSE}{L_BTN_ADD}{ENDIF}" />
    </td>
   </tr></table>

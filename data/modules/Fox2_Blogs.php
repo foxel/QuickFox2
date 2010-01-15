@@ -93,6 +93,8 @@ class QF_Blogs
         foreach ($entries as $entry)
         {
             $id = $entry['id'];
+            if (!$QF->User->CheckAccess($entry['r_level']))
+                continue;
             if (isset($pt_stats[$entry['pt_root']]) && $pt_stats[$entry['pt_root']]['posts'])
                 $entry['COMMENTS'] = $pt_stats[$entry['pt_root']]['posts'];
             $itm_node = $QF->VIS->Add_Node('FOX_BLOGS_ENTRY', 'ENTRIES', $page_node, $entry);
@@ -106,7 +108,7 @@ class QF_Blogs
 
     function _Page_UserBlog($user_id, &$p_subtitle, &$d_result, &$d_status)
     {
-        global $QF;
+        global $QF, $FOX;
 
         $uinfo = $QF->UList->Get_UserInfo($user_id);
 
@@ -127,6 +129,8 @@ class QF_Blogs
         foreach ($entries as $entry)
         {
             $id = $entry['id'];
+            if (!$QF->User->CheckAccess($entry['r_level']))
+                continue;
             if (isset($pt_stats[$entry['pt_root']]) && $pt_stats[$entry['pt_root']]['posts'])
                 $entry['COMMENTS'] = $pt_stats[$entry['pt_root']]['posts'];
             $itm_node = $QF->VIS->Add_Node('FOX_BLOGS_ENTRY', 'ENTRIES', $page_node, $entry);
@@ -141,36 +145,42 @@ class QF_Blogs
 
     function _Page_Entry($id, &$p_subtitle, &$d_result, &$d_status)
     {
-        global $QF;
+        global $QF, $FOX;
 
         $entry = $this->Load_Entry($id);
 
         if (!$entry)
-            $QF->HTTP->Redirect($FOX->Gen_URL('FoxBlogs_root')); // TODO: Error message
+            $d_result = Array(Lang('ERR_BLOGS_NOTFOUND'), $FOX->Gen_URL('FoxBlogs_root'), true);
+        elseif (!($myacc = $QF->User->CheckAccess($entry['r_level'], 0, 0, $entry['author_id'])))
+            $d_result = Array(Lang('ERR_BLOGS_NOACCESS'), $FOX->Gen_URL('FoxBlogs_root'), true);
+        else
+        {
+            $p_subtitle = $entry['caption'];
+            $texts = $this->Load_Texts($id);
+            $pt_stats = $QF->PTree->Get_Stats($entry['pt_root']);
 
-        $p_subtitle = $entry['caption'];
-        $texts = $this->Load_Texts($id);
-        $pt_stats = $QF->PTree->Get_Stats($entry['pt_root']);
+            $page_node = $QF->VIS->Create_Node('FOX_BLOGS_ENTRYPAGE' );
 
-        $page_node = $QF->VIS->Create_Node('FOX_BLOGS_ENTRYPAGE' );
+            $id = $entry['id'];
+            $entry['CAN_MODIFY'] = ($myacc >= 3) ? '1' : null;
 
-        $id = $entry['id'];
-        $entry['CAN_MODIFY'] = ($QF->User->CheckAccess($entry['r_level'], 0, 0, $entry['author_id']) >= 3) ? '1' : null;
+            $QF->VIS->Add_Data_Array($page_node, $entry + Array('COMMENTS' => $pt_stats['posts']));
+            if ($uinfo = $QF->UList->Get_UserInfo($entry['author_id']))
+                $QF->VIS->Add_Node('USER_INFO_MIN_DIV', 'AUTHOR_INFO', $page_node, $uinfo + Array('HIDE_ACCESS' => 1));
+            if (isset($texts[$id]))
+                $QF->VIS->Add_Data($page_node, 'text', $texts[$id]['p_text']);
+            if ($entry['pt_root'])
+                $QF->VIS->Append_Node($QF->PTree->Render_Tree($entry['pt_root']), 'COMMENTS_PTREE', $page_node);
 
-        $QF->VIS->Add_Data_Array($page_node, $entry + Array('COMMENTS' => $pt_stats['posts']));
-        if ($uinfo = $QF->UList->Get_UserInfo($entry['author_id']))
-            $QF->VIS->Add_Node('USER_INFO_MIN_DIV', 'AUTHOR_INFO', $page_node, $uinfo + Array('HIDE_ACCESS' => 1));
-        if (isset($texts[$id]))
-            $QF->VIS->Add_Data($page_node, 'text', $texts[$id]['p_text']);
-        if ($entry['pt_root'])
-            $QF->VIS->Append_Node($QF->PTree->Render_Tree($entry['pt_root']), 'COMMENTS_PTREE', $page_node);
+            return $page_node;
+        }
 
-        return $page_node;
+        return null;
     }
 
     function _Page_Entry_Edit($id, &$p_subtitle, &$d_result, &$d_status)
     {
-        global $QF;
+        global $QF, $FOX;
 
         $entry = $this->Load_Entry($id);
 
@@ -188,6 +198,8 @@ class QF_Blogs
         if ($QF->User->CheckAccess($entry['r_level'], 0, 0, $entry['author_id']) < 3)
             $QF->HTTP->Redirect($FOX->Gen_URL('FoxBlogs_root')); // TODO: Error message
 
+        $entry['MAX_LVL'] = ($QF->User->UID && $QF->User->UID == $entry['author_id']) ? $QF->User->acc_level : $QF->User->mod_level;
+
         $QF->VIS->Add_Data_Array($page_node, $entry + Array('COMMENTS' => $pt_stats['posts'], 'DO_EDIT' => '1'));
         if ($uinfo = $QF->UList->Get_UserInfo($entry['author_id']))
             $QF->VIS->Add_Node('USER_INFO_MIN', 'AUTHOR_INFO', $page_node, $uinfo + Array('HIDE_ACCESS' => 1));
@@ -199,7 +211,7 @@ class QF_Blogs
 
     function _Page_Entry_New(&$p_subtitle, &$d_result, &$d_status)
     {
-        global $QF;
+        global $QF, $FOX;
 
         if (!$QF->User->UID)
             $QF->HTTP->Redirect($FOX->Gen_URL('FoxBlogs_root')); // TODO: Error message
@@ -213,6 +225,7 @@ class QF_Blogs
 
         $entry = Array(
             'time' => $QF->Timer->time,
+            'MAX_LVL' => $QF->User->acc_level,
             );
 
         $QF->VIS->Add_Data_Array($page_node, $entry);
@@ -227,6 +240,7 @@ class QF_Blogs
 
         $new_capt = $QF->GPC->Get_String('entry_capt', QF_GPC_POST, QF_STR_LINE);
         $new_text = $QF->GPC->Get_String('entry_text', QF_GPC_POST);
+        $new_level = $QF->GPC->Get_Num('entry_r_level', QF_GPC_POST);
 
         if ($QF->USTR->Str_Len($new_capt) < 3)
             return Array(Lang('ERR_BLOGS_SHORT_CAPT'), $FOX->Gen_URL('FoxBlogs_newentry'), true);
@@ -234,7 +248,7 @@ class QF_Blogs
         if ($QF->USTR->Str_Len($new_text) < 20)
             return Array(Lang('ERR_BLOGS_SHORT_TEXT'), $FOX->Gen_URL('FoxBlogs_newentry'), true);
 
-        $id = qf_short_hash($new_capt.' - '.$QF->User->uname.'|'.$QF->Timer->time);;
+        $id = qf_short_hash($new_capt.' - '.$QF->User->uname.'|'.$QF->Timer->time);
 
         $new_text = $QF->Parser->Parse($new_text, QF_BBPARSE_CHECK);
         $new_ptext = $QF->Parser->Parse($new_text, QF_BBPARSE_PREP);
@@ -244,7 +258,7 @@ class QF_Blogs
             'author_id' => $QF->User->UID,
             'caption' => $new_capt,
             'time' => $QF->Timer->time,
-            'r_level' => 0,
+            'r_level' => min($QF->User->acc_level, max($new_level, 0)),
             );
         $text_ins = Array(
             'id' => $id,
@@ -278,6 +292,7 @@ class QF_Blogs
 
         $new_capt = $QF->GPC->Get_String('entry_capt', QF_GPC_POST, QF_STR_LINE);
         $new_text = $QF->GPC->Get_String('entry_text', QF_GPC_POST);
+        $new_level = $QF->GPC->Get_Num('entry_r_level', QF_GPC_POST);
 
         if ($QF->USTR->Str_Len($new_capt) < 3)
             return Array(Lang('ERR_BLOGS_SHORT_CAPT'), $FOX->Gen_URL('FoxBlogs_editentry', $id), true);
@@ -290,6 +305,11 @@ class QF_Blogs
 
         $new_text = $QF->Parser->Parse($new_text, QF_BBPARSE_CHECK);
         $new_ptext = $QF->Parser->Parse($new_text, QF_BBPARSE_PREP);
+        $max_level = ($QF->User->UID && $QF->User->UID == $entry['author_id']) ? $QF->User->acc_level : $QF->User->mod_level;
+        $data_upd = Array(
+            'caption' => $new_capt,
+            'r_level' => min($max_level, max($new_level, 0)),
+            );
         $text_upd = Array(
             'o_text' => $new_text,
             'p_text' => $new_ptext,
@@ -297,7 +317,7 @@ class QF_Blogs
             'hash' => md5($new_text),
             );
 
-        if ($QF->DBase->Do_Update('blog_entries', Array('caption' => $new_capt), Array('id' => $id)) !== false
+        if ($QF->DBase->Do_Update('blog_entries', $data_upd, Array('id' => $id)) !== false
             && $QF->DBase->Do_Update('blog_texts', $text_upd, Array('id' => $id)) !== false)
         {
             $QF->Cache->Drop(FOX_BLOGS_CACHE_PREFIX);

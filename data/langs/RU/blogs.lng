@@ -20,6 +20,8 @@ FOX_BLOGS_ENTRY_AUTHOR: Автор
 ---
 FOX_BLOGS_ENTRY_CAPTION: Заголовок
 ---
+FOX_BLOGS_ENTRY_LEVEL: Ограничение доступа
+---
 FOX_BLOGS_NOENTRIES: Записей нет
 ---
 
@@ -45,4 +47,8 @@ ERR_BLOGS_ERROR: Ошибка при обработке запроса
 RES_BLOGS_EDITED: Запись успешно изменена
 ---
 RES_BLOGS_ADDED: Новая запись успешно добавлена
+---
+ERR_BLOGS_NOTFOUND: Запись не найдена
+---
+ERR_BLOGS_NOACCESS: У Вас нет доступа к данной записи
 ---

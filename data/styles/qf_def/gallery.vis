@@ -272,6 +272,9 @@ Fox2_Gal_album_setEvents('{COUNTER}');
   {IN_PUBLIC_ALBUMS}
  </div></td>{ENDIF}
 </tr></table>
+ {IF:IN_MAX_LVL}<div class="alg_c">{L_FOX_GALLERY_ITEM_SETLEVEL}: <select name="r_level" >
+  {FOR:0|IN_MAX_LVL}<option value="{I}" {IF:IN_R_LEVEL=I}selected="selected"{ENDIF}>{I}</option>{ENDFOR}
+ </select></div>{ENDIF}
  <br style="clear: both;" />{L_FOX_GALLERY_FILE_REQUEST}
  {IN_MYTEMPS}
 {!WRITE:WIN_BOTTLINE}
@@ -320,6 +323,9 @@ Fox2_Gal_album_setEvents('{COUNTER}');
   {IN_PUBLIC_ALBUMS}
  </div></td>{ENDIF}
 </tr></table>
+ {IF:IN_MAX_LVL}<div class="alg_c">{L_FOX_GALLERY_ITEM_SETLEVEL}: <select name="r_level" >
+  {FOR:0|IN_MAX_LVL}<option value="{I}" {IF:IN_R_LEVEL=I}selected="selected"{ENDIF}>{I}</option>{ENDFOR}
+ </select></div>{ENDIF}
 
 {!WRITE:WIN_BOTTLINE}
  <input type="hidden" name="item_id" value="{IN_ID}" />
