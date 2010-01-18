@@ -463,7 +463,7 @@ class QF_Blogs
             $QF->Cache->Set($cachename, $got_data);
         }
 
-        foreach ($datas as $id => $data)
+        foreach ($got_data as $id => $data)
         {
             $got_data[$id]['p_text'] = $QF->Parser->Parse($data['p_text'], QF_BBPARSE_POSTPREP);
         }
