@@ -13,6 +13,8 @@ define('FOX_BLOGS_CACHE_PREFIX', 'FOX_BLOGS.');
 
 class QF_Blogs
 {
+    var $per_page = 15;
+
     function QF_Blogs()
     {        global $QF, $FOX;
 
@@ -77,12 +79,34 @@ class QF_Blogs
     }
 
     function _Page_Index(&$p_subtitle, &$d_result, &$d_status)
-    {        global $QF;
+    {        global $QF, $FOX;
 
         $p_subtitle = $QF->LNG->Lang('FOX_BLOGS_CAPT_RECENT');
 
         $page_node = $QF->VIS->Create_Node('FOX_BLOGS_INDEXPAGE' );
         $entries = $this->Load_Index();
+        foreach ($entries as $id => $entry)
+            if (!$QF->User->CheckAccess($entry['r_level']))
+                unset($entries[$id]);
+
+        $pages = (int) ceil(count($entries)/$this->per_page);
+        $page = abs($QF->GPC->Get_Num('page', QF_GPC_GET));
+        if ($page < 1)
+            $page = 1;
+        elseif ($page > $pages)
+            $page = $pages;
+
+        if ($pages > 1)
+        {
+            $draw_pages = $FOX->Gen_Pages($pages, $page);
+
+            $QF->VIS->Add_Node_Array('FOX_BLOGS_PG_BTN', 'PAGE_BTNS', $page_node, $draw_pages);
+            $page_params['CUR_PAGE'] = $page;
+
+            $start = $this->per_page*($page - 1);
+            $entries = array_slice($entries, $start, $this->per_page);
+        }
+
         $ids = array_keys($entries);
 
         list($uids, $tids) = qf_2darray_cols($entries, Array('author_id', 'pt_root'));
@@ -94,8 +118,6 @@ class QF_Blogs
         foreach ($entries as $entry)
         {
             $id = $entry['id'];
-            if (!$QF->User->CheckAccess($entry['r_level']))
-                continue;
             if (isset($pt_stats[$entry['pt_root']]) && $pt_stats[$entry['pt_root']]['posts'])
                 $entry['COMMENTS'] = $pt_stats[$entry['pt_root']]['posts'];
             $itm_node = $QF->VIS->Add_Node('FOX_BLOGS_ENTRY', 'ENTRIES', $page_node, $entry);
@@ -123,6 +145,28 @@ class QF_Blogs
 
         $page_node = $QF->VIS->Create_Node('FOX_BLOGS_INDEXPAGE' );
         $entries = $this->Load_Index(1, $user_id);
+        foreach ($entries as $id => $entry)
+            if (!$QF->User->CheckAccess($entry['r_level']))
+                unset($entries[$id]);
+
+        $pages = (int) ceil(count($entries)/$this->per_page);
+        $page = abs($QF->GPC->Get_Num('page', QF_GPC_GET));
+        if ($page < 1)
+            $page = 1;
+        elseif ($page > $pages)
+            $page = $pages;
+
+        if ($pages > 1)
+        {
+            $draw_pages = $FOX->Gen_Pages($pages, $page, Array('UID' => $user_id));
+
+            $QF->VIS->Add_Node_Array('FOX_BLOGS_PG_BTN', 'PAGE_BTNS', $page_node, $draw_pages);
+            $page_params['CUR_PAGE'] = $page;
+
+            $start = $this->per_page*($page - 1);
+            $entries = array_slice($entries, $start, $this->per_page);
+        }
+
         $ids = array_keys($entries);
 
         list($uids, $tids) = qf_2darray_cols($entries, Array('author_id', 'pt_root'));
@@ -133,8 +177,6 @@ class QF_Blogs
         foreach ($entries as $entry)
         {
             $id = $entry['id'];
-            if (!$QF->User->CheckAccess($entry['r_level']))
-                continue;
             if (isset($pt_stats[$entry['pt_root']]) && $pt_stats[$entry['pt_root']]['posts'])
                 $entry['COMMENTS'] = $pt_stats[$entry['pt_root']]['posts'];
             $itm_node = $QF->VIS->Add_Node('FOX_BLOGS_ENTRY', 'ENTRIES', $page_node, $entry);
@@ -142,7 +184,10 @@ class QF_Blogs
             $QF->VIS->Add_Node('USER_INFO_MIN_DIV', 'AUTHOR_INFO', $itm_node, $uinfo + Array('HIDE_ACCESS' => 1));
 
             if (isset($texts[$id]))
-                $QF->VIS->Add_Data($itm_node, 'text', $texts[$id]['p_text']);
+            {
+                $p_text = preg_replace('#\<\!--\sBlogCut/([^\>]*?)\s--\>(.*?)\<\!--\s/BlogCut\s--\>#se', '\$this->_Private_Cut_Parse("$1", "'.$id.'")', $texts[$id]['p_text']);
+                $QF->VIS->Add_Data($itm_node, 'text', $p_text);
+            }
         }
         return $page_node;
     }

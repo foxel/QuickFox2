@@ -4,6 +4,7 @@
 {ELSE}
  <div class="alg_c" style="margin: auto; padding: 30px; clear: both;"><h3>[ {L_FOX_BLOGS_NOENTRIES} ]</h3></div>
 {ENDIF}
+{IF:IN_PAGE_BTNS}<div class="alg_c" style="margin: 20px">|{IN_PAGE_BTNS}</div>{ENDIF}
 <<- 'FOX_BLOGS_INDEXPAGE'>>
 
 <<+ 'FOX_BLOGS_ENTRY'>>
@@ -94,3 +95,7 @@ div.qf_blogs_entry_author { postition: relative; float: left; margin: -20px 10px
 <<+ 'FOX_BLOGS_CUT_LINK'>>
 ( <a href="{URL:FoxBlogs_entry|IN_ID}" >{IN_MARKER}</a> )
 <<- 'FOX_BLOGS_CUT_LINK'>>
+
+<<+ 'FOX_BLOGS_PG_BTN'>>
+{IF:IN_SEPAR}<b class="hlight_btn"> ... </b>|{ELSE}{IF:IN_CUR}<b class="hlight_btn">[{IN_page}]</b>|{ELSE}<a class="hlight_btn" href="{IF:IN_UID}{URL:FoxBlogs_userblog_page|IN_UID|IN_page}{ELSE}{URL:FoxBlogs_root_page|IN_page}{ENDIF}" title="{IN_page}"> {IN_page} </a>|{ENDIF}{ENDIF}
+<<- 'FOX_BLOGS_PG_BTN'>>
