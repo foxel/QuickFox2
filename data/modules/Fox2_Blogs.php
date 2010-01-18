@@ -20,6 +20,7 @@ class QF_Blogs
         $QF->Run_Module('UList');
         $QF->Run_Module('Parser');
         $QF->Parser->Init_Std_Tags();
+        $QF->Parser->Add_Tag('cut', '<!-- BlogCut/{param} -->{data}<!-- /BlogCut -->', QF_BBTAG_FHTML | QF_BBTAG_BLLEV);
     }
 
 
@@ -101,7 +102,10 @@ class QF_Blogs
             if ($uinfo = $QF->UList->Get_UserInfo($entry['author_id']))
                 $QF->VIS->Add_Node('USER_INFO_MIN_DIV', 'AUTHOR_INFO', $itm_node, $uinfo + Array('HIDE_ACCESS' => 1));
             if (isset($texts[$id]))
-                $QF->VIS->Add_Data($itm_node, 'text', $texts[$id]['p_text']);
+            {
+                $p_text = preg_replace('#\<\!--\sBlogCut/([^\>]*?)\s--\>(.*?)\<\!--\s/BlogCut\s--\>#se', '\$this->_Private_Cut_Parse("$1", "'.$id.'")', $texts[$id]['p_text']);
+                $QF->VIS->Add_Data($itm_node, 'text', $p_text);
+            }
         }
         return $page_node;
     }
@@ -419,6 +423,18 @@ class QF_Blogs
             $got_data[$id]['p_text'] = $QF->Parser->Parse($data['p_text'], QF_BBPARSE_POSTPREP);
         }
         return $got_data;
+    }
+
+    function _Private_Cut_Parse($marker, $id)
+    {
+        global $QF;
+
+        if (!$marker)
+            $marker = $QF->LNG->Lang('FOX_BLOGS_COMMON_CUT');
+
+        $data = $QF->VIS->Parse($QF->VIS->Create_Node('FOX_BLOGS_CUT_LINK', Array('marker' => $marker, 'id' => $id)));
+
+        return $data;
     }
 }
 

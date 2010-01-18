@@ -90,3 +90,7 @@ div.qf_blogs_entry_author { postition: relative; float: left; margin: -20px 10px
 <a class="fw_list_itm" href="{URL:FoxBlogs_userblog|IN_UID}" title="{L_FOX_BLOGS_MY_ENTRIES}">{L_FOX_BLOGS_MY_ENTRIES}</a>
 <a class="fw_list_itm" href="{URL:FoxBlogs_newentry}" title="{L_FOX_BLOGS_NEW_ENTRY}">{L_FOX_BLOGS_NEW_ENTRY}</a>
 <<- 'FOX_BLOGS_PANEL'>>
+
+<<+ 'FOX_BLOGS_CUT_LINK'>>
+( <a href="{URL:FoxBlogs_entry|IN_ID}" >{IN_MARKER}</a> )
+<<- 'FOX_BLOGS_CUT_LINK'>>

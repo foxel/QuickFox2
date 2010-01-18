@@ -24,6 +24,8 @@ FOX_BLOGS_ENTRY_LEVEL: Ограничение доступа
 ---
 FOX_BLOGS_NOENTRIES: Записей нет
 ---
+FOX_BLOGS_COMMON_CUT: Далее...
+---
 
 FOX_BLOGS_MY_ENTRIES: Мои записи
 ---

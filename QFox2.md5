@@ -237,9 +237,9 @@ fd8c4123ffa977678e6acef57cb3b180 data/styles/qf_def/antiie.vis
 3e41d67dceb146ef0151775f6a79cceb static/images/anti_ie6/safari.png
 0487fe9c519acc9232acde3b3f894177 static/images/anti_ie6/chrome.png
 35544e9a8b5c009c0561a8a0d17c55f9 static/images/anti_ie6/ie.png
-5977c45116f59c30530c9a4c9cc0bf0a data/modules/Fox2_Blogs.php
-1e6f3e168efcec1e9630374058085d11 data/styles/qf_def/blogs.vis
-31dc5657fa28eefff067cac844406fe6 data/langs/RU/blogs.lng
+9cc368c76d71c4ed6f3aaea4de488c34 data/modules/Fox2_Blogs.php
+80c0bdf59b1285eb64997467f3e9bc63 data/styles/qf_def/blogs.vis
+c822aa9e696c4892719231b93e161258 data/langs/RU/blogs.lng
 d41d8cd98f00b204e9800998ecf8427e data/langs/RU/blogs_cfgs.lng
 b72875d0432b555b3d2bf041e82402f0 data/modules/Fox2_Gal.php
 b75baaa4208db0c5d7303a1f9782c4e6 data/modules/Fox2_Gal_Incls.php
