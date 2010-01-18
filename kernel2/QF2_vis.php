@@ -457,8 +457,7 @@ class QF_Visual
 
         if ($node>0)
         {
-            unset($this->node_type[$node],
-                $this->node_vars[$node],
+            unset($this->node_vars[$node],
                 $this->node_subs[$node],
                 $this->node_flags[$node]);
 
