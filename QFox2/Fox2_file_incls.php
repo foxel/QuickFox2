@@ -899,14 +899,14 @@ class Fox2_file_incls
             if ($info['mime'] == 'audio/mpeg')
             {
                 $QF->VIS->Add_Node('FILES_VIEWER_MP3', 'ALT_PRV', $finfo_page, Array(
-                    'FILENAME' => urlencode(qf_full_url($FOX->Gen_URL('fox2_file_download_bysess', $info['id']))),
+                    'FILENAME' => urlencode($FOX->Gen_URL('fox2_file_download_bysess', $info['id'], false, true)),
                     'FILECAPT' => urlencode($info['caption']),
                     ));
             }
             elseif ($info['mime'] == 'video/x-flv')
             {
                 $QF->VIS->Add_Node('FILES_VIEWER_FLV', 'ALT_PRV', $finfo_page, Array(
-                    'FILENAME' => urlencode(qf_full_url($FOX->Gen_URL('fox2_file_download_bysess', $info['id']))),
+                    'FILENAME' => urlencode($FOX->Gen_URL('fox2_file_download_bysess', $info['id'], false, true)),
                     'FILECAPT' => urlencode($info['caption']),
                     ));
             }

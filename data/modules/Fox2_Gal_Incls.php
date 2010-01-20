@@ -12,6 +12,7 @@ class QF_Gal_incls
     var $prv_h = 256;
     var $per_page = 15;
     var $do_fullsize_js = false;
+    var $do_cooliris_js = true;
 
     function QF_Gal_incls()
     {
@@ -21,6 +22,117 @@ class QF_Gal_incls
         list($this->th_w, $this->th_h) = explode('|', $QF->Config->Get('thb_size', 'files_cfg', '96|96'));
         list($this->prv_w, $this->prv_h) = explode('|', $QF->Config->Get('prv_size', 'files_cfg', '256|256'));
         $this->do_fullsize_js = $QF->Config->Get('jsshow_fullsize', 'gallery', false);
+        $this->do_cooliris_js = $QF->Config->Get('jsshow_cooliris', 'gallery', false);
+    }
+
+    function DPage_RSS()
+    {        global $QF, $FOX;
+        // this is a complex page - lets try to make it ^)
+
+        $QF->Run_Module('UList');
+        $QF->Run_Module('Parser');
+        $QF->Parser->Init_Std_Tags();
+
+        $QF->LNG->Load_Language('gallery');
+        $QF->Session->Open_Session(false, true);
+
+        $mode = $QF->GPC->Get_String('act', QF_GPC_GET, QF_STR_WORD);
+        $id = $QF->GPC->Get_String('id', QF_GPC_GET, QF_STR_WORD);
+
+        $feed_params = Array(
+            'lastBuildDate' => date('r', $QF->Timer->time),
+            'copyright' => ($site_name = $QF->Config->Get('site_name')) ? $site_name : 'QuickFox 2',
+            'ttl' => 5,
+            'generator' => 'QuickFox 2 gallery MRSS',
+
+            );
+        $feed_items  = Array();
+        if ($mode == 'album' && $info = $QF->Gallery->Get_Album_Info($id))
+        {
+            $feed_params['title'] = $info['caption'];
+            $feed_params['link'] = $FOX->Gen_URL('FoxGal_album', $id, true, true);
+
+            $items = $info['items'];
+            foreach ($info['itm_l'] as $id => $lv)
+                if (!$QF->User->CheckAccess($lv))
+                    unset($items[$id]);
+            $items = array_values($items);
+        }
+        else if ($mode = 'user' && $uinfo = $QF->UList->Get_UserInfo($id))
+        {
+            $feed_params['title'] = sprintf(Lang('FOX_GALLERY_PAGE_USER'), $uinfo['nick']);
+            $feed_params['link'] = $FOX->Gen_URL('FoxGal_user', $id, true, true);
+            $items = $QF->Gallery->Get_Items(QF_GALLERY_SEARCH_USERID, $id, $QF->User->acc_level);
+        }
+        else
+            return false;
+
+        if (count($items))
+        {
+            $QF->Gallery->Load_ItemInfos($items, true);
+            $datas = Array();
+            foreach ($items as $id)
+                $datas[] = $QF->Gallery->Get_Item_Info($id);
+
+            list($uids, $tids) = qf_2darray_cols($datas, Array('author_id', 'pt_root'));
+            // $pt_stats = $QF->PTree->Get_Stats($tids);
+            $QF->UList->Query_IDs($uids);
+
+            foreach ($datas as $id => $item)
+            {
+                if (($finfo = $QF->Files->Get_FileInfo($item['file_id'])) && $finfo['aspect_ratio'] != 0 && $QF->Files->Get_ImageDims($finfo['id'], $wh, QF_FILES_IDIMS_IMAGE))
+                {
+                    $item['width_height'] = $wh[0].' x '.$wh[1].' px';
+                    $item['filename'] = $finfo['filename'];
+                    $item['pics_name'] = $finfo['pics_name'];
+                    $item['filesize'] = $QF->LNG->Size_Format($finfo['file_size']);
+                }
+                else
+                    continue;
+
+                if ($uinfo = $QF->UList->Get_UserInfo($item['author_id']))
+                    $item['author'] = $uinfo['nick'];
+
+                $item['time'] = $QF->LNG->Time_Format($item['time']);
+                $item['scaption'] = $QF->USTR->Str_SmartTrim($item['caption'], 32);
+                /* if ($item['pt_root'] && isset($pt_stats[$item['pt_root']]) && $pt_stats[$item['pt_root']]['posts'])
+                    $item['comments'] = $pt_stats[$item['pt_root']]['posts']; */
+                $feed_items[$id] = $item;
+            }
+
+        }
+
+        $feed = Array(
+            '<?xml version="1.0" encoding="'.QF_INTERNAL_ENCODING.'" standalone="yes"?>',
+            '<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:atom="http://www.w3.org/2005/Atom">',
+            '<channel>',
+            '<atom:icon>'.qf_smart_htmlschars(qf_full_url('static/images/qf-cooliris.png')).'</atom:icon>'
+            );
+        foreach ($feed_params as $id => $val)
+            $feed[] = '<'.$id.'>'.qf_smart_htmlschars($val).'</'.$id.'>';
+        if (count($feed_items))
+            foreach ($feed_items as $item)
+            {                $feed[] = '<item>';
+                $feed[] = '<title>'.qf_smart_htmlschars($item['caption']).'</title>';
+                $feed[] = '<pubDate>'.date('r', $item['time']).'</pubDate>';
+                $feed[] = '<guid isPermaLink="false">'.$item['id'].'</guid>';
+                $feed[] = '<link>'.qf_smart_htmlschars($FOX->Gen_URL('FoxGal_item', $item['id'], true, true)).'</link>';
+                //$descr = $QF->Parser->Parse($item['description'], QF_BBPARSE_ALL);
+                //$feed[] = '<description><![CDATA[ '.$descr.' ]]></description>';
+                $feed[] = '<media:description>'.qf_smart_htmlschars($item['width_height'].' / '.$item['filesize'].' / '.$item['author'].' @ '.$item['time']).'</media:description>';
+                $feed[] = '<media:thumbnail url="'.qf_smart_htmlschars($FOX->Gen_URL('fox2_file_preview_sid', Array($item['file_id'], $item['pics_name']), true, true)).'" />';
+                $feed[] = '<media:content url="'.qf_smart_htmlschars($FOX->Gen_URL('fox2_file_download_sid', Array($item['file_id'], $item['filename']), true, true)).'" />';
+                $feed[] = '</item>';
+            }
+        $feed[] = '</channel>';
+        $feed[] = '</rss>';
+        $feed = implode("\n", $feed);
+
+        $QF->HTTP->do_HTML = false;
+        $QF->HTTP->Clear();
+        $QF->HTTP->Write($feed);
+        $QF->HTTP->Send_Buffer('', 'text/xml', 600);
+        return true;
     }
 
     function Page_Gallery(&$p_title, &$p_subtitle, &$d_result, &$d_status)
@@ -435,9 +547,14 @@ class QF_Gal_incls
             $p_subtitle = $info['caption'];
             $page_node = $QF->VIS->Create_Node('FOX_GALLERY_PAGE_ALBUM' );
 
+            $rss_url = $FOX->Gen_URL('FoxGal_rss_album', $album, false, true);
+            $QF->VIS->Add_Data(0, 'META', '<link rel="alternate" href="'.qf_full_url($rss_url, true).'" type="application/rss+xml" title="'.qf_smart_htmlschars($info['caption']).'" />');
+            $rss_url = $QF->Session->AddSID($rss_url);
+
             $page_params = Array(
                 'CAPTION'  => $info['caption'],
                 'LEVEL'    => $info['r_level'],
+                'MRSS_URL' => ($this->do_cooliris_js) ? $rss_url : null,
                 );
 
             $items = $info['items'];
@@ -472,11 +589,7 @@ class QF_Gal_incls
                 $QF->Gallery->Load_ItemInfos($items, true);
                 $datas = Array();
                 foreach ($items as $id)
-                {
-                    $item = $QF->Gallery->Get_Item_Info($id);
-                    if ($QF->User->CheckAccess($item['r_level']))
-                      $datas[] = $item;
-                }
+                    $datas[] = $QF->Gallery->Get_Item_Info($id);
 
                 list($uids, $tids) = qf_2darray_cols($datas, Array('author_id', 'pt_root'));
                 $pt_stats = $QF->PTree->Get_Stats($tids);
@@ -501,6 +614,9 @@ class QF_Gal_incls
                     $item['JS_FULLSIZE'] = $this->do_fullsize_js ? 1 : null;
                     if ($item['pt_root'] && isset($pt_stats[$item['pt_root']]) && $pt_stats[$item['pt_root']]['posts'])
                         $item['comments'] = $pt_stats[$item['pt_root']]['posts'];
+
+                    if ($this->do_cooliris_js > 1)
+                        $item['mrss_url'] = $rss_url;
                     $items[$id] = $item;
                 }
 
@@ -534,6 +650,10 @@ class QF_Gal_incls
 
             $p_subtitle = sprintf(Lang('FOX_GALLERY_PAGE_USER'), $uinfo['nick']);
 
+            $rss_url = $FOX->Gen_URL('FoxGal_rss_user', $uid, false, true);
+            $QF->VIS->Add_Data(0, 'META', '<link rel="alternate" href="'.qf_full_url($rss_url, true).'" type="application/rss+xml" title="'.qf_smart_htmlschars($info['caption']).'" />');
+            $rss_url = $QF->Session->AddSID($rss_url);
+
             $items = $QF->Gallery->Get_Items(QF_GALLERY_SEARCH_USERID, $uid, $QF->User->acc_level);
             $albums = $QF->Gallery->Get_Albums(QF_GALLERY_SEARCH_USERID, $uid, $QF->User->acc_level);
 
@@ -544,6 +664,7 @@ class QF_Gal_incls
                 'UITEMS'  => count($items),
                 'UALBUMS' => count($albums),
                 'UNICK'   => $uinfo['nick'],
+                'MRSS_URL' => ($this->do_cooliris_js) ? $rss_url : null,
                 );
 
 
@@ -596,6 +717,8 @@ class QF_Gal_incls
                     if ($item['pt_root'] && isset($pt_stats[$item['pt_root']]) && $pt_stats[$item['pt_root']]['posts'])
                         $item['comments'] = $pt_stats[$item['pt_root']]['posts'];
                     $item['JS_FULLSIZE'] = $this->do_fullsize_js ? 1 : null;
+                    if ($this->do_cooliris_js > 1)
+                        $item['mrss_url'] = $rss_url;
                     $items[$id] = $item;
                 }
 

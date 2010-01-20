@@ -97,6 +97,7 @@ var Fox2_Gal_album_setEvents = function(sub_id)
  {IF:IN_ITEMS}{IN_ITEMS}{ELSE}<div class="alg_c" style="margin: auto; padding: 30px; clear: both;"><h3>[ {L_FOX_GALLERY_NO_ITEMS} ]</h3></div>{ENDIF}
  <br style="clear: both;" />
 </div>
+{IF:IN_MRSS_URL}{VIS:FOX_GALLERY_COOLIRIS_BTN|MRSS_URL=IN_MRSS_URL}{ENDIF}
 {IF:IN_PAGE_BTNS}<div class="alg_c" style="margin: 20px">|{IN_PAGE_BTNS}</div>{ENDIF}
 {IF:IN_ITEMS_JSLOAD}<script type="text/javascript">
 // <![CDATA[
@@ -162,6 +163,7 @@ if (itm)
  {IF:IN_ITEMS}{IN_ITEMS}{ELSE}<div class="alg_c" style="margin: auto; padding: 30px; clear: both;"><h3>[ {L_FOX_GALLERY_NO_ITEMS} ]</h3></div>{ENDIF}
  <br style="clear: both;" />
 </div>
+{IF:IN_MRSS_URL}{VIS:FOX_GALLERY_COOLIRIS_BTN|MRSS_URL=IN_MRSS_URL}{ENDIF}
 {IF:IN_PAGE_BTNS}<div class="alg_c" style="margin: 20px">|{IN_PAGE_BTNS}</div>{ENDIF}
 {IF:IN_ITEMS_JSLOAD}<script type="text/javascript">
 // <![CDATA[
@@ -238,7 +240,7 @@ Fox2_Gal_album_setEvents('{COUNTER}');
 {WRITE:ICAPT}{IN_CAPTION} [{!IN_AUTHOR}]{ENDIF}
 {!WRITE}
 {IF:IN_JSPIC_WIDTH}
- Fox2_Gal_AddPic('thb_{IN_ID}', '{IN_ID}');
+ Fox2_Gal_AddPic('thb_{IN_ID}', '{IN_ID}', {JS_DEF:IN_MRSS_URL});
  FOX2_IMGSHOW.AddPage('{IN_ID}', '{IF:IN_JS_FULLSIZE}{FURL:fox2_file_download_bysess|IN_FILE_ID|IN_FILENAME}{ELSE}{FURL:fox2_file_preview|IN_FILE_ID|IN_PICS_NAME}{ENDIF}', {JS_DEF:IN_JSPIC_WIDTH}, {JS_DEF:IN_JSPIC_HEIGHT}, {JS_DEF:ICAPT});
 {ENDIF}
 <<- 'FOX_GALLERY_ALBUM_ITEM_JS'>>
@@ -357,6 +359,17 @@ Fox2_Gal_album_setEvents('{COUNTER}');
 </form>
 <<- 'FOX_GALLERY_PAGE_NEWALBUM'>>
 
+<<+ 'FOX_GALLERY_COOLIRIS_BTN'>>
+<div id="qf_cooliris_button" class="alg_r" style="margin: 15px"></div>
+<script type="text/javascript">
+// <![CDATA[
+ var div = qf_getbyid('qf_cooliris_button');
+ var mrssURL = {JS_DEF:IN_MRSS_URL};
+ if (div)
+  div.innerHTML = '<a href="http://cooliris.com/" onmousedown="this.target=\'_blank\';" onclick="if (FOX2_IMGSHOW.Cooliris.start(\''+mrssURL+'\')) return false;" title="'+(FOX2_IMGSHOW.Cooliris.ready()?'{L_FOX_GALLERY_COOLIRIS_START}':'{L_FOX_GALLERY_COOLIRIS_GET}')+'"><img src="http://developer.cooliris.com/static/images/badges/cooliris_enabled_sm.png" style="width: 88px; height: 31px;" alt="Cooliris" /></a>';
+//]]>
+</script>
+<<- 'FOX_GALLERY_COOLIRIS_BTN'>>
 
 <<+ 'JS'>>
 var Fox2_Gal_album_setEvents = function(sub_id)
@@ -372,7 +385,7 @@ var Fox2_Gal_album_setEvents = function(sub_id)
     return true;
 }
 
-var Fox2_Gal_AddPic = function(pic_id, show_id)
+var Fox2_Gal_AddPic = function(pic_id, show_id, mrssURL)
 {    var itm = qf_getbyid(pic_id);
     if (!itm || !itm.tagName || itm.tagName.toLowerCase() != 'img')
         return;
@@ -388,6 +401,8 @@ var Fox2_Gal_AddPic = function(pic_id, show_id)
     if (!width || !pwidth)
         return QF_TIMERS.addOnLoad( function(){ Fox2_Gal_AddPic(pic_id, show_id); } );
 
+    var pressScript = ((mrssURL && (typeof mrssURL) == 'string') ? 'if (FOX2_IMGSHOW.Cooliris.ready()) FOX2_IMGSHOW.Cooliris.start(\''+mrssURL+'\', \''+show_id+'\'); else ' : '')+'FOX2_IMGSHOW.ShowPage(\''+show_id+'\');';
+
     var over = document.createElement('div');
     over.id = 'over_'+pic_id;
     var ostl = getStyleObj(over);
@@ -399,7 +414,7 @@ var Fox2_Gal_AddPic = function(pic_id, show_id)
     ostl.margin = '0 auto -20px '+(pwidth-sepWidth-20)+'px';
     ostl.padding = '0';
     ostl.textAlign = 'right';
-    over.innerHTML = '<img src="{IMGS}/img_enlarge_sm.png" style="width: 20px; height: 20px;" alt="*" onclick="FOX2_IMGSHOW.ShowPage(\''+show_id+'\')" />';
+    over.innerHTML = '<img src="{IMGS}/img_enlarge_sm.png" style="width: 20px; height: 20px;" alt="*" onclick="'+pressScript+'" />';
     par.insertBefore(over, itm);
 
 }

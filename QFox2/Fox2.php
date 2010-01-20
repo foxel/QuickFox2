@@ -635,7 +635,7 @@ class Fox2
         return $QF->DBase->Do_Insert('fox_logs', $ins_data);
     }
 
-    function Gen_URL($url_id, $params = Array(), $with_amps = false, $no_enc = false)
+    function Gen_URL($url_id, $params = Array(), $with_amps = false, $full = false, $no_enc = false)
     {
         global $QF;
         static $vars;
@@ -683,7 +683,7 @@ class Fox2
             if (count($a_params))
                 $string.= ((strstr($string, '?')) ? '&' : '?').implode('&', $a_params);
 
-            $string = ($with_amps) ? preg_replace('#\&(?![A-z]+;)#', '&amp;', $string) : str_replace('&amp;', '&', $string);
+            $string = ($full) ? qf_full_url($string, $with_amps, $this->URL_domain) : (($with_amps) ? preg_replace('#\&(?![A-z]+;)#', '&amp;', $string) : str_replace('&amp;', '&', $string));
             return $string;
         }
         else
@@ -774,7 +774,7 @@ class Fox2
         else
             $params = Array();
 
-        $url = $this->Gen_URL($url_id, $params, true, true);
+        $url = $this->Gen_URL($url_id, $params, true, false, true);
         if ($matches[1] == 'F')
             $url = qf_full_url($url, true, $this->URL_domain);
         elseif ($matches[1] == 'R') // && $url{0} != '/'
@@ -838,8 +838,14 @@ class Fox2
                             $domain = $ldomains[$cur_link];
                             $val = qf_full_url($cur_url, true, $domain);
                             $data[$key] = $val;
+                            if (isset($domains[$cur_pkg]))
+                                unset($domains[$cur_pkg]);
                         }
-                        elseif (isset($domains[$cur_pkg]))
+                    }
+                    foreach ($data as $key => $val)
+                    {
+                        $cur_pkg = $pkgs[$key];
+                        if (isset($domains[$cur_pkg]))
                         {
                             $domain = $domains[$cur_pkg];
                             $val = qf_full_url($val, true, $domain);

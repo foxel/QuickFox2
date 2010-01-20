@@ -267,20 +267,20 @@ class Fox2_CMS
         {
             $QF->Run_Module('Parser');
             $QF->Parser->Init_Std_Tags();
-            $QF->Parser->Add_Tag('cmspage', '<a href="'.$FOX->Gen_URL('fox2_cms_page', Array('{param}'), true, true).'" >{data}</a>', QF_BBTAG_FHTML, Array('param_mask' => '[0-9A-z_\-]+') );
+            $QF->Parser->Add_Tag('cmspage', '<a href="'.$FOX->Gen_URL('fox2_cms_page', Array('{param}'), true, false, true).'" >{data}</a>', QF_BBTAG_FHTML, Array('param_mask' => '[0-9A-z_\-]+') );
             $data = $QF->Parser->Parse($data, QF_BBPARSE_ALL);
         }
         elseif ($file_type == 'text') // plain text
         {
             $data = '<h2>'.$this->cur_page['caption'].'</h2>'.nl2br(preg_replace('#^([^\n\S]+)#me', 'str_repeat("&nbsp; ", strlen("\\1"));', htmlspecialchars($data)));
-            $data = preg_replace('#\{CMSL_([0-9A-z_\-]+)\}#i', $FOX->Gen_URL('fox2_cms_page', Array('$1'), true, true), $data);
+            $data = preg_replace('#\{CMSL_([0-9A-z_\-]+)\}#i', $FOX->Gen_URL('fox2_cms_page', Array('$1'), true, false, true), $data);
         }
         else // raw html
         {
             // XML check is commented 'cause it's supposed we did it while uploading or creating file
             // $QF->Run_Module('Parser');
             // $data = $QF->Parser->XML_Check($data, true);
-            $data = preg_replace('#\{CMSL_([0-9A-z_\-]+)\}#i', $FOX->Gen_URL('fox2_cms_page', Array('$1'), true ,true), $data);
+            $data = preg_replace('#\{CMSL_([0-9A-z_\-]+)\}#i', $FOX->Gen_URL('fox2_cms_page', Array('$1'), true, false, true), $data);
         }
 
         $this->cur_page['parsed'] = true;

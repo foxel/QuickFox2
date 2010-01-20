@@ -110,7 +110,7 @@ class Fox2_MPlayer
                     continue;
 
                 $output[] = '#EXTINF:-1,'.$cont_item['caption'];
-                $output[] = qf_full_url($FOX->Gen_URL('fox2_file_download_bysess', Array($cont_item['id'], $cont_item['filename']), true, true));
+                $output[] = $FOX->Gen_URL('fox2_file_download_bysess', Array($cont_item['id'], $cont_item['filename']), true, true, true);
             }
         }
         else
@@ -122,7 +122,7 @@ class Fox2_MPlayer
                 if ($cont_item['mime'] != 'audio/mpeg' || !$QF->User->CheckAccess($cont_item['r_level']))
                     continue;
 
-                $output[] = ' <item href="'.qf_full_url($FOX->Gen_URL('fox2_file_download_bysess', Array($cont_item['id'], $cont_item['filename']), true, true)).'" capt="'.$cont_item['caption'].'" />';
+                $output[] = ' <item href="'.$FOX->Gen_URL('fox2_file_download_bysess', Array($cont_item['id'], $cont_item['filename']), true, true, true).'" capt="'.$cont_item['caption'].'" />';
             }
             $output[] = '</list>';
         }
@@ -137,8 +137,8 @@ class Fox2_MPlayer
     function DPage_Player()
     {        global $QF, $FOX;
         $PLUrl = (($my_fold = $QF->GPC->Get_String('folder', QF_GPC_GET, QF_STR_WORD)) !== null)
-                    ? $FOX->Gen_URL('fox2_player_plist_folder', $my_fold)
-                    : $FOX->Gen_URL('fox2_player_playlist');
+                    ? $FOX->Gen_URL('fox2_player_plist_folder', $my_fold, false, true)
+                    : $FOX->Gen_URL('fox2_player_playlist', null, false, true);
 
         $data = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
         <html xmlns="http://www.w3.org/1999/xhtml">
@@ -155,7 +155,7 @@ class Fox2_MPlayer
          <param name="allowFullScreen" value="true" />
          <param name="wmode" value="transparent" />
          <param name="movie" value="'.qf_full_url($FOX->Gen_URL('fox2_player_swf')).'" />
-         <param name="flashvars" value="&amp;PLFile='.qf_url_encode_part(qf_full_url($PLUrl)).'" />
+         <param name="flashvars" value="&amp;PLFile='.qf_url_encode_part($PLUrl).'" />
         </object>
         </div>
         </body>

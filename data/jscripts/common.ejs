@@ -11,6 +11,7 @@ var myBrowser = function()
     //myBrowser.trident = (!window.ActiveXObject) ? false : ((window.XMLHttpRequest) ? 5 : 4);
     //myBrowser.webkit = (navigator.taintEnabled) ? false : ((myBrowser.features.xpath) ? ((myBrowser.features.query) ? 525 : 420) : 419);
     a.isGecko = !!(document.getBoxObjectFor);
+    a.isSafari = !!(navigator.vendor && navigator.vendor.indexOf("Apple") != 0);
     a.version = 0;
 
     var tmp1;

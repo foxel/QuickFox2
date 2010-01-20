@@ -20,6 +20,92 @@ var FOX2_IMGSHOW = function()
         maxPicWidth = (screen) ? screen.width*1.2 : 1500,
         maxPicHeight = (screen) ? screen.height*1.2 : 1000;
 
+    var cooliris = function()
+    {        var PLC = null;
+        var hasCooliris = function()
+        {
+            var clientExists = false;
+            // check if the bridge has already been defined
+            if (PLC)
+                clientExists = true;
+            else if (window.piclens && window.piclens.launch)
+            {
+                PLC = window.piclens;
+                clientExists = true;
+            }
+            else // if not, try to define it here...
+            {
+                var context = null;
+                if (typeof PicLensContext != 'undefined') // Firefox
+                    context = new PicLensContext();
+                else
+                {
+                    try { context = new ActiveXObject("PicLens.Context"); } // IE
+                    catch (e)
+                    {
+                        if (navigator.mimeTypes['application/x-cooliris']) // Safari
+                        {
+                            context = document.createElement('object');
+                            context.style.height="0px";
+                            context.style.width="0px";
+                            context.type = 'application/x-cooliris';
+                            document.documentElement.appendChild(context);
+                        }
+                        else
+            				context = null;
+    				}
+    			}
+
+    			if (PLC = context)
+    				clientExists = true;
+    		}
+
+    		if (clientExists)  // check the version number
+    		{
+    			if (myBrowser.isSafari) // for Safari, we just return true (the first v. was 1.8)
+    				return true;
+
+    			var version;
+    			try { version = PLC.version; } catch (e) { return false; }
+
+    			var parts = version.split('.'); // minimum ver. is: 1.6.0.824
+    			if (parts[0] > 1) 			    // a ver. 2.X product
+    				return true;
+    			else if (parts[0] == 1)         // a 1.X product
+    			{
+    				if (parts[1] > 6)		    // a 1.7.X product
+    					return true;
+    				else if (parts[1] == 6)     // a 1.6 product
+    				{
+    					if (parts[2] > 0)  	    // a 1.6.1.X product
+    						return true;
+    					else if (parts[2] == 0 && parts[3] >= 824)  // 1.6.0.824 or newer...
+    							return true;
+    				}
+    			}
+    			return false; // a 0.X product
+            }
+    		else
+    			return false;
+    	};
+    	var checkForPluginAndLaunchIfPossible = function (url, guid)
+    	{
+		    // if we have the correct version of piclens, pass it onto the client and do not use LITE
+    		if (hasCooliris())
+    		{
+    			if (typeof(guid) != 'undefined')
+    				PLC.launch(url,'uid',guid);
+    			else
+    				PLC.launch(url,'','');
+
+    			return true; // launched!
+    		}
+    		return false;
+    	};
+
+        return {            ready : hasCooliris,
+            start : checkForPluginAndLaunchIfPossible
+        };    }();
 
     var _PrepOverlay = function()
     {
@@ -294,6 +380,7 @@ var FOX2_IMGSHOW = function()
                 else
                     _PrepShowPage();
             }
-        }
+        },
+        Cooliris: cooliris
     }
 }();

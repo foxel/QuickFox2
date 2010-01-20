@@ -284,7 +284,7 @@ class Fox2_CMS_Adm
             {
                 $QF->Run_Module('Parser');
                 $QF->Parser->Init_Std_Tags();
-                $QF->Parser->Add_Tag('cmspage', '<a href="'.$FOX->Gen_URL('fox2_cms_page', Array('{param}'), true, true).'" >{data}</a>', QF_BBTAG_FHTML, Array('param_mask' => '[0-9A-z_\-]+') );
+                $QF->Parser->Add_Tag('cmspage', '<a href="'.$FOX->Gen_URL('fox2_cms_page', Array('{param}'), true, false, true).'" >{data}</a>', QF_BBTAG_FHTML, Array('param_mask' => '[0-9A-z_\-]+') );
                 switch ($new_type)
                 {
                     case 'bbc':
@@ -292,14 +292,14 @@ class Fox2_CMS_Adm
                         break;
                     case 'text':
                         $filedata = nl2br(preg_replace('#^([^\n\S]+)#me', 'str_repeat("&nbsp; ", strlen("\\1"));', htmlspecialchars($filedata)));
-                        $filedata = preg_replace('#\{CMSL_([0-9A-z_\-]+)\}#i', $FOX->Gen_URL('fox2_cms_page', Array('$1'), true, true), $filedata);
+                        $filedata = preg_replace('#\{CMSL_([0-9A-z_\-]+)\}#i', $FOX->Gen_URL('fox2_cms_page', Array('$1'), true, false, true), $filedata);
                         break;
                     case '':
                     case 'html':
                         $filedata = $QF->Parser->XML_Check($filedata, true);
                         if (preg_match('#<body>(.*)</body>#s', $filedata, $subdata))
                             $filedata = $subdata[1];
-                        $filedata = preg_replace('#\{CMSL_([0-9A-z_\-]+)\}#i', $FOX->Gen_URL('fox2_cms_page', Array('$1'), true ,true), $filedata);
+                        $filedata = preg_replace('#\{CMSL_([0-9A-z_\-]+)\}#i', $FOX->Gen_URL('fox2_cms_page', Array('$1'), true, false, true), $filedata);
                         break;
                 }
             }
@@ -427,7 +427,7 @@ class Fox2_CMS_Adm
                 {
                     $QF->Run_Module('Parser');
                     $QF->Parser->Init_Std_Tags();
-                    $QF->Parser->Add_Tag('cmspage', '<a href="'.$FOX->Gen_URL('fox2_cms_page', Array('{param}'), true, true).'" >{data}</a>', QF_BBTAG_FHTML, Array('param_mask' => '[0-9A-z_\-]+') );
+                    $QF->Parser->Add_Tag('cmspage', '<a href="'.$FOX->Gen_URL('fox2_cms_page', Array('{param}'), true, false, true).'" >{data}</a>', QF_BBTAG_FHTML, Array('param_mask' => '[0-9A-z_\-]+') );
                     switch ($new_type)
                     {
                         case 'bbc':
@@ -479,7 +479,7 @@ class Fox2_CMS_Adm
 
                     $QF->Run_Module('Parser');
                     $QF->Parser->Init_Std_Tags();
-                    $QF->Parser->Add_Tag('cmspage', '<a href="'.$FOX->Gen_URL('fox2_cms_page', Array('{param}'), true, true).'" >{data}</a>', QF_BBTAG_FHTML, Array('param_mask' => '[0-9A-z_\-]+') );
+                    $QF->Parser->Add_Tag('cmspage', '<a href="'.$FOX->Gen_URL('fox2_cms_page', Array('{param}'), true, false, true).'" >{data}</a>', QF_BBTAG_FHTML, Array('param_mask' => '[0-9A-z_\-]+') );
                     switch ($new_type)
                     {
                         case 'bbc':
