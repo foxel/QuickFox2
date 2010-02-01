@@ -1992,6 +1992,13 @@ Array (
                 'def' => 0 ,
                 'extra' => ''
             )  ,
+            'totalposts' => Array (
+                'type' => 'int(10) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
             'r_level' => Array (
                 'type' => 'tinyint(1) unsigned' ,
                 'collate' => null ,
@@ -2099,6 +2106,12 @@ Array (
                     0 => 'locked' ,
                     1 => 'deleted' ,
                     2 => 'marked'
+                ) 
+            )  ,
+            'totalposts' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'totalposts'
                 ) 
             ) 
         )  ,

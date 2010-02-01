@@ -119,6 +119,7 @@ class QF_Gal_incls
                 $feed[] = '<link>'.qf_smart_htmlschars($FOX->Gen_URL('FoxGal_item', $item['id'], true, true)).'</link>';
                 //$descr = $QF->Parser->Parse($item['description'], QF_BBPARSE_ALL);
                 //$feed[] = '<description><![CDATA[ '.$descr.' ]]></description>';
+                //$feed[] = '<media:description type="html"><![CDATA[ '.$descr.' ]]></media:description>';
                 $feed[] = '<media:description>'.qf_smart_htmlschars($item['width_height'].' / '.$item['filesize'].' / '.$item['author'].' @ '.$item['time']).'</media:description>';
                 $feed[] = '<media:thumbnail url="'.qf_smart_htmlschars($FOX->Gen_URL('fox2_file_preview_sid', Array($item['file_id'], $item['pics_name']), true, true)).'" />';
                 $feed[] = '<media:content url="'.qf_smart_htmlschars($FOX->Gen_URL('fox2_file_download_sid', Array($item['file_id'], $item['filename']), true, true)).'" />';

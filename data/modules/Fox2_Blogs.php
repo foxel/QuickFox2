@@ -119,7 +119,10 @@ class QF_Blogs
         {
             $id = $entry['id'];
             if (isset($pt_stats[$entry['pt_root']]) && $pt_stats[$entry['pt_root']]['posts'])
+            {
                 $entry['COMMENTS'] = $pt_stats[$entry['pt_root']]['posts'];
+                $entry['LASTCOMMENTTIME'] = $pt_stats[$entry['pt_root']]['l_time'];
+            }
             $itm_node = $QF->VIS->Add_Node('FOX_BLOGS_ENTRY', 'ENTRIES', $page_node, $entry);
             if ($uinfo = $QF->UList->Get_UserInfo($entry['author_id']))
                 $QF->VIS->Add_Node('USER_INFO_MIN_DIV', 'AUTHOR_INFO', $itm_node, $uinfo + Array('HIDE_ACCESS' => 1));
@@ -178,7 +181,10 @@ class QF_Blogs
         {
             $id = $entry['id'];
             if (isset($pt_stats[$entry['pt_root']]) && $pt_stats[$entry['pt_root']]['posts'])
+            {
                 $entry['COMMENTS'] = $pt_stats[$entry['pt_root']]['posts'];
+                $entry['LASTCOMMENTTIME'] = $pt_stats[$entry['pt_root']]['l_time'];
+            }
             $itm_node = $QF->VIS->Add_Node('FOX_BLOGS_ENTRY', 'ENTRIES', $page_node, $entry);
 
             $QF->VIS->Add_Node('USER_INFO_MIN_DIV', 'AUTHOR_INFO', $itm_node, $uinfo + Array('HIDE_ACCESS' => 1));

@@ -398,6 +398,35 @@ function qf_url_encode_part($string, $spec_rw = false)
     return $string;
 }
 
+function qf_url_add_param($url, $pname, $pdata, $with_amps = false, $replace = false)
+{
+    $sep = ($with_amps) ? '&amp;' : '&';
+
+    if (stristr($url, 'javascript'))
+        return $url;
+
+    if (strstr($url, $pname.'='))
+    {
+        if ($replace)
+            $url = qf_url_drop_param($url, $pname);
+        else
+            return $url;
+    }
+
+    $insert = ( !strstr($url, '?') ) ? '?' : $sep;
+    $insert.= $pname.'='.qf_url_encode_part($pdata);
+
+    $url= preg_replace('#(\#|$)#', $insert.'\\1', $url, 1);
+
+    return $url;
+}
+
+function qf_url_drop_param($url, $pname)
+{    $url = preg_replace('#(\?|&amp;|&)'.preg_quote($pname, '#').'=[^&\#\?]*#', '', $url);
+
+    return $url;
+}
+
 // packs string data to be parsed via url :)
 function qf_url_str_pack($data)
 {

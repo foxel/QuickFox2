@@ -13,7 +13,7 @@
  {IN_TEXT}
  <div style="clear: both;"></div>
 {WRITE:WIN_BOTT}
- {IF:IN_COMMENTS}<a class="hlight_btn" href="{URL:FoxBlogs_entry|IN_ID}#blog_entry_comments">{L_FOX_BLOGS_COMMENTS_COUNT|IN_COMMENTS}</a>{ENDIF}
+ {IF:IN_COMMENTS}<a class="hlight_btn" href="{URL:FoxBlogs_entry|IN_ID}#blog_entry_comments" {IF:IN_LASTCOMMENTTIME}title="{L_FOX_BLOGS_COMMENTS_LAST}: {FTIME:IN_LASTCOMMENTTIME}"{ENDIF}>{L_FOX_BLOGS_COMMENTS_COUNT|IN_COMMENTS}</a>{ENDIF}
  <a class="hlight_btn" href="{URL:FoxBlogs_entry|IN_ID}#blog_entry_comments">{L_FOX_BLOGS_COMMENTS_ADD}</a>
 {!WRITE}
 <div class="qf_blogs_entry">

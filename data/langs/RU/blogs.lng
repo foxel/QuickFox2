@@ -8,6 +8,8 @@ FOX_BLOGS_CAPT_NEW: Добавление записи
 ---
 FOX_BLOGS_CAPT_EDIT: Редактирование &quot;%1$s&quot;
 ---
+FOX_BLOGS_COMMENTS_LAST: Последний
+---
 FOX_BLOGS_COMMENTS_COUNT: Комментариев: %1$s
 ---
 FOX_BLOGS_COMMENTS_ADD: Добавить комментарий

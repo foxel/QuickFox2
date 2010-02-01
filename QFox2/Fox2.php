@@ -333,6 +333,9 @@ class Fox2
             $QF->VIS->Add_Data(0, 'ADV', $adv);
 
 
+        if ($res_id = $QF->GPC->Get_String('showresult_id', QF_GPC_GET, QF_STR_HEX))
+            $this->Draw_Result_Id($res_id, true);
+
         if ((list($data, $pkg) = $QF->DSets->Get_DSet_Value('fox_pages', $pg, true)) && isset($data['module'], $data['method']))
         {
             // redirecting on multidomain redirection enabled
@@ -472,13 +475,21 @@ class Fox2
             'tr_errs'  => ($is_err) ? implode('|', qf_array_parse($this->err_traced, 'dechex')) : '',
             'time'     => $QF->Timer->time,
             'got_at'   => $QF->HTTP->Request,
-            'redir_to' => $redir_to,
+            'redir_to' => qf_str_is_url($redir_to) ? qf_full_url($redir_to, false, $this->URL_domain) : '',
             'u_sid'    => $QF->Session->SID,
             'u_id'     => $QF->User->UID,
             );
 
         if ($QF->DBase->Do_Insert('results', $ins_data))
-            $QF->HTTP->Redirect($this->Gen_URL('fox2_showresult_page', Array($res_id)));
+        {
+            if ($QF->Config->Get('overlayed_results', 'fox2', false) && $redir_to = $ins_data['redir_to'])
+            {
+                $url = qf_url_add_param($redir_to, 'showresult_id', $res_id, false, true);
+                $QF->HTTP->Redirect($url);
+            }
+            else
+                $QF->HTTP->Redirect($this->Gen_URL('fox2_showresult_page', Array($res_id)));
+        }
         else
         {
             trigger_error('FOX: error setting result data', E_USER_WARNING);
@@ -560,24 +571,27 @@ class Fox2
         return false;
     }
 
-    function Draw_Result($text, $redir_to = '', $is_err = false, $descr_errs = false)
+    function Draw_Result($text, $redir_to = '', $is_err = false, $overlayed = false, $descr_errs = false)
     {
         global $QF;
 
         $hurl = '';
 
-        if ($redir_to)
+        if (qf_str_is_url($redir_to))
         {
-            $url = qf_full_url($redir_to, false, $this->URL_domain);
+            $url = qf_full_url(qf_url_drop_param($redir_to, 'showresult_id'), false);
             $QF->Events->Call_Event_Ref('HTTP_URL_Parse', $url );
             $hurl = strtr($url, Array('&' => '&amp;'));
 
-            header('Refresh: 7; URL="'.$url.'"');
+            if (!$overlayed)
+                header('Refresh: 7; URL="'.$url.'"');
         }
+
         $res_node = $QF->VIS->Add_Node('FOX_RESULT_WINDOW', 'PAGE_CONT', 0, Array(
             'text'    => $text,
             'is_err'  => ($is_err) ? 1 : null,
             'redir_url' => $hurl,
+            'overlayed' => $overlayed ? 1 : null,
             ) );
         $QF->VIS->Add_Data(0, 'PAGE_TITLE', ($is_err) ? Lang('RES_CAPT_ERR') : Lang('RES_CAPT'));
 
@@ -589,6 +603,23 @@ class Fox2
 
             if (count($err_nodes))
                 $QF->VIS->Add_Node_Array('FOX_RESULT_ERR_ITEM', 'ERRORS', $res_node, $err_nodes);
+        }
+
+        return $res_node;
+    }
+
+    function Draw_Result_Id($res_id, $overlayed = false)
+    {        global $QF;
+
+        if ($curres = $QF->DBase->Do_Select('results', '*', Array( 'res_id' => $res_id) ))
+        {
+            if (($curres['u_sid'] && $curres['u_sid'] != $QF->Session->SID) || ($curres['u_id'] && $curres['u_id'] != $QF->User->UID))
+                $QF->HTTP->Redirect(QF_INDEX);
+            else
+            {
+                $descr_errs = ($curres['tr_errs']) ? qf_array_parse(explode('|', $curres['tr_errs']), 'hexdec') : false;
+                return $this->Draw_Result($curres['text'], $curres['redir_to'], $curres['is_err'], $overlayed, $descr_errs);
+            }
         }
     }
 

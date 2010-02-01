@@ -281,9 +281,9 @@ class Fox2_Files
             {
                 $fid = $data['id'];
                 $file_link = QF_FILES_UPLOADS_DIR.$data['file_id'].'.qff';
-                if (file_exists($file_link))
+                $data['file_link'] = $file_link;
+                /*if (file_exists($file_link))
                 {
-                    $data['file_link'] = $file_link;
                     $fsize = filesize($file_link);
                     if ($fsize != $data['file_size'])
                     {
@@ -294,9 +294,8 @@ class Fox2_Files
                 else
                 {
                     $QF->DBase->Do_Delete('files', Array('id' => $fid));
-                    $data['file_link'] = false;
                     continue;
-                }
+                }*/
 
                 if ($data['has_pics'])
                 {
@@ -306,22 +305,22 @@ class Fox2_Files
                     $data['thb_link'] =& $thb_link;
 
 
-                    if (!file_exists($thb_link) || !file_exists($prv_link))
+                    /*if (!file_exists($thb_link) || !file_exists($prv_link))
                     {
                         $thb_link = false;
                         $prv_link = false;
                         $needs_regen[] = $fid;
-                    }
+                    }*/
                 }
 
-                if (!$data['mime'])
+                /*if (!$data['mime'])
                 {
                     $fext = pathinfo($data['filename'], PATHINFO_EXTENSION);
                     if ($ftype = qf_file_mime($data['file_link'], $fext))
                         $data['mime'] = $ftype;
                     else
                         $data['mime'] = 'application/octet-stream';
-                }
+                }*/
 
                 $new_infos[$fid] = $data;
             }

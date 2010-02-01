@@ -298,7 +298,7 @@ QF_EFFECTS.Invisible('Pan{COUNTER}');
 <<- 'PAN_LOGIN_LOG_BOTTLINE'>>
 
 <<+ 'FOX_RESULT_WINDOW'>>
-<div style="width: 400px;" class="qf_window">
+<div id="result_window_{COUNTER}" style="width: 400px;" class="qf_window">
 <table class="inv_grid fullwidth">
  <tr><td class="qf_window_capt">
   {IF:IN_is_err}
@@ -315,14 +315,28 @@ QF_EFFECTS.Invisible('Pan{COUNTER}');
     {IN_errors}
    </div>
   {ENDIF}
-  {IF:IN_redir_url}
+  {IF:IN_redir_url}{!IF:IN_OVERLAYED}
    <hr />
    {L_RES_REDIR}<br />
    <a href="{IN_redir_url}" >{L_RES_REDIR_URL}</a>
-  {ENDIF}
+  {ENDIF}{ENDIF}
  </td></tr>
+ {IF:IN_OVERLAYED}<tr><td class="qf_window_line alg_r">
+  <a class="hlight_btn" href="{IF:IN_redir_url}{IN_redir_url}{ELSE}#{ENDIF}" onclick="QF_EFFECTS.CloseOverlay(); var tmp; if (tmp = qf_getbyid('result_window_{COUNTER}')) tmp.parentNode.removeChild(tmp); return false;" >{L_BTN_CLOSE}</a>
+ </td></tr>{ENDIF}
 </table>
 </div>
+{IF:IN_OVERLAYED}<script type="text/javascript">
+// <![CDATA[
+  QF_EFFECTS.Invisible('result_window_{COUNTER}');
+  QF_TIMERS.addOnLoad(function(){    QF_EFFECTS.OpenOverlay(true, 1);
+    var tmp = qf_getbyid('result_window_{COUNTER}');
+    getStyleObj(tmp).marginTop = '150px';
+    QF_EFFECTS.PlaceAtOverlay(tmp);
+    QF_EFFECTS.Show('result_window_{COUNTER}', 1);
+  });
+//]]>
+</script>{ENDIF}
 <<- 'FOX_RESULT_WINDOW'>>
 
 <<+ 'FOX_RESULT_ERR_ITEM'>>

@@ -147,6 +147,21 @@ class Fox2_curuser
             return 0;
     }
 
+    function FilterByAccess($datas, $filed_name = 'r_level')
+    {
+        if (!is_array($datas) || !is_array(reset($datas)) || !isset($datas[key($datas)][$filed_name]))
+            return $datas;
+
+        $my_alvl = ($this->adm_level) ? QF_FOX2_MAXULEVEL : $this->acc_level;
+        $my_mlvl = ($this->adm_level) ? QF_FOX2_MAXULEVEL : $this->mod_level;
+
+        foreach ($datas as $id => $data)
+            if (!isset($data[$filed_name]) || $data[$filed_name] < $my_rlvl)
+                unset($datas[$id]);
+
+        return 0;
+    }
+
     function CheckAuth($pass, $login = false)
     {        global $QF;
 

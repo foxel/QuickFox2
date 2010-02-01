@@ -108,6 +108,19 @@
 </div>{ENDIF}
 <<- 'FOX_POSTTREE_DELPOST'>>
 
+<<+ 'FOX_POSTTREE_DELPOSTS'>>
+
+<div class="qf_window alg_c" style="margin: 5px 10px 10px 10px;">
+{IF:IN_SUB_POSTS_MARKS}{IN_SUB_POSTS_MARKS}{ENDIF}
+ <b>{L_FOX2_PTREE_DELPOSTS}: {IN_POSTS_COUNT}</b>
+ {IF:IN_CAN_ADM}<a id="post{IN_POST_ID}_btn_edit" class="hlight_btn" href="{URL:fox2_ptree_editpost|IN_POST_ID|IN_MYHREF_ENC}" title="{L_BTN_EDIT}">{L_BTN_EDIT}</a>{ENDIF}
+</div>
+<<- 'FOX_POSTTREE_DELPOSTS'>>
+
+<<+ 'FOX_POSTTREE_POSTMARK'>>
+<a id="post{IN_POST_ID}"></a>
+<<- 'FOX_POSTTREE_POSTMARK'>>
+
 <<+ 'FOX_POSTTREE_POSTVIEW'>>
 {IN_PTEXT}
 <<- 'FOX_POSTTREE_POSTVIEW'>>

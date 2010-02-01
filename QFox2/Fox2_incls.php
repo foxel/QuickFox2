@@ -129,16 +129,9 @@ class Fox2_incls
 
         $res_id = $QF->GPC->Get_String('res_id', QF_GPC_GET, QF_STR_HEX);
 
-        if ($curres = $QF->DBase->Do_Select('results', '*', Array( 'res_id' => $res_id) ))
-        {
-            if (($curres['u_sid'] && $curres['u_sid'] != $QF->Session->SID) || ($curres['u_id'] && $curres['u_id'] != $QF->User->UID))
-                $QF->HTTP->Redirect(QF_INDEX);
-            else
-            {
-                $descr_errs = ($curres['tr_errs']) ? qf_array_parse(explode('|', $curres['tr_errs']), 'hexdec') : false;
-                $FOX->Draw_Result($curres['text'], $curres['redir_to'], $curres['is_err'], $descr_errs);
-            }
-        }
+        $FOX->Draw_Result_Id($res_id);
+
+        return null;
     }
 
     function Page_Login(&$p_title)

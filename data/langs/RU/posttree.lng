@@ -4,6 +4,8 @@ FOX2_PTREE_POSTEDITED: Изменено
 ---
 FOX2_PTREE_DELPOST: Удаленное сообщение
 ---
+FOX2_PTREE_DELPOSTS: Удаленных сообщений
+---
 FOX2_PTREE_POSTEDIT_LOCK: Блокировать сообщение
 ---
 FOX2_PTREE_POSTEDIT_DELETE: Удалить сообщение

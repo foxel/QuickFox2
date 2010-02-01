@@ -437,7 +437,8 @@ class QF_Gallery
                     else
                         $data['items'] = $data['itm_l'] = Array();
 
-                    $data['lastthree'] = (preg_match('#^[0-9A-z]{8}(\|[0-9A-z]{8})*$#', $data['lastthree'])) ? explode('|', $data['lastthree']) : array();
+                    //$data['lastthree'] = (preg_match('#^[0-9A-z]{8}(\|[0-9A-z]{8})*$#', $data['lastthree'])) ? explode('|', $data['lastthree']) : array();
+                    $data['lastthree'] = ($data['lastthree']) ? explode('|', $data['lastthree']) : array();
                     $albums[$id] = $data;
                     if ($t_id)
                         $al_tid[$t_id] = $id;

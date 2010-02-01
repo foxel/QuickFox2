@@ -369,6 +369,7 @@ CREATE TABLE `{DBKEY}pt_roots` (
     `l_time` int(11) NOT NULL DEFAULT '0', 
     `l_post_id` bigint(20) unsigned NOT NULL DEFAULT '0', 
     `posts` int(10) unsigned NOT NULL DEFAULT '0', 
+    `totalposts` int(10) unsigned NOT NULL DEFAULT '0', 
     `r_level` tinyint(1) unsigned NOT NULL DEFAULT '0', 
     `w_level` tinyint(1) unsigned NOT NULL DEFAULT '1', 
     `locked` tinyint(1) unsigned NOT NULL DEFAULT '0', 
@@ -384,7 +385,8 @@ CREATE TABLE `{DBKEY}pt_roots` (
     INDEX `l_time` (`l_time`) , 
     INDEX `posts` (`posts`) , 
     INDEX `levels` (`r_level`, `w_level`) , 
-    INDEX `flags` (`locked`, `deleted`, `marked`)  
+    INDEX `flags` (`locked`, `deleted`, `marked`) , 
+    INDEX `totalposts` (`totalposts`)  
 ) ENGINE = MyISAM COLLATE utf8_general_ci; 
 
 # Table definition for {DBKEY}results 

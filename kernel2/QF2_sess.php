@@ -379,14 +379,7 @@ class QF_Session
         if (!$this->started)
             return $url;
 
-        if ( !strstr($url, QF_SESSION_SID_NAME.'=') && !stristr($url, 'javascript') )
-        {
-            $insert = ( !strstr($url, '?') ) ? '?' : (($ampersand) ? '&amp;' : '&');
-            $insert.= QF_SESSION_SID_NAME.'='.$this->SID;
-
-            $url= preg_replace('#(\#|$)#', $insert.'\\1', $url, 1);
-
-        }
+        $url = qf_url_add_param($url, QF_SESSION_SID_NAME, $this->SID, $ampersand);
 
         return $url;
     }

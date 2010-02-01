@@ -21,12 +21,15 @@ class Fox2_PostTree
 {
     var $ptrees = Array();
     var $stats = Array();
+    var $max_t_level = 15;
 
     function Fox2_PostTree()
-    {
+    {        global $QF;
+
+        $this->max_t_level = $QF->Config->Get('ptree_maxtlevel', 'fox2', 15);
     }
 
-    function Render_Tree($tid, $open_answer = false)
+    function Render_Tree($tid, $open_answer = false, $allow_collapse = true)
     {        global $QF, $FOX;
 
         if (!is_numeric($tid))
@@ -74,15 +77,41 @@ class Fox2_PostTree
         $QF->UList->Query_IDs($uids + $chuids);
 
         $pids = Array();
-        foreach($data['ptree'] as $pdata)
-        {            if ($pdata['deleted'])
-            {                $cur_node = $QF->VIS->Add_Node('FOX_POSTTREE_DELPOST', 'SUB_POSTS', $par_nodes[$pdata['t_level']], $pdata);
-                $par_nodes[$pdata['t_level']+1] = $cur_node;
+        $ptree = $data['ptree'];
+        $del_serie = Array();
+        $del_serie_lv = false;
+        foreach($ptree as $pdata)
+        {            $pardata = isset($ptree[$pdata['parent']]) ? $ptree[$pdata['parent']] : false;
+            $t_level = min($pdata['t_level'], $this->max_t_level);
+
+
+            if ($del_serie_lv && (!$pdata['deleted'] || $pdata['valid_childs'] || $del_serie_lv > $t_level))
+            {                if (count($del_serie) > 1)
+                {
+                    $cur_node = $QF->VIS->Add_Node('FOX_POSTTREE_DELPOSTS', 'SUB_POSTS', $par_nodes[$del_serie_lv], Array('posts_count' => count($del_serie)));
+                    $QF->VIS->Add_Node_Array('FOX_POSTTREE_POSTMARK', 'SUB_POSTS_MARKS', $cur_node, $del_serie);
+                }
+                else
+                    $QF->VIS->Add_Node('FOX_POSTTREE_DELPOST', 'SUB_POSTS', $par_nodes[$del_serie_lv], $del_serie[0]);
+                $del_serie = Array();
+                $del_serie_lv = 0;
+                $par_nodes[$t_level+1] = $par_nodes[$del_serie_lv];
+            }
+
+            if ($pdata['deleted'])
+            {
+                if ($allow_collapse && !$pdata['valid_childs'] && $del_serie_lv <= $t_level)
+                {
+                    $del_serie_lv = $del_serie_lv ? $del_serie_lv : $t_level;
+                    $del_serie[]  = $pdata;
+                }
+                else
+                    $par_nodes[$t_level+1] = $cur_node = $QF->VIS->Add_Node('FOX_POSTTREE_DELPOST', 'SUB_POSTS', $par_nodes[$t_level], $pdata);
                 continue;
             }
 
-            $cur_node = $QF->VIS->Add_Node('FOX_POSTTREE_POST', 'SUB_POSTS', $par_nodes[$pdata['t_level']]);
-            $par_nodes[$pdata['t_level']+1] = $cur_node;
+            $cur_node = $QF->VIS->Add_Node('FOX_POSTTREE_POST', 'SUB_POSTS', $par_nodes[$t_level]);
+            $par_nodes[$t_level+1] = $cur_node;
 
             if (!isset($p_datas[$pdata['post_id']]))
                 continue;
@@ -178,6 +207,7 @@ class Fox2_PostTree
             );
 
         // TODO: checking for hash
+        // TODO: posts count updating
 
         $cachename = QF_POSTTREE_CACHE_PREFIX.$tid;
         if ($QF->DBase->Do_Update('pt_posts', $data, Array('post_id' => $pid)) !== false)
@@ -234,6 +264,7 @@ class Fox2_PostTree
             $QF->DBase->Do_Insert('pt_ptext', $t_data);
             $t_data = Array(
                 'posts' => $tinfo['posts']+1,
+                'totalposts' => $tinfo['totalposts']+1,
                 'l_author' => $data['author'],
                 'l_author_id' => $data['author_id'],
                 'l_time' => $data['time'],
@@ -348,16 +379,32 @@ class Fox2_PostTree
         elseif ($tinfo = $QF->DBase->Do_Select('pt_roots', '*', Array('root_id' => $tid)))
         {            $pinfos = $QF->DBase->Do_Select_All('pt_posts', Array('post_id', 'parent', 'time', 'deleted'), Array('root_id' => $tid), 'ORDER BY `time` ASC' );
             $ptree = qf_2darray_tree($pinfos, 'post_id', 'parent', 0);
+
+            $ids = array_keys($ptree);
             $i = 1;
-            foreach (array_keys($ptree) as $id)
+            foreach ($ids as $id)
+            {
                 $ptree[$id]['order_id'] = $i++;
+                $ptree[$id]['childs'] = $ptree[$id]['valid_childs'] = 0;
+            }
+
+            $id = end($ids);
+            $posts_count = 0;
+            do {                if ($pid = $ptree[$id]['parent'])
+                {                    $ptree[$pid]['childs']+= 1+$ptree[$id]['childs'];
+                    $ptree[$pid]['valid_childs']+= $ptree[$id]['valid_childs'] + (int) (!$ptree[$id]['deleted']);
+                }
+                if (!$ptree[$id]['deleted'])
+                    $posts_count++;
+            } while ($id = prev($ids));
 
             $tinfo['ptree'] = $ptree;
-            if ($tinfo['posts'] != count($ptree)) // we'll need to repair this tree stats
+            if ($tinfo['posts'] != $posts_count) // we'll need to repair this tree stats
             {                $pid = max(array_keys($ptree));
                 $pdata = $QF->DBase->Do_Select('pt_posts', '*', Array('post_id' => $pid));
                 $t_data = Array(
-                    'posts' => count($ptree),
+                    'posts' => $posts_count,
+                    'totalposts' => count($ptree),
                     'l_author' => $pdata['author'],
                     'l_author_id' => $pdata['author_id'],
                     'l_time' => $pdata['time'],
