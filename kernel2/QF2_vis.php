@@ -675,7 +675,7 @@ class QF_Visual
         return true;
     }
 
-    function Add_Data_Array($node, $arr)
+    function Add_Data_Array($node, $arr, $prefix = '')
     {
         if (is_null($node))
             return false;
@@ -686,12 +686,12 @@ class QF_Visual
             return false;
         }
 
-        if (!is_array($arr))
+        if (!is_array($arr) || !is_string($prefix))
             return false;
 
         foreach ($arr as $key => $var)
         {
-            $key = strtoupper($key);
+            $key = strtoupper($prefix.$key);
             if (is_array($var))
                 $var = implode(' ', $var);
             $this->node_vars[$node][$key][] = $var;

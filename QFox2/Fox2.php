@@ -329,8 +329,6 @@ class Fox2
         $QF->VIS->Add_Data_Array(0, Array(
             'SITE_NAME' => ($site_name = $QF->Config->Get('site_name')) ? htmlspecialchars($site_name) : 'QuickFox 2',
             ) );
-        if ($adv = $QF->Config->Get('adv_data', 'visual'))
-            $QF->VIS->Add_Data(0, 'ADV', $adv);
 
 
         if ($res_id = $QF->GPC->Get_String('showresult_id', QF_GPC_GET, QF_STR_HEX))
@@ -382,6 +380,11 @@ class Fox2
         if ($QF->User->UID || ($QF->Config->Get('show_login_pan') && !$QF->User->is_spider))
             $this->Draw_Panel('login');
 
+        if ($info = $QF->Config->Get('infopan_data', 'visual'))
+            $QF->VIS->Add_Node('PANEL_BODY', 'PANELS', 0, Array('contents' => $info, 'title' => $QF->Config->Get('infopan_capt', 'visual', $QF->LNG->Lang('MISC_INFOPAN_CAPTION'))), 'infopan_panel');
+
+        if ($adv = $QF->Config->Get('adv_data', 'visual'))
+            $QF->VIS->Add_Data(0, 'ADV', $adv);
 
         if ($recode = $QF->GPC->Get_String('recode', QF_GPC_GET, QF_STR_WORD))
             $QF->Session->Set('recode_out', $recode);

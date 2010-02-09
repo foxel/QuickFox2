@@ -969,6 +969,13 @@ Array (
                 'def' => '' ,
                 'extra' => ''
             )  ,
+            'force_save' => Array (
+                'type' => 'tinyint(1) unsigned' ,
+                'collate' => null ,
+                'null' => false ,
+                'def' => 0 ,
+                'extra' => ''
+            )  ,
             'has_pics' => Array (
                 'type' => 'tinyint(1) unsigned' ,
                 'collate' => null ,

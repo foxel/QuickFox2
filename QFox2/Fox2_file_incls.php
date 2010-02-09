@@ -562,7 +562,7 @@ class Fox2_file_incls
                     $flags |= QF_HTTP_FILE_RFC1522;
                 elseif ($QF->Config->Get('tricky_opera', 'files_cfg') && preg_match('#^Opera\/|\WGecko\/|Download\x20Master#i', $QF->HTTP->UAgent))
                     $flags |= QF_HTTP_FILE_TRICKY;
-                if (!$QF->Config->Get('send_inline', 'files_cfg'))
+                if (!$QF->Config->Get('send_inline', 'files_cfg') || $info['force_save'])
                     $flags |= QF_HTTP_FILE_ATTACHMENT;
 
                 $QF->HTTP->Send_File($info['file_link'], $info['filename'], $info['mime'], $info['time'], $flags);

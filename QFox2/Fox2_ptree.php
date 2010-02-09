@@ -379,24 +379,26 @@ class Fox2_PostTree
         elseif ($tinfo = $QF->DBase->Do_Select('pt_roots', '*', Array('root_id' => $tid)))
         {            $pinfos = $QF->DBase->Do_Select_All('pt_posts', Array('post_id', 'parent', 'time', 'deleted'), Array('root_id' => $tid), 'ORDER BY `time` ASC' );
             $ptree = qf_2darray_tree($pinfos, 'post_id', 'parent', 0);
-
-            $ids = array_keys($ptree);
-            $i = 1;
-            foreach ($ids as $id)
-            {
-                $ptree[$id]['order_id'] = $i++;
-                $ptree[$id]['childs'] = $ptree[$id]['valid_childs'] = 0;
-            }
-
-            $id = end($ids);
             $posts_count = 0;
-            do {                if ($pid = $ptree[$id]['parent'])
-                {                    $ptree[$pid]['childs']+= 1+$ptree[$id]['childs'];
-                    $ptree[$pid]['valid_childs']+= $ptree[$id]['valid_childs'] + (int) (!$ptree[$id]['deleted']);
+
+            if (count($ptree))
+            {                $ids = array_keys($ptree);
+                $i = 1;
+                foreach ($ids as $id)
+                {
+                    $ptree[$id]['order_id'] = $i++;
+                    $ptree[$id]['childs'] = $ptree[$id]['valid_childs'] = 0;
                 }
-                if (!$ptree[$id]['deleted'])
-                    $posts_count++;
-            } while ($id = prev($ids));
+
+                $id = end($ids);
+                do {                    if ($pid = $ptree[$id]['parent'])
+                    {                        $ptree[$pid]['childs']+= 1+$ptree[$id]['childs'];
+                        $ptree[$pid]['valid_childs']+= $ptree[$id]['valid_childs'] + (int) (!$ptree[$id]['deleted']);
+                    }
+                    if (!$ptree[$id]['deleted'])
+                        $posts_count++;
+                } while ($id = prev($ids));
+            }
 
             $tinfo['ptree'] = $ptree;
             if ($tinfo['posts'] != $posts_count) // we'll need to repair this tree stats

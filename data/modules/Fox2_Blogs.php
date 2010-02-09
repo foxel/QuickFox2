@@ -14,6 +14,7 @@ define('FOX_BLOGS_CACHE_PREFIX', 'FOX_BLOGS.');
 class QF_Blogs
 {
     var $per_page = 15;
+    var $acc_lvl = 0;
 
     function QF_Blogs()
     {        global $QF, $FOX;
@@ -23,6 +24,7 @@ class QF_Blogs
         $QF->Run_Module('Parser');
         $QF->Parser->Init_Std_Tags();
         $QF->Parser->Add_Tag('cut', '<!-- BlogCut/{param} -->{data}<!-- /BlogCut -->', QF_BBTAG_FHTML | QF_BBTAG_BLLEV);
+        $this->acc_lvl = $QF->Config->Get('min_acclevel', 'blogs', 0);
     }
 
 
@@ -34,6 +36,12 @@ class QF_Blogs
         $id = $QF->GPC->Get_String('id', QF_GPC_GET, QF_STR_WORD);
 
         $p_title = $QF->LNG->Lang('FOX_BLOGS_CAPTION');
+
+        if (!$QF->User->CheckAccess($this->acc_lvl))
+        {            $d_result = Array(Lang($QF->User->UID ? 'FOX_BLOGS_MISC_NOACCESS_USER' : 'FOX_BLOGS_MISC_NOACCESS_GUEST'), false, true);
+            return false;
+        }
+
 
         if ($QF->User->UID)
             $FOX->Draw_Panel('my_blog');
@@ -63,6 +71,9 @@ class QF_Blogs
 
         $mode = $QF->GPC->Get_String('mode', QF_GPC_POST, QF_STR_WORD);
         $id = $QF->GPC->Get_String('id', QF_GPC_POST, QF_STR_WORD);
+
+        if (!$QF->User->CheckAccess($this->acc_lvl))
+            return Array(Lang($QF->User->UID ? 'FOX_BLOGS_MISC_NOACCESS_USER' : 'FOX_BLOGS_MISC_NOACCESS_GUEST'), QF_INDEX, true);
 
         if (!$QF->User->UID)
             return Array(Lang('ERR_NOACCESS'), $FOX->Gen_URL('FoxBlogs_root'), true);

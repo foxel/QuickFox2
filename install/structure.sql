@@ -183,6 +183,7 @@ CREATE TABLE `{DBKEY}files` (
     `file_size` int(10) unsigned NOT NULL DEFAULT '0', 
     `mime` char(64) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
     `is_arch` char(5) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `force_save` tinyint(1) unsigned NOT NULL DEFAULT '0', 
     `has_pics` tinyint(1) unsigned NOT NULL DEFAULT '0', 
     `pics_mime` char(64) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
     `pics_name` char(128) NOT NULL DEFAULT '', 
