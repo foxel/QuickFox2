@@ -859,7 +859,7 @@ class Fox2_UserList
             {
                 if (!preg_match('#'.QF_FOX2_LOGIN_MASK.'#i', $params['login']))
                     return false;
-                elseif ($QF->DBase->Do_Select('users_auth', 'uid', Array('login' => $params['login'])))
+                elseif (strcasecmp($odata['login'], $params['login']) != 0 && $QF->DBase->Do_Select('users_auth', 'uid', Array('login' => $params['login'])))
                     return false;
 
                 $ndata['login'] = $params['login'];
