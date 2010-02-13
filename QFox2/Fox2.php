@@ -596,7 +596,8 @@ class Fox2
             'redir_url' => $hurl,
             'overlayed' => $overlayed ? 1 : null,
             ) );
-        $QF->VIS->Add_Data(0, 'PAGE_TITLE', ($is_err) ? Lang('RES_CAPT_ERR') : Lang('RES_CAPT'));
+        if (!$overlayed)
+            $QF->VIS->Add_Data(0, 'PAGE_TITLE', ($is_err) ? Lang('RES_CAPT_ERR') : Lang('RES_CAPT'));
 
         if ($descr_errs = $this->Describe_ErrCodes($descr_errs))
         {

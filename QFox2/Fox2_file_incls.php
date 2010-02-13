@@ -265,6 +265,7 @@ class Fox2_file_incls
             {
                 $new_file = $file['tmp_name'];
                 $upd['filename'] = $file['name'];
+                $upd['time']     = $QF->Timer->time;
 
                 if ($file['error'])
                     return Array(sprintf($QF->LNG->Lang('ERR_FILES_UPL_SERVER'), $file['name'], $file['error']), $FOX->Gen_URL('fox2_file_fileinfo', $file_id), true);
