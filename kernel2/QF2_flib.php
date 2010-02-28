@@ -929,7 +929,7 @@ function qf_file_mime($filename, $try_ext='')
         else
             $mode = 1;
     }
-    $mode = 1;
+
     $ctype = false;
     if ($mode == 3 && ($f_mime = finfo_file($finfo_res, $filename)))
         $ctype = $f_mime;

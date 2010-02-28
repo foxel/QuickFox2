@@ -42,7 +42,8 @@ if (!defined('E_STRICT'))
 // Sets some initial running parameters
 //
 Error_Reporting(0 & ~(E_NOTICE | E_USER_NOTICE | E_STRICT) );
-set_magic_quotes_runtime(0);
+if (get_magic_quotes_runtime())
+    set_magic_quotes_runtime(0);
 set_time_limit(30);  // not '0' - once i had my script running for a couple of hours collecting GBytes of errors :)
 setlocale(LC_ALL, 'EN'); // english locale
 if ( PHP_VERSION < '4.2.0' )
@@ -143,7 +144,7 @@ else
     else
     {
         trigger_error('Kernel: Error creating base modules cache.', E_USER_WARNING);
-        foreach (base_modules_files as $fname)
+        foreach ($base_modules_files as $fname)
             require_once($fname);
     }
 }

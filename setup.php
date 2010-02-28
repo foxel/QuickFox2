@@ -51,8 +51,9 @@ define ('QF_SETUP_STARTED',True);
 //$debug=1;
 
 Error_Reporting(E_ALL & ~E_NOTICE);
-set_magic_quotes_runtime(0);
-set_time_limit(0);
+set_time_limit(30);
+if (get_magic_quotes_runtime())
+    set_magic_quotes_runtime(0);
 
 function setup_err_parse($errno, $errstr, $errfile, $errline)
 {

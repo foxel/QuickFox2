@@ -48,15 +48,18 @@ class QF_Gallery
 
         if (!$QF->DBase->Do_Delete('gal_al_itms', Array('album_id' => $album['id'], 'item_id' => $item['id'])))
             return false;
-
-        if ($last_itms = $QF->DBase->Do_Select_All('gal_al_itms', 'item_id', Array('album_id' => $album['id']), ' ORDER BY put_at DESC LIMIT 0, 3'))
-            $last_itms = array_reverse($last_itms);
+        $last_time = 0;
+        if ($last_itms = $QF->DBase->Do_Select_All('gal_al_itms', Array('item_id', 'put_at'), Array('album_id' => $album['id']), ' ORDER BY put_at DESC LIMIT 0, 3'))
+        {
+            $last_time = $last_itms[0]['put_at'];
+            $last_itms = array_reverse(qf_2darray_cols($last_itms, 'item_id'));
+        }
         else
             $last_itms = Array();
 
         $last_itms = implode('|', $last_itms);
 
-        $QF->DBase->Do_Update('gal_albums', Array('lastthree' => $last_itms), Array('id' => $album['id']));
+        $QF->DBase->Do_Update('gal_albums', Array('lastthree' => $last_itms, 'lasttime' => $last_time), Array('id' => $album['id']));
         $QF->Cache->Drop(QF_GALLERY_CACHE_PREFIX);
         return true;
     }
