@@ -142,6 +142,44 @@ class Fox2_PostTree
         return $root_node;
     }
 
+    function Modify_Tree($tid, $data = false, $params = null)
+    {        global $QF, $FOX;
+
+        if (!($tinfo = $this->Get_Tree($tid)))
+            return false;
+
+        $new_data = Array(
+            'a_key' => $tinfo['a_key'], 'b_key1' => $tinfo['b_key1'], 'b_key2' => $tinfo['b_key2'], 'b_key3' => $tinfo['b_key3'],
+            'author' => $tinfo['author'], 'author_id' => $tinfo['author_id'], 'caption' => $tinfo['caption'],
+            'time' => $tinfo['time'], 'r_level' => $tinfo['r_level'], 'w_level' => $tinfo['w_level'],
+            'locked' => $tinfo['locked'], 'marked' => $tinfo['marked'], 'deleted' => $tinfo['deleted'],
+            );
+
+        qf_array_modify($new_data, $params);
+
+        if ($data)
+        {            $new_data['data'] = serialize($data);
+            $new_data['hash'] = md5($new_data['data']);
+        }
+
+        $new_data['r_level'] = min($new_data['r_level'], QF_FOX2_MAXULEVEL);
+        $new_data['w_level'] = min($new_data['w_level'], QF_FOX2_MAXULEVEL);
+        $new_data['w_level'] = max($new_data['w_level'], $new_data['r_level']);
+
+        $QF->Run_Module('Parser');
+        $QF->Parser->Init_Std_Tags();
+
+        $cachename = QF_POSTTREE_CACHE_PREFIX.$tid;
+        if ($QF->DBase->Do_Update('pt_roots', $new_data, Array('root_id' => $tid)) !== false)
+        {
+            $QF->Cache->Drop($cachename);
+            $QF->Cache->Drop(QF_POSTTREE_CACHE_STATS);
+            unset($this->ptrees[$tid]);
+            return true;
+        }
+        return false;
+    }
+
     function Create_Tree($class, $data, $params = null)
     {
         global $QF, $FOX;

@@ -386,6 +386,7 @@ class QF_Blogs
         if ($QF->DBase->Do_Update('blog_entries', $data_upd, Array('id' => $id)) !== false
             && $QF->DBase->Do_Update('blog_texts', $text_upd, Array('id' => $id)) !== false)
         {
+            $QF->PTree->Modify_Tree($entry['pt_root'], false, Array('r_level' => $data_upd['r_level'], 'w_level' => max($data_upd['r_level'], 1)));
             $QF->Cache->Drop(FOX_BLOGS_CACHE_PREFIX);
             return Array(Lang('RES_BLOGS_EDITED'), $FOX->Gen_URL('FoxBlogs_entry', $id));
         }
