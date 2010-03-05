@@ -187,7 +187,9 @@ class QF_Gallery
                     );
                 $QF->Files->Modif_File($item['file_id'], $upd);
             }
-            if (!$item['pt_root'] && ($tid = $QF->PTree->Create_Tree('FOX2_GAL', Array($item['id']), Array('r_level' => $data['r_level'], 'w_level' => max($data['r_level'], 1)))))
+            if ($item['pt_root'])
+                $QF->PTree->Modify_Tree($item['pt_root'], false, Array('r_level' => $data['r_level'], 'w_level' => max($data['r_level'], 1)));
+            elseif ($tid = $QF->PTree->Create_Tree('FOX2_GAL', Array($item['id']), Array('r_level' => $data['r_level'], 'w_level' => max($data['r_level'], 1))))
                 $QF->DBase->Do_Update('gal_items', Array('pt_root' => $tid), Array('id' => $item['id']));
 
             unset($this->u_itms[$data['author_id']]);
