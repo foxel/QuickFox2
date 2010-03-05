@@ -144,7 +144,7 @@ ec6c3aedf3451ccaf0fdcb45fe2885b7 kernel2/chars/x-mac-greek.ltt
 989489290036483052d960d6ec7f72c2 kernel2/chars/x-mac-roman.ltt
 fb9375c8f8c5fc54000ba23e31f6ce2d kernel2/chars/zdingbat.chr
 8f80cc35ff7453a2be7fa926f31383e3 QFox2/as_data.dat
-af8cae9f4f3bd74200e04b7b24fe187d QFox2/Fox2.php
+b4a4b49ed534957bb5e25387bcd348ab QFox2/Fox2.php
 53600c837c8fb0c7bf938a68d2e8d650 QFox2/Fox2_adm.php
 5c24b3ffa072e02cb45a11d69a917f34 QFox2/Fox2_cfgsets.php
 171bda88f5b731329638ea3b98b01a23 QFox2/Fox2_cms.php
@@ -244,7 +244,7 @@ d0080fd73e91f9a77e13d5e52722148c data/modules/Fox2_Blogs.php
 797902b3e814d0abf1455efaf1d95958 data/langs/RU/blogs_cfgs.lng
 0869ff53841df5827a77806a86dca1db data/modules/Fox2_Gal.php
 d1c4a952c47e65276dc3bb9c8a10812a data/modules/Fox2_Gal_Incls.php
-ed19f9a026a5faf2f30671a343d46022 data/styles/qf_def/gallery.vis
+2d05a0ad8e79f67b15376b2ed8b61438 data/styles/qf_def/gallery.vis
 72e51ba21a24be4427b6450b9bcb3ee6 data/langs/RU/gallery.lng
 5b483c2fad4caf120a49d346b974cf6c data/langs/RU/gallery_cfgs.lng
 e1b0466d4c2d4ced43f3c6d69bfbfcdd data/modules/Fox2_GAdds.php

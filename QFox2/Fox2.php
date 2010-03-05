@@ -730,7 +730,7 @@ class Fox2
         if (!is_array($this->URL_temps))
             $this->_Load_URLS();
 
-        $indata = preg_replace_callback('#\{(?>(F|R)?URL:((?:\w+|\"[^\"]+\"|\|)+))\}#',Array(&$this, '_VISParse_URL_CB'),$indata);
+        $indata = preg_replace_callback('#\{(?>(!)?(F|R)?URL:((?:\w+|\"[^\"]+\"|\|)+))\}#',Array(&$this, '_VISParse_URL_CB'),$indata);
     }
 
     function On_EJS_Prep(&$indata, $type = false)
@@ -738,7 +738,7 @@ class Fox2
         if (!is_array($this->URL_temps))
             $this->_Load_URLS();
 
-        $indata = preg_replace_callback('#\{(?>(F|R)?URL:((?:\w+|\"[^\"]+\"|\|)+))\}#',Array(&$this, '_VISParse_URL_CB'),$indata);
+        $indata = preg_replace_callback('#\{(?>(!)?(F|R)?URL:((?:\w+|\"[^\"]+\"|\|)+))\}#',Array(&$this, '_VISParse_URL_CB'),$indata);
     }
 
     function _VISUserMods_Add(&$indata, $style, $part)
@@ -793,7 +793,7 @@ class Fox2
 
     function _VISParse_URL_CB($matches)
     {
-        $code = $matches[2];
+        $code = $matches[3];
         $code = explode('|', $code);
 
         if (!($url_id = strtoupper($code[0])))
@@ -809,10 +809,10 @@ class Fox2
         else
             $params = Array();
 
-        $url = $this->Gen_URL($url_id, $params, true, false, true);
-        if ($matches[1] == 'F')
-            $url = qf_full_url($url, true, $this->URL_domain);
-        elseif ($matches[1] == 'R') // && $url{0} != '/'
+        $url = $this->Gen_URL($url_id, $params, !$matches[1], false, true);
+        if ($matches[2] == 'F')
+            $url = qf_full_url($url, !$matches[1], $this->URL_domain);
+        elseif ($matches[2] == 'R') // && $url{0} != '/'
         {
             $comps = parse_url($url);
             if (!$comps['scheme'])
