@@ -436,7 +436,7 @@ class Fox2_curuser
         }
 
         $QF->Session->Cache_Clear();
-        if (preg_match('#'.QF_FOX2_LOGIN_MASK.'#', $login) && ($cuser = $QF->DBase->Do_Select('users_auth', '*', Array('login' => $login))))
+        if (preg_match('#'.QF_FOX2_LOGIN_MASK.'#i', $login) && ($cuser = $QF->DBase->Do_Select('users_auth', '*', Array('login' => $login))))
         {
             $uid = $cuser['uid'];
             $pass_hash = md5($pass);

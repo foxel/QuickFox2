@@ -274,6 +274,7 @@ data/modules/Fox2_Gal_Incls.php|600
 data/styles/qf_def/gallery.vis|600
 data/langs/RU/gallery.lng|600
 data/langs/RU/gallery_cfgs.lng|600
+static/images/cooliris_enabled_sm.png|644
 data/modules/Fox2_GAdds.php|600
 data/langs/RU/google_adds_cfgs.lng|600
 data/modules/Fox2_Player.php|600

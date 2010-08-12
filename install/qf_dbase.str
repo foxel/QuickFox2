@@ -628,6 +628,13 @@ Array (
                 'def' => '' ,
                 'extra' => ''
             )  ,
+            'file_id' => Array (
+                'type' => 'char(8)' ,
+                'collate' => 'ascii_general_ci' ,
+                'null' => false ,
+                'def' => '' ,
+                'extra' => ''
+            )  ,
             'sid' => Array (
                 'type' => 'char(32)' ,
                 'collate' => 'ascii_general_ci' ,
@@ -635,8 +642,8 @@ Array (
                 'def' => '' ,
                 'extra' => ''
             )  ,
-            'file_id' => Array (
-                'type' => 'char(8)' ,
+            'gid' => Array (
+                'type' => 'char(32)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
                 'def' => '' ,
@@ -671,22 +678,41 @@ Array (
                     1 => 'file_id'
                 ) 
             )  ,
+            'gid_uniq' => Array (
+                'type' => 'UNIQUE' ,
+                'cols' => Array (
+                    0 => 'gid' ,
+                    1 => 'file_id'
+                ) 
+            )  ,
+            'sid' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'sid'
+                ) 
+            )  ,
+            'gid' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'gid'
+                ) 
+            )  ,
             'file_id' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
                     0 => 'file_id'
                 ) 
             )  ,
-            'active_till' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'active_till'
-                ) 
-            )  ,
             'client_ip' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
                     0 => 'client_ip'
+                ) 
+            )  ,
+            'active_till' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'active_till'
                 ) 
             ) 
         )  ,

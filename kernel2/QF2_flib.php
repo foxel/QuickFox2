@@ -695,7 +695,7 @@ function qf_file_load_datafile($filename, $force_upcase = false, $force_explode 
     {
         $matches = Array();
         $arr = Array();
-        preg_match_all('#^((?>\w+)):(.*?)\n---#sm', $indata, $matches);
+        preg_match_all('#^((?>\w+)):(.*?)\r?\n---#sm', $indata, $matches);
         if (is_array($matches[1]))
         {
             $names =& $matches[1];

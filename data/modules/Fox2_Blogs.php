@@ -118,7 +118,7 @@ class QF_Blogs
             $entries = array_slice($entries, $start, $this->per_page);
         }
 
-        $ids = array_keys($entries);
+        $ids = qf_2darray_cols($entries, 'id');
 
         list($uids, $tids) = qf_2darray_cols($entries, Array('author_id', 'pt_root'));
         $pt_stats = $QF->PTree->Get_Stats($tids);
@@ -181,7 +181,7 @@ class QF_Blogs
             $entries = array_slice($entries, $start, $this->per_page);
         }
 
-        $ids = array_keys($entries);
+        $ids = qf_2darray_cols($entries, 'id');
 
         list($uids, $tids) = qf_2darray_cols($entries, Array('author_id', 'pt_root'));
         $pt_stats = $QF->PTree->Get_Stats($tids);

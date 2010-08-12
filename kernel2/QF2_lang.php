@@ -58,7 +58,7 @@ class QF_Lang
 
         $this->lang_name = $n_lang;
         $this->time_tr = null;
-        $this->$lang = Array();
+        $this->lang = Array();
         $this->Load_Kernel_Defs();
         if ($parts = $this->LNG_loaded)
         {

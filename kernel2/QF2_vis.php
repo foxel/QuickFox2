@@ -737,7 +737,7 @@ class QF_Visual
         {
             $params = array_slice($code, 1);
             foreach ($params as $id => $val)
-                $params[$id] = ($val{0} == '"') ? substr($val, 1, -1) : '{'.$val.'}';
+                $params[$id] = ($val[0] == '"') ? substr($val, 1, -1) : '{'.$val.'}';
 
             $data = qf_sprintf_arr($data, $params);
         }
@@ -759,7 +759,7 @@ class QF_Visual
         {
             $params = array_slice($code, 1);
             foreach ($params as $id => $val)
-                $params[$id] = (is_numeric($val{0})) ? (int) $val : '{'.$val.'}';
+                $params[$id] = (is_numeric($val[0])) ? (int) $val : '{'.$val.'}';
             $data = qf_sprintf_arr($data, $params);
         }
 
@@ -807,7 +807,7 @@ class QF_Visual
                         $params[1][$i] = strtoupper($params[1][$i]);
 
                 if ($tag == 'WRITE')
-                {                    if (isset($params[1]) && count($params[1]) && ($var = $params[1][0]) && !is_numeric($var{0}))
+                {                    if (isset($params[1]) && count($params[1]) && ($var = $params[1][0]) && !is_numeric($var[0]))
                         $var = '$'.$var;
                     else
                         $var = '$OUT';
@@ -830,9 +830,9 @@ class QF_Visual
                     {
                         $val = $params[1][$i];
 
-                        if (is_numeric($val{0}))
+                        if (is_numeric($val[0]))
                             $text.= qf_heredoc_addslashes(qf_func_call($func_parser, intval($val)), 'QFT');
-                        elseif ($val{0} == '"')
+                        elseif ($val[0] == '"')
                             $text.= qf_heredoc_addslashes(qf_func_call($func_parser, substr($val, 1, -1)), 'QFT');
                         else
                         {
@@ -855,14 +855,14 @@ class QF_Visual
                         $sets = '';
                         for($i = 0; $i < $pars; $i++)
                         {                            $var = $params[1][$i];
-                            if (is_numeric($var{0}) || !isset($params[3][$i]) && !strlen($params[3][$i]))
+                            if (is_numeric($var[0]) || !isset($params[3][$i]) || !strlen($params[3][$i]))
                                 continue;
                             $val = $params[3][$i];
                             $sets.= '$'.$var.' = ';
 
-                            if (is_numeric($val{0}))
+                            if (is_numeric($val[0]))
                                 $sets.= intval($val).';';
-                            elseif ($val{0} == '"')
+                            elseif ($val[0] == '"')
                                 $sets.= '<<<QFT'.VIS_BR.qf_heredoc_addslashes(substr($val, 1, -1), 'QFT').VIS_BR.'QFT'.VIS_BR.';';
                             else
                             {
@@ -884,23 +884,23 @@ class QF_Visual
                     }
                 }
                 elseif ($tag == 'FOR')
-                {                    if (!isset($params[1]) || !count($params[1]))
+                {                    if (!isset($params[1]) || !count($params[1]) || $in_for)
                         continue;
                     $params = $params[1];
                     $p1 = array_shift($params);
                     $p2 = array_shift($params);
                     $p3 = array_shift($params);
 
-                    $p1 = (is_numeric($p1{0})) ? intval($p1) : '(int) $'.$p1.($vars[$p1] = '');
+                    $p1 = (is_numeric($p1[0])) ? intval($p1) : '(int) $'.$p1.($vars[$p1] = '');
                     if ($p2)
-                        $p2 = (is_numeric($p2{0})) ? intval($p2) : '(int) $'.$p2.($vars[$p2] = '');
+                        $p2 = (is_numeric($p2[0])) ? intval($p2) : '(int) $'.$p2.($vars[$p2] = '');
                     else
                     {
                         $p2 = $p1;
                         $p1 = '0';
                     }
                     if ($p3)
-                        $p3 = (is_numeric($p3{0})) ? intval($p3) : '(int) $'.$p3.($vars[$p3] = '');
+                        $p3 = (is_numeric($p3[0])) ? intval($p3) : '(int) $'.$p3.($vars[$p3] = '');
                     else
                         $p3 = '1';
 
@@ -936,9 +936,9 @@ class QF_Visual
                             $val = (isset($params[3][$i]) && strlen($params[3][$i])) ? $params[3][$i] : '1';
                             $text.= '\''.$var.'\' => ';
 
-                            if (is_numeric($val{0}))
+                            if (is_numeric($val[0]))
                                 $text.= intval($val).',';
-                            elseif ($val{0} == '"')
+                            elseif ($val[0] == '"')
                                 $text.= '<<<QFT'.VIS_BR.qf_heredoc_addslashes(substr($val, 1, -1), 'QFT').VIS_BR.'QFT'.VIS_BR.',';
                             else
                             {                                $val = strtoupper($val);
@@ -981,9 +981,9 @@ class QF_Visual
 
                         }
 
-                        if (is_numeric($condvar{0}))
+                        if (is_numeric($condvar[0]))
                             $condition = '((int) $'.$varname.$condition.intval($condvar).')';
-                        elseif ($condvar{0} == '"')
+                        elseif ($condvar[0] == '"')
                         {
                             $condvar = substr($condvar, 1, -1);
                             $condition = '($'.$varname.$condition.'\''.strtr($condvar, Array('\'' => '\\\'', '\\' => '\\\\')).'\')';
@@ -1023,7 +1023,7 @@ class QF_Visual
                     $varname = $tag;
                     if (isset($consts[$varname]))
                         $text.= qf_heredoc_addslashes($consts[$varname], 'QFT');
-                    elseif (!is_numeric($varname{0}))
+                    elseif (!is_numeric($varname[0]))
                     {
                         $vars[$varname] = '';
                         if ($got_a)

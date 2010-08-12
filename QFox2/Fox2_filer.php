@@ -719,33 +719,32 @@ class Fox2_Files
         if ($QF->User->is_spider || !$QF->User->CheckAccess($info['r_level']))
             return false;
 
-        // we'll try to find needed dload by session
         $selector = Array(
-            'sid'       => $QF->Session->SID,
             'file_id'   => $info['id'],
             'client_ip' => $QF->HTTP->IP_int,
             );
-        if ($QF->Session->Get_Status(QF_SESSION_LOADED) && ($ddata = $QF->DBase->Do_Select('file_dloads', Array('dl_id', 'active_till'), $selector)) && ($ddata['active_till'] >= $QF->Timer->time))
+        // we'll try to fing dcode by session or guest id
+        if ($ddatas = $QF->DBase->Do_Select_All('file_dloads', Array('dl_id', 'sid', 'gid', 'active_till'), $selector + Array('active_till' => '>= '.$QF->Timer->time), '', QF_SQL_USEFUNCS))
+        {            qf_2darray_keycol($ddatas, 'dl_id');
+            list($by_sid, $by_gid) = qf_2darray_cols($ddatas, Array('sid', 'gid'));
+            if (($QF->Session->Get_Status(QF_SESSION_LOADED) && $dl_ids = array_keys($by_sid, $QF->Session->SID))
+                || $dl_ids = array_keys($by_gid, $QF->User->GID))
+                return $dl_ids[0];
+        }
+        // generating new dcode
+        $dcode = md5(uniqid($QF->HTTP->Cl_ID));
+        $selector['active_till'] = $QF->Timer->time + 3*QF_KERNEL_SESSION_LIFETIME;
+        $selector['dl_id'] = $dcode;
+        $selector['sid']   = $QF->Session->SID;
+        $selector['gid']   = $QF->User->GID;
+        if ($QF->DBase->Do_Insert('file_dloads', $selector, true))
         {
-            $dcode = $ddata['dl_id'];
+            $QF->DBase->Do_Delete('file_dloads', Array('active_till' => '< '.$QF->Timer->time), QF_SQL_USEFUNCS);
+            $this->Incrase_Stats($info['id']); // update dloads counter
             return $dcode;
         }
         else
-        {
-            $dcode = md5(uniqid($QF->HTTP->Cl_ID));
-            $selector['active_till'] = $QF->Timer->time + 3*QF_KERNEL_SESSION_LIFETIME;
-            $selector['dl_id'] = $dcode;
-            $selector['sid']   = $QF->Session->SID;
-            if ($QF->DBase->Do_Insert('file_dloads', $selector, true))
-            {
-                $QF->DBase->Do_Delete('file_dloads', Array('active_till' => '< '.$QF->Timer->time), QF_SQL_USEFUNCS);
-                $this->Incrase_Stats($info['id']); // update dloads counter
-                return $dcode;
-            }
-            else
-                trigger_error('FOX_FILES: Can\'t insert new dload into DB', E_USER_ERROR);
-        }
-
+            trigger_error('FOX_FILES: Can\'t insert new dload into DB', E_USER_ERROR);
         return false;
 
     }

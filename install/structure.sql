@@ -125,15 +125,19 @@ CREATE TABLE `{DBKEY}datasets` (
 DROP TABLE IF EXISTS `{DBKEY}file_dloads` ;
 CREATE TABLE `{DBKEY}file_dloads` ( 
     `dl_id` char(32) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
-    `sid` char(32) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
     `file_id` char(8) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `sid` char(32) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
+    `gid` char(32) COLLATE ascii_general_ci NOT NULL DEFAULT '', 
     `client_ip` int(10) unsigned NOT NULL DEFAULT '0', 
     `active_till` int(11) NOT NULL DEFAULT '0', 
     PRIMARY KEY (`dl_id`) , 
     UNIQUE `sid_uniq` (`sid`, `file_id`) , 
+    UNIQUE `gid_uniq` (`gid`, `file_id`) , 
+    INDEX `sid` (`sid`) , 
+    INDEX `gid` (`gid`) , 
     INDEX `file_id` (`file_id`) , 
-    INDEX `active_till` (`active_till`) , 
-    INDEX `client_ip` (`client_ip`)  
+    INDEX `client_ip` (`client_ip`) , 
+    INDEX `active_till` (`active_till`)  
 ) ENGINE = MyISAM COLLATE utf8_general_ci; 
 
 # Table definition for {DBKEY}file_folders 

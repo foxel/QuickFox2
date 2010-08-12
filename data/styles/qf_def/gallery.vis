@@ -366,7 +366,7 @@ Fox2_Gal_album_setEvents('{COUNTER}');
  var div = qf_getbyid('qf_cooliris_button');
  var mrssURL = {JS_DEF:IN_MRSS_URL};
  if (div)
-  div.innerHTML = '<a href="http://cooliris.com/" onmousedown="this.target=\'_blank\';" onclick="if (FOX2_IMGSHOW.Cooliris.start(\''+mrssURL+'\')) return false;" title="'+(FOX2_IMGSHOW.Cooliris.ready()?'{L_FOX_GALLERY_COOLIRIS_START}':'{L_FOX_GALLERY_COOLIRIS_GET}')+'"><img src="http://developer.cooliris.com/static/images/badges/cooliris_enabled_sm.png" style="width: 88px; height: 31px;" alt="Cooliris" /></a>';
+  div.innerHTML = '<a href="http://cooliris.com/" onmousedown="this.target=\'_blank\';" onclick="if (FOX2_IMGSHOW.Cooliris.start(\''+mrssURL+'\')) return false;" title="'+(FOX2_IMGSHOW.Cooliris.ready()?'{L_FOX_GALLERY_COOLIRIS_START}':'{L_FOX_GALLERY_COOLIRIS_GET}')+'"><img src="{IMGS}/cooliris_enabled_sm.png" style="width: 88px; height: 31px;" alt="Cooliris" /></a>';
 //]]>
 </script>
 <<- 'FOX_GALLERY_COOLIRIS_BTN'>>

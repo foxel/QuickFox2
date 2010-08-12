@@ -41,6 +41,10 @@ if (!defined('E_STRICT'))
 //
 // Sets some initial running parameters
 //
+// here comes the fatal catcher :P
+register_shutdown_function(create_function('', 'if (($a = error_get_last()) && $a[\'type\'] == E_ERROR)
+    { file_put_contents(F_SITE_ROOT.\'php_fatal.log\', sprintf(\'E%d "%s" at %s:%d\', $a[\'type\'], $a[\'message\'], $a[\'file\'], $a[\'line\']));
+    $i = ob_get_level(); while ($i--) @ob_end_clean(); print \'Fatal error. Sorry :(\'; }'));
 Error_Reporting(0 & ~(E_NOTICE | E_USER_NOTICE | E_STRICT) );
 if (get_magic_quotes_runtime())
     set_magic_quotes_runtime(0);
