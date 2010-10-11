@@ -7,6 +7,7 @@ var QF_EFFECTS = function()
     var CallBacks = {};
     var SDatas = {};
     var Ready = false;
+    var PGLoaded = false;
     var Interval;
 
     var _OnScrollHandler = function()
@@ -80,12 +81,15 @@ var QF_EFFECTS = function()
 
     var Init = function()
     {
+        if (Ready)
+            return;
+
         // ++ some trick
         var body = document.getElementsByTagName('body')[0];
         var child = document.getElementsByTagName('div')[0];
-        if (!child || (child.clientHeight || child.offsetHeight) == 0)
+        if (!PGLoaded && (!child || (child.clientHeight || child.offsetHeight) == 0))
         {
-            var cBack = function() { Init(); };
+            var cBack = function() { PGLoaded = true; Init(); };
             QF_TIMERS.addOnLoad(cBack);
             return false;
         }
@@ -99,13 +103,15 @@ var QF_EFFECTS = function()
             ToDo[v].func();
             delete ToDo[v];
         }
+        _Add_CB(UpdateASliders);
         Interval = window.setInterval(_IntervalHandler, 70);
         window.onscroll = _OnScrollHandler;
         window.onresize = _OnResizeHandler;
     }
 
     var SizerStartResize = function(elem, evt)
-    {        if (!evt)
+    {
+        if (!evt)
             evt = window.event;
         var stl = getStyleObj(elem);
         var TAh = styleNumber(elem, 'height');
@@ -129,18 +135,76 @@ var QF_EFFECTS = function()
     }
 
     var InitResizebleTAs = function()
-    {        var TAs = document.getElementsByTagName('textarea');
+    {
+        var TAs = document.getElementsByTagName('textarea');
         for (var i in TAs)
             if (TAs[i].tagName && TAs[i].tagName.toLowerCase() == 'textarea')
                 QF_EFFECTS.SetResizebleElem(TAs[i]);
     }
 
+    // autosliding block procedures
+    var autosliders = {};
+
+    var UpdateASliders = function()
+    {
+		for (var ii in autosliders)
+		{
+			var s = autosliders[ii];
+			if (s.idle || s.paused)
+			    continue;
+			s.cpos+= s.spd;
+			if (s.cpos >= s.stoppos)
+			{
+			    s.cpos-= s.stoppos;
+			    ReinitASlider(ii, true);
+			}
+			if (s.ishor)
+    			getStyleObj(s.obj).marginLeft = '-'+s.cpos+'px';
+            else
+	    		getStyleObj(s.obj).marginTop = '-'+s.cpos+'px';
+		}
+	}
+
+	var ReinitASlider = function(id, doShift)
+	{
+	    if (!autosliders[id])
+	        return false;
+
+	    var s = autosliders[id];
+	    var o = s.obj;
+	    var co = o.firstChild;
+	    var shift = doShift ? 1 : 0;
+        while (co && (co.nodeType != 1 || shift > 0))
+        {
+            if (co.nodeType == 1)
+                shift--;
+            o.insertBefore(co, null);
+            co = o.firstChild;
+        }
+        if (co)
+        {
+            if (s.ishor)
+                s.stoppos = ((co.clientWidth) ? co.clientWidth : co.offsetWidth) + styleNumber(co, 'marginLeft');
+            else
+                s.stoppos = ((co.clientHeight) ? co.clientHeight : co.offsetHeight) + styleNumber(co, 'marginTop');
+            if (s.to)
+            {
+                s.paused = true;
+                QF_TIMERS.setTimeout(function(){s.paused = false;}, s.to);
+            }
+        }
+        else
+            s.idle = true;
+	}
+
     /* this is needed for MS IE since it works slower
     window.setTimeout(Init, (myBrowser.isMSIE) ? 500 : 100); */
     window.setTimeout(Init, 100);
+    window.setTimeout(Init, 1000);
     QF_TIMERS.addOnLoad(InitResizebleTAs);
 
-    return {        Overlay: null,
+    return {
+        Overlay: null,
         isReady: function(){ return Ready; },
         Add_CB: function(func, type, onDropFunc){ return _Add_CB(func, type, onDropFunc); },
         Drop_CB: function(id, type, noOnDrop){ return _Drop_CD(id, type, noOnDrop); },
@@ -213,7 +277,8 @@ var QF_EFFECTS = function()
             }
 
             if (SDatas[id])
-            {                var alpha = (myBrowser.isMSIE) ? itm.filters['DXImageTransform.Microsoft.alpha'] || itm.filters.alpha : null;
+            {
+                var alpha = (myBrowser.isMSIE) ? itm.filters['DXImageTransform.Microsoft.alpha'] || itm.filters.alpha : null;
                 var SData = SDatas[id];
                 stl.width = SData.cWidth;
                 stl.height = SData.cHeight;
@@ -731,6 +796,42 @@ var QF_EFFECTS = function()
         {
             document.onmousemove = null;
             document.onmouseup = null;
+        },
+        AddASlider: function(id, stopped, speed, timeout, horizontal)
+        {
+            if (!Ready)
+                return _Add_CB(function() {QF_EFFECTS.AddASlider(id, stopped, speed, timeout, horizontal);});
+
+            var itm = qf_getbyid(id);
+            if (!itm || autosliders[id])
+                return false;
+
+            speed = parseInt(speed, 10);
+            timeout = parseInt(timeout, 10);
+            autosliders[id] = {obj: itm, spd: speed ? speed : 2, to: timeout,
+                cpos: 0, stoppos: 0, idle: stopped ? true : false, ishor: horizontal ? true : false,
+                paused: false};
+            ReinitASlider(id, false);
+        },
+        StopASlider: function(id, doReset)
+        {
+            if (!Ready || !autosliders[id])
+                return false;
+            autosliders[id].idle = true;
+            if (doReset)
+                autosliders[id].cpos = 0;
+        },
+        StartASlider: function(id)
+        {
+            if (!Ready || !autosliders[id])
+                return false;
+            autosliders[id].idle = false;
+        },
+        ResetASlider: function(id)
+        {
+            if (!Ready || !autosliders[id])
+                return false;
+            autosliders[id].cpos = 0;
         }
     }
 }();

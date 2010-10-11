@@ -365,7 +365,7 @@ class Fox2
             if ($d_status != 200)
                 $QF->HTTP->Set_Status($d_status);
             if ($d_result && is_array($d_result))
-                call_user_method_array('Draw_Result', $this, $d_result);
+                call_user_func_array(Array(&$this, 'Draw_Result'), $d_result);
         }
         elseif (($file = QF_PAGES_DIR.$pg.'_inc.php') && file_exists($file))
             include ($file);

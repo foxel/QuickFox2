@@ -35,6 +35,7 @@ define('QF_GPC_STRIP', (bool) get_magic_quotes_gpc());
 define('QF_HTTP_FILE_ATTACHMENT', 1);
 define('QF_HTTP_FILE_RFC1522'  ,  8);
 define('QF_HTTP_FILE_TRICKY'   , 16);
+define('QF_HTTP_FILE_DLREDIR'  , 32);
 
 // GPC resource types
 define('QF_GPC_ALL', 0);
@@ -760,6 +761,7 @@ class QF_HTTP
     var $RootDir = '';
     var $RootFul = '';
     var $SrvName = '';
+    var $SrvPort = 80;
     var $Request = '';
     var $PtInfo  = '';
     var $Referer = '';
@@ -797,8 +799,9 @@ class QF_HTTP
         $this->UAgent  = trim($this->SERVER['HTTP_USER_AGENT']);
         $this->Cl_ID   = md5($this->IP_int.'|'.$this->UAgent); // Client ID usefull for client machine identity
 
-        $this->SrvName = preg_replace('#^\/*|\/*$#', '\1', trim($this->SERVER['SERVER_NAME']));
-        $this->RootUrl = 'http://'.$this->SrvName.'/';
+        $this->SrvName = ($this->SERVER['HTTP_HOST']) ? preg_replace('#:\d+#', '', $this->SERVER['HTTP_HOST']) : $this->SERVER['SERVER_NAME'];
+        $this->SrvPort = ($this->SERVER['SERVER_PORT']) ? $this->SERVER['SERVER_PORT'] : 80;
+        $this->RootUrl = 'http://'.$this->SrvName.(($this->SrvPort != 80) ? $this->SrvPort : '').'/';
         $this->Request = preg_replace('#\/|\\\+#', '/', trim($this->SERVER['REQUEST_URI']));
         $this->Request = preg_replace('#[\'\"]|^/+#s', '', $this->Request);
 
@@ -919,6 +922,22 @@ class QF_HTTP
             $FileTime = (is_int($filemtime))
                 ? $filemtime
                 : gmdate('D, d M Y H:i:s ', filemtime($file)).'GMT';
+
+            // nginx sendfile patch
+            if (($flags & QF_HTTP_FILE_DLREDIR) && preg_match('#^nginx/#i', $_SERVER["SERVER_SOFTWARE"]))
+            {                qf_ob_free();
+
+                header('Last-Modified: '.$FileTime);
+                header('Expires: '.date('r', $QF->Timer->time + 3600*24), true);
+                header('Content-Transfer-Encoding: binary');
+                header('Content-Disposition: '.$disposition.'; filename="'.$filename.'"');
+                header('Content-Type: '.$filemime);
+                header('Content-Length: '.($FileSize - $SeekFile));
+                header('Accept-Ranges: bytes');
+                header('X-QF-GenTime: '.$QF->Timer->Time_Spent());
+                header('X-Accel-Redirect: /'.$file);
+                exit();
+            }
 
             if (isset($this->SERVER['HTTP_RANGE']) && preg_match('#bytes\=(\d+)\-(\d*?)#i', $this->SERVER['HTTP_RANGE'], $ranges))
             {
@@ -1289,7 +1308,10 @@ class QF_HTTP
             E_USER_ERROR   => 'QF ERROR',
             E_USER_WARNING => 'QF WARNING',
             E_USER_NOTICE  => 'QF NOTICE',
-            E_STRICT       => 'PHP5 STRICT',
+            E_STRICT       => 'PHP STRICT',
+            E_DEPRECATED   => 'PHP DEPRECATED',
+            E_USER_DEPRECATED => 'QF DEPRECATED',
+            E_RECOVERABLE_ERROR => 'PHP RECOVERABLE',
             );
 
         $errfile = str_replace('\\', '/', $errfile);
@@ -1306,7 +1328,7 @@ class QF_HTTP
                 fwrite($logfile, date('[d M Y H:i]').' '.$ERR_TYPES[$errno].': '.$errstr.'. File: '.$errfile.'. Line: '.$errline.".\r\n");
         }
 
-        if ( $errno & ~(E_NOTICE | E_WARNING | E_USER_NOTICE | E_USER_WARNING | E_STRICT) )
+        if ( $errno & ~(E_NOTICE | E_WARNING | E_USER_NOTICE | E_USER_WARNING | E_STRICT | E_DEPRECATED | E_USER_DEPRECATED) )
         {
             qf_ob_free();
             $QF->Cache->Clear();

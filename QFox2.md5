@@ -2,12 +2,12 @@
 8e765881bb31e3069ca6489f524139cc kernel2/krnl_def.lng
 e1b405e8844770ab09fe0acadd9b5de9 kernel2/magic.mime
 76e7208935e003758f501e6664433596 kernel2/modules.qfc
-bf2a7b0967598be80494cc71816fc6b7 kernel2/QF2_base.php
+97e78fc00bf5cc512e92d064b2d958e4 kernel2/QF2_base.php
 028285095eae16a0d8ee234f64b29840 kernel2/QF2_cache.php
 f0448df743a846948f48a8e47893a036 kernel2/QF2_configs.php
 d9b1ac909a20a6ba39d4662822af601e kernel2/QF2_efs.php
 ba5ee72586fe61ceb045839138e7caaa kernel2/QF2_esql.php
-b97daca101d7b895a9fbf4a6b4257b40 kernel2/QF2_flib.php
+bf52e85d607ca897a18269685a3fdb5e kernel2/QF2_flib.php
 5ed39655d040492f571de528768dab1a kernel2/QF2_imager.php
 0cc7bc43583f0fa1940e05b58d705614 kernel2/QF2_lang.php
 fabbb52cdc1076e14281f30e06eadae6 kernel2/QF2_mailer.php
@@ -18,7 +18,7 @@ fabbb52cdc1076e14281f30e06eadae6 kernel2/QF2_mailer.php
 bb7e78c3a26ced9270ea49b14770bf7f kernel2/QF2_sess.php
 18bfe0a124d426ef047aca980f23e9cd kernel2/QF2_tar.php
 caaa513d33fe4ca551edae74c3d1a92f kernel2/QF2_vis.php
-a18756011dacf258739e53e1182c6962 kernel2/QF_kernel2.php
+45e6a9eacec2e0d8da8586083c53adbb kernel2/QF_kernel2.php
 96831fd122fe8a3ddf9dfc8563729ab3 kernel2/chars/cp037.chr
 b2f6c332aaf70db2501afeba2c75bb5d kernel2/chars/cp037.ltt
 a88a36da7c30a4415d54b276cc7eea38 kernel2/chars/cp1006.chr
@@ -144,7 +144,7 @@ ec6c3aedf3451ccaf0fdcb45fe2885b7 kernel2/chars/x-mac-greek.ltt
 989489290036483052d960d6ec7f72c2 kernel2/chars/x-mac-roman.ltt
 fb9375c8f8c5fc54000ba23e31f6ce2d kernel2/chars/zdingbat.chr
 8f80cc35ff7453a2be7fa926f31383e3 QFox2/as_data.dat
-b4a4b49ed534957bb5e25387bcd348ab QFox2/Fox2.php
+874e3a240d6e0775f00ef26ac47fd114 QFox2/Fox2.php
 53600c837c8fb0c7bf938a68d2e8d650 QFox2/Fox2_adm.php
 5c24b3ffa072e02cb45a11d69a917f34 QFox2/Fox2_cfgsets.php
 171bda88f5b731329638ea3b98b01a23 QFox2/Fox2_cms.php
@@ -162,7 +162,7 @@ bbf87f2d69c444bcaf010b94700ffbb0 QFox2/Fox2_ptree_incls.php
 02c2a55d7c8966ef559971492b874c6c data/htc/ie_png.htc
 11da1c55a2b8ef24374c4fe99383dd5d data/jscripts/ajax.ejs
 a83b9be638fcaceb6b77cb24571711ff data/jscripts/common.ejs
-42597d4250f1193e6f15d74785bfae5c data/jscripts/effects.ejs
+a6d36e4b376bc24de67b1d08977d5808 data/jscripts/effects.ejs
 aa389673e9dabdee15233ad45beba212 data/jscripts/imageshow.ejs
 cd8db02116257d250033f2c031bbeec3 data/jscripts/posttree.ejs
 68d3a34972bbe96da822faff4b5835d2 data/jscripts/swfobject.ejs
@@ -170,7 +170,7 @@ b33dce8752784b2d6784639dea4cee4b data/jscripts/uploader.ejs
 c1a079d7456de608617485941d478c40 data/langs/RU/admin.lng
 a16095c426c0ee7586d5a1f4c0538d38 data/langs/RU/cms_spec.lng
 f573c6014c7d9ab9b39c95a3ad0522ce data/langs/RU/common.lng
-06e7dbcf9e0e5c2029c1b033c97b5ba8 data/langs/RU/kernel.lng
+4de129782da481a6c1054a6e9608d191 data/langs/RU/kernel.lng
 98a978a789d87362652e7f5ac8d4d797 data/langs/RU/posttree.lng
 4a200ba8cda777dbebf5f5a1fb7919a5 data/langs/RU/qf2_base_errs.lng
 306694f7c5409a63153b6d0257730c63 data/langs/RU/qf2_cfgs.lng

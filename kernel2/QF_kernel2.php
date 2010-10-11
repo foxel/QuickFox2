@@ -34,9 +34,16 @@ if (!defined('QF_SITE_ROOT'))
 if (!defined('QF_DATA_ROOT'))
     define('QF_DATA_ROOT', QF_SITE_ROOT.'data/');
 
-// this will add E_STRICT on PHP 4
+// this will add missing error constants for old PHP
 if (!defined('E_STRICT'))
     define('E_STRICT', 2048);
+if (!defined('E_RECOVERABLE_ERROR'))
+    define('E_RECOVERABLE_ERROR', 4096);
+if (!defined('E_DEPRECATED'))
+    define('E_DEPRECATED', 8192);
+if (!defined('E_USER_DEPRECATED'))
+    define('E_USER_DEPRECATED', 16384);
+
 
 //
 // Sets some initial running parameters
@@ -45,7 +52,7 @@ if (!defined('E_STRICT'))
 register_shutdown_function(create_function('', 'if (($a = error_get_last()) && $a[\'type\'] == E_ERROR)
     { file_put_contents(F_SITE_ROOT.\'php_fatal.log\', sprintf(\'E%d "%s" at %s:%d\', $a[\'type\'], $a[\'message\'], $a[\'file\'], $a[\'line\']));
     $i = ob_get_level(); while ($i--) @ob_end_clean(); print \'Fatal error. Sorry :(\'; }'));
-Error_Reporting(0 & ~(E_NOTICE | E_USER_NOTICE | E_STRICT) );
+Error_Reporting(0 & ~(E_NOTICE | E_USER_NOTICE | E_STRICT | E_DEPRECATED) );
 if (get_magic_quotes_runtime())
     set_magic_quotes_runtime(0);
 set_time_limit(30);  // not '0' - once i had my script running for a couple of hours collecting GBytes of errors :)
@@ -79,7 +86,10 @@ function init_err_parse($errno, $errstr, $errfile = 'n/a', $errline = 'n/a')
         E_USER_ERROR   => 'QF ERROR',
         E_USER_WARNING => 'QF WARNING',
         E_USER_NOTICE  => 'QF NOTICE',
-        E_STRICT       => 'PHP5 STRICT',
+        E_STRICT       => 'PHP STRICT',
+        E_DEPRECATED   => 'PHP DEPRECATED',
+        E_USER_DEPRECATED => 'QF DEPRECATED',
+        E_RECOVERABLE_ERROR => 'PHP RECOVERABLE',
         );
 
     if (!$logfile) {
@@ -92,7 +102,7 @@ function init_err_parse($errno, $errstr, $errfile = 'n/a', $errline = 'n/a')
             fwrite($logfile,date('[d M Y H:i]').' '.$ERR_TYPES[$errno].': '.$errstr.'. File: '.$errfile.'. Line: '.$errline.".\r\n");
     }
 
-    if ( $errno & ~(E_NOTICE | E_WARNING | E_USER_NOTICE | E_USER_WARNING | E_STRICT) )
+    if ( $errno & ~(E_NOTICE | E_WARNING | E_USER_NOTICE | E_USER_WARNING | E_STRICT | E_DEPRECATED | E_USER_DEPRECATED) )
     {
         qf_ob_free();
         if ($debug)

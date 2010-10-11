@@ -491,6 +491,8 @@ function qf_full_url($url, $with_amps = false, $force_host = '')
     else
     {
         $url.= ($force_host) ? $force_host : $QF->HTTP->SrvName;
+        if ($QF->HTTP->SrvPort != 80)
+            $url.= ':'.$QF->HTTP->SrvPort;
         if (isset($url_p['path']))
         {
             if ($url_p['path']{0} != '/')
