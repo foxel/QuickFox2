@@ -138,6 +138,7 @@
 {IF:IN_BOTT_JS}
 <script type="text/javascript">
 // JavaScript Starts Here (bottom section) <![CDATA[
+ QF_EFFECTS.UpdateFloatCollections();
  {IN_BOTT_JS}
 //]]> JavaScript ends here
 </script>
@@ -471,7 +472,7 @@ toggleview('cms_modblock');
 <h2>{!IN_CAPTION}</h2>
 {WRITE:WIN_CAPT}{IF:IN_PARENT_ID}<a href="{URL:fox2_files_openfolder|IN_PARENT_ID}">&lt;&lt; {!IN_PARENT_CAPT}</a> :: {ENDIF}{!IN_CAPTION}&nbsp;{IF:IN_CUR_PAGE}[{L_MISC_CUR_PGNO|IN_CUR_PAGE}]{ENDIF}
 {WRITE:WIN_CONT}
-{IF:IN_ITEMS}{IN_ITEMS}{ELSE}<div class="alg_c" style="margin: 20px auto;"><b>{L_FILES_FOLDER_EMPTY}</b></div>{ENDIF}
+{IF:IN_ITEMS}<div class="float-collection" style="margin: 0; padding: 0;">{IN_ITEMS}</div>{ELSE}<div class="alg_c" style="margin: 20px auto;"><b>{L_FILES_FOLDER_EMPTY}</b></div>{ENDIF}
 {WRITE:WIN_BOTTLINE}
  {IF:IN_PAGE_BTNS}<div class="alg_c">|{IN_PAGE_BTNS}</div>{ENDIF}
  {IN_ADD_BUTTS}

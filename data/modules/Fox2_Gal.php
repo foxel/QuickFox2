@@ -12,7 +12,9 @@ define('QF_GALLERY_SEARCH_ALL', 0);
 define('QF_GALLERY_SEARCH_USERID', 1);
 define('QF_GALLERY_SEARCH_PUBLIC', 2);
 define('QF_GALLERY_SEARCH_PERSONAL', 3);
+define('QF_GALLERY_SEARCH_FILTER', 7);
 define('QF_GALLERY_SEARCH_LAST10', 8);
+define('QF_GALLERY_SEARCH_LAST20', 16);
 
 
 class QF_Gallery
@@ -294,11 +296,12 @@ class QF_Gallery
         $flags = 0;
         $other = Array('order' => Array('time' => 'DESC'));
 
-        if ($mode & QF_GALLERY_SEARCH_LAST10)
-        {
+        if ($mode & QF_GALLERY_SEARCH_LAST20)
+            $other['limit'] = Array(0, 20);
+        elseif ($mode & QF_GALLERY_SEARCH_LAST10)
             $other['limit'] = Array(0, 10);
-            $mode-= QF_GALLERY_SEARCH_LAST10;
-        }
+        $mode&= QF_GALLERY_SEARCH_FILTER;
+
         switch ($mode)
         {
             case QF_GALLERY_SEARCH_USERID:
@@ -324,10 +327,8 @@ class QF_Gallery
         $other = Array('order' => Array('lasttime' => 'DESC'));
 
         if ($mode & QF_GALLERY_SEARCH_LAST10)
-        {
             $other['limit'] = Array(0, 10);
-            $mode-= QF_GALLERY_SEARCH_LAST10;
-        }
+        $mode&= QF_GALLERY_SEARCH_FILTER;
         switch ($mode)
         {
             case QF_GALLERY_SEARCH_USERID:

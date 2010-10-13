@@ -294,14 +294,18 @@ function getElementClientPos(itm)
 	return position;
 }
 
-// These functions are dirty hacks for IE 5.0 which does not increment a
-// reference counter for an object passed via setTimeout(). So, if this
-// object (closure function) is out of scope at the moment of timeout
-// applying, IE 5.0 crashes.
-
-// Timeout wrappers storage. Used to avoid zeroing of referece counts in IE 5.0.
-// Please note that you MUST write "window.setTimeout", not "setTimeout", else
-// IE 5.0 crashes again. Strange, very strange...
+// "getElementsByClassName" не определен IE,
+// так что этот метод можно реализовать в JavaScript
+if(document.getElementsByClassName == undefined)
+    document.getElementsByClassName = function(cl) {
+        var retnode = [];
+        var myclass = new RegExp('\\b'+cl+'\\b');
+        var elems = this.getElementsByTagName('*');
+        for (var i in elems)
+            if (elems[i].className && myclass.test(elems[i].className))
+                retnode.push(elems[i]);
+        return retnode;
+    };
 
 QF_TIMERS = function()
 {    var TIMECTRLS = { s: window.setTimeout, c: window.clearTimeout };

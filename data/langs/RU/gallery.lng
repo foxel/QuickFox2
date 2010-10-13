@@ -6,7 +6,7 @@ FOX_GALLERY_ALBUMS: Альбомы
 ---
 FOX_GALLERY_NEW_ITEMS: Новые работы
 ---
-FOX_GALLERY_LAST_ALBUMS: Последние альбомы
+FOX_GALLERY_LAST_ALBUMS: Обновления в альбомах
 ---
 FOX_GALLERY_NO_ALBUMS: Альбомов нет
 ---
@@ -32,7 +32,9 @@ FOX_GALLERY_PAGE_ITEM_UALBUM: Работы
 ---
 FOX_GALLERY_ITEM_AUTHOR: Автор
 ---
-FOX_GALLERY_ITEM_COMMENTS: Комментарии
+FOX_GALLERY_ITEM_COMMENTS: Комментариев: %1$s
+---
+FOX_GALLERY_COMMENTS_LAST: Последний
 ---
 FOX_GALLERY_ITEM_SETLEVEL: Ограничить доступ по уровню
 ---

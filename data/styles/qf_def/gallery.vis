@@ -1,36 +1,32 @@
 <<+ 'FOX_GALLERY_PAGE'>>
 <h2>{L_FOX_GALLERY_GALLERY}</h2>
-<h3 class="aligned">{L_FOX_GALLERY_LAST_ALBUMS}</h3>
-<script type="text/javascript">
-// <![CDATA[
-var Fox2_Gal_album_setEvents = function(sub_id)
-{
-    var itm = qf_getbyid('alb_' + sub_id + '_1');
-    if (!itm) return false;
-    itm.onmouseover = function() { QF_EFFECTS.Alpha('alb_' + sub_id + '_0', 10); };
-    itm.onmouseout  = function() { QF_EFFECTS.Alpha('alb_' + sub_id + '_0', 100); };
-    var itm = qf_getbyid('alb_' + sub_id + '_2');
-    if (!itm) return false;
-    itm.onmouseover = function() { QF_EFFECTS.Alpha('alb_' + sub_id + '_0', 10); QF_EFFECTS.Alpha('alb_' + sub_id + '_1', 10); };
-    itm.onmouseout  = function() { QF_EFFECTS.Alpha('alb_' + sub_id + '_0', 100); QF_EFFECTS.Alpha('alb_' + sub_id + '_1', 100); };
-    return true;
-}
-//]]>
-</script>
-<div style="margin: 10px 10px 10px 30px;">
- {IF:IN_ALBUMS}{IN_ALBUMS}{ELSE}<div class="alg_c" style="margin: auto; padding: 30px; clear: both;"><h3>[ {L_FOX_GALLERY_NO_ALBUMS} ]</h3></div>{ENDIF}
- <br style="clear: both;" />
-</div>
-{IF:IN_ALBUMS_COUNT}<div style="margin-left: 350px;">{L_FOX_GALLERY_PAGE_ALBUMS_COUNT}: <b>{IN_ALBUMS_COUNT}</b>. [ <a href="{URL:FoxGal_albums}">{L_FOX_GALLERY_PAGE_ALBUMS_VIEW}</a> | <a href="{URL:FoxGal_palbums}">{L_FOX_GALLERY_PAGE_PALBUMS_VIEW}</a> ]</div>{ENDIF}
 {IF:IN_ITEMS}
-<div id="palbms_div" style="margin-top: 100px;" >
 <h3 class="aligned">{L_FOX_GALLERY_NEW_ITEMS}</h3>
-<div style="margin: 10px 20px 10px 50px;">
+<div class="float-collection" style="margin: 10px 20px;">
  {IN_ITEMS}
  <br style="clear: both;" />
 </div>
-</div>
 {ENDIF}
+<div id="palbms_div" style="margin-top: 100px;" >
+<h3 class="aligned">{L_FOX_GALLERY_LAST_ALBUMS}</h3>
+<div style="margin: 10px 10px 10px 30px;">
+ {IF:IN_ALBUMS}{IF:IN_ALBUMS_COUNT>4}
+ <div style="overflow: hidden; padding: 0; margin: 0;" onmouseover="QF_EFFECTS.StopASlider('albums_slider');" onmouseout="QF_EFFECTS.StartASlider('albums_slider');">
+   <div id="albums_slider" style="margin: 0 -2000px 0 0; padding: 0; white-space: nowrap;">
+    {IN_ALBUMS}
+   </div>
+  </div>
+  <script type="text/javascript">
+  // <![CDATA[
+   QF_EFFECTS.AddASlider('albums_slider', false, 2, 2000, true);
+  //]]>
+  </script>
+ {ELSE}{IN_ALBUMS}{ENDIF}
+ {ELSE}<div class="alg_c" style="margin: auto; padding: 30px; clear: both;"><h3>[ {L_FOX_GALLERY_NO_ALBUMS} ]</h3></div>{ENDIF}
+ <br style="clear: both;" />
+</div>
+</div>
+{IF:IN_ALBUMS_COUNT}<div style="margin-left: 350px;">{L_FOX_GALLERY_PAGE_ALBUMS_COUNT}: <b>{IN_ALBUMS_COUNT}</b>. [ <a href="{URL:FoxGal_albums}">{L_FOX_GALLERY_PAGE_ALBUMS_VIEW}</a> | <a href="{URL:FoxGal_palbums}">{L_FOX_GALLERY_PAGE_PALBUMS_VIEW}</a> ]</div>{ENDIF}
 {IF:IN_ITEMS_JSLOAD}<script type="text/javascript">
 // <![CDATA[
  {IN_ITEMS_JSLOAD}
@@ -76,7 +72,7 @@ var Fox2_Gal_album_setEvents = function(sub_id)
 <h2>{!IN_CAPTION}</h2>
 {IN_PREVIEW_BLOCK}
 {VIS:FOX_WINDOW|CONTENTS=WIN_BODY|BOTTLINE=WIN_BOTT|WIDTH="500px"}
-{IF:IN_COMMENTS_PTREE}<div style="width: 600px; margin: 10px auto;">
+{IF:IN_COMMENTS_PTREE}<div style="width: 600px; margin: 10px auto;" id="gallery_entry_comments">
  {IN_COMMENTS_PTREE}
 </div>{ENDIF}
 <<- 'FOX_GALLERY_PAGE_ITEM'>>
@@ -93,7 +89,7 @@ var Fox2_Gal_album_setEvents = function(sub_id)
 
 <<+ 'FOX_GALLERY_PAGE_ALBUM'>>
 <h2 class="aligned">{!IN_CAPTION}</h2>
-<div style="margin: 10px 20px 10px 50px;">
+<div class="float-collection" style="margin: 10px 20px;">
  {IF:IN_ITEMS}{IN_ITEMS}{ELSE}<div class="alg_c" style="margin: auto; padding: 30px; clear: both;"><h3>[ {L_FOX_GALLERY_NO_ITEMS} ]</h3></div>{ENDIF}
  <br style="clear: both;" />
 </div>
@@ -108,7 +104,7 @@ var Fox2_Gal_album_setEvents = function(sub_id)
 
 <<+ 'FOX_GALLERY_PAGE_ALBUMS'>>
 <h2 class="aligned">{IF:IN_PERSONAL}{L_FOX_GALLERY_PALBUMS}{ELSE}{L_FOX_GALLERY_PUBLIC_ALBUMS}{ENDIF}</h2>
-<div style="margin: 10px 10px 10px 30px;">
+<div class="float-collection" style="margin: 10px 20px;">
  {IF:IN_ALBUMS}{IN_ALBUMS}{ELSE}<div class="alg_c" style="margin: auto; padding: 30px; clear: both;"><h3>[ {L_FOX_GALLERY_NO_ALBUMS} ]</h3></div>{ENDIF}
  <br style="clear: both;" />
 </div>
@@ -116,7 +112,7 @@ var Fox2_Gal_album_setEvents = function(sub_id)
 {IF:IN_PALBUMS}
 <div id="palbms_div" style="margin-top: 100px;" >
 <h3 class="aligned">{L_FOX_GALLERY_PALBUMS}</h3>
-<div style="margin: 10px 10px 10px 30px;">
+<div class="float-collection" style="margin: 10px 20px;">
  {IN_PALBUMS}
  <br style="clear: both;" />
 </div>
@@ -127,9 +123,9 @@ var Fox2_Gal_album_setEvents = function(sub_id)
 var itm = qf_getbyid('palbms_div');
 if (itm)
 {
-      itm.onmouseover = function() { QF_EFFECTS.Alpha('palbms_div', 100); };
-      itm.onmouseout  = function() { QF_EFFECTS.Alpha('palbms_div', 50); };
-      itm.onmouseout();
+ itm.onmouseover = function() { QF_EFFECTS.Alpha('palbms_div', 100); };
+ itm.onmouseout  = function() { QF_EFFECTS.Alpha('palbms_div', 50); };
+ itm.onmouseout();
 }
 //]]>
 </script>{ENDIF}
@@ -159,7 +155,7 @@ if (itm)
  {ENDIF}
 </div>
 
-<div style="margin: 10px 20px 10px 50px;">
+<div class="float-collection" style="margin: 10px 20px;">
  {IF:IN_ITEMS}{IN_ITEMS}{ELSE}<div class="alg_c" style="margin: auto; padding: 30px; clear: both;"><h3>[ {L_FOX_GALLERY_NO_ITEMS} ]</h3></div>{ENDIF}
  <br style="clear: both;" />
 </div>
@@ -205,12 +201,12 @@ if (itm)
    </div>
   </td></tr>
  </table>
+ <script type="text/javascript">
+ // <![CDATA[
+  Fox2_Gal_album_setEvents('{COUNTER}');
+ //]]>
+ </script>
 </div>
-<script type="text/javascript">
-// <![CDATA[
-Fox2_Gal_album_setEvents('{COUNTER}');
-//]]>
-</script>
 <<- 'FOX_GALLERY_ALBUMS_ALBUM'>>
 
 <<+ 'FOX_GALLERY_ALBUM_ITEM'>>
@@ -226,7 +222,7 @@ Fox2_Gal_album_setEvents('{COUNTER}');
     <a href="{URL:FoxGal_item|IN_ID}" title="{!IN_CAPTION}" ><b>{!IN_SCAPTION}</b></a><br />
     {IF:IN_TIME}{IN_TIME}<br />{ENDIF}
     {IF:IN_AUTHOR_ID}{L_FOX_GALLERY_ITEM_AUTHOR}: <a href="{URL:FoxGal_user|IN_AUTHOR_ID}" >{!IN_AUTHOR}</a><br />{ENDIF}
-    {IF:IN_COMMENTS}{L_FOX_GALLERY_ITEM_COMMENTS}: <b>{IN_COMMENTS}</b>{ENDIF}
+    {IF:IN_COMMENTS}<a href="{URL:FoxGal_item|IN_ID}#gallery_entry_comments" {IF:IN_LASTCOMMENTTIME}title="{L_FOX_GALLERY_COMMENTS_LAST}: {FTIME:IN_LASTCOMMENTTIME}"{ENDIF}>{L_FOX_GALLERY_ITEM_COMMENTS|IN_COMMENTS}</a>{ENDIF}
    </td></tr></table>
    </div>
   </td></tr>

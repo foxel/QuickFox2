@@ -161,8 +161,8 @@ bbf87f2d69c444bcaf010b94700ffbb0 QFox2/Fox2_ptree_incls.php
 639068662cd3afa253ba17e304a89ccb data/htc/ie_inputs.htc
 02c2a55d7c8966ef559971492b874c6c data/htc/ie_png.htc
 11da1c55a2b8ef24374c4fe99383dd5d data/jscripts/ajax.ejs
-a83b9be638fcaceb6b77cb24571711ff data/jscripts/common.ejs
-a6d36e4b376bc24de67b1d08977d5808 data/jscripts/effects.ejs
+96f382ff3c7b96a022df901755ba1f1d data/jscripts/common.ejs
+eadf3b5bcbc8df0b5a431fe56518a6cd data/jscripts/effects.ejs
 aa389673e9dabdee15233ad45beba212 data/jscripts/imageshow.ejs
 cd8db02116257d250033f2c031bbeec3 data/jscripts/posttree.ejs
 68d3a34972bbe96da822faff4b5835d2 data/jscripts/swfobject.ejs
@@ -179,7 +179,7 @@ f573c6014c7d9ab9b39c95a3ad0522ce data/langs/RU/common.lng
 d761024c859c725e9b6c4fd336ef2fe4 data/styles/qf_def/admin.vis
 ca480224e35c62d7c2e91aca4716c356 data/styles/qf_def/cms_spec.vis
 acbbd3355c83a73529293cf273535462 data/styles/qf_def/common.ecss
-c79496d43b2c882d9f666f1c899f4918 data/styles/qf_def/common.vis
+ab089edcc1987794b9184636841ff8b6 data/styles/qf_def/common.vis
 a9bac1555b7e89f76ba5e7eea3ee093d data/styles/qf_def/posttree.vis
 9d26b8056c2d90dd878c4ce4fc849258 data/styles/qf_def/qf_setup.vis
 25262b93a47e55de974160a8c4d5d4f4 data/styles/qf_def/usercab.vis
@@ -242,10 +242,10 @@ ef0b8b80356725d221048b9f25eef68a data/modules/Fox2_Blogs.php
 3a421de541f47ee9601f7a8a768517f9 data/styles/qf_def/blogs.vis
 80ffcd2242de7dd9425b116a6cfbb813 data/langs/RU/blogs.lng
 797902b3e814d0abf1455efaf1d95958 data/langs/RU/blogs_cfgs.lng
-d82d33ae982435dc110509f4d91d57e7 data/modules/Fox2_Gal.php
-d1c4a952c47e65276dc3bb9c8a10812a data/modules/Fox2_Gal_Incls.php
-024e93afd935acef2e940747115f0b15 data/styles/qf_def/gallery.vis
-72e51ba21a24be4427b6450b9bcb3ee6 data/langs/RU/gallery.lng
+d4e5381e06d895455ccfb28497c638d5 data/modules/Fox2_Gal.php
+ec55d82dffe98384291a067606d3c3a0 data/modules/Fox2_Gal_Incls.php
+32bbce22eddad7cc780074e701c4a70e data/styles/qf_def/gallery.vis
+43e5b1fa6ecbd48d43065bbc64db09f1 data/langs/RU/gallery.lng
 5b483c2fad4caf120a49d346b974cf6c data/langs/RU/gallery_cfgs.lng
 5238d8063a2c0c3690ded321577e220a static/images/cooliris_enabled_sm.png
 e1b0466d4c2d4ced43f3c6d69bfbfcdd data/modules/Fox2_GAdds.php

@@ -142,6 +142,28 @@ var QF_EFFECTS = function()
                 QF_EFFECTS.SetResizebleElem(TAs[i]);
     }
 
+    var UpdateFloatCollections = function()
+    {        var FCs = document.getElementsByClassName('float-collection');
+        for (var i in FCs)
+        {            var FC = FCs[i];
+            var child = null;
+            for (var j in FC.children)
+            {                child = FC.children[i];
+                if (child.nodeType == 1)
+                    break;
+            }
+            if (!child)
+                continue;
+            var cwidth = child.offsetWidth + styleNumber(child, 'marginLeft') + styleNumber(child, 'marginRight');
+            var pwidth = FC.clientWidth;
+            var count = parseInt((pwidth - 4)/cwidth);
+            cwidth = count*cwidth;
+            var marg = parseInt((pwidth-cwidth)/2);
+            getStyleObj(FC).paddingLeft = marg+'px';
+            getStyleObj(FC).paddingRight = '2px';
+        }
+    }
+
     // autosliding block procedures
     var autosliders = {};
 
@@ -184,9 +206,9 @@ var QF_EFFECTS = function()
         if (co)
         {
             if (s.ishor)
-                s.stoppos = ((co.clientWidth) ? co.clientWidth : co.offsetWidth) + styleNumber(co, 'marginLeft');
+                s.stoppos = (co.offsetWidth) + styleNumber(co, 'marginLeft') + styleNumber(co, 'marginRight');
             else
-                s.stoppos = ((co.clientHeight) ? co.clientHeight : co.offsetHeight) + styleNumber(co, 'marginTop');
+                s.stoppos = (co.offsetHeight) + styleNumber(co, 'marginTop');
             if (s.to)
             {
                 s.paused = true;
@@ -202,12 +224,16 @@ var QF_EFFECTS = function()
     window.setTimeout(Init, 100);
     window.setTimeout(Init, 1000);
     QF_TIMERS.addOnLoad(InitResizebleTAs);
+    QF_TIMERS.addOnLoad(UpdateFloatCollections);
+    _Add_CB(UpdateFloatCollections, 'r');
+
 
     return {
         Overlay: null,
         isReady: function(){ return Ready; },
         Add_CB: function(func, type, onDropFunc){ return _Add_CB(func, type, onDropFunc); },
         Drop_CB: function(id, type, noOnDrop){ return _Drop_CD(id, type, noOnDrop); },
+        UpdateFloatCollections: function(){ return UpdateFloatCollections(); },
         SetResizebleElem: function(el)
         {
             var elem = _Get_DOMNode(el);

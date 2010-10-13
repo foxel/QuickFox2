@@ -187,7 +187,7 @@ class QF_Gal_incls
 
         if ($al_ids = $QF->Gallery->Get_Albums(0, 0, $QF->User->acc_level)) // albums
         {            $page_params['ALBUMS_COUNT'] = count($al_ids);
-            $al_ids = array_slice($al_ids, 0, 6);
+            $al_ids = array_slice($al_ids, 0, 10);
             $draw_albums = array();
 
             $uids = $albums = $items = Array();
@@ -258,7 +258,7 @@ class QF_Gal_incls
             $QF->VIS->Add_Node_Array('FOX_GALLERY_ALBUMS_ALBUM', 'ALBUMS', $page_node, $draw_albums);
         }
 
-        if ($items = $QF->Gallery->Get_Items(QF_GALLERY_SEARCH_LAST10, 0, $QF->User->acc_level))
+        if ($items = $QF->Gallery->Get_Items(QF_GALLERY_SEARCH_LAST20, 0, $QF->User->acc_level))
         {
             $FOX->Link_JScript('imageshow');
             $QF->Gallery->Load_ItemInfos($items, true);
@@ -289,7 +289,10 @@ class QF_Gal_incls
                 $item['SCAPTION'] = $QF->USTR->Str_SmartTrim($item['caption'], 32);
                 $item['T_HEIGHT'] = $this->th_h + 20;
                 if ($item['pt_root'] && isset($pt_stats[$item['pt_root']]) && $pt_stats[$item['pt_root']]['posts'])
+                {
                     $item['comments'] = $pt_stats[$item['pt_root']]['posts'];
+                    $item['lastcommenttime'] = $pt_stats[$item['pt_root']]['l_time'];
+                }
                 $item['JS_FULLSIZE'] = $this->do_fullsize_js ? 1 : null;
 
                 $draw_items[] = $item;
@@ -614,7 +617,10 @@ class QF_Gal_incls
                     $item['T_HEIGHT'] = $this->th_h + 20;
                     $item['JS_FULLSIZE'] = $this->do_fullsize_js ? 1 : null;
                     if ($item['pt_root'] && isset($pt_stats[$item['pt_root']]) && $pt_stats[$item['pt_root']]['posts'])
+                    {
                         $item['comments'] = $pt_stats[$item['pt_root']]['posts'];
+                        $item['lastcommenttime'] = $pt_stats[$item['pt_root']]['l_time'];
+                    }
 
                     if ($this->do_cooliris_js > 1)
                         $item['mrss_url'] = $rss_url;
@@ -716,7 +722,10 @@ class QF_Gal_incls
                     $item['SCAPTION'] = $QF->USTR->Str_SmartTrim($item['caption'], 32);
                     $item['T_HEIGHT'] = $this->th_h + 20;
                     if ($item['pt_root'] && isset($pt_stats[$item['pt_root']]) && $pt_stats[$item['pt_root']]['posts'])
+                    {
                         $item['comments'] = $pt_stats[$item['pt_root']]['posts'];
+                        $item['lastcommenttime'] = $pt_stats[$item['pt_root']]['l_time'];
+                    }
                     $item['JS_FULLSIZE'] = $this->do_fullsize_js ? 1 : null;
                     if ($this->do_cooliris_js > 1)
                         $item['mrss_url'] = $rss_url;
