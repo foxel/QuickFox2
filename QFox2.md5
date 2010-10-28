@@ -12,13 +12,13 @@ bf52e85d607ca897a18269685a3fdb5e kernel2/QF2_flib.php
 0cc7bc43583f0fa1940e05b58d705614 kernel2/QF2_lang.php
 fabbb52cdc1076e14281f30e06eadae6 kernel2/QF2_mailer.php
 14ba43b048dc73efbff21572186fedea kernel2/QF2_mysql.php
-7c70ed3cfbad43ebca7495c26238a9f6 kernel2/QF2_parser.php
+715633935745d38a1c5a7734de70c047 kernel2/QF2_parser.php
 29a8d6fd942f98dd45882fef16592c23 kernel2/QF2_rsa.php
 46b7e94d411d843ea0240e067f6c53d5 kernel2/QF2_services.php
 bb7e78c3a26ced9270ea49b14770bf7f kernel2/QF2_sess.php
 18bfe0a124d426ef047aca980f23e9cd kernel2/QF2_tar.php
 caaa513d33fe4ca551edae74c3d1a92f kernel2/QF2_vis.php
-45e6a9eacec2e0d8da8586083c53adbb kernel2/QF_kernel2.php
+e6271e26633b16a9aa7f199e64c1f045 kernel2/QF_kernel2.php
 96831fd122fe8a3ddf9dfc8563729ab3 kernel2/chars/cp037.chr
 b2f6c332aaf70db2501afeba2c75bb5d kernel2/chars/cp037.ltt
 a88a36da7c30a4415d54b276cc7eea38 kernel2/chars/cp1006.chr

@@ -287,6 +287,7 @@ QFox2/Fox2_mu_incls.php|600
 data/styles/qf_def/multiuser.vis|600
 data/langs/RU/multiuser.lng|600
 install/install.php|600
+install/upd_preacts.php|600
 install/ht_confs.cfg|600
 install/content.sql|600
 install/structure.sql|600

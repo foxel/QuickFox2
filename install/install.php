@@ -17,6 +17,10 @@ $QF_Pagedata = Array();
 
 $SET_error = '';
 
+if (file_exists('install/upd_preacts.php'))
+    include('install/upd_preacts.php');
+
+
 if ($SET_step=='finish_install')
 {
     $goto_url = 'index.php?drop_cache=1';
@@ -208,7 +212,7 @@ if ($SET_step=='dbase_import')
 elseif ($SET_step=='data_acc')
 {
     $QF_Pagedata['step_info'] = $QF->LNG->Lang('SETUP_STEP_DATA_ACC');
-    $QF_Dbase_Config = qf_file_get_carray('data/cfg/database.qfc');
+    $QF_Dbase_Config = qf_file_get_carray('data/cfg/database.qfc.php');
 
     if ($SET_act == 'GO') {
 
@@ -234,15 +238,17 @@ elseif ($SET_step=='data_acc')
                 $QF_New_Dbase_Config['prefix'] = 'qf2_';
 
             qf_mkdir_recursive('data/cfg/', 0700);
-            $conffile = fopen('data/cfg/database.qfc', 'w');
+            $conffile = fopen('data/cfg/database.qfc.php', 'w');
             if (!$conffile)
                   $SET_error = $QF->LNG->Lang('SETUP_STEP_DATA_ERR_FILE');
             else
             {
+                fwrite($conffile, "<?php /*\n");
                 foreach ($QF_New_Dbase_Config as $cfg => $val)
                     fwrite($conffile, $cfg.' => '.$val."\n");
+                fwrite($conffile, "*/ ?>\n");
                 fclose($conffile);
-                chmod('data/cfg/database.qfc', 0600);
+                chmod('data/cfg/database.qfc.php', 0600);
             }
 
 

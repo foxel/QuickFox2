@@ -121,8 +121,6 @@ else
         else
             $error='No data to install!';
 
-
-
         if (!$error) {
             chmod($file,octdec('600'));
             print '

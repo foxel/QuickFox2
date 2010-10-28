@@ -50,7 +50,7 @@ if (!defined('E_USER_DEPRECATED'))
 //
 // here comes the fatal catcher :P
 register_shutdown_function(create_function('', 'if (($a = error_get_last()) && $a[\'type\'] == E_ERROR)
-    { file_put_contents(F_SITE_ROOT.\'php_fatal.log\', sprintf(\'E%d "%s" at %s:%d\', $a[\'type\'], $a[\'message\'], $a[\'file\'], $a[\'line\']));
+    { file_put_contents(QF_SITE_ROOT.\'php_fatal.log\', sprintf(\'E%d "%s" at %s:%d\', $a[\'type\'], $a[\'message\'], $a[\'file\'], $a[\'line\']));
     $i = ob_get_level(); while ($i--) @ob_end_clean(); print \'Fatal error. Sorry :(\'; }'));
 Error_Reporting(0 & ~(E_NOTICE | E_USER_NOTICE | E_STRICT | E_DEPRECATED) );
 if (get_magic_quotes_runtime())
@@ -197,7 +197,7 @@ class QuickFox_kernel2
     {
         $this->LNG->_Start();
 
-        if ($DB_Config = qf_file_get_carray(QF_DATA_ROOT.'cfg/database.qfc'))
+        if ($DB_Config = qf_file_get_carray(QF_DATA_ROOT.'cfg/database.qfc.php'))
         {
             $flags = 0;
             if (defined('QF_SETUP_STARTED'))
