@@ -840,5 +840,11 @@ QF_EFFECTS.Show('mytemps_ctrl', 3); //]]></script>{ENDIF}
 <input name="{IN_VARNAME}" type="checkbox" value="{!IN_VAL}" id="chbox_{COUNTER}" {IF:IN_SEL}checked="checked"{ENDIF} /><label for="chbox_{COUNTER}">{IN_CAPT}</label>
 <<- 'MISC_CHBOX_INPUT'>>
 
+<<+ 'MISC_DIV'>>
+<div {IF:IN_ID}id="{!IN_ID}"{ENDIF} {IF:IN_CLASS}class="{!IN_CLASS}"{ENDIF} {IF:IN_STYLE}style="{!IN_STYLE}"{ENDIF}>
+ {IN_CONTENTS}
+</div>
+<<- 'MISC_DIV'>>
+
 <<+ 'JS'>>
 <<- 'JS'>>

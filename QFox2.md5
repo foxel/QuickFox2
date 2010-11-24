@@ -12,7 +12,7 @@ bf52e85d607ca897a18269685a3fdb5e kernel2/QF2_flib.php
 0cc7bc43583f0fa1940e05b58d705614 kernel2/QF2_lang.php
 fabbb52cdc1076e14281f30e06eadae6 kernel2/QF2_mailer.php
 14ba43b048dc73efbff21572186fedea kernel2/QF2_mysql.php
-715633935745d38a1c5a7734de70c047 kernel2/QF2_parser.php
+30c97d4563b8f2392c0f60167349aa84 kernel2/QF2_parser.php
 29a8d6fd942f98dd45882fef16592c23 kernel2/QF2_rsa.php
 46b7e94d411d843ea0240e067f6c53d5 kernel2/QF2_services.php
 bb7e78c3a26ced9270ea49b14770bf7f kernel2/QF2_sess.php
@@ -179,7 +179,7 @@ f573c6014c7d9ab9b39c95a3ad0522ce data/langs/RU/common.lng
 d761024c859c725e9b6c4fd336ef2fe4 data/styles/qf_def/admin.vis
 ca480224e35c62d7c2e91aca4716c356 data/styles/qf_def/cms_spec.vis
 acbbd3355c83a73529293cf273535462 data/styles/qf_def/common.ecss
-ab089edcc1987794b9184636841ff8b6 data/styles/qf_def/common.vis
+565ffdb43e2c62b174c0a4b87026ab84 data/styles/qf_def/common.vis
 a9bac1555b7e89f76ba5e7eea3ee093d data/styles/qf_def/posttree.vis
 9d26b8056c2d90dd878c4ce4fc849258 data/styles/qf_def/qf_setup.vis
 25262b93a47e55de974160a8c4d5d4f4 data/styles/qf_def/usercab.vis
@@ -249,7 +249,7 @@ ec55d82dffe98384291a067606d3c3a0 data/modules/Fox2_Gal_Incls.php
 5b483c2fad4caf120a49d346b974cf6c data/langs/RU/gallery_cfgs.lng
 5238d8063a2c0c3690ded321577e220a static/images/cooliris_enabled_sm.png
 e1b0466d4c2d4ced43f3c6d69bfbfcdd data/modules/Fox2_GAdds.php
-f2e38a1c9352b89914a12be1b6a39a75 data/langs/RU/google_adds_cfgs.lng
+3492bb0f5fc84824399c4fbc77963679 data/langs/RU/google_adds_cfgs.lng
 e2ac9c9771b9fc77fb0397c968e9b0f3 data/modules/Fox2_Player.php
 040789bc718e316895242aa78a48617e data/styles/qf_def/music_player.vis
 543f2be2eb0c5ef730589f5923ee4c59 data/langs/RU/music_player.lng
@@ -259,3 +259,5 @@ e2ac9c9771b9fc77fb0397c968e9b0f3 data/modules/Fox2_Player.php
 80d59ba15577bae6a4174a9359145463 QFox2/Fox2_mu_incls.php
 89b944d8a4e9f29e621b7efece0ec62a data/styles/qf_def/multiuser.vis
 42d03880abb88379021cb94158845069 data/langs/RU/multiuser.lng
+da59c4ccfec8c9beae334665a2ffa413 data/modules/Fox2_VKAdds.php
+73715d6aa7503f7a37b69fe8a6e779de data/langs/RU/vk_adds_cfgs.lng

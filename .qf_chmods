@@ -286,6 +286,8 @@ QFox2/Fox2_muuser.php|600
 QFox2/Fox2_mu_incls.php|600
 data/styles/qf_def/multiuser.vis|600
 data/langs/RU/multiuser.lng|600
+data/modules/Fox2_VKAdds.php|600
+data/langs/RU/vk_adds_cfgs.lng|600
 install/install.php|600
 install/upd_preacts.php|600
 install/ht_confs.cfg|600

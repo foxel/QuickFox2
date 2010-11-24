@@ -1391,19 +1391,19 @@ REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
     VALUES('fox_ajax_scripts', 'qf2', 'ptree_getpost', 'a:2:{s:6:\"module\";s:11:\"PTree_incls\";s:6:\"method\";s:11:\"AJX_getpost\";}', '0', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'qf2', 'qf2', 'A1.101028.0908', '1', '');
+    VALUES('dev_rev_info', 'qf2', 'qf2', 'A1.101124.2200', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'qf2_base', 'qf2_base', 'A1.101028.0908', '1', '');
+    VALUES('dev_rev_info', 'qf2_base', 'qf2_base', 'A1.101124.2200', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'qf2_adm', 'qf2_adm', 'A1.101028.0908', '1', '');
+    VALUES('dev_rev_info', 'qf2_adm', 'qf2_adm', 'A1.101124.2200', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'qf2_multiuser', 'qf2_multiuser', 'A1.101028.0908', '1', '');
+    VALUES('dev_rev_info', 'qf2_multiuser', 'qf2_multiuser', 'A1.101124.2200', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'google_adds', 'google_adds', 'A1.101028.0908', '1', '');
+    VALUES('dev_rev_info', 'google_adds', 'google_adds', 'A1.101124.2200', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'gallery', 'gallery', 'A1.101028.0908', '1', '');
+    VALUES('dev_rev_info', 'gallery', 'gallery', 'A1.101124.2200', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'music_player', 'music_player', 'A1.101028.0908', '1', '');
+    VALUES('dev_rev_info', 'music_player', 'music_player', 'A1.101124.2200', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
     VALUES('package_dbases', 'qf2_multiuser', 'qf2_multiuser', 'a:1:{i:0;s:9:\"users_rel\";}', '0', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
@@ -1453,7 +1453,7 @@ REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
     VALUES('fox_index_dps', 'blogs', 'blogs', 'Blogs root', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'blogs', 'blogs', 'A1.101028.0908', '1', '');
+    VALUES('dev_rev_info', 'blogs', 'blogs', 'A1.101124.2200', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
     VALUES('packages', 'antiie_addon', 'antiie_addon', 'a:2:{s:4:\"Name\";s:31:\"Browsers Update/Anti-IE6 add-on\";s:9:\"Developer\";s:5:\"Foxel\";}', '0', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
@@ -1463,7 +1463,7 @@ REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
     VALUES('package_files', 'antiie_addon', 'antiie_addon', 'a:2:{i:600;a:4:{i:0;s:28:\"data/modules/Fox2_AntiIE.php\";i:1;s:24:\"data/langs/RU/antiie.lng\";i:2;s:35:\"data/langs/RU/antiie_addon_cfgs.lng\";i:3;s:29:\"data/styles/qf_def/antiie.vis\";}i:644;a:6:{i:0;s:30:\"static/images/anti_ie6/ie6.png\";i:1;s:34:\"static/images/anti_ie6/firefox.png\";i:2;s:32:\"static/images/anti_ie6/opera.png\";i:3;s:33:\"static/images/anti_ie6/safari.png\";i:4;s:33:\"static/images/anti_ie6/chrome.png\";i:5;s:29:\"static/images/anti_ie6/ie.png\";}}', '0', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
-    VALUES('dev_rev_info', 'antiie_addon', 'antiie_addon', 'A1.101028.0908', '1', '');
+    VALUES('dev_rev_info', 'antiie_addon', 'antiie_addon', 'A1.101124.2200', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
     VALUES('urltemplates', 'blogs', 'FOXBLOGS_ROOT_PAGE', '{QF_INDEX}?st=blogs&amp;page=%1$s', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
@@ -1492,6 +1492,16 @@ REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar
     VALUES('urltemplates', 'qf2', 'FOX2_FILE_PREVIEW_SID', '{QF_INDEX}?sr=fpreview&amp;fid=%1$s&amp;SID={QF_SID}', '1', '');
 REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
     VALUES('mod_rw_urlts', 'qf2', 'FOX2_FILE_PREVIEW_SID', 'fpreview/%1$s/prv_%2$s?SID={QF_SID}', '1', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('packages', 'vk_adds', 'vk_adds', 'a:2:{s:4:\"Name\";s:41:\"Дополнения \"Вконтакте\"\";s:9:\"Developer\";s:5:\"Foxel\";}', '0', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('fox_modules', 'vk_adds', 'VKAdds', 'Fox2_VKAdds|Fox2_VKAdds.php', '1', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('fox_postpages', 'vk_adds', 'vkontakte_adds', 'a:2:{s:6:\"module\";s:6:\"VKAdds\";s:6:\"method\";s:8:\"PostPage\";}', '0', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('package_files', 'vk_adds', 'vk_adds', 'a:2:{i:600;a:2:{i:0;s:28:\"data/modules/Fox2_VKAdds.php\";i:1;s:30:\"data/langs/RU/vk_adds_cfgs.lng\";}i:644;a:0:{}}', '0', '');
+REPLACE INTO  `{DBKEY}datasets` (`set_id`, `package`, `data_id`, `data`, `scalar`, `lparse_sufx`) 
+    VALUES('dev_rev_info', 'vk_adds', 'vk_adds', 'A1.101124.2200', '1', '');
 
 
 # Data content for {DBKEY}config_sets 
@@ -1587,5 +1597,7 @@ REPLACE INTO  `{DBKEY}config_sets` (`set_id`, `sec_set_id`, `package`, `capt`, `
     VALUES('visual_main', '', 'qf2', 'L_CFG_VISUAL_INFOPAN_DATA', 'visual', 'infopan_data', 'text|html|10|5120', NULL, '0', NULL, '0', '0');
 REPLACE INTO  `{DBKEY}config_sets` (`set_id`, `sec_set_id`, `package`, `capt`, `cfg_parent`, `cfg_name`, `cfg_type`, `src_data`, `drops_cache`, `drops_confs`, `schemable`, `order_id`) 
     VALUES('visual_main', '', 'qf2', 'L_CFG_VISUAL_INFOPAN_CAPT', 'visual', 'infopan_capt', 'str|3|20', NULL, '0', NULL, '0', '0');
+REPLACE INTO  `{DBKEY}config_sets` (`set_id`, `sec_set_id`, `package`, `capt`, `cfg_parent`, `cfg_name`, `cfg_type`, `src_data`, `drops_cache`, `drops_confs`, `schemable`, `order_id`) 
+    VALUES('vkontakte', '', 'vk_adds', 'L_CFG_VKADDS_GROUP_ID', 'vkadds', 'vk_group_id', 'int', NULL, '0', NULL, '1', '0');
 
 

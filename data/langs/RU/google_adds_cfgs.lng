@@ -1,5 +1,5 @@
 CFG_GADDS_ANALYTICS_ID: Идентификатор веб-ресурса в системе <a href="http://www.google-analytics.com/">Google Analytics</a>.<br />
- Укажите ваш идентификатор в формате UA-xxxxxxxx-x. После указания данного параметра QuickFox автоматически добавит код слежения к страницам сайта.<br />
+ Укажите Ваш идентификатор в формате UA-xxxxxxxx-x. После указания данного параметра QuickFox автоматически добавит код слежения к страницам сайта.<br />
  Если у Вас нет аккаунта на Google Analytics, оставьте поле пустым.
 ---
 CFG_GADDS_WEBMASTERS_CODE: <a href="https://www.google.com/webmasters/tools/">Google Инструменты для веб-мастеров</a>.<br />
