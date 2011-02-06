@@ -454,10 +454,13 @@ class Fox2
     function Check_ASCode($code)
     {
         global $QF;
+        
+        if (!$code)
+            return false;
 
         $real_code = $QF->Session->Get('QFox2_ASCode');
 
-        return ($code == $real_code);
+        return ($code && $code == $real_code);
     }
 
 
