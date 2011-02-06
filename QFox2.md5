@@ -169,7 +169,7 @@ cd8db02116257d250033f2c031bbeec3 data/jscripts/posttree.ejs
 b33dce8752784b2d6784639dea4cee4b data/jscripts/uploader.ejs
 c1a079d7456de608617485941d478c40 data/langs/RU/admin.lng
 a16095c426c0ee7586d5a1f4c0538d38 data/langs/RU/cms_spec.lng
-f573c6014c7d9ab9b39c95a3ad0522ce data/langs/RU/common.lng
+1c3888dafb4d0ffbfbffe5f8a9caa1d7 data/langs/RU/common.lng
 4de129782da481a6c1054a6e9608d191 data/langs/RU/kernel.lng
 98a978a789d87362652e7f5ac8d4d797 data/langs/RU/posttree.lng
 4a200ba8cda777dbebf5f5a1fb7919a5 data/langs/RU/qf2_base_errs.lng
@@ -257,7 +257,7 @@ e2ac9c9771b9fc77fb0397c968e9b0f3 data/modules/Fox2_Player.php
 58fa721f23eea86f2bd5078efc5957f9 static/MPlayer.swf
 3146aff13491173823c5325328f26757 QFox2/Fox2_muuser.php
 80d59ba15577bae6a4174a9359145463 QFox2/Fox2_mu_incls.php
-89b944d8a4e9f29e621b7efece0ec62a data/styles/qf_def/multiuser.vis
+1f9c62a0c519865b6478035378b328da data/styles/qf_def/multiuser.vis
 42d03880abb88379021cb94158845069 data/langs/RU/multiuser.lng
 da59c4ccfec8c9beae334665a2ffa413 data/modules/Fox2_VKAdds.php
 73715d6aa7503f7a37b69fe8a6e779de data/langs/RU/vk_adds_cfgs.lng

@@ -32,7 +32,7 @@
 {!IF:IN_DISABLE_CAPTCHA}
 <tr><td class="alg_l alg_m nowrap">
 {L_PAGE_REGISTER_CAPTCHA}
-<br /><img src="{URL:fox2_asp_code|RANDOM}" alt="{L_MISC_CAPTCHA_ALT}" />
+<br /><img src="{URL:fox2_asp_code|RANDOM}" alt="{L_MISC_CAPTCHA_ALT}" onclick="this.src='{FURL:fox2_asp_code|RANDOM}?js_rand='+Math.random();" style="cursor: pointer;" title="{L_MISC_CAPTCHA_CLICK}" />
 </td><td class="alg_r alg_m">
 <input type="text" name="asp_code" />
 </td></tr>
