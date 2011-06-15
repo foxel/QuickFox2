@@ -48,6 +48,9 @@ CFG_SYS_IMAGICK_UGIFS: IM для GIF
 ---
 CFG_SYS_IMAGICK_UUSE: Приоритет IM
 ---
+CFG_SYS_BLOCK_ANONS: Включить блокировку сайтов-анонимайзеров. <br />
+ Пример анонимайзера: cameleo.ru
+---
 
 CFG_SESS_SID_URLS: Разрешить добавление <i>SID=...</i> в ссылки для идентификации сессии.<br />
  <b>По умолчанию включено</b>.

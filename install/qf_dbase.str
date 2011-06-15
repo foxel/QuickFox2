@@ -5,14 +5,14 @@ Array (
                 'type' => 'char(8)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'author' => Array (
                 'type' => 'char(16)' ,
                 'collate' => 'utf8_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'author_id' => Array (
@@ -26,7 +26,7 @@ Array (
                 'type' => 'varchar(128)' ,
                 'collate' => 'utf8_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'time' => Array (
@@ -84,16 +84,16 @@ Array (
                     0 => 'author_id'
                 ) 
             )  ,
-            'time' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'time'
-                ) 
-            )  ,
             'r_level' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
                     0 => 'r_level'
+                ) 
+            )  ,
+            'time' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'time'
                 ) 
             ) 
         )  ,
@@ -107,7 +107,7 @@ Array (
                 'type' => 'char(8)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'o_text' => Array (
@@ -121,7 +121,7 @@ Array (
                 'type' => 'char(32)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'p_text' => Array (
@@ -176,35 +176,35 @@ Array (
                 'type' => 'varchar(16)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'parent' => Array (
                 'type' => 'varchar(16)' ,
                 'collate' => 'ascii_general_ci' ,
-                'null' => false ,
-                'def' => '' ,
+                'null' => true ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'caption' => Array (
                 'type' => 'varchar(255)' ,
                 'collate' => 'utf8_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'file_id' => Array (
                 'type' => 'varchar(32)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'file_type' => Array (
                 'type' => 'varchar(5)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'links_to' => Array (
@@ -263,16 +263,22 @@ Array (
                     0 => 'author_id'
                 ) 
             )  ,
+            'is_section' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'is_section'
+                ) 
+            )  ,
             'mod_date' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
                     0 => 'mod_date'
                 ) 
             )  ,
-            'r_level' => Array (
+            'order_id' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
-                    0 => 'r_level'
+                    0 => 'order_id'
                 ) 
             )  ,
             'parent' => Array (
@@ -281,16 +287,10 @@ Array (
                     0 => 'parent'
                 ) 
             )  ,
-            'is_section' => Array (
+            'r_level' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
-                    0 => 'is_section'
-                ) 
-            )  ,
-            'order_id' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'order_id'
+                    0 => 'r_level'
                 ) 
             ) 
         )  ,
@@ -304,7 +304,7 @@ Array (
                 'type' => 'char(16)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'views' => Array (
@@ -336,17 +336,17 @@ Array (
                     0 => 'id'
                 ) 
             )  ,
+            'last_view' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'last_view'
+                ) 
+            )  ,
             'views' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
                     0 => 'views' ,
                     1 => 'v_by_refer'
-                ) 
-            )  ,
-            'last_view' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'last_view'
                 ) 
             ) 
         )  ,
@@ -367,7 +367,7 @@ Array (
                 'type' => 'varchar(32)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'scheme' => Array (
@@ -418,14 +418,14 @@ Array (
                 'type' => 'varchar(64)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'sec_set_id' => Array (
                 'type' => 'varchar(64)' ,
                 'collate' => 'ascii_general_ci' ,
-                'null' => false ,
-                'def' => '' ,
+                'null' => true ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'package' => Array (
@@ -439,7 +439,7 @@ Array (
                 'type' => 'varchar(64)' ,
                 'collate' => 'utf8_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'cfg_parent' => Array (
@@ -460,7 +460,7 @@ Array (
                 'type' => 'varchar(32)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'src_data' => Array (
@@ -513,23 +513,16 @@ Array (
                     0 => 'cfg_type'
                 ) 
             )  ,
-            'order_id' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'order_id'
-                ) 
-            )  ,
             'drops_cache' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
                     0 => 'drops_cache'
                 ) 
             )  ,
-            'set_id' => Array (
+            'order_id' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
-                    0 => 'set_id' ,
-                    1 => 'sec_set_id'
+                    0 => 'order_id'
                 ) 
             )  ,
             'package' => Array (
@@ -543,6 +536,13 @@ Array (
                 'cols' => Array (
                     0 => 'schemable'
                 ) 
+            )  ,
+            'set_id' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'set_id' ,
+                    1 => 'sec_set_id'
+                ) 
             ) 
         )  ,
         'name' => '{DBKEY}config_sets' ,
@@ -555,7 +555,7 @@ Array (
                 'type' => 'varchar(64)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'package' => Array (
@@ -569,7 +569,7 @@ Array (
                 'type' => 'varchar(64)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'data' => Array (
@@ -590,7 +590,7 @@ Array (
                 'type' => 'varchar(10)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             ) 
         )  ,
@@ -602,16 +602,16 @@ Array (
                     1 => 'data_id'
                 ) 
             )  ,
-            'scalar' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'scalar'
-                ) 
-            )  ,
             'package' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
                     0 => 'package'
+                ) 
+            )  ,
+            'scalar' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'scalar'
                 ) 
             ) 
         )  ,
@@ -632,21 +632,21 @@ Array (
                 'type' => 'char(8)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'sid' => Array (
                 'type' => 'char(32)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'gid' => Array (
                 'type' => 'char(32)' ,
                 'collate' => 'ascii_general_ci' ,
-                'null' => false ,
-                'def' => '' ,
+                'null' => true ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'client_ip' => Array (
@@ -685,22 +685,10 @@ Array (
                     1 => 'file_id'
                 ) 
             )  ,
-            'sid' => Array (
+            'active_till' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
-                    0 => 'sid'
-                ) 
-            )  ,
-            'gid' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'gid'
-                ) 
-            )  ,
-            'file_id' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'file_id'
+                    0 => 'active_till'
                 ) 
             )  ,
             'client_ip' => Array (
@@ -709,10 +697,22 @@ Array (
                     0 => 'client_ip'
                 ) 
             )  ,
-            'active_till' => Array (
+            'file_id' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
-                    0 => 'active_till'
+                    0 => 'file_id'
+                ) 
+            )  ,
+            'gid' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'gid'
+                ) 
+            )  ,
+            'sid' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'sid'
                 ) 
             ) 
         )  ,
@@ -747,7 +747,7 @@ Array (
                 'type' => 'char(128)' ,
                 'collate' => 'utf8_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'type' => Array (
@@ -827,28 +827,10 @@ Array (
                     0 => 't_id'
                 ) 
             )  ,
-            'parent' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'parent'
-                ) 
-            )  ,
-            'type' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'type'
-                ) 
-            )  ,
             'acc_gr' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
                     0 => 'acc_gr'
-                ) 
-            )  ,
-            'mtime' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'mtime'
                 ) 
             )  ,
             'files' => Array (
@@ -857,10 +839,10 @@ Array (
                     0 => 'files'
                 ) 
             )  ,
-            'size' => Array (
+            'is_sys' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
-                    0 => 'size'
+                    0 => 'is_sys'
                 ) 
             )  ,
             'levels' => Array (
@@ -870,10 +852,28 @@ Array (
                     1 => 'w_level'
                 ) 
             )  ,
-            'is_sys' => Array (
+            'mtime' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
-                    0 => 'is_sys'
+                    0 => 'mtime'
+                ) 
+            )  ,
+            'parent' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'parent'
+                ) 
+            )  ,
+            'size' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'size'
+                ) 
+            )  ,
+            'type' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'type'
                 ) 
             ) 
         )  ,
@@ -887,7 +887,7 @@ Array (
                 'type' => 'char(8)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'folder' => Array (
@@ -908,7 +908,7 @@ Array (
                 'type' => 'char(16)' ,
                 'collate' => 'utf8_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'author_id' => Array (
@@ -943,28 +943,28 @@ Array (
                 'type' => 'char(255)' ,
                 'collate' => 'utf8_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'filename' => Array (
                 'type' => 'char(255)' ,
                 'collate' => 'utf8_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'file_id' => Array (
                 'type' => 'char(32)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'file_md5' => Array (
                 'type' => 'char(32)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'file_gzip' => Array (
@@ -985,14 +985,14 @@ Array (
                 'type' => 'char(64)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'is_arch' => Array (
                 'type' => 'char(5)' ,
                 'collate' => 'ascii_general_ci' ,
-                'null' => false ,
-                'def' => '' ,
+                'null' => true ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'force_save' => Array (
@@ -1012,22 +1012,22 @@ Array (
             'pics_mime' => Array (
                 'type' => 'char(64)' ,
                 'collate' => 'ascii_general_ci' ,
-                'null' => false ,
-                'def' => '' ,
+                'null' => true ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'pics_name' => Array (
                 'type' => 'char(128)' ,
                 'collate' => 'utf8_general_ci' ,
-                'null' => false ,
-                'def' => '' ,
+                'null' => true ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'image_dims' => Array (
                 'type' => 'char(11)' ,
                 'collate' => 'ascii_general_ci' ,
-                'null' => false ,
-                'def' => '' ,
+                'null' => true ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'aspect_ratio' => Array (
@@ -1077,28 +1077,22 @@ Array (
                     0 => 'author_ip'
                 ) 
             )  ,
-            'time' => Array (
+            'dloads' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
-                    0 => 'time'
+                    0 => 'dloads'
+                ) 
+            )  ,
+            'file_md5' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'file_md5'
                 ) 
             )  ,
             'folder' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
                     0 => 'folder'
-                ) 
-            )  ,
-            'r_level' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'r_level'
-                ) 
-            )  ,
-            'dloads' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'dloads'
                 ) 
             )  ,
             'has_pics' => Array (
@@ -1119,10 +1113,16 @@ Array (
                     0 => 'last_dload'
                 ) 
             )  ,
-            'file_md5' => Array (
+            'r_level' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
-                    0 => 'file_md5'
+                    0 => 'r_level'
+                ) 
+            )  ,
+            'time' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'time'
                 ) 
             ) 
         )  ,
@@ -1157,7 +1157,7 @@ Array (
                 'type' => 'char(255)' ,
                 'collate' => 'utf8_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'cl_ip' => Array (
@@ -1189,6 +1189,12 @@ Array (
                     0 => 'ev_id'
                 ) 
             )  ,
+            'cl_ip' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'cl_ip'
+                ) 
+            )  ,
             'log_id' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
@@ -1199,12 +1205,6 @@ Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
                     0 => 'time'
-                ) 
-            )  ,
-            'cl_ip' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'cl_ip'
                 ) 
             ) 
         )  ,
@@ -1225,7 +1225,7 @@ Array (
                 'type' => 'char(8)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'put_by' => Array (
@@ -1251,12 +1251,6 @@ Array (
                     1 => 'item_id'
                 ) 
             )  ,
-            'put_by' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'put_by'
-                ) 
-            )  ,
             'item_id' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
@@ -1267,6 +1261,12 @@ Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
                     0 => 'put_at'
+                ) 
+            )  ,
+            'put_by' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'put_by'
                 ) 
             ) 
         )  ,
@@ -1287,14 +1287,14 @@ Array (
                 'type' => 'char(128)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'caption' => Array (
                 'type' => 'char(128)' ,
                 'collate' => 'utf8_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'owner_id' => Array (
@@ -1353,6 +1353,24 @@ Array (
                     0 => 't_id'
                 ) 
             )  ,
+            'acc_gr' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'acc_gr'
+                ) 
+            )  ,
+            'lasttime' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'lasttime'
+                ) 
+            )  ,
+            'owner_id' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'owner_id'
+                ) 
+            )  ,
             'r_level' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
@@ -1363,24 +1381,6 @@ Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
                     0 => 'w_level'
-                ) 
-            )  ,
-            'acc_gr' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'acc_gr'
-                ) 
-            )  ,
-            'owner_id' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'owner_id'
-                ) 
-            )  ,
-            'lasttime' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'lasttime'
                 ) 
             ) 
         )  ,
@@ -1401,14 +1401,14 @@ Array (
                 'type' => 'char(8)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'author' => Array (
                 'type' => 'varchar(16)' ,
                 'collate' => 'utf8_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'author_id' => Array (
@@ -1422,7 +1422,7 @@ Array (
                 'type' => 'varchar(128)' ,
                 'collate' => 'utf8_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'time' => Array (
@@ -1473,16 +1473,16 @@ Array (
                     0 => 'pt_root'
                 ) 
             )  ,
-            'r_level' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'r_level'
-                ) 
-            )  ,
             'author_id' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
                     0 => 'author_id'
+                ) 
+            )  ,
+            'r_level' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'r_level'
                 ) 
             )  ,
             'time' => Array (
@@ -1502,7 +1502,7 @@ Array (
                 'type' => 'char(32)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'nick' => Array (
@@ -1576,12 +1576,6 @@ Array (
                     0 => 'gid'
                 ) 
             )  ,
-            'lastseen' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'lastseen'
-                ) 
-            )  ,
             'gcode' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
@@ -1592,6 +1586,12 @@ Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
                     0 => 'last_ip'
+                ) 
+            )  ,
+            'lastseen' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'lastseen'
                 ) 
             ) 
         )  ,
@@ -1605,14 +1605,14 @@ Array (
                 'type' => 'int(10) unsigned' ,
                 'collate' => null ,
                 'null' => false ,
-                'def' => 0 ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'user_id' => Array (
                 'type' => 'int(10) unsigned' ,
                 'collate' => null ,
                 'null' => false ,
-                'def' => 0 ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'c_key' => Array (
@@ -1712,7 +1712,7 @@ Array (
                 'type' => 'char(16)' ,
                 'collate' => 'utf8_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'author_id' => Array (
@@ -1732,29 +1732,29 @@ Array (
             'ch_user' => Array (
                 'type' => 'char(16)' ,
                 'collate' => 'utf8_general_ci' ,
-                'null' => false ,
-                'def' => '' ,
+                'null' => true ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'ch_user_id' => Array (
                 'type' => 'int(10) unsigned' ,
                 'collate' => null ,
-                'null' => false ,
-                'def' => 0 ,
+                'null' => true ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'ch_user_ip' => Array (
                 'type' => 'int(10) unsigned' ,
                 'collate' => null ,
-                'null' => false ,
-                'def' => 0 ,
+                'null' => true ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'ch_time' => Array (
                 'type' => 'int(11)' ,
                 'collate' => null ,
-                'null' => false ,
-                'def' => 0 ,
+                'null' => true ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'locked' => Array (
@@ -1786,6 +1786,38 @@ Array (
                     0 => 'post_id'
                 ) 
             )  ,
+            'author_id' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'author_id'
+                ) 
+            )  ,
+            'ch_time' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'ch_time'
+                ) 
+            )  ,
+            'ch_user_id' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'ch_user_id'
+                ) 
+            )  ,
+            'change_ip' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'ch_user_ip'
+                ) 
+            )  ,
+            'flags' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'locked' ,
+                    1 => 'deleted' ,
+                    2 => 'marked'
+                ) 
+            )  ,
             'parents' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
@@ -1799,42 +1831,10 @@ Array (
                     0 => 'author_ip'
                 ) 
             )  ,
-            'author_id' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'author_id'
-                ) 
-            )  ,
             'time' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
                     0 => 'time'
-                ) 
-            )  ,
-            'ch_user_id' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'ch_user_id'
-                ) 
-            )  ,
-            'ch_time' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'ch_time'
-                ) 
-            )  ,
-            'flags' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'locked' ,
-                    1 => 'deleted' ,
-                    2 => 'marked'
-                ) 
-            )  ,
-            'change_ip' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'ch_user_ip'
                 ) 
             ) 
         )  ,
@@ -1848,7 +1848,7 @@ Array (
                 'type' => 'bigint(20) unsigned' ,
                 'collate' => null ,
                 'null' => false ,
-                'def' => 0 ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'o_text' => Array (
@@ -1862,7 +1862,7 @@ Array (
                 'type' => 'char(32)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'p_text' => Array (
@@ -1917,7 +1917,7 @@ Array (
                 'type' => 'char(8)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'a_key' => Array (
@@ -1952,7 +1952,7 @@ Array (
                 'type' => 'varchar(16)' ,
                 'collate' => 'utf8_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'author_id' => Array (
@@ -1966,7 +1966,7 @@ Array (
                 'type' => 'varchar(255)' ,
                 'collate' => 'utf8_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'data' => Array (
@@ -1980,7 +1980,7 @@ Array (
                 'type' => 'char(32)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'time' => Array (
@@ -1994,7 +1994,7 @@ Array (
                 'type' => 'varchar(16)' ,
                 'collate' => 'utf8_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'l_author_id' => Array (
@@ -2088,6 +2088,12 @@ Array (
                     0 => 'a_key'
                 ) 
             )  ,
+            'author_id' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'author_id'
+                ) 
+            )  ,
             'b_key' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
@@ -2096,16 +2102,12 @@ Array (
                     2 => 'b_key3'
                 ) 
             )  ,
-            'author_id' => Array (
+            'flags' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
-                    0 => 'author_id'
-                ) 
-            )  ,
-            'time' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'time'
+                    0 => 'locked' ,
+                    1 => 'deleted' ,
+                    2 => 'marked'
                 ) 
             )  ,
             'l_author_id' => Array (
@@ -2120,12 +2122,6 @@ Array (
                     0 => 'l_time'
                 ) 
             )  ,
-            'posts' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'posts'
-                ) 
-            )  ,
             'levels' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
@@ -2133,12 +2129,16 @@ Array (
                     1 => 'w_level'
                 ) 
             )  ,
-            'flags' => Array (
+            'posts' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
-                    0 => 'locked' ,
-                    1 => 'deleted' ,
-                    2 => 'marked'
+                    0 => 'posts'
+                ) 
+            )  ,
+            'time' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'time'
                 ) 
             )  ,
             'totalposts' => Array (
@@ -2158,14 +2158,14 @@ Array (
                 'type' => 'char(8)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'code' => Array (
                 'type' => 'char(16)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'text' => Array (
@@ -2257,14 +2257,14 @@ Array (
                 'type' => 'char(64)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'descr' => Array (
                 'type' => 'char(255)' ,
                 'collate' => 'utf8_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'run_period' => Array (
@@ -2278,7 +2278,7 @@ Array (
                 'type' => 'char(255)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'next_run' => Array (
@@ -2303,10 +2303,10 @@ Array (
                     0 => 'name'
                 ) 
             )  ,
-            'run_period' => Array (
+            'active' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
-                    0 => 'run_period'
+                    0 => 'active'
                 ) 
             )  ,
             'next_run' => Array (
@@ -2316,16 +2316,16 @@ Array (
                     1 => 'active'
                 ) 
             )  ,
+            'run_period' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'run_period'
+                ) 
+            )  ,
             'run_php' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
                     0 => 'run_php'
-                ) 
-            )  ,
-            'active' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'active'
                 ) 
             ) 
         )  ,
@@ -2339,14 +2339,14 @@ Array (
                 'type' => 'char(32)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'ch_name' => Array (
                 'type' => 'char(32)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'ch_data' => Array (
@@ -2389,7 +2389,7 @@ Array (
                 'type' => 'char(32)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'ip' => Array (
@@ -2486,7 +2486,7 @@ Array (
                 'type' => 'char(255)' ,
                 'collate' => 'utf8_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             ) 
         )  ,
@@ -2497,16 +2497,16 @@ Array (
                     0 => 'sp_name'
                 ) 
             )  ,
-            'last_time' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'last_time'
-                ) 
-            )  ,
             'last_ip' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
                     0 => 'last_ip'
+                ) 
+            )  ,
+            'last_time' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'last_time'
                 ) 
             )  ,
             'visits' => Array (
@@ -2533,7 +2533,7 @@ Array (
                 'type' => 'varchar(16)' ,
                 'collate' => 'utf8_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'level' => Array (
@@ -2581,22 +2581,22 @@ Array (
             'avatar' => Array (
                 'type' => 'varchar(64)' ,
                 'collate' => 'ascii_general_ci' ,
-                'null' => false ,
-                'def' => '' ,
+                'null' => true ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'av_dims' => Array (
                 'type' => 'varchar(11)' ,
                 'collate' => 'ascii_general_ci' ,
-                'null' => false ,
-                'def' => '' ,
+                'null' => true ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'av_sig' => Array (
                 'type' => 'varchar(64)' ,
                 'collate' => 'utf8_general_ci' ,
-                'null' => false ,
-                'def' => '' ,
+                'null' => true ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'signature' => Array (
@@ -2616,36 +2616,36 @@ Array (
             'lastseen' => Array (
                 'type' => 'int(11)' ,
                 'collate' => null ,
-                'null' => false ,
-                'def' => 0 ,
+                'null' => true ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'last_url' => Array (
                 'type' => 'varchar(255)' ,
                 'collate' => 'ascii_general_ci' ,
-                'null' => false ,
-                'def' => '' ,
+                'null' => true ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'last_uagent' => Array (
                 'type' => 'varchar(255)' ,
                 'collate' => 'utf8_general_ci' ,
-                'null' => false ,
-                'def' => '' ,
+                'null' => true ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'last_ip' => Array (
                 'type' => 'int(10) unsigned' ,
                 'collate' => null ,
-                'null' => false ,
-                'def' => 0 ,
+                'null' => true ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'sess_id' => Array (
                 'type' => 'char(32)' ,
                 'collate' => 'ascii_general_ci' ,
-                'null' => false ,
-                'def' => '' ,
+                'null' => true ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'us_info' => Array (
@@ -2683,24 +2683,10 @@ Array (
                     0 => 'nick'
                 ) 
             )  ,
-            'level' => Array (
+            'acc_group' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
-                    0 => 'level' ,
-                    1 => 'mod_lvl' ,
-                    2 => 'adm_lvl'
-                ) 
-            )  ,
-            'lastseen' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'lastseen'
-                ) 
-            )  ,
-            'sess_id' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'sess_id'
+                    0 => 'acc_group'
                 ) 
             )  ,
             'acc_state' => Array (
@@ -2716,10 +2702,24 @@ Array (
                     0 => 'last_ip'
                 ) 
             )  ,
-            'acc_group' => Array (
+            'lastseen' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
-                    0 => 'acc_group'
+                    0 => 'lastseen'
+                ) 
+            )  ,
+            'level' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'level' ,
+                    1 => 'mod_lvl' ,
+                    2 => 'adm_lvl'
+                ) 
+            )  ,
+            'sess_id' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'sess_id'
                 ) 
             ) 
         )  ,
@@ -2733,14 +2733,14 @@ Array (
                 'type' => 'char(32)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'al_sig' => Array (
                 'type' => 'char(32)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'uid' => Array (
@@ -2772,10 +2772,10 @@ Array (
                     0 => 'al_id'
                 ) 
             )  ,
-            'uid' => Array (
+            'al_sig' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
-                    0 => 'uid'
+                    0 => 'al_sig'
                 ) 
             )  ,
             'times' => Array (
@@ -2785,10 +2785,10 @@ Array (
                     1 => 'al_lastuse'
                 ) 
             )  ,
-            'al_sig' => Array (
+            'uid' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
-                    0 => 'al_sig'
+                    0 => 'uid'
                 ) 
             ) 
         )  ,
@@ -2802,49 +2802,49 @@ Array (
                 'type' => 'int(10) unsigned' ,
                 'collate' => null ,
                 'null' => false ,
-                'def' => 0 ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'login' => Array (
                 'type' => 'char(16)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'pass_hash' => Array (
                 'type' => 'char(32)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'pass_salt' => Array (
                 'type' => 'char(32)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'sys_email' => Array (
                 'type' => 'char(32)' ,
                 'collate' => 'ascii_general_ci' ,
                 'null' => false ,
-                'def' => '' ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'pass_dropcode' => Array (
                 'type' => 'char(32)' ,
                 'collate' => 'ascii_general_ci' ,
-                'null' => false ,
-                'def' => '' ,
+                'null' => true ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'lastauth' => Array (
                 'type' => 'int(11)' ,
                 'collate' => null ,
-                'null' => false ,
-                'def' => 0 ,
+                'null' => true ,
+                'def' => null ,
                 'extra' => ''
             ) 
         )  ,
@@ -2878,14 +2878,14 @@ Array (
                 'type' => 'int(10) unsigned' ,
                 'collate' => null ,
                 'null' => false ,
-                'def' => 0 ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'rel_uid' => Array (
                 'type' => 'int(10) unsigned' ,
                 'collate' => null ,
                 'null' => false ,
-                'def' => 0 ,
+                'def' => null ,
                 'extra' => ''
             )  ,
             'relation' => Array (
@@ -2911,16 +2911,16 @@ Array (
                     1 => 'rel_uid'
                 ) 
             )  ,
-            'relation' => Array (
-                'type' => 'INDEX' ,
-                'cols' => Array (
-                    0 => 'relation'
-                ) 
-            )  ,
             'group' => Array (
                 'type' => 'INDEX' ,
                 'cols' => Array (
                     0 => 'group'
+                ) 
+            )  ,
+            'relation' => Array (
+                'type' => 'INDEX' ,
+                'cols' => Array (
+                    0 => 'relation'
                 ) 
             ) 
         )  ,

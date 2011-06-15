@@ -386,6 +386,10 @@ class Fox2
         if ($adv = $QF->Config->Get('adv_data', 'visual'))
             $QF->VIS->Add_Data(0, 'ADV', $adv);
 
+        if ($QF->Config->Get('anonimizers_block', 'fox2'))
+            $QF->VIS->Add_Data(0, 'JS', '// anonimizers ban'.VIS_BR.
+                'if (document.domain != \''.$QF->HTTP->SrvName.'\') location.href=\'http://'.$QF->HTTP->SrvName.'\';');
+
         if ($recode = $QF->GPC->Get_String('recode', QF_GPC_GET, QF_STR_WORD))
             $QF->Session->Set('recode_out', $recode);
         elseif ($recode !== null)
