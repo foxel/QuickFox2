@@ -260,6 +260,7 @@ class QF_Gal_incls
 
         if ($items = $QF->Gallery->Get_Items(QF_GALLERY_SEARCH_LAST20, 0, $QF->User->acc_level))
         {
+            $FOX->Link_JScript('swfobject');
             $FOX->Link_JScript('imageshow');
             $QF->Gallery->Load_ItemInfos($items, true);
             $draw_items = $datas = Array();
@@ -547,6 +548,7 @@ class QF_Gal_incls
 
         if ($info = $QF->Gallery->Get_Album_Info($album))
         {
+            $FOX->Link_JScript('swfobject');
             $FOX->Link_JScript('imageshow');
             $p_subtitle = $info['caption'];
             $page_node = $QF->VIS->Create_Node('FOX_GALLERY_PAGE_ALBUM' );
@@ -650,6 +652,7 @@ class QF_Gal_incls
 
         if ($uinfo = $QF->UList->Get_UserInfo($uid))
         {
+            $FOX->Link_JScript('swfobject');
             $FOX->Link_JScript('imageshow');
             //$QF->VIS->Add_Data(0, 'HIDE_PANELS', '1');
 

@@ -100,6 +100,45 @@ var FOX2_IMGSHOW = function()
 
     			return true; // launched!
     		}
+
+            if (true)
+            {
+                QF_EFFECTS.OpenOverlay(true, 1);
+
+                // buttons
+                clBtn = document.createElement('div');
+                clBtn.id = 'QF_ImgShowBtnCl';
+                QF_EFFECTS.Overlay.insertBefore(clBtn, QF_EFFECTS.Overlay.firstChild);
+                clBtn.onclick = _CloseOnClick;
+                clBtn.innerHTML = btnsCont.c;
+                var clStl = getStyleObj(clBtn);
+                clStl.position = 'absolute';
+                clStl.zIndex = 100;
+                clStl.top = '20px';
+                clStl.right = '20px';
+                clStl.cursor = 'pointer';
+                
+                pgDiv = document.createElement('div');
+                pgDiv.id = 'QF_ImgShowPg';
+                QF_EFFECTS.Overlay.insertBefore(pgDiv, QF_EFFECTS.Overlay.firstChild);
+                pgDiv.className = 'overlay inv_grid';
+                pgStl = getStyleObj(pgDiv);
+                pgStl.position = 'absolute';
+                pgStl.cursor = 'default';
+                pgStl.top = '20px';
+                pgStl.right = '100px';
+                pgStl.left = '100px';
+                pgStl.bottom = '20px';
+
+                var coolirisDiv = document.createElement('div');
+                coolirisDiv.id = 'QF_ImgShowCooliris';
+                
+                pgDiv.insertBefore(coolirisDiv, pgDiv.firstChild);
+
+                swfobject.embedSWF("http://apps.cooliris.com/embed/cooliris.swf", "QF_ImgShowCooliris", "100%", "100%", "9.0.0", "expressInstall.swf", {feed: url, numrows: 2, backgroundimage: 'http://www.cooliris.com/yoursite/express/builder/images/themes/spectrum.jpg'}, {allowScriptAccess: 'always', wmode: 'transparent'});
+                
+                return true;
+            }
     		return false;
     	};
 
