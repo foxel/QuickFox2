@@ -208,9 +208,10 @@ function qf_2darray_cols($array, $fields)
 
     $result = Array();
 
-    foreach ($array as $key => $row)
+    foreach($fields as $fkey => $field)
     {
-        foreach($fields as $fkey => $field)
+        $result[$fkey] = array();
+        foreach ($array as $key => $row)
             if (isset($row[$field]))
                 $result[$fkey][$key] = $row[$field];
     }
