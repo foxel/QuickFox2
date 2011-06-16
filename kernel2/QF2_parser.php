@@ -659,8 +659,7 @@ class QF_BB_Parser
                 else
                     $width = $width.'px';
             }
-            if ($align = $parr[3])
-                $align = str_split($align);
+            $align = $parr[3];
         }
         $param = (int) $param;
         if ($param <= 0)
@@ -673,8 +672,10 @@ class QF_BB_Parser
         if ($width)
             $style.= 'width: '.$width.'; ';
         if ($align)
-            foreach($align as $part)
+            for ($i = strlen($align); $i > 0; )
             {
+                $i--;
+                $part = $align[$i];
                 if (isset($aligns[$part]))
                     $style.= $aligns[$part];
                 if (isset($cellaligns[$part]))
