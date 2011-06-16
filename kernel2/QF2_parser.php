@@ -643,20 +643,45 @@ class QF_BB_Parser
 
     function _BBCode_Std_Table($name, $buffer, $param = false)
     {
-        $useborder = false;
+        static $cellaligns = array('t' => 'vertical-align: top; ', 'b' => 'vertical-align: bottom; ', 'm' => 'vertical-align: middle; ');
+        static $aligns = array('l' => 'text-align: left; ', 'r' => 'text-align: right; ', 'c' => 'text-align: center; ', 'j' => 'text-align: justify; ');
+        
+        $useborder = $width = $align = false;
         $parr = explode('|', $param);
         if (count($parr)>1)
         {
             $param = $parr[0];
-            $useborder = (bool) $parr[1];
+            $useborder = (int) $parr[1];
+            if ($width = (int) $parr[2])
+            {
+                if (substr($parr[2], -1) == '%')
+                    $width = $width.'%';
+                else
+                    $width = $width.'px';
+            }
+            if ($align = $parr[3])
+                $align = str_split($align);
         }
         $param = (int) $param;
         if ($param <= 0)
             $param = 1;
 
         $table = explode('['.$this->tagbreaker.']', $buffer);
-        $buffer = ($useborder)
-            ? '<table style="border: solid 1px;"><tr>'
+        $style = $cellstyle = '';
+        if ($useborder)
+            $style.= 'border: solid '.$useborder.'px; ';
+        if ($width)
+            $style.= 'width: '.$width.'; ';
+        if ($align)
+            foreach($align as $part)
+            {
+                if (isset($aligns[$part]))
+                    $style.= $aligns[$part];
+                if (isset($cellaligns[$part]))
+                    $cellstyle.= $cellaligns[$part];
+            }
+        $buffer = ($style)
+            ? '<table style="'.$style.'"><tr>'
             : '<table><tr>';
         $i = 0;
         foreach ($table as $part)
@@ -668,7 +693,9 @@ class QF_BB_Parser
                 $part = '&nbsp;';
             else
                 $part = preg_replace('#^\s*\<br\s?/?\>#', '', $part);
-            $buffer.= '<td>'.$part.'</td>';
+            $buffer.= ($cellstyle)
+                ? '<td style="'.$cellstyle.'">'.$part.'</td>'
+                : '<td>'.$part.'</td>';
             $i++;
         }
         while ($i%$param != 0)
