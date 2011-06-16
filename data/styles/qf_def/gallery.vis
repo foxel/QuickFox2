@@ -397,7 +397,7 @@ var Fox2_Gal_AddPic = function(pic_id, show_id, mrssURL)
     if (!width || !pwidth)
         return QF_TIMERS.addOnLoad( function(){ Fox2_Gal_AddPic(pic_id, show_id); } );
 
-    var pressScript = ((mrssURL && (typeof mrssURL) == 'string') ? 'if (FOX2_IMGSHOW.Cooliris.ready()) FOX2_IMGSHOW.Cooliris.start(\''+mrssURL+'\', \''+show_id+'\'); else ' : '')+'FOX2_IMGSHOW.ShowPage(\''+show_id+'\');';
+    var pressScript = ((mrssURL && (typeof mrssURL) == 'string') ? 'if (FOX2_IMGSHOW.Cooliris.start(\''+mrssURL+'\', \''+show_id+'\', function() {FOX2_IMGSHOW.ShowPage(\''+show_id+'\');})) {} else ' : '')+'FOX2_IMGSHOW.ShowPage(\''+show_id+'\');';
 
     var over = document.createElement('div');
     over.id = 'over_'+pic_id;
