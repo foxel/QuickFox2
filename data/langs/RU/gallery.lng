@@ -95,6 +95,8 @@ FOX_GALLERY_EDITITEM_REQUEST: Для изменения параметров р�
 ---
 FOX_GALLERY_EDITITEM_DELETE: Полностью удалить работу
 ---
+FOX_GALLERY_EDITITEM_EDITFILE: Править файл
+---
 
 FOX_GALLERY_NEW_ALBUM: Создать альбом
 ---

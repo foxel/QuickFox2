@@ -297,6 +297,7 @@ if (itm)
 <table class="inv_grid fullwidth"><tr>
  <td class="inv_grid alg_c" style="width: 140px;" >
   <a href="{URL:FoxGal_item|IN_ID}" title="{!IN_CAPTION}"><img src="{URL:fox2_file_thumb|IN_FID|IN_PICS_NAME}" alt="filethumb" style="margin: 3px; {IF:IN_WIDTH_HEIGHT}{IN_WIDTH_HEIGHT}{ENDIF}" /></a><br />
+  [ <a href="{URL:fox2_file_fileinfo|IN_FID}">{L_FOX_GALLERY_EDITITEM_EDITFILE}</a> ]
   {IF:IN_AUTHOR_INFO}<hr />{IN_AUTHOR_INFO}{ENDIF}
  </td>
  <td>
