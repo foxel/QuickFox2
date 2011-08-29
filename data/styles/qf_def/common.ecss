@@ -31,7 +31,7 @@
 html { background: {outer_bg}; padding: 0; margin: 0; height: 100%; width: 100%; }
 body { background: {outer_bg}; vertical-align: middle; padding: 0; margin: 0 auto; min-width: 900px; }
 td, th, div { cursor: default; }
-td, th { vertical-align: top; }
+td, th { vertical-align: baseline; }
 a:link, a:active, a:visited { color: {link}; text-decoration: none; font-weight: bold; }
 a:hover { color: {linkh}; text-decoration: underline; font-weight: bold; }
 table, div { border-color: {matte_brd}; border-style: solid; border-width: 0; }
@@ -69,12 +69,13 @@ td.page_head { height: 150px !important; background: {head_bg} url({ST_IMGS}/hea
 div.page_head_l1 { height: 150px !important; background: url({ST_IMGS}/head_lt.png) no-repeat top left; }
 div.page_head_l2 { height: 150px !important; background: url({ST_IMGS}/head_rt.png) no-repeat top right; }
 
-td.page_body { background: {page_bg} url({ST_IMGS}/pg_rt.png) repeat-y right; }td.page_bott_lt { height: 66px !important; background: url({ST_IMGS}/pg_bott_grd.png) repeat-x top; }
+td.page_body { background: {page_bg} url({ST_IMGS}/pg_rt.png) repeat-y right; vertical-align: top; }
+td.page_bott_lt { height: 66px !important; background: url({ST_IMGS}/pg_bott_grd.png) repeat-x top; }
 td.page_bott_mid { width: 110px !important; height: 66px !important; background: url({ST_IMGS}/pg_bott_rt.png) no-repeat top left; }
 td.page_bott_rt { height: 66px !important; vertical-align: bottom; background: url({ST_IMGS}/bott_grd_rt.png) no-repeat top right; }
 
-td.page_contents { min-height: 500px; padding: 5px 10px 50px 10px; }
-td.page_subcol { background: url({ST_IMGS}/subcol_line.png) no-repeat top left; padding: 0; margin: 0; width: 217px; }
+td.page_contents { min-height: 500px; padding: 5px 10px 50px 10px; vertical-align: top; }
+td.page_subcol { background: url({ST_IMGS}/subcol_line.png) no-repeat top left; padding: 0; margin: 0; width: 217px; vertical-align: top; }
 div.page_subcol { width: 205px; padding: 0;  margin: 0 6px 10px 6px; }
 div#page_genstats { margin: 5px 10px; padding: 5px; background: url({ST_IMGS}/bott_line.png) no-repeat top left; vertical-align: top; text-align: left; font-size: 85%; }
 div#page_staticons { padding: 10px; text-align: right; }
@@ -108,7 +109,7 @@ div.qf_panel_body { -moz-border-radius: 3px; border: {matte_brd} solid 1px; padd
 div.qf_window { -moz-border-radius: 4px; border: {glass_brd} solid 1px; background: {glass_bg}; margin: 25px auto; padding: 3px !important; }
 td.qf_window_capt, div.qf_window_capt { height: 25px; padding: 1px 3px 3px 8px; text-align: left; font-weight: bold; vertical-align: middle; cursor: default; }
 td.qf_window_body, div.qf_window_body { -moz-border-radius: 2px; border: {matte_brd} solid 1px; padding: 2px; background: {matte_bg}; }
-td.qf_window_body { height: 50px; }
+td.qf_window_body { height: 50px; vertical-align: top; }
 td.qf_window_line, div.qf_window_line { padding: 2px; }
 table.qf_window_body { background: {matte_bg}; -moz-border-radius: 4px; border: {matte_brd} solid 1px; border-collapse: collapse !important; width: 100%; }
 table.qf_window_body td { border: {matte_brd} solid 1px; }
@@ -117,7 +118,7 @@ table.qf_window_body td { border: {matte_brd} solid 1px; }
 div.qf_post_head { background: url({ST_IMGS}/bott_line.png) no-repeat bottom left; margin: 2px 2px 5px 2px; padding: 2px 2px 5px 2px; text-align: left; }
 
 /* Tabber styling */
-td.qf_tabber { width: 170px; padding: 3px 1px; margin: 0; border: none; }
+td.qf_tabber { width: 170px; padding: 3px 1px; margin: 0; border: none; vertical-align: top; }
 a.tabber_itm { display: block; white-space: nowrap; overflow: hidden; padding: 1px 5px 1px 5px; font-weight: bold; margin: 2px 0 2px 3px; line-height: 22px; }
 a.tabber_itm:hover { background: {glass_bgl}; }
 a.tabber_itm_s { -moz-border-radius: 2px; border-width: 1px 0 1px 1px; border-color: {glass_brdl}; border-style: solid; background: {glass_bghl}; margin-left: 1px; }
@@ -150,7 +151,7 @@ div.page_text { margin: 2px 40px; }
 
 /* common styling */
 table.grid_tbl { background: {matte_bgd}; -moz-border-radius: 4px; border: {matte_brd} solid 1px; border-collapse: collapse !important; }
-table.grid_tbl td { border: {matte_brd} solid 1px; }
+table.grid_tbl td { border: {matte_brd} solid 1px; vertical-align: top; }
 table.grid_tbl th { background: {matte_bgda}; border: {matte_brd} solid 1px; vertical-align: middle; }
 
 div.overlay, div.qf_quote_text { background: {matte_bg}; -moz-border-radius: 4px; border: {matte_brd} solid; border-width: 1px 2px 2px 1px; padding: 3px; }

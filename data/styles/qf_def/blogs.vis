@@ -9,7 +9,7 @@
 
 <<+ 'FOX_BLOGS_ENTRY'>>
 {WRITE:WIN_BODY}
- <div class="qf_post_head" style="margin-left: 115px !important;"><a href="{URL:FoxBlogs_entry|IN_ID}" title="{!IN_CAPTION}">{!IN_CAPTION}</a>  [{FTIME:IN_TIME}]</div>
+ <div class="qf_post_head" style="margin-left: 115px !important;"><a href="{URL:FoxBlogs_entry|IN_ID}" title="{!IN_CAPTION}">{!IN_CAPTION}</a>  [{FTIME:IN_TIME}]{!IF:IN_R_LEVEL=0}&nbsp;{VIS:ACC_LEVEL_MARK|LEVEL=IN_R_LEVEL}{ENDIF}</div>
  {IN_TEXT}
  <div style="clear: both;"></div>
 {WRITE:WIN_BOTT}
@@ -57,10 +57,12 @@
  <div style="clear: both; margin: 10px 50px;">
   <table class="inv_grid fullwidth"><tr>
    <td class="inv_grid alg_l">
-    {L_FOX_BLOGS_ENTRY_AUTHOR}: {IN_AUTHOR_INFO} [{FTIME:IN_TIME}]
+    {L_FOX_BLOGS_ENTRY_AUTHOR}: {IN_AUTHOR_INFO}<br />
+    [{FTIME:IN_TIME}]
    </td>
    <td class="inv_grid alg_r">
-    {IF:IN_MAX_LVL}{L_FOX_BLOGS_ENTRY_LEVEL}: <select name="entry_r_level" >
+    {IF:IN_DO_EDIT}<input name="do_delete" type="checkbox" value="1" id="del_chbox" /><label for="del_chbox"> {L_FOX_BLOGS_ENTRY_DELETE} </label> | {ENDIF}
+    {IF:IN_MAX_LVL}<label for="entry_r_level">{L_FOX_BLOGS_ENTRY_LEVEL}:</label> <select name="entry_r_level" id="entry_r_level">
      {FOR:0|IN_MAX_LVL}<option value="{I}" {IF:IN_R_LEVEL=I}selected="selected"{ENDIF}>{I}</option>{ENDFOR}
     </select>{ENDIF}
     <input id="blog_entry_btn_save" type="submit" value="{IF:IN_DO_EDIT}{L_BTN_SAVE}{ELSE}{L_BTN_ADD}{ENDIF}" />

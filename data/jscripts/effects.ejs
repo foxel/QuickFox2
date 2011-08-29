@@ -147,6 +147,8 @@ var QF_EFFECTS = function()
         for (var i in FCs)
         {            var FC = FCs[i];
             var child = null;
+            if (!FC || !FC.children || FC.children.length < 3)
+                continue;
             for (var j in FC.children)
             {                child = FC.children[i];
                 if (child.nodeType == 1)

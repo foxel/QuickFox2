@@ -995,7 +995,8 @@ class QF_Gal_incls
             return Array(sprintf(Lang('ERR_GALLERY_ITEM_NOTOWNER'), $info['caption']), $FOX->Gen_URL('FoxGal_item', $item_id), true);
 
         if ($do_del)
-        {            if ($QF->Gallery->Drop_Item($item_id, $info['author_id'] != $QF->User->UID))
+        {
+            if ($QF->Gallery->Drop_Item($item_id, $info['author_id'] != $QF->User->UID))
                 return Array(Lang('RES_GALLERY_ITEM_DELETED'), $FOX->Gen_URL('FoxGal_albums'));
         }
 

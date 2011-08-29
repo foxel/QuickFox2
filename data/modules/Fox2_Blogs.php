@@ -359,7 +359,17 @@ class QF_Blogs
         $new_capt = $QF->GPC->Get_String('entry_capt', QF_GPC_POST, QF_STR_LINE);
         $new_text = $QF->GPC->Get_String('entry_text', QF_GPC_POST);
         $new_level = $QF->GPC->Get_Num('entry_r_level', QF_GPC_POST);
+        $do_del   = $QF->GPC->Get_Bin('do_delete', QF_GPC_POST);
 
+        if ($do_del) {
+            if ($QF->DBase->Do_Delete('blog_entries', Array('id' => $id)) !== false
+                && $QF->DBase->Do_Delete('blog_texts', Array('id' => $id)) !== false)
+            {
+                $QF->Cache->Drop(FOX_BLOGS_CACHE_PREFIX);
+                return Array(Lang('RES_BLOGS_DELETED'), $FOX->Gen_URL('FoxBlogs_root'));
+            }
+        }
+        
         if ($QF->USTR->Str_Len($new_capt) < 3)
             return Array(Lang('ERR_BLOGS_SHORT_CAPT'), $FOX->Gen_URL('FoxBlogs_editentry', $id), true);
 

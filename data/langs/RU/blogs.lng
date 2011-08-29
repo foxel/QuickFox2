@@ -24,6 +24,8 @@ FOX_BLOGS_ENTRY_CAPTION: Заголовок
 ---
 FOX_BLOGS_ENTRY_LEVEL: Ограничение доступа
 ---
+FOX_BLOGS_ENTRY_DELETE: Удалить
+---
 FOX_BLOGS_NOENTRIES: Записей нет
 ---
 FOX_BLOGS_COMMON_CUT: Далее...
@@ -55,6 +57,8 @@ ERR_BLOGS_ERROR: Ошибка при обработке запроса
 ---
 
 RES_BLOGS_EDITED: Запись успешно изменена
+---
+RES_BLOGS_DELETED: Запись успешно удалена
 ---
 RES_BLOGS_ADDED: Новая запись успешно добавлена
 ---
