@@ -925,7 +925,7 @@ function qf_file_mime($filename, $try_ext='')
 
     if (!$mode)
     {
-        if (function_exists('finfo_file') && ($finfo_res = finfo_open(FILEINFO_MIME, QF_KERNEL_DIR.'magic.mime')))
+        if (function_exists('finfo_file') && ($finfo_res = finfo_open(FILEINFO_MIME, QF_KERNEL_DIR.'magic')))
             $mode = 3;
         elseif (function_exists('mime_content_type') && ($mfile = ini_get('mime_magic.magicfile')) && file_exists($mfile))
             $mode = 2;
