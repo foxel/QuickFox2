@@ -590,7 +590,7 @@ class Fox2_file_incls
         {
             $QF->Session->Open_Session(true);
 
-            if (!$QF->User->is_spider && ($QF->User->acc_level >= $info['r_level']))
+            if ($QF->User->acc_level >= $info['r_level'])
             {
                 $flags = 0;
                 if ($QF->Config->Get('tricky_gecko', 'files_cfg') && preg_match('#\WGecko\/#i', $QF->HTTP->UAgent))
@@ -618,7 +618,7 @@ class Fox2_file_incls
         {
             $QF->Session->Open_Session(true);
 
-            if (!$QF->User->is_spider && ($QF->User->acc_level >= $info['r_level']))
+            if ($QF->User->acc_level >= $info['r_level'])
             {
                 $flags = 0;
                 if ($QF->Config->Get('tricky_gecko', 'files_cfg') && preg_match('#\WGecko\/#i', $QF->HTTP->UAgent))
