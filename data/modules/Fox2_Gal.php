@@ -15,22 +15,26 @@ define('QF_GALLERY_SEARCH_PERSONAL', 3);
 define('QF_GALLERY_SEARCH_FILTER', 7);
 define('QF_GALLERY_SEARCH_LAST10', 8);
 define('QF_GALLERY_SEARCH_LAST20', 16);
+define('QF_GALLERY_SEARCH_NONEMPTY', 32);
 
 
 class QF_Gallery
-{    var $items  = Array();
+{
+    var $items  = Array();
     var $albums = Array();
     var $u_itms = Array();
     var $al_tid = Array();
     var $my_folder = false;
 
     function QF_Gallery()
-    {        global $QF;
+    {
+        global $QF;
         $QF->Run_Module('Files');
         $QF->Run_Module('PTree');
 
         if ($finfo = $QF->Files->Get_FolderInfo(QF_GALLERY_FOLDER_ID))
-            $this->my_folder = $finfo['id'];        else
+            $this->my_folder = $finfo['id'];
+        else
             $this->my_folder = $QF->Files->Create_Folder(QF_GALLERY_FOLDER_ID, 0, QF_GALLERY_FOLDER_ID, false, true);
 
     }
@@ -67,7 +71,8 @@ class QF_Gallery
     }
 
     function Put_To_Album($item_id, $album_id)
-    {        global $QF;
+    {
+        global $QF;
 
         $album = $this->Get_Album_Info($album_id);
         $item  = $this->Get_Item_Info($item_id);
@@ -95,14 +100,16 @@ class QF_Gallery
         $last_itms = implode('|', $last_itms);
 
         if ($QF->DBase->Do_Insert('gal_al_itms', $data))
-        {            $QF->DBase->Do_Update('gal_albums', Array('lasttime' => $QF->Timer->time, 'lastthree' => $last_itms), Array('id' => $album['id']));
+        {
+            $QF->DBase->Do_Update('gal_albums', Array('lasttime' => $QF->Timer->time, 'lastthree' => $last_itms), Array('id' => $album['id']));
             $QF->Cache->Drop(QF_GALLERY_CACHE_PREFIX);
             return true;
         }
     }
 
     function Drop_Item($item_id, $drop_file = false)
-    {        global $QF;
+    {
+        global $QF;
 
         $item  = $this->Get_Item_Info($item_id);
 
@@ -110,9 +117,11 @@ class QF_Gallery
             return false;
 
         if ($QF->DBase->Do_Delete('gal_items', Array('id' => $item['id'])))
-        {            // dropping album links
+        {
+            // dropping album links
             if ($QF->DBase->Do_Delete('gal_al_itms', Array('item_id' => $item['id'])))
-            {                $albums = Array_keys($item['albums']);
+            {
+                $albums = Array_keys($item['albums']);
                 foreach ($albums as $alid)
                 {
                     if ($last_itms = $QF->DBase->Do_Select_All('gal_al_itms', 'item_id', Array('album_id' => $alid), ' ORDER BY put_at DESC LIMIT 0, 3'))
@@ -177,7 +186,8 @@ class QF_Gallery
         if ($QF->DBase->Do_Update('gal_items', $data, Array('id' => $item['id'])) !== false)
         {
             if ($finfo = $QF->Files->Get_FileInfo($item['file_id']))
-            {                $QF->Files->Move_File($file_id, $this->my_folder);
+            {
+                $QF->Files->Move_File($file_id, $this->my_folder);
                 $filename = $QF->LNG->Translit($caption.' by '.$data['author']);
                 if ($ext = pathinfo($finfo['filename'], PATHINFO_EXTENSION))
                     $filename.= '.'.$ext;
@@ -204,10 +214,12 @@ class QF_Gallery
     }
 
     function Create_Item($caption, $file_id, $params = false)
-    {        global $QF;
+    {
+        global $QF;
 
         if (($finfo = $QF->Files->Get_FileInfo($file_id)) && $finfo['has_pics'])
-        {            $new_id = qf_short_hash($caption.' - '.$QF->User->uname);
+        {
+            $new_id = qf_short_hash($caption.' - '.$QF->User->uname);
             $data = Array(
                 'author' => $QF->User->uname, 'author_id' => $QF->User->UID,
                 'time' => $QF->Timer->time, 'r_level' => 0, 'description' => '',
@@ -228,7 +240,8 @@ class QF_Gallery
             if ($QF->DBase->Do_Select('gal_items', '*', Array('id' => $new_id, 'file_id' => $file_id), '', QF_SQL_WHERE_OR ))
                 return false; // duplicate enrties
             if ($QF->DBase->Do_Insert('gal_items', $data))
-            {                $QF->Files->Move_File($file_id, $this->my_folder);
+            {
+                $QF->Files->Move_File($file_id, $this->my_folder);
                 $filename = $QF->LNG->Translit($caption.' by '.$data['author']);
                 if ($ext = pathinfo($finfo['filename'], PATHINFO_EXTENSION))
                     $filename.= '.'.$ext;
@@ -253,7 +266,8 @@ class QF_Gallery
     }
 
     function Create_Album($caption, $t_id = '', $owner = 0, $access = false)
-    {        global $QF;
+    {
+        global $QF;
 
         if (!$caption)
             return false;
@@ -274,7 +288,8 @@ class QF_Gallery
             );
 
         if (!$owner && is_array($access))
-        {            if (isset($access['r_level']))
+        {
+            if (isset($access['r_level']))
                 $data['w_level'] = $data['r_level'] = min(abs($access['r_level']), QF_FOX2_MAXULEVEL);
             if (isset($access['w_level']))
                 $data['w_level'] = min(abs($access['w_level']), $data['r_level'], QF_FOX2_MAXULEVEL);
@@ -290,7 +305,8 @@ class QF_Gallery
     }
 
     function Get_Items($mode = QF_GALLERY_SEARCH_ALL, $param = false, $level = false)
-    {        global $QF;
+    {
+        global $QF;
 
         $quer = Array();
         $flags = 0;
@@ -321,25 +337,30 @@ class QF_Gallery
     }
 
     function Get_Albums($mode = QF_GALLERY_SEARCH_ALL, $param = false, $level = false)
-    {        global $QF;
+    {
+        global $QF;
 
         $quer = Array();
         $other = Array('order' => Array('lasttime' => 'DESC'));
 
         if ($mode & QF_GALLERY_SEARCH_LAST10)
             $other['limit'] = Array(0, 10);
+        if ($mode & QF_GALLERY_SEARCH_NONEMPTY) {
+            $flags |= QF_SQL_USEFUNCS;
+            $quer['lastthree'] = '!= ';
+        }
         $mode&= QF_GALLERY_SEARCH_FILTER;
         switch ($mode)
         {
             case QF_GALLERY_SEARCH_USERID:
-                $quer = Array('owner_id' => $param);
+                $quer['owner_id'] = $param;
                 break;
             case QF_GALLERY_SEARCH_PUBLIC:
-                $quer = Array('owner_id' => 0);
+                $quer['owner_id'] = 0;
                 break;
             case QF_GALLERY_SEARCH_PERSONAL:
                 $flags |= QF_SQL_USEFUNCS;
-                $quer = Array('owner_id' => '!= 0');
+                $quer['owner_id'] = '!= 0';
                 break;
         }
         if (is_int($level))
@@ -379,7 +400,8 @@ class QF_Gallery
     }
 
     function Get_Item_Info($item_id)
-    {        global $QF;
+    {
+        global $QF;
 
         if (!preg_match('#^[0-9A-z]{8}$#D', $item_id)) // incorrect ID
             return false;
@@ -489,7 +511,8 @@ class QF_Gallery
             $cachename = QF_GALLERY_CACHE_PREFIX.'ITM_Qs.'.md5(implode('|', $ids));
 
         if ($cachename && ($items = $QF->Cache->Get($cachename)) && is_array($items))
-        {            $this->items += $items;
+        {
+            $this->items += $items;
             $fids = qf_2darray_cols($items, 'file_id');
             if ($with_fileinfos)
                 $QF->Files->Load_FileInfos($fids);
@@ -521,7 +544,8 @@ class QF_Gallery
             $mt_q = Array('gal_al_itms' => Array('fields' => 'item_id', 'where' => Array('item_id' => $ids)),
                           'gal_albums'  => Array('fields' => Array('id', 't_id', 'caption', 'r_level'), 'join' => Array('id' => 'album_id')));
             if ($datas = $QF->DBase->Do_Multitable_Select($mt_q, '', QF_SQL_LEFTJOIN | QF_SQL_SELECTALL))
-            {                foreach ($datas as $data)
+            {
+                foreach ($datas as $data)
                 {
                     $id = $data['item_id'];
                     unset($data['item_id']);

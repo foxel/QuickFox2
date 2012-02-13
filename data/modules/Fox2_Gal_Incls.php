@@ -26,7 +26,8 @@ class QF_Gal_incls
     }
 
     function DPage_RSS()
-    {        global $QF, $FOX;
+    {
+        global $QF, $FOX;
         // this is a complex page - lets try to make it ^)
 
         $QF->Run_Module('UList');
@@ -112,7 +113,8 @@ class QF_Gal_incls
             $feed[] = '<'.$id.'>'.qf_smart_htmlschars($val).'</'.$id.'>';
         if (count($feed_items))
             foreach ($feed_items as $item)
-            {                $feed[] = '<item>';
+            {
+                $feed[] = '<item>';
                 $feed[] = '<title>'.qf_smart_htmlschars($item['caption']).'</title>';
                 $feed[] = '<pubDate>'.date('r', $item['time']).'</pubDate>';
                 $feed[] = '<guid isPermaLink="false">'.$item['id'].'</guid>';
@@ -185,8 +187,9 @@ class QF_Gal_incls
         $page_params = Array(
             );
 
-        if ($al_ids = $QF->Gallery->Get_Albums(0, 0, $QF->User->acc_level)) // albums
-        {            $page_params['ALBUMS_COUNT'] = count($al_ids);
+        if ($al_ids = $QF->Gallery->Get_Albums(QF_GALLERY_SEARCH_NONEMPTY, 0, $QF->User->acc_level)) // albums
+        {
+            $page_params['ALBUMS_COUNT'] = count($al_ids);
             $al_ids = array_slice($al_ids, 0, 10);
             $draw_albums = array();
 
@@ -339,7 +342,8 @@ class QF_Gal_incls
         if (($info = $QF->Gallery->Get_Item_Info($item)) && ($finfo = $QF->Files->Get_FileInfo($info['file_id'])))
         {
             if (!$QF->User->CheckAccess($info['r_level']))
-            {                $d_result = Array(Lang('ERR_GALLERY_ITEM_NO_ACCESS'), $FOX->Gen_URL('FoxGal_albums'), true);
+            {
+                $d_result = Array(Lang('ERR_GALLERY_ITEM_NO_ACCESS'), $FOX->Gen_URL('FoxGal_albums'), true);
                 $d_status = 404;
                 return null;
             }
@@ -419,7 +423,7 @@ class QF_Gal_incls
 
         $page_node = false;
 
-        if ($al_ids = $QF->Gallery->Get_Albums(($personal) ? QF_GALLERY_SEARCH_PERSONAL : QF_GALLERY_SEARCH_PUBLIC, 0, $QF->User->acc_level)) // public albums
+        if ($al_ids = $QF->Gallery->Get_Albums(($personal) ? QF_GALLERY_SEARCH_PERSONAL | QF_GALLERY_SEARCH_NONEMPTY : QF_GALLERY_SEARCH_PUBLIC, 0, $QF->User->acc_level)) // public albums
         {
             //$QF->VIS->Add_Data(0, 'HIDE_PANELS', '1');
 
@@ -447,7 +451,7 @@ class QF_Gal_incls
                 $al_ids = array_slice($al_ids, $start, $this->per_page);
             }
 
-            if (!$personal && ($pal_ids = $QF->Gallery->Get_Albums(QF_GALLERY_SEARCH_PERSONAL, 0, $QF->User->acc_level)))
+            if (!$personal && ($pal_ids = $QF->Gallery->Get_Albums(QF_GALLERY_SEARCH_PERSONAL | QF_GALLERY_SEARCH_NONEMPTY, 0, $QF->User->acc_level)))
             {
                 $page_params['PALBUMS_COUNT'] = count($pal_ids);
                 shuffle($pal_ids);
@@ -463,7 +467,8 @@ class QF_Gal_incls
                 $uids = $albums = $items = Array();
                 $QF->Gallery->Load_AlbumInfos($al_ids);
                 foreach($al_ids as $id)
-                {                    $album = $QF->Gallery->Get_Album_Info($id);
+                {
+                    $album = $QF->Gallery->Get_Album_Info($id);
 
                     $count = count($album['items']);
                     $nitems = Array();
@@ -740,7 +745,8 @@ class QF_Gal_incls
             }
 
             if (count($albums))
-            {                $QF->Gallery->Load_AlbumInfos($albums);
+            {
+                $QF->Gallery->Load_AlbumInfos($albums);
                 foreach ($albums as $id)
                 {
                     $album = $QF->Gallery->Get_Album_Info($id);
