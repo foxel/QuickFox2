@@ -3,7 +3,7 @@
 // needs MySQL 4.1.0
 // PHP 4.3.0 or later recommended
 
-define ('QF_STARTED',True);
+define ('QF_STARTED', true);
 
 
 // ------------------------------------------------------------

@@ -24,6 +24,11 @@
   /* ]]> CSS ends here */
   </style>
   {ENDIF}
+  {IF:IN_HEAD_JS}
+    <script type="text/javascript">//<![CDATA[
+    {IN_HEAD_JS}
+    //]]> </script>
+  {ENDIF}
 </head>
 <body>
 {IN_JS_BLOCKS}
@@ -330,7 +335,8 @@ QF_EFFECTS.Invisible('Pan{COUNTER}');
 {IF:IN_OVERLAYED}<script type="text/javascript">
 // <![CDATA[
   QF_EFFECTS.Invisible('result_window_{COUNTER}');
-  QF_TIMERS.addOnLoad(function(){    QF_EFFECTS.OpenOverlay(true, 1);
+  QF_TIMERS.addOnLoad(function(){
+    QF_EFFECTS.OpenOverlay(true, 1);
     var tmp = qf_getbyid('result_window_{COUNTER}');
     getStyleObj(tmp).marginTop = '150px';
     QF_EFFECTS.PlaceAtOverlay(tmp);
