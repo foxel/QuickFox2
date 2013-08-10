@@ -245,7 +245,8 @@ class Fox2_adm
 
         $domain_vars = Array('' => Array('val' => '', 'capt' => $QF->LNG->Lang('ADMPANEL_MDOMAIN_NODOMAIN')));
         foreach ($domains as $domain)
-        {            $nnode = $QF->VIS->Add_Node('ADM_FRAME_MDOMAIN_DITEM', 'DOMAINS_DATA', $cfg_node, Array('domain' => $domain));
+        {
+            $nnode = $QF->VIS->Add_Node('ADM_FRAME_MDOMAIN_DITEM', 'DOMAINS_DATA', $cfg_node, Array('domain' => $domain));
             $scm_vars0 = $scm_vars;
             if (isset($d_schemas[$domain]) && isset($scm_vars0[$d_schemas[$domain]]))
                 $scm_vars0[$d_schemas[$domain]]['sel'] = true;
@@ -297,7 +298,8 @@ class Fox2_adm
             }
         }
         elseif ($do_action == 'add_domain')
-        {            $new_domain = $QF->GPC->Get_String('domain', QF_GPC_POST, QF_STR_LINE);
+        {
+            $new_domain = $QF->GPC->Get_String('domain', QF_GPC_POST, QF_STR_LINE);
             $d_schemas = $QF->Config->Get('domain_schemas', 'fox2');
             if (!is_array($d_schemas))
                 $d_schemas = Array($cur_domain => '');
@@ -322,10 +324,13 @@ class Fox2_adm
             $do_delete = $QF->GPC->Get_Bin('do_delete', QF_GPC_POST);
 
             if (is_array($n_schemas))
-            {                $domains = array_keys($d_schemas);
+            {
+                $domains = array_keys($d_schemas);
                 foreach ($domains as $domain)
-                {                    if (isset($n_schemas[$domain]))
-                    {                        $n_scheme = $n_schemas[$domain];
+                {
+                    if (isset($n_schemas[$domain]))
+                    {
+                        $n_scheme = $n_schemas[$domain];
                         if (!in_array($n_scheme, $schemes))
                             $n_scheme = '';
                         $d_schemas[$domain] = $n_scheme;
@@ -339,7 +344,8 @@ class Fox2_adm
             }
         }
         elseif ($do_action == 'p_domains')
-        {            $d_schemas = $QF->Config->Get('domain_schemas', 'fox2');
+        {
+            $d_schemas = $QF->Config->Get('domain_schemas', 'fox2');
             if (!is_array($d_schemas))
                 $d_schemas = Array($cur_domain => '');
 
@@ -764,7 +770,8 @@ class Fox2_adm
                     }
 
                     if ($subtype == 'path')
-                    {                        if (!file_exists($cval))
+                    {
+                        if (!file_exists($cval))
                             $cval = null;
                     }
 
@@ -930,7 +937,7 @@ class Fox2_adm
     {
         global $QF, $FOX;
 
-        $login = $QF->GPC->Get_String('login', QF_GPC_POST, QF_STR_WORD);
+        $login = $QF->GPC->Get_String('login', QF_GPC_POST, QF_STR_LINE);
         $pass  = $QF->GPC->Get_String('pass', QF_GPC_POST, QF_STR_LINE);
         $redir_uri = $QF->GPC->Get_String('pan_uri', QF_GPC_POST, QF_STR_LINE);
 
