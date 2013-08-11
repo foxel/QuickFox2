@@ -100,6 +100,10 @@ CFG_VISUAL_INFOPAN_DATA: Содержимое информационной па�
 ---
 CFG_VISUAL_INFOPAN_CAPT: Заголовок информационной панели
 ---
+CFG_VISUAL_META_DESCRIPTION: META description
+---
+CFG_VISUAL_META_KEYWORDS: META keywords
+---
 
 CFG_PTREE_LIMIT_TLEVEL: Ограничение уровня вложенности сообщений и комментариев.<br />
  По-умолчанию: <b>15</b>;

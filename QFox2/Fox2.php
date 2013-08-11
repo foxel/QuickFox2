@@ -100,9 +100,11 @@ class Fox2
             if (($domains = $QF->Config->Get('linked_domains', 'fox2'))
                 && ($basic_domain = $QF->Config->Get('basic_domain', 'fox2'))
                 && is_array($domains) && count($domains))
-            {                list($link) = array_keys($domains, $domain);
+            {
+                list($link) = array_keys($domains, $domain);
                 if ($link)
-                {                    $this->URL_domain = $basic_domain;
+                {
+                    $this->URL_domain = $basic_domain;
                     if ($rw_id && $rw_id != $link)
                         $rw_data = $rw_id.'/'.$rw_data;
                     $rw_id = $link;
@@ -330,6 +332,12 @@ class Fox2
             'SITE_NAME' => ($site_name = $QF->Config->Get('site_name')) ? htmlspecialchars($site_name) : 'QuickFox 2',
             ) );
 
+        if ($keywords = $QF->Config->Get('meta_keywords', 'visual')) {
+            $QF->VIS->Add_Data(0, 'META', sprintf('<meta name="keywords" content="%s" />', htmlspecialchars($keywords)));
+        }
+        if ($description = $QF->Config->Get('meta_description', 'visual')) {
+            $QF->VIS->Add_Data(0, 'META', sprintf('<meta name="description" content="%s" />', htmlspecialchars($description)));
+        }
 
         if ($res_id = $QF->GPC->Get_String('showresult_id', QF_GPC_GET, QF_STR_HEX))
             $this->Draw_Result_Id($res_id, true);
@@ -620,7 +628,8 @@ class Fox2
     }
 
     function Draw_Result_Id($res_id, $overlayed = false)
-    {        global $QF;
+    {
+        global $QF;
 
         if ($curres = $QF->DBase->Do_Select('results', '*', Array( 'res_id' => $res_id) ))
         {
@@ -760,12 +769,14 @@ class Fox2
     }
 
     /*function _VISUserMods_Preload()
-    {        global $QF;
+    {
+        global $QF;
         $QF->VIS->Load_Templates('user_redefined');
     } */
 
     function _VISUserMods_Preload($style)
-    {        global $QF;
+    {
+        global $QF;
         if (!$QF->Check_Module('VIS'))
             return false;
 
@@ -778,7 +789,8 @@ class Fox2
         if ($data = $QF->Cache->Get($cachename))
             $this->VIS_redefs[$style] = $data;
         elseif ($data = qf_file_get_contents($cfile))
-        {            preg_match_all('#\<\<part \'(\w+)\'\>\>|[^\<]+|\<#', $data, $struct, PREG_SET_ORDER);
+        {
+            preg_match_all('#\<\<part \'(\w+)\'\>\>|[^\<]+|\<#', $data, $struct, PREG_SET_ORDER);
             $data = Array();
             $p_name = QF_KERNEL_VIS_COMMON;
             foreach ($struct as $part)
@@ -857,7 +869,8 @@ class Fox2
 
 
             if ($QF->Config->Get('tgl_multidomain', 'fox2'))
-            {                $domains  = $QF->Config->Get('package_domains', 'fox2');
+            {
+                $domains  = $QF->Config->Get('package_domains', 'fox2');
                 $ldomains = $QF->Config->Get('linked_domains', 'fox2');
                 $basedomain = $QF->Config->Get('basic_domain', 'fox2');
                 if (!is_array($domains))
