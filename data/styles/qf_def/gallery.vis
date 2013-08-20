@@ -178,13 +178,13 @@ if (itm)
  <table class="inv_grid" style="width: {IN_T_WIDTH}px;">
   <tr><td class="inv_grid alg_c"><div class="inv_grid" style="position: relative; height: {IF:IN_T_HEIGHT}{IN_T_HEIGHT}px{ELSE}130px{ENDIF}; width:{IN_T_WIDTH}px;">
    {IF:IN_FILE_ID2}<div id="alb_{COUNTER}_2" class="inv_grid" style="position: absolute; {IF:IN_TOP_LEFT2}{IN_TOP_LEFT2}{ELSE}top: 20px; left: 10px;{ENDIF}" >
-    <a href="{URL:FoxGal_album|IN_ID|IN_T_ID}" title="{!IN_ITMCAPT2}"><img class="bordered" src="{URL:fox2_file_thumb|IN_FILE_ID2|IN_PICS_NAME2}" alt="{!IN_ITMCAPT2}" {IF:IN_WIDTH_HEIGHT2}style="{IN_WIDTH_HEIGHT2}"{ENDIF} /></a>
+    <a href="{URL:FoxGal_album|IN_ID|IN_T_ID}" title="{!IN_ITMCAPT2}"><img class="bordered" src="{URL:fox2_file_thumb|IN_FILE_ID2|IN_PICS_NAME2}" alt="{!IN_ITMCAPT2} ({!IN_SCAPTION})" {IF:IN_WIDTH_HEIGHT2}style="{IN_WIDTH_HEIGHT2}"{ENDIF} /></a>
    </div>{ENDIF}
    {IF:IN_FILE_ID1}<div id="alb_{COUNTER}_1" class="inv_grid" style="position: absolute; {IF:IN_TOP_LEFT1}{IN_TOP_LEFT1}{ELSE}top: 0px; left: 30px;{ENDIF}" >
-    <a href="{URL:FoxGal_album|IN_ID|IN_T_ID}" title="{!IN_ITMCAPT1}"><img class="bordered" src="{URL:fox2_file_thumb|IN_FILE_ID1|IN_PICS_NAME1}" alt="{!IN_ITMCAPT1}" {IF:IN_WIDTH_HEIGHT1}style="{IN_WIDTH_HEIGHT1}"{ENDIF} /></a>
+    <a href="{URL:FoxGal_album|IN_ID|IN_T_ID}" title="{!IN_ITMCAPT1}"><img class="bordered" src="{URL:fox2_file_thumb|IN_FILE_ID1|IN_PICS_NAME1}" alt="{!IN_ITMCAPT1} ({!IN_SCAPTION})" {IF:IN_WIDTH_HEIGHT1}style="{IN_WIDTH_HEIGHT1}"{ENDIF} /></a>
    </div>{ENDIF}
    {IF:IN_FILE_ID0}<div id="alb_{COUNTER}_0" class="inv_grid" style="position: absolute; {IF:IN_TOP_LEFT0}{IN_TOP_LEFT0}{ELSE}top: 10px; left: 20px;{ENDIF}" >
-    <a href="{URL:FoxGal_album|IN_ID|IN_T_ID}" title="{!IN_ITMCAPT0}"><img class="bordered" src="{URL:fox2_file_thumb|IN_FILE_ID0|IN_PICS_NAME0}" alt="{!IN_ITMCAPT0}" {IF:IN_WIDTH_HEIGHT0}style="{IN_WIDTH_HEIGHT0}"{ENDIF} /></a>
+    <a href="{URL:FoxGal_album|IN_ID|IN_T_ID}" title="{!IN_ITMCAPT0}"><img class="bordered" src="{URL:fox2_file_thumb|IN_FILE_ID0|IN_PICS_NAME0}" alt="{!IN_ITMCAPT0} ({!IN_SCAPTION})" {IF:IN_WIDTH_HEIGHT0}style="{IN_WIDTH_HEIGHT0}"{ENDIF} /></a>
    </div>{ELSE}
    <div class="inv_grid alg_c" style="position: relative; top: 50px; " >
     <a href="{URL:FoxGal_album|IN_ID|IN_T_ID}" title="{!IN_CAPTION}">{L_FOX_GALLERY_ALBUM_EMPTY}</a>
@@ -214,7 +214,7 @@ if (itm)
  <table class="inv_grid fullwidth">
   <tr><td class="inv_grid" style="height: {IF:IN_T_HEIGHT}{IN_T_HEIGHT}px{ELSE}130px{ENDIF}; vertical-align: middle;">
 
-   <a href="{URL:FoxGal_item|IN_ID}" title="{!IN_CAPTION}"><img id="thb_{IN_ID}" src="{URL:fox2_file_thumb|IN_FILE_ID|IN_PICS_NAME}" alt="filethumb" {IF:IN_WIDTH_HEIGHT}style="{IN_WIDTH_HEIGHT}"{ENDIF} /></a>
+   <a href="{URL:FoxGal_item|IN_ID}" title="{!IN_CAPTION}"><img id="thb_{IN_ID}" src="{URL:fox2_file_thumb|IN_FILE_ID|IN_PICS_NAME}" alt="{!IN_CAPTION}{IF:IN_ALBUM_CAPTION} ({!IN_ALBUM_CAPTION}){ENDIF}" {IF:IN_WIDTH_HEIGHT}style="{IN_WIDTH_HEIGHT}"{ENDIF} /></a>
   </td></tr>
   <tr><td class="qf_window_body alg_m alg_c">
    <div class="inv_grid sized alg_c" style="width: 140px; height: 95px;">
@@ -296,7 +296,7 @@ if (itm)
 {!WRITE:WIN_CONT}
 <table class="inv_grid fullwidth"><tr>
  <td class="inv_grid alg_c" style="width: 140px;" >
-  <a href="{URL:FoxGal_item|IN_ID}" title="{!IN_CAPTION}"><img src="{URL:fox2_file_thumb|IN_FID|IN_PICS_NAME}" alt="filethumb" style="margin: 3px; {IF:IN_WIDTH_HEIGHT}{IN_WIDTH_HEIGHT}{ENDIF}" /></a><br />
+  <a href="{URL:FoxGal_item|IN_ID}" title="{!IN_CAPTION}"><img src="{URL:fox2_file_thumb|IN_FID|IN_PICS_NAME}" alt="{!IN_CAPTION}" style="margin: 3px; {IF:IN_WIDTH_HEIGHT}{IN_WIDTH_HEIGHT}{ENDIF}" /></a><br />
   [ <a href="{URL:fox2_file_fileinfo|IN_FID}">{L_FOX_GALLERY_EDITITEM_EDITFILE}</a> ]<br />
   {IF:IN_AUTHOR_INFO}<hr />{IN_AUTHOR_INFO}{ENDIF}
  </td>
@@ -383,13 +383,15 @@ var Fox2_Gal_album_setEvents = function(sub_id)
 }
 
 var Fox2_Gal_AddPic = function(pic_id, show_id, mrssURL)
-{    var itm = qf_getbyid(pic_id);
+{
+    var itm = qf_getbyid(pic_id);
     if (!itm || !itm.tagName || itm.tagName.toLowerCase() != 'img')
         return;
     var width = itm.offsetWidth;
     var par;
     while (!par || !par.tagName || !(par.tagName.toLowerCase() == 'td' || par.tagName.toLowerCase() == 'div'))
-    {        if (par)
+    {
+        if (par)
             itm = par;
         par = itm.parentNode;
     }

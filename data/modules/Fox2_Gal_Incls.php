@@ -607,6 +607,7 @@ class QF_Gal_incls
                 $QF->UList->Query_IDs($uids);
                 foreach ($datas as $id => $item)
                 {
+                    $item['ALBUM_CAPTION'] = $info['caption'];
                     if (($finfo = $QF->Files->Get_FileInfo($item['file_id'])) && $finfo['aspect_ratio'] != 0 && $QF->Files->Get_ImageDims($finfo['id'], $wh, QF_FILES_IDIMS_THUMB))
                     {
                         $item['WIDTH_HEIGHT'] = 'width: '.$wh[0].'px; height: '.$wh[1].'px;';
