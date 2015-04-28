@@ -82,12 +82,12 @@
     <hr />
    {ENDIF}
    <div id="adv_block" class="page_advblock" >
+    {IF:IN_adv}
+    {IN_adv}
+    <hr />
+    {ENDIF}
     <a href="{URL:fox2_qf_about_page}" rel="external" onmousedown="this.target='_blank';"><img src="{ST_IMGS}/fox2_sm.png" alt="QuickFox" style="height: 180px; width: 180px;" /></a><br />
     {QF_MARK}
-    {IF:IN_adv}
-    <hr />
-    {IN_adv}
-    {ENDIF}
    </div>
   </div>
   {IF:IN_HIDE_PANELS}<script type="text/javascript">
