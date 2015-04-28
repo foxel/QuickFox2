@@ -21,7 +21,8 @@ var FOX2_IMGSHOW = function()
         maxPicHeight = (screen) ? screen.height*1.2 : 1000;
 
     var cooliris = function()
-    {        var PLC = null;
+    {
+        var PLC = null;
         var hasCooliris = function()
         {
             var clientExists = false;
@@ -138,13 +139,12 @@ var FOX2_IMGSHOW = function()
                     feed: url,
                     numrows: 3,
                     itemGUID: guid,
-                    //backgroundimage: 'http://www.cooliris.com/yoursite/express/builder/images/themes/spectrum.jpg',
                     backgroundColor: '000000',
                     backgroundAlpha: 0.7
                     };
 
                 swfobject.embedSWF(
-                    "http://apps.cooliris.com/embed/cooliris.swf",
+                    "{STATICS}/cooliris.swf",
                     "QF_ImgShowCooliris",
                     "100%",
                     "100%",
@@ -161,9 +161,11 @@ var FOX2_IMGSHOW = function()
     		return false;
     	};
 
-        return {            ready : hasCooliris,
+        return {
+            ready : hasCooliris,
             start : checkForPluginAndLaunchIfPossible
-        };    }();
+        };
+    }();
 
     var _PrepOverlay = function()
     {
@@ -368,7 +370,8 @@ var FOX2_IMGSHOW = function()
     }
 
     var _PrepShowPage = function()
-    {        _PloadAround(curId);
+    {
+        _PloadAround(curId);
         QF_EFFECTS.Hide('QF_ImgShowPg', 1, undefined, _ShowPage);
         if (curId >= (pCount - 1))
             QF_EFFECTS.Hide('QF_ImgShowBtnRt', 1);
@@ -412,7 +415,8 @@ var FOX2_IMGSHOW = function()
     return {
         setBtnsCont: function (conts) {btnsCont = conts;},
         AddPage: function (id, url, iw, ih, icapt, forceFullSize)
-        {            var mult = forceFullSize ? 1 : Math.min(1, maxPicWidth/iw, maxPicHeight/ih);
+        {
+            var mult = forceFullSize ? 1 : Math.min(1, maxPicWidth/iw, maxPicHeight/ih);
             pages[pCount] = {id: id, url: url, iw: iw*mult, ih: ih*mult, icapt: icapt};
 
             pCount++;
@@ -424,7 +428,8 @@ var FOX2_IMGSHOW = function()
 
             curId = -1;
             for (var i=0; i < pCount; i++)
-            {                if (pages[i] && pages[i].id == id)
+            {
+                if (pages[i] && pages[i].id == id)
                 {
                     curId = i;
                     break;
