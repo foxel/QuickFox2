@@ -78,12 +78,12 @@
 
 <<+ 'CMS_ADM_INFO_FRAME'>>
 <div style="padding: 15px 15px;">
- <table class="grid_tbl fullwidth">
+ <table class="grid_tbl fullwidth" style="table-layout: fixed;">
   <tr><th colspan="2">{L_CMS_INFO_FRAME_CAPT|IN_CAPTION}</th></tr>
   <tr><td style="width: 50%;">{L_CMS_INFO_ID}</td><td><a href="{URL:fox2_cms_page|IN_ID}" >{IN_ID}</a></td></tr>
   <tr><td>{L_CMS_INFO_CAPT}</td><td>{!IN_CAPTION}{IF:IN_IS_SECT} [{L_CMS_INFO_ISSECT}]{ENDIF}</td></tr>
   <tr><td>{L_CMS_INFO_PARENT}</td><td>{IF:IN_PARENT}{IN_PARENT}{ELSE}---{ENDIF}</td></tr>
-  <tr><td>{L_CMS_INFO_FILE}</td><td><a href="{URL:fox2_adm_getfile|IN_URL_FILENAME}">{IN_FILENAME}</a></td></tr>
+  <tr><td>{L_CMS_INFO_FILE}</td><td style="text-overflow: ellipsis; overflow: hidden;"><a href="{URL:fox2_adm_getfile|IN_URL_FILENAME}" title="{IN_FILENAME}">{IN_FILENAME}</a></td></tr>
   <tr><td>{L_CMS_INFO_TYPE}</td><td>{IN_TYPE}</td></tr>
   <tr><td>{L_CMS_INFO_LINKS}</td><td>{IF:IN_LINKS}{IN_LINKS}{ELSE}---{ENDIF}</td></tr>
   {IF:IN_IS_SECT}<tr><td>{L_CMS_INFO_SUBS}</td><td>{IF:IN_SUBS}{IN_SUBS}{ELSE}---{ENDIF}</td></tr>{ENDIF}
@@ -302,7 +302,8 @@ function ConfirmCMSDeletedList(form) {
 }
 
 var qfCMS_preview = function(form, button)
-{    if ( !form || ((typeof form).toLowerCase() != 'object') ||
+{
+    if ( !form || ((typeof form).toLowerCase() != 'object') ||
         !form.parentNode || !form.parentNode.appendChild ||
         !form.tagName || form.tagName.toLowerCase() != 'form' )
             return;
@@ -318,7 +319,8 @@ var qfCMS_preview = function(form, button)
         btStl = getStyleObj(button);
 
     var links_dummy = function(e)
-    {        if (!e)
+    {
+        if (!e)
             e = window.event;
         alert('{L_MISC_LINK}: '+this.href);
         e.returnValue = false;
@@ -345,7 +347,8 @@ var qfCMS_preview = function(form, button)
     }
 
     var hidePreview = function()
-    {        taStl.height = pvArea.clientHeight+'px';
+    {
+        taStl.height = pvArea.clientHeight+'px';
         if (tmp = pvArea.qfResizer)
             tmp.parentNode.removeChild(tmp);
         pvArea.parentNode.removeChild(pvArea);
@@ -358,7 +361,8 @@ var qfCMS_preview = function(form, button)
     }
 
     if (QF_AJAX.Query("adm_cmspview", form, showPreview))
-    {        pvArea = document.createElement('div');
+    {
+        pvArea = document.createElement('div');
         pvStyle = getStyleObj(pvArea);
         myTA.parentNode.insertBefore(pvArea, myTA);
         pvStyle.height = myTA.clientHeight+'px';
