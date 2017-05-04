@@ -96,7 +96,7 @@ function init_err_parse($errno, $errstr, $errfile = 'n/a', $errline = 'n/a')
         $logfile = fopen('init_err.log', 'ab');
     }
 
-    if ( $errno & ~(E_NOTICE | E_USER_NOTICE | E_STRICT) )
+    if ( $errno & ~(E_NOTICE | E_USER_NOTICE | E_STRICT | E_DEPRECATED | E_USER_DEPRECATED) )
     {
         if ($logfile)
             fwrite($logfile,date('[d M Y H:i]').' '.$ERR_TYPES[$errno].': '.$errstr.'. File: '.$errfile.'. Line: '.$errline.".\r\n");

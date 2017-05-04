@@ -925,7 +925,8 @@ class QF_HTTP
 
             // nginx sendfile patch
             if (($flags & QF_HTTP_FILE_DLREDIR) && preg_match('#^nginx/#i', $_SERVER["SERVER_SOFTWARE"]))
-            {                qf_ob_free();
+            {
+                qf_ob_free();
 
                 header('Last-Modified: '.$FileTime);
                 header('Expires: '.date('r', $QF->Timer->time + 3600*24), true);
@@ -1207,7 +1208,8 @@ class QF_HTTP
 
     // returns client signature based on browser, ip and proxy
     function Get_Client_Signature($level = 0)
-    {        static $sign_parts = Array('HTTP_USER_AGENT', 'HTTP_ACCEPT', 'HTTP_ACCEPT_CHARSET'); //, 'HTTP_ACCEPT_ENCODING'
+    {
+        static $sign_parts = Array('HTTP_USER_AGENT', 'HTTP_ACCEPT', 'HTTP_ACCEPT_CHARSET'); //, 'HTTP_ACCEPT_ENCODING'
         static $psign_parts = Array('HTTP_VIA', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_REAL_IP');
 
         $sign = Array();
@@ -1322,7 +1324,7 @@ class QF_HTTP
             $logfile = fopen('qf2_err.log', 'ab');
         }
 
-        if ( $errno & ~(E_NOTICE | E_USER_NOTICE | E_STRICT) )
+        if ( $errno & ~(E_NOTICE | E_USER_NOTICE | E_STRICT | E_DEPRECATED | E_USER_DEPRECATED) )
         {
             if ($logfile)
                 fwrite($logfile, date('[d M Y H:i]').' '.$ERR_TYPES[$errno].': '.$errstr.'. File: '.$errfile.'. Line: '.$errline.".\r\n");
