@@ -24,6 +24,7 @@ define('QF_SESSION_FIX'   , 8);
 // quickfox sid cookie name
 define('QF_SESSION_SID_NAME', 'SID');
 
+#[AllowDynamicProperties]
 class QF_Session
 {
     var $SID        = '';           // Session ID
@@ -44,7 +45,7 @@ class QF_Session
     var $error      = false;        // lang code of error string to show session errors to user
 
     // constructor
-    function QF_Session()
+    function __construct()
     {
         if (defined('QF_SESSION_CREATED'))
             trigger_error('Duplicate session manager creation!', 256);
@@ -117,7 +118,7 @@ class QF_Session
         {
             if ($sess['ip'] != $QF->HTTP->IP_int)
                 $sess = null;
-            if ($sess['lastused'] < ($QF->Timer->time - QF_KERNEL_SESSION_LIFETIME))
+            elseif ($sess['lastused'] < ($QF->Timer->time - QF_KERNEL_SESSION_LIFETIME))
                 $sess = null;
         }
         else

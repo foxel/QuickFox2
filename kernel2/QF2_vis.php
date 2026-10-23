@@ -41,6 +41,7 @@ define('VIS_BR', "\r\n");
 define('QF_VISNODE_ARRAY', 1); // node is an array of sametype nodes
 
 
+#[AllowDynamicProperties]
 class QF_Visual
 {
     var $templates  = Array();
@@ -74,7 +75,7 @@ class QF_Visual
     var $vis_consts = Array();
     var $func_parsers = Array();
 
-    function QF_Visual()
+    function __construct()
     {
         global $QF;
 
@@ -289,7 +290,7 @@ class QF_Visual
                     $indata = str_replace('{STATICS}', qf_full_url(QF_STATICS_DIR), $indata);
 
                     $indata = preg_replace_callback('#\{(?>L_((?:\w+|\"[^\"]+\"|\|)+))\}#',Array(&$this, '_Templ_Lang_CB'),$indata);
-                    $indata = preg_replace('#\{(?>CONST:([\w\|]+))\}#e','(isset(\$this->Templ_Consts("$1"))) ? \$this->Templ_Consts("$1") : ""',$indata);
+                    $indata = preg_replace_callback('#\{(?>CONST:([\w\|]+))\}#', Array(&$this, '_Templ_Consts_CB'), $indata);
 
                     $QF->Events->Call_Event_Ref('EJS_PreParse', $indata);
 
@@ -365,7 +366,7 @@ class QF_Visual
                     $indata = str_replace('{STATICS}', qf_full_url(QF_STATICS_DIR), $indata);
 
                     $indata = preg_replace_callback('#\{(?>L_((?:\w+|\"[^\"]+\"|\|)+))\}#',Array(&$this, '_Templ_Lang_CB'),$indata);
-                    $indata = preg_replace('#\{(?>CONST:([\w\|]+))\}#e','(isset(\$this->Templ_Consts("$1"))) ? \$this->Templ_Consts("$1") : ""',$indata);
+                    $indata = preg_replace_callback('#\{(?>CONST:([\w\|]+))\}#', Array(&$this, '_Templ_Consts_CB'), $indata);
 
                     $QF->Events->Call_Event_Ref('VIS_PreParse', $indata, $style, $part);
 
@@ -747,6 +748,11 @@ class QF_Visual
         return $data;
     }
 
+    function _Templ_Consts_CB($matches)
+    {
+        return $this->Templ_Consts($matches[1]);
+    }
+
     function Templ_Consts($code)
     {
         $code = explode('|', $code);
@@ -773,7 +779,7 @@ class QF_Visual
         global $QF;
 
         static $consts = Array(
-            'QF_MARK'  => 'Powered by<br />QuickFox 2<br />&copy; Foxel aka LION<br /> 2006 - 2009',
+            'QF_MARK'  => 'Powered by<br />QuickFox 2<br />&copy; Foxel aka LION<br /> 2006 - 2026',
             'QF_INDEX' => QF_INDEX,
             );
 
@@ -1134,6 +1140,8 @@ class QF_Visual
         $vars_mask='#\{((?>[\w\-]+))\}\s*=(.*)#';
         $vars_block='#\{VARS\}(.*?)\{/VARS\}#si';
 
+        $CSSVars = Array();
+
         preg_match_all($vars_block, $indata, $blocks);
         $blocks = implode(' ', $blocks[0]);
 
@@ -1147,7 +1155,10 @@ class QF_Visual
         if ($this->force_compact)
             $Cdata = $this->CSS_compact($Cdata);
 
-        $Cdata = preg_replace('#\{(?>(\w+))\}#e', '(isset(\$CSSVars[strtoupper("\1")])) ? \$CSSVars[strtoupper("\1")] : ""', $Cdata);
+        $Cdata = preg_replace_callback('#\{(?>(\w+))\}#', function($m) use ($CSSVars) {
+            $name = strtoupper($m[1]);
+            return (isset($CSSVars[$name])) ? $CSSVars[$name] : '';
+        }, $Cdata);
 
         return $Cdata;
     }

@@ -34,6 +34,7 @@ define('QF_ERRCODE_USERLIB_BAD_NPASS', 1002); // bad new password given (too sho
 define('QF_ERRCODE_USERLIB_DUP_LOGIN', 1003); // duplicate login
 define('QF_ERRCODE_USERLIB_DUP_UNAME', 1004); // duplicate username
 
+#[AllowDynamicProperties]
 class Fox2_curuser
 {
     var $UID        = 0;            // Detected User ID
@@ -54,7 +55,7 @@ class Fox2_curuser
 
     var $error      = false;        // lang code of error string to show session errors to user
 
-    function Fox2_curuser()
+    function __construct()
     {
 
     }
@@ -647,6 +648,7 @@ class Fox2_curuser
 
 }
 
+#[AllowDynamicProperties]
 class Fox2_UserList
 {
     var $list   = Array();

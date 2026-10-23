@@ -2,7 +2,7 @@
 
 // -------------------------------------------------------------------------- \\
 // This is the main QuickFox 2 file                                           \\
-//                                                       (c) LION 2007 - 2008 \\
+//                                                       (c) LION 2007 - 2026 \\
 // -------------------------------------------------------------------------- \\
 
 // Simple InUSE Check
@@ -31,6 +31,7 @@ define('QF_FOX2_MAXULEVEL', 7);
 define('QF_FOX2_URLTEMPS_CACHENAME', 'FOX2.URLTEMPS');
 define('QF_FOX2_URLTEMPS_RW_CACHENAME', 'FOX2.RW_URLTEMPS');
 
+#[AllowDynamicProperties]
 class Fox2
 {
     var $URL_temps;
@@ -38,7 +39,7 @@ class Fox2
     var $VIS_redefs = Array();
     var $err_traced = Array();
 
-    function Fox2()
+    function __construct()
     {
         global $QF;
         if ($CL_Config = qf_file_get_carray(QUICKFOX_DIR.'modules.qfc'))
@@ -154,7 +155,7 @@ class Fox2
                 if (isset($arun['module'], $arun['method']))
                 {
                     $QF->Run_Module($arun['module']);
-                    qf_func_call(Array(&$QF->$arun['module'], $arun['method']));
+                    qf_func_call(Array(&$QF->{$arun['module']}, $arun['method']));
                 }
 
 
@@ -216,7 +217,7 @@ class Fox2
         if (($data = $QF->DSets->Get_DSet_Value('fox_datapages', $name)) && isset($data['module'], $data['method']))
         {
             $QF->Run_Module($data['module']);
-            qf_func_call(Array(&$QF->$data['module'], $data['method']));
+            qf_func_call(Array(&$QF->{$data['module']}, $data['method']));
             trigger_error('FOX: datapage "'.$name.'" did not end execution by it\'s own', E_USER_NOTICE);
         }
         else
@@ -242,7 +243,7 @@ class Fox2
         elseif (($data = $QF->DSets->Get_DSet_Value('fox_ajax_scripts', $name)) && isset($data['module'], $data['method']))
         {
             $QF->Run_Module($data['module']);
-            $AJAX_DATA = qf_func_call_ref(Array(&$QF->$data['module'], $data['method']), $AJAX_STATUS);
+            $AJAX_DATA = qf_func_call_ref(Array(&$QF->{$data['module']}, $data['method']), $AJAX_STATUS);
         }
         else
         {
@@ -288,7 +289,7 @@ class Fox2
             if (isset($data['module'], $data['method']))
             {
                 $QF->Run_Module($data['module']);
-                $result = qf_func_call(Array(&$QF->$data['module'], $data['method']));
+                $result = qf_func_call(Array(&$QF->{$data['module']}, $data['method']));
                 if (!$result)
                 {
                     trigger_error('FOX: script "'.$file.'" did not set result by it\'s own', E_USER_NOTICE);
@@ -325,7 +326,7 @@ class Fox2
                 if (isset($arun['module'], $arun['method']))
                 {
                     $QF->Run_Module($arun['module']);
-                    qf_func_call(Array(&$QF->$arun['module'], $arun['method']), $pg);
+                    qf_func_call(Array(&$QF->{$arun['module']}, $arun['method']), $pg);
                 }
 
         $QF->VIS->Add_Data_Array(0, Array(
@@ -363,7 +364,7 @@ class Fox2
             $p_subtitle = $p_title = '';
             $d_result = false;
             $d_status = 200;
-            $pg_node = qf_func_call_arr(Array(&$QF->$data['module'], $data['method']), Array(&$p_title, &$p_subtitle, &$d_result, &$d_status));
+            $pg_node = qf_func_call_arr(Array(&$QF->{$data['module']}, $data['method']), Array(&$p_title, &$p_subtitle, &$d_result, &$d_status));
             if ($pg_node)
                 $QF->VIS->Append_Node($pg_node, 'PAGE_CONT', 0);
             if ($p_title)
@@ -409,7 +410,7 @@ class Fox2
                 if (isset($arun['module'], $arun['method']))
                 {
                     $QF->Run_Module($arun['module']);
-                    qf_func_call(Array(&$QF->$arun['module'], $arun['method']), $pg, $pg_node);
+                    qf_func_call(Array(&$QF->{$arun['module']}, $arun['method']), $pg, $pg_node);
                 }
 
         $QF->HTTP->Clear();
@@ -443,7 +444,7 @@ class Fox2
         {
             $CUR_PANEL = $QF->VIS->Add_Node('PANEL_BODY', 'PANELS', 0, false, $name.'_panel');
             $QF->Run_Module($data['module']);
-            qf_func_call(Array(&$QF->$data['module'], $data['method']), $CUR_PANEL);
+            qf_func_call(Array(&$QF->{$data['module']}, $data['method']), $CUR_PANEL);
             return true;
         }
         else
@@ -823,7 +824,7 @@ class Fox2
         if ($params = array_slice($code, 1))
         {
         	foreach ($params as $id => $val)
-                $params[$id] = (is_numeric($val{0})) ? (int) $val : (($val{0} == '"') ? rawurlencode(substr($val, 1, -1)) : '{URLEN:'.$val.'}');
+                $params[$id] = (is_numeric($val[0])) ? (int) $val : (($val[0] == '"') ? rawurlencode(substr($val, 1, -1)) : '{URLEN:'.$val.'}');
         }
         else
             $params = Array();
@@ -831,7 +832,7 @@ class Fox2
         $url = $this->Gen_URL($url_id, $params, !$matches[1], false, true);
         if ($matches[2] == 'F')
             $url = qf_full_url($url, !$matches[1], $this->URL_domain);
-        elseif ($matches[2] == 'R') // && $url{0} != '/'
+        elseif ($matches[2] == 'R') // && $url[0] != '/'
         {
             $comps = parse_url($url);
             if (!$comps['scheme'])
@@ -849,7 +850,7 @@ class Fox2
             );
 
 
-        if (count($this->URL_temps))
+        if (is_array($this->URL_temps) && count($this->URL_temps))
             return false;
 
         $cachename = ($QF->Config->Get('gen_rwurls'))
@@ -960,7 +961,10 @@ class Fox2
         elseif (is_array($rw_mask))
         {
             $rw_data = explode('/', $rw_data);
-            $rw_mask = preg_replace('#\$(\d+)#e', '(isset(\$rw_data[\1])) ? \$rw_data[\1] : ""', $rw_mask);
+            $rw_mask = preg_replace_callback('#\$(\d+)#', function($m) use ($rw_data) {
+                $n = (int) $m[1];
+                return (isset($rw_data[$n])) ? $rw_data[$n] : '';
+            }, $rw_mask);
 
             $QF->GPC->Set_Raws($rw_mask, QF_GPC_GET);
         }

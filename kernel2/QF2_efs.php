@@ -19,11 +19,12 @@ define('QF_EFS_WRITE', 1);
 define('QF_EFS_GZIP' , 2);
 define('QF_EFS_GZIP_TRY', 4);
 
+#[AllowDynamicProperties]
 class QF_EFS
 {
     var $streams = Array();
 
-    function QF_EFS()
+    function __construct()
     {
         $this->streams = Array();
     }

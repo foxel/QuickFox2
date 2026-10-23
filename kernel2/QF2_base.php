@@ -28,7 +28,7 @@ define('QF_DEF_COOKIE_PREFIX', 'QF2');
 define('QF_USTR_LTT_CACHEPREFIX', 'USTR.LTT.');
 define('QF_USTR_CHR_CACHEPREFIX', 'USTR.CHR.');
 define('QF_USTR_USEMB', extension_loaded('mbstring'));
-define('QF_GPC_STRIP', (bool) get_magic_quotes_gpc());
+define('QF_GPC_STRIP', false);
 
 // defining some usefull constants
 // HTTP send content types
@@ -60,12 +60,13 @@ define('QF_UPLOAD_MOVED', 0x20); // this means that file already moved
 
 
 // String parsers for multiple 8-bits ASCII-safe encodings
+#[AllowDynamicProperties]
 class QF_UString
 {
     var $ltts = Array(); // alphabetic chars data array
     var $chrs = Array(); // Charconv tables
 
-    function QF_UString()
+    function __construct()
     {
         setlocale(LC_ALL, 'EN');
         if (QF_USTR_USEMB)
@@ -243,7 +244,7 @@ class QF_UString
         {
             $out = '';
             reset($letters);
-            while (list($i, $lett) = each($letters))
+            foreach ($letters as $i => $lett)
             {
                 $uni = ord($lett[0]);
 
@@ -421,6 +422,7 @@ class QF_UString
 }
 
 // extended time counting/logging class
+#[AllowDynamicProperties]
 class QF_Timer
 {
     var $time;
@@ -428,7 +430,7 @@ class QF_Timer
     var $point_time;
     var $events = Array();
 
-    function QF_Timer()
+    function __construct()
     {
         $this->time = time();
         $this->start_time = $this->Get_MTime();
@@ -470,6 +472,7 @@ class QF_Timer
 }
 
 // request data input class
+#[AllowDynamicProperties]
 class QF_GPC_Request
 {
     var $raw = array();
@@ -478,7 +481,7 @@ class QF_GPC_Request
     var $GET, $POST, $COOKIE, $REQUEST, $FILES;
     var $CPrefix = QF_DEF_COOKIE_PREFIX;
 
-    function QF_GPC_Request()
+    function __construct()
     {
         // here was if (PHP_VERSION<'4.1.0') block
         $this->GET =& $_GET;
@@ -753,6 +756,7 @@ class QF_GPC_Request
 
 // HTTP interface
 // Outputs data to user
+#[AllowDynamicProperties]
 class QF_HTTP
 {
     var $IP      = '';
@@ -780,7 +784,7 @@ class QF_HTTP
     var $do_HTML = true;
     var $do_GZIP = true;
 
-    function QF_HTTP()
+    function __construct()
     {
         //here was if (PHP_VERSION < '4.1.0') block
         $this->SERVER =& $_SERVER;
@@ -1354,11 +1358,12 @@ class QF_HTTP
 }
 
 // Events controller
+#[AllowDynamicProperties]
 class QF_Events
 {
     var $events = Array();
 
-    function QF_Events()
+    function __construct()
     {
 
     }

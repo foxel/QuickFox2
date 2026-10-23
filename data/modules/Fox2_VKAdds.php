@@ -9,6 +9,7 @@ if ( defined('FOX_VKADDS_LOADED') )
 
 define('FOX_VKADDS_LOADED', True);
 
+#[AllowDynamicProperties]
 class Fox2_VKAdds
 {
     function PostPage($pg_id)

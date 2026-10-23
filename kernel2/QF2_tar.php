@@ -17,11 +17,12 @@ define('QF_KERNEL_TARLIB_LOADED', True);
 define('QF_TARFS_BLOCKS_BUF', 10240);
 define('QF_TARFS_MAX_PARSETIME', 30); // 30 secs to get file contents
 
+#[AllowDynamicProperties]
 class QF_TARLib
 {
     var $files = Array();
 
-    function QF_TARLib()
+    function __construct()
     {
 
     }

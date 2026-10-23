@@ -8,9 +8,10 @@
 if ( !defined('QF_STARTED') )
         die('Hacking attempt');
 
+#[AllowDynamicProperties]
 class Fox2_PTree_Incls
 {
-    function Fox2_PTree_Incls()
+    function __construct()
     {
         global $QF, $FOX;
         $QF->Run_Module('PTree');

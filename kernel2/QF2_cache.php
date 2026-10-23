@@ -20,6 +20,7 @@ define('QF_KERNEL_CACHE_TEMPPREF', 'TEMP.');
 
 
 // caching class indeed
+#[AllowDynamicProperties]
 class QF_Cacher
 {
     var $chdata = Array();
@@ -27,7 +28,7 @@ class QF_Cacher
     var $upd_cache = Array();
     var $cache_folder = '';
 
-    function QF_Cacher()
+    function __construct()
     {
         if (defined('QF_CACHER_CREATED'))
             trigger_error('Duplicate cache manager creation!', E_USER_ERROR);

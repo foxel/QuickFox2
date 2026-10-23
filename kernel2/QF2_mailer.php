@@ -21,6 +21,7 @@ define('QF_MAILER_RECIP_BCC', 2);
 // Breakline
 define('MAIL_BR', "\n");
 
+#[AllowDynamicProperties]
 class QF_Mailer
 {
     var $send_to = Array();
@@ -32,7 +33,7 @@ class QF_Mailer
     var $text    = '';
     var $parts   = Array();
 
-    function QF_Mailer()
+    function __construct()
     {
 
     }

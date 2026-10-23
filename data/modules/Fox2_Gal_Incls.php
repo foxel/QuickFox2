@@ -4,6 +4,7 @@
 if ( !defined('QF_STARTED') )
         die('Hacking attempt');
 
+#[AllowDynamicProperties]
 class QF_Gal_incls
 {
     var $th_w = 64;
@@ -14,7 +15,7 @@ class QF_Gal_incls
     var $do_fullsize_js = false;
     var $do_cooliris_js = true;
 
-    function QF_Gal_incls()
+    function __construct()
     {
         global $QF;
         $QF->Run_Module('Gallery');

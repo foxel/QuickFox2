@@ -1,7 +1,8 @@
 <?php
 
 // -------------------------------------------------------------------------- \\
-// QuickFox kernel 2 MySQL 4 database driver                                  \\
+// QuickFox kernel 2 MySQL database driver via mysqli                         \\
+// (c) LION 2006, 2026                                                        \\
 // -------------------------------------------------------------------------- \\
 
 // Simple InUSE Check
@@ -11,7 +12,7 @@ if ( !defined('QF_STARTED') )
 if (defined('QF_KERNEL_SQL_DRIVER'))
     die('Scripting error');
 
-define('QF_KERNEL_SQL_DRIVER', 'mysql4');
+define('QF_KERNEL_SQL_DRIVER', 'mysqli');
 qf_define('QF_KERNEL_SQL_EXPLAINS', false);
 
 // Dbase Conf Constants
@@ -57,10 +58,10 @@ class QF_SQL_DBase
     var $logfile       = null;
 
     // Constructor
-    function QF_SQL_DBase()
+    function __construct()
     {
-        if (!extension_loaded('mysql'))
-            die('MySQL extension is required');
+        if (!extension_loaded('mysqli'))
+            die('MySQLi extension is required');
 
         if (QF_KERNEL_SQL_EXPLAINS)
             $this->logfile = fopen('sql_explains.log', 'wb');
@@ -111,11 +112,11 @@ class QF_SQL_DBase
     {
         if( $this->db_connect_id )
         {
-            if ($database && mysql_select_db($database) )
+            if ($database && mysqli_select_db($this->db_connect_id, $database) )
             {
                 $this->cur_dbname = $database;
             }
-            elseif (mysql_select_db($this->database))
+            elseif (mysqli_select_db($this->db_connect_id, $this->database))
             {
                 $this->cur_dbname = $this->database;
             }
@@ -140,9 +141,9 @@ class QF_SQL_DBase
         if ( $connect ) {
             if ($this->transaction) {
                 $tquer = ($commit) ? 'COMMIT' : 'ROLLBACK';
-                mysql_query($tquer, $this->db_connect_id);
+                mysqli_query($connect, $tquer);
             }
-            return mysql_close($connect);
+            return mysqli_close($connect);
         }
         else
             return false;
@@ -156,9 +157,9 @@ class QF_SQL_DBase
         if( $this->db_connect_id )
         {
             if ($this->transaction)
-                mysql_query('COMMIT', $this->db_connect_id);
+                mysqli_query($this->db_connect_id, 'COMMIT');
 
-            return mysql_query('BEGIN', $this->db_connect_id);
+            return mysqli_query($this->db_connect_id, 'BEGIN');
         }
     }
 
@@ -168,7 +169,7 @@ class QF_SQL_DBase
         if( $this->db_connect_id )
         {
             if ($this->transaction)
-                return mysql_query('COMMIT', $this->db_connect_id);
+                return mysqli_query($this->db_connect_id, 'COMMIT');
             else
                 return true;
         }
@@ -180,7 +181,7 @@ class QF_SQL_DBase
         if( $this->db_connect_id )
         {
             if ($this->transaction)
-                return mysql_query('ROLLBACK', $this->db_connect_id);
+                return mysqli_query($this->db_connect_id, 'ROLLBACK');
             else
                 return true;
         }
@@ -598,6 +599,15 @@ class QF_SQL_DBase
 
     // sql methods
 
+    // mysqli_result objects cannot be used directly as array keys.
+    // Use a stable string key derived from the object instead.
+    function _res_key($query_id)
+    {
+        if (is_object($query_id))
+            return spl_object_hash($query_id);
+        return strval($query_id);
+    }
+
     // Base direct query method
     function SQL_Query ($query = '', $noprefixrepl = false)
     {
@@ -618,24 +628,25 @@ class QF_SQL_DBase
         if ($this->auto_prefix && !$noprefixrepl)
             $query = preg_replace('#(?<=\W|^)(`?)\{DBKEY\}(\w+)(\\1)(?=\s|$|\n|\r)#s', '`'.$this->tbl_prefix.'$2`', $query);
 
-        //mysql_ping($this->db_connect_id);
-        $this->query_result = mysql_query($query, $this->db_connect_id);
+        //mysqli_ping($this->db_connect_id);
+        $this->query_result = mysqli_query($this->db_connect_id, $query);
 
         // if server is 'gone away' we'll reconnect and repeat the query
-        if (mysql_errno($this->db_connect_id) == 2006 && $this->_Do_Connect())
-            $this->query_result = mysql_query($query, $this->db_connect_id);
+        if (mysqli_errno($this->db_connect_id) == 2006 && $this->_Do_Connect())
+            $this->query_result = mysqli_query($this->db_connect_id, $query);
 
         if( $this->query_result )
         {
-            unset($this->row[$this->query_result]);
-            unset($this->rowset[$this->query_result]);
+            $res_key = $this->_res_key($this->query_result);
+            unset($this->row[$res_key]);
+            unset($this->rowset[$res_key]);
         }
         else
         {
             $this->query_result = false;
-            if ($error['code'] = mysql_errno($this->db_connect_id))
+            if ($error['code'] = mysqli_errno($this->db_connect_id))
             {
-                $error['message'] = mysql_error($this->db_connect_id);
+                $error['message'] = mysqli_error($this->db_connect_id);
                 $this->Fast_DbCheck('', true);
                 trigger_error('MYSQL error '.$error['code'].': '.$error['message'].' in '.$query, ($this->do_warnings) ? E_USER_WARNING : E_USER_ERROR);
             }
@@ -663,7 +674,7 @@ class QF_SQL_DBase
         $result = false;
 
         $old_db = $this->database;
-        if (mysql_select_db($database) )
+        if (mysqli_select_db($this->db_connect_id, $database) )
         {
             $this->database = $database;
             if ($this->auto_dbcheck)
@@ -674,7 +685,7 @@ class QF_SQL_DBase
             $this->database = $old_db;
         }
 
-        mysql_select_db($old_db);
+        mysqli_select_db($this->db_connect_id, $old_db);
 
         return $result;
     }
@@ -685,12 +696,12 @@ class QF_SQL_DBase
         if( !$query_id )
             $query_id = $this->query_result;
 
-        return ( $query_id ) ? mysql_num_rows($query_id) : false;
+        return ( $query_id ) ? mysqli_num_rows($query_id) : false;
     }
 
     function SQL_AffectedRows ()
     {
-        return ( $this->db_connect_id ) ? mysql_affected_rows($this->db_connect_id) : false;
+        return ( $this->db_connect_id ) ? mysqli_affected_rows($this->db_connect_id) : false;
     }
 
     function SQL_NumFields ($query_id = 0)
@@ -698,7 +709,7 @@ class QF_SQL_DBase
         if( !$query_id )
             $query_id = $this->query_result;
 
-        return ( $query_id ) ? mysql_num_fields($query_id) : false;
+        return ( $query_id ) ? mysqli_num_fields($query_id) : false;
     }
 
     function SQL_FieldName($offset, $query_id = 0)
@@ -706,7 +717,11 @@ class QF_SQL_DBase
         if( !$query_id )
             $query_id = $this->query_result;
 
-        return ( $query_id ) ? mysql_field_name($query_id, $offset) : false;
+        if( !$query_id )
+            return false;
+
+        $field = mysqli_fetch_field_direct($query_id, $offset);
+        return ( $field ) ? $field->name : false;
     }
 
     function SQL_FieldType($offset, $query_id = 0)
@@ -714,20 +729,24 @@ class QF_SQL_DBase
         if( !$query_id )
             $query_id = $this->query_result;
 
-        return ( $query_id ) ? mysql_field_type($query_id, $offset) : false;
+        if( !$query_id )
+            return false;
+
+        return $this->_Field_Type($query_id, $offset);
     }
 
     function SQL_FetchRow($query_id = 0, $assoc=true)
     {
-        $style=($assoc) ? MYSQL_ASSOC : MYSQL_NUM ;
+        $style=($assoc) ? MYSQLI_ASSOC : MYSQLI_NUM ;
 
         if( !$query_id )
             $query_id = $this->query_result;
 
         if( $query_id )
         {
-            $this->row[$query_id] = mysql_fetch_array($query_id, $style);
-            return $this->row[$query_id];
+            $res_key = $this->_res_key($query_id);
+            $this->row[$res_key] = mysqli_fetch_array($query_id, $style);
+            return $this->row[$res_key];
         }
         else
             return false;
@@ -740,13 +759,14 @@ class QF_SQL_DBase
 
         if( $query_id )
         {
-            unset($this->rowset[$query_id]);
-            unset($this->row[$query_id]);
+            $res_key = $this->_res_key($query_id);
+            unset($this->rowset[$res_key]);
+            unset($this->row[$res_key]);
 
-            while($this->rowset[$query_id] = mysql_fetch_array($query_id, MYSQL_ASSOC))
+            while($this->rowset[$res_key] = mysqli_fetch_array($query_id, MYSQLI_ASSOC))
             {
-                if ($field_name) $result[$this->rowset[$query_id][$field_name]] = $this->rowset[$query_id];
-                else $result[] = $this->rowset[$query_id];
+                if ($field_name) $result[$this->rowset[$res_key][$field_name]] = $this->rowset[$res_key];
+                else $result[] = $this->rowset[$res_key];
             }
 
             return $result;
@@ -762,28 +782,31 @@ class QF_SQL_DBase
 
         if( $query_id )
         {
+            $res_key = $this->_res_key($query_id);
             if( $rownum > -1 )
             {
-                $result = mysql_result($query_id, $rownum, $field);
+                mysqli_data_seek($query_id, $rownum);
+                $row = mysqli_fetch_array($query_id, MYSQLI_BOTH);
+                $result = $row[$field];
             }
             else
             {
-                if( empty($this->row[$query_id]) && empty($this->rowset[$query_id]) )
+                if( empty($this->row[$res_key]) && empty($this->rowset[$res_key]) )
                 {
                     if( $this->sql_fetchrow() )
                     {
-                        $result = $this->row[$query_id][$field];
+                        $result = $this->row[$res_key][$field];
                     }
                 }
                 else
                 {
-                    if( $this->rowset[$query_id] )
+                    if( $this->rowset[$res_key] )
                     {
-                        $result = $this->rowset[$query_id][0][$field];
+                        $result = $this->rowset[$res_key][0][$field];
                     }
-                    else if( $this->row[$query_id] )
+                    else if( $this->row[$res_key] )
                     {
-                        $result = $this->row[$query_id][$field];
+                        $result = $this->row[$res_key][$field];
                     }
                 }
             }
@@ -799,12 +822,12 @@ class QF_SQL_DBase
         if( !$query_id )
             $query_id = $this->query_result;
 
-        return ( $query_id ) ? mysql_data_seek($query_id, $rownum) : false;
+        return ( $query_id ) ? mysqli_data_seek($query_id, $rownum) : false;
     }
 
     function SQL_ThisId()
     {
-        return ( $this->db_connect_id ) ? mysql_insert_id($this->db_connect_id) : false;
+        return ( $this->db_connect_id ) ? mysqli_insert_id($this->db_connect_id) : false;
     }
 
     function SQL_FreeResult($query_id = 0)
@@ -814,10 +837,11 @@ class QF_SQL_DBase
 
         if ( $query_id )
         {
-            unset($this->row[$query_id]);
-            unset($this->rowset[$query_id]);
+            $res_key = $this->_res_key($query_id);
+            unset($this->row[$res_key]);
+            unset($this->rowset[$res_key]);
 
-            mysql_free_result($query_id);
+            mysqli_free_result($query_id);
 
             return true;
         }
@@ -828,7 +852,7 @@ class QF_SQL_DBase
     // server methods
     function SQL_Info()
     {
-        return ($this->db_connect_id) ? mysql_info($this->db_connect_id) : false;
+        return ($this->db_connect_id) ? mysqli_info($this->db_connect_id) : false;
     }
 
     function SQL_Error()
@@ -836,15 +860,15 @@ class QF_SQL_DBase
         if( !$this->db_connect_id )
             return false;
 
-        $result['message'] = mysql_error($this->db_connect_id);
-        $result['code'] = mysql_errno($this->db_connect_id);
+        $result['message'] = mysqli_error($this->db_connect_id);
+        $result['code'] = mysqli_errno($this->db_connect_id);
 
         return $result;
     }
 
     function Srv_Info()
     {
-        return ($this->db_connect_id) ? 'MySQL. Version '.mysql_get_server_info($this->db_connect_id) : 'Unconnected';
+        return ($this->db_connect_id) ? 'MySQL. Version '.mysqli_get_server_info($this->db_connect_id) : 'Unconnected';
     }
 
 
@@ -860,23 +884,25 @@ class QF_SQL_DBase
         if ($npassword) $password = $npassword;
 
         if ( $this->db_connect_id )
-            mysql_close($this->db_connect_id);
+            mysqli_close($this->db_connect_id);
 
-        $this->db_connect_id = ($this->persistency)
-                                ? mysql_pconnect($this->server, $username, $password)
-                                : mysql_connect($this->server, $username, $password);
+        $server = ($this->persistency)
+                  ? 'p:'.$this->server
+                  : $this->server;
+
+        $this->db_connect_id = mysqli_connect($server, $username, $password);
 
         if( $this->db_connect_id )
         {
-            mySQL_Query('SET NAMES '.$this->codepage, $this->db_connect_id);
+            mysqli_query($this->db_connect_id, 'SET NAMES '.$this->codepage);
 
             if( $this->database )
             {
-                $dbselect = mysql_select_db($this->database);
+                $dbselect = mysqli_select_db($this->db_connect_id, $this->database);
 
                 if( !$dbselect )
                 {
-                    mysql_close($this->db_connect_id);
+                    mysqli_close($this->db_connect_id);
                     $this->db_connect_id = $dbselect;
                 }
                 $this->cur_dbname = $this->database;
@@ -1070,14 +1096,59 @@ class QF_SQL_DBase
             return false;
     }
 
+    function _Field_Type($query_id, $offset)
+    {
+        $field = mysqli_fetch_field_direct($query_id, $offset);
+        if (!$field) return false;
+
+        switch ($field->type) {
+            case MYSQLI_TYPE_TINY:
+            case MYSQLI_TYPE_SHORT:
+            case MYSQLI_TYPE_LONG:
+            case MYSQLI_TYPE_LONGLONG:
+            case MYSQLI_TYPE_INT24:
+                return 'int';
+            case MYSQLI_TYPE_FLOAT:
+            case MYSQLI_TYPE_DOUBLE:
+            case MYSQLI_TYPE_DECIMAL:
+            case MYSQLI_TYPE_NEWDECIMAL:
+                return 'real';
+            case MYSQLI_TYPE_TIMESTAMP:
+                return 'timestamp';
+            case MYSQLI_TYPE_DATE:
+            case MYSQLI_TYPE_NEWDATE:
+                return 'date';
+            case MYSQLI_TYPE_TIME:
+                return 'time';
+            case MYSQLI_TYPE_YEAR:
+                return 'year';
+            case MYSQLI_TYPE_DATETIME:
+                return 'datetime';
+            case MYSQLI_TYPE_ENUM:
+                return 'enum';
+            case MYSQLI_TYPE_SET:
+                return 'set';
+            case MYSQLI_TYPE_TINY_BLOB:
+            case MYSQLI_TYPE_MEDIUM_BLOB:
+            case MYSQLI_TYPE_LONG_BLOB:
+            case MYSQLI_TYPE_BLOB:
+                return 'blob';
+            case MYSQLI_TYPE_NULL:
+                return 'null';
+            case MYSQLI_TYPE_VAR_STRING:
+            case MYSQLI_TYPE_STRING:
+            case MYSQLI_TYPE_GEOMETRY:
+            default:
+                return 'string';
+        }
+    }
+
     function _Escape_String($string) // in PHP 4.3.0 there is new better func
     {
         if (!strlen($string) || !$this->db_connect_id)
             return $string;
-        elseif (function_exists('mysql_real_escape_string'))
-            return mysql_real_escape_string($string, $this->db_connect_id);
-        else
-            return mysql_escape_string($string);
+
+        return mysqli_real_escape_string($this->db_connect_id, $string);
     }
 
     // Maintenance functions
@@ -1091,25 +1162,25 @@ class QF_SQL_DBase
         if (isset($Got_Optimized[$dbase]))
             return $Got_Optimized[$dbase];
 
-        if (!($result = mysql_query('SHOW TABLES FROM '.$dbase, $this->db_connect_id)))
+        if (!($result = mysqli_query($this->db_connect_id, 'SHOW TABLES FROM '.$dbase)))
             return ($Got_Optimized[$dbase] = false);
 
         $tbls = Array();
-        while (list($tbl) = mysql_fetch_array($result, MYSQL_NUM))
+        while (list($tbl) = mysqli_fetch_array($result, MYSQLI_NUM))
             $tbls[] = '`'.$tbl.'`';
-        mysql_free_result($result);
+        mysqli_free_result($result);
 
         if (count($tbls) == 0)
             return ($Got_Optimized[$dbase] = true);
 
         $query = 'OPTIMIZE TABLE '.implode(', ', $tbls);
-        if (!($result = mysql_query($query, $this->db_connect_id)))
+        if (!($result = mysqli_query($this->db_connect_id, $query)))
             {
-                trigger_error('MYSQL FastCheck: Query error while optimizing: '.mysql_error($this->db_connect_id), E_USER_ERROR);
+                trigger_error('MYSQL FastCheck: Query error while optimizing: '.mysqli_error($this->db_connect_id), E_USER_ERROR);
                 return ($Got_Optimized[$dbase] = false);
             }
 
-        mysql_free_result($result);
+        mysqli_free_result($result);
         return ($Got_Optimized[$dbase] = true);
     }
 
@@ -1123,50 +1194,50 @@ class QF_SQL_DBase
         if (isset($Got_Checked[$dbase]))
             return $Got_Checked[$dbase];
 
-        if (!($result = mysql_query('SHOW TABLES FROM '.$dbase, $this->db_connect_id)))
+        if (!($result = mysqli_query($this->db_connect_id, 'SHOW TABLES FROM '.$dbase)))
             return ($Got_Checked[$dbase] = false);
 
         $tbls = Array();
-        while (list($tbl) = mysql_fetch_array($result, MYSQL_NUM))
+        while (list($tbl) = mysqli_fetch_array($result, MYSQLI_NUM))
             $tbls[] = '`'.$tbl.'`';
-        mysql_free_result($result);
+        mysqli_free_result($result);
 
         if (count($tbls) == 0)
             return ($Got_Checked[$dbase] = true);
 
         $query = 'CHECK TABLE '.implode(', ', $tbls).(($no_quick) ? '' : ' QUICK');
-        if (!($result = mysql_query($query, $this->db_connect_id)))
+        if (!($result = mysqli_query($this->db_connect_id, $query)))
             {
-                trigger_error('MYSQL FastCheck: Query error while checking: '.mysql_error($this->db_connect_id), E_USER_ERROR);
+                trigger_error('MYSQL FastCheck: Query error while checking: '.mysqli_error($this->db_connect_id), E_USER_ERROR);
                 return ($Got_Checked[$dbase] = false);
             }
 
         $tbls = Array();
-        while ($tbl = mysql_fetch_array($result, MYSQL_ASSOC))
+        while ($tbl = mysqli_fetch_array($result, MYSQLI_ASSOC))
             if ($tbl['Msg_type'] == 'error')
             {
                 trigger_error('MYSQL FastCheck: Table "'.$tbl['Table'].'" is corrupted: '.$tbl['Msg_text'], E_USER_WARNING);
                 $tbls[] = str_replace($dbase.'.', $dbase.'.`', $tbl['Table']).'`';
             }
-        mysql_free_result($result);
+        mysqli_free_result($result);
         if (count($tbls) == 0)
             return ($Got_Checked[$dbase] = true);
 
         $query = 'REPAIR TABLE '.implode(', ', array_unique($tbls)).' EXTENDED';
-        if (!($result = mysql_query($query, $this->db_connect_id)))
+        if (!($result = mysqli_query($this->db_connect_id, $query)))
             {
-                trigger_error('MYSQL FastCheck: Query error while repeiring: '.mysql_error($this->db_connect_id), E_USER_ERROR);
+                trigger_error('MYSQL FastCheck: Query error while repeiring: '.mysqli_error($this->db_connect_id), E_USER_ERROR);
                 return ($Got_Checked[$dbase] = false);
             }
 
-        while ($tbl = mysql_fetch_array($result, MYSQL_ASSOC))
+        while ($tbl = mysqli_fetch_array($result, MYSQLI_ASSOC))
             if ($tbl['Msg_type'] == 'error')
             {
                 trigger_error('MYSQL FastCheck: Table "'.$tbl['Table'].'" is corrupted and was not fixed automatically: '.$tbl['Msg_text'], E_USER_ERROR);
                 return ($Got_Checked[$dbase] = false);
             }
 
-        mysql_free_result($result);
+        mysqli_free_result($result);
         return ($Got_Checked[$dbase] = true);
     }
 

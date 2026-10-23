@@ -5,9 +5,10 @@ if ( !defined('QF_STARTED') )
         die('Hacking attempt');
 
 
+#[AllowDynamicProperties]
 class Fox2_mu_incls
 {
-    function Fox2_mu_incls()
+    function __construct()
     {
         global $QF;
         $QF->Run_Module('MultiUser');

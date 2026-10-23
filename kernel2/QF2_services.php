@@ -13,11 +13,12 @@ if ( defined('QF_KERNEL_SERVICES_LOADED') )
 
 define('QF_KERNEL_SERVICES_LOADED', True);
 
+#[AllowDynamicProperties]
 class QF_Services
 {
     var $time_spent = 0;
 
-    function QF_Services()
+    function __construct()
     {
 
     }

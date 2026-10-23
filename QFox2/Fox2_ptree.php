@@ -17,13 +17,14 @@ define('QF_POSTTREE_LOADED', true);
 define('QF_POSTTREE_CACHE_PREFIX', 'POSTTREE.');
 define('QF_POSTTREE_CACHE_STATS', QF_POSTTREE_CACHE_PREFIX.'TSTATS');
 
+#[AllowDynamicProperties]
 class Fox2_PostTree
 {
     var $ptrees = Array();
     var $stats = Array();
     var $max_t_level = 15;
 
-    function Fox2_PostTree()
+    function __construct()
     {
         global $QF;
 

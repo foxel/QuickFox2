@@ -67,6 +67,7 @@ define('QF_IMAGER_RSIZE_BRDR',  2); // fit and add borders
 define('QF_IMAGER_RSIZE_TBRDR', 3); // fit and add transparent borders
 
 
+#[AllowDynamicProperties]
 class QF_Imager
 {
 
@@ -74,7 +75,7 @@ class QF_Imager
     var $IM_Acc = false;
     var $images = Array();
 
-    function QF_Imager()
+    function __construct()
     {
         global $QF;
 

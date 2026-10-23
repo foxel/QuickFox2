@@ -2,7 +2,7 @@
 
 // -------------------------------------------------------------------------- \\
 // This is the main QF kernel 2 file. Provides main class implementation      \\
-//                                                            (c) LION 2007   \\
+//                                                            (c) LION 2007, 2026\\
 // -------------------------------------------------------------------------- \\
 
 // needs PHP 4.1.0
@@ -49,12 +49,13 @@ if (!defined('E_USER_DEPRECATED'))
 // Sets some initial running parameters
 //
 // here comes the fatal catcher :P
-register_shutdown_function(create_function('', 'if (($a = error_get_last()) && $a[\'type\'] == E_ERROR)
-    { file_put_contents(QF_SITE_ROOT.\'php_fatal.log\', sprintf(\'E%d "%s" at %s:%d\', $a[\'type\'], $a[\'message\'], $a[\'file\'], $a[\'line\']));
-    $i = ob_get_level(); while ($i--) @ob_end_clean(); print \'Fatal error. Sorry :(\'; }'));
+register_shutdown_function(function () {
+    if (($a = error_get_last()) && $a['type'] == E_ERROR) {
+        file_put_contents(QF_SITE_ROOT.'php_fatal.log', sprintf('E%d "%s" at %s:%d', $a['type'], $a['message'], $a['file'], $a['line']));
+        $i = ob_get_level(); while ($i--) @ob_end_clean(); print 'Fatal error. Sorry :(';
+    }
+});
 Error_Reporting(0 & ~(E_NOTICE | E_USER_NOTICE | E_STRICT | E_DEPRECATED) );
-if (get_magic_quotes_runtime())
-    set_magic_quotes_runtime(0);
 set_time_limit(30);  // not '0' - once i had my script running for a couple of hours collecting GBytes of errors :)
 setlocale(LC_ALL, 'EN'); // english locale
 if ( PHP_VERSION < '4.2.0' )
@@ -165,13 +166,14 @@ else
 // finished including basic modules
 
 
+#[AllowDynamicProperties]
 class QuickFox_kernel2
 {
     var $mod_files   = Array();    //list of files for modules
     var $mod_classes = Array();    //list of clases for modules
     var $need_close  = Array();
 
-    function QuickFox_kernel2()
+    function __construct()
     {
         global $QF;
         $QF =& $this;

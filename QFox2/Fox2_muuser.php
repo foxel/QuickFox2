@@ -9,9 +9,10 @@ if (defined('QF_MUUSER_LOADED'))
 
 define('QF_MUUSER_LOADED', true);
 
+#[AllowDynamicProperties]
 class Fox2_MultiUser
 {
-    function Fox2_MultiUser()
+    function __construct()
     {
 
     }

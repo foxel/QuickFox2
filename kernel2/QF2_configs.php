@@ -18,6 +18,7 @@ define('QF_KERNEL_CONFIG_DEFGROUP', 'COMMON');
 define('QF_KERNEL_CONFIG_DEFSCHEME', 'root');
 
 
+#[AllowDynamicProperties]
 class QF_Configs
 {
     var $values = Array();        //Config vals for groups of configs
@@ -28,7 +29,7 @@ class QF_Configs
     var $loaded = false;
     var $cur_scheme = QF_KERNEL_CONFIG_DEFSCHEME;
 
-    function QF_Configs()
+    function __construct()
     {
         $this->values = Array(QF_KERNEL_CONFIG_DEFSCHEME => Array());
     }

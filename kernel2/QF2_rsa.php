@@ -14,10 +14,11 @@ if ( defined('QF_KERNEL_TARLIB_LOADED') )
 
 define('QF_KERNEL_TARLIB_LOADED', True);
 
+#[AllowDynamicProperties]
 class QF_RSA
 {
     // constructor
-    function QF_RSA()
+    function __construct()
     {
         list($usec, $sec) = explode(' ', microtime());
         mt_srand($sec + $usec * 100000);
@@ -189,7 +190,7 @@ class QF_RSA
         while ($i > 0)
         {
             $i--;
-            $h.= sprintf('%02x', ord($bs_a{$i}));
+            $h.= sprintf('%02x', ord($bs_a[$i]));
         }
 
         return $h;
@@ -232,7 +233,7 @@ class QF_RSA
         while ($i > 0)
         {
             $i--;
-            $bc = bcadd(bcmul($bc, 256), ord($bs_a{$i}));
+            $bc = bcadd(bcmul($bc, 256), ord($bs_a[$i]));
         }
 
         return $bc;
@@ -357,7 +358,7 @@ class QF_RSA
         $uu = $u1;
         $vv = $u2;
 
-        if ($vv{0} == '-') {
+        if ($vv[0] == '-') {
             $inverse = bcadd($vv, $m);
         } else {
             $inverse = $vv;
@@ -458,7 +459,7 @@ class QF_RSA
         $i = 0;
         while ($i < $len)
         {
-            $b = ord($bs_b{$i});
+            $b = ord($bs_b[$i]);
             for ($ii = 0; $ii<8; $ii++)
             {
                 if (($b >> $ii) & 1)
@@ -493,8 +494,8 @@ class QF_RSA
             $bs_b = str_pad($bs_b, $maxlen, chr(0));
             while ($i < $maxlen)
             {
-                $a = ord($bs_a{$i});
-                $b = ord($bs_b{$i});
+                $a = ord($bs_a[$i]);
+                $b = ord($bs_b[$i]);
 
                 $d = ($a | 0x0100) - $b - $o;
 
@@ -528,14 +529,14 @@ class QF_RSA
         while ($i < $maxlen)
         {
             $bs_d = substr($bs_o, 0, $i);
-            if ($b = ord($bs_b{$i}))
+            if ($b = ord($bs_b[$i]))
             {
                 $o = 0;
                 $ii = 0;
                 while ($ii < $len)
                 {
-                    $a = ord($bs_a{$ii});
-                    $d = ord($bs_o{$ii+$i});
+                    $a = ord($bs_a[$ii]);
+                    $d = ord($bs_o[$ii+$i]);
                     $d = $a * $b + $o + $d;
 
                     $o = $d >> 8;
@@ -568,7 +569,7 @@ class QF_RSA
         $bs_d.= str_repeat(chr(0), $nulls);
         while ($i < $maxlen)
         {
-            $a = ord($bs_a{$i});
+            $a = ord($bs_a[$i]);
 
             $d = ($a << $times) | $o;
 

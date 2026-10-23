@@ -4,6 +4,7 @@
 if ( !defined('QF_STARTED') )
         die('Hacking attempt');
 
+#[AllowDynamicProperties]
 class Fox2_CMS_Adm
 {
     function _Start()

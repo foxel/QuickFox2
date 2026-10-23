@@ -18,6 +18,7 @@ define('QF_GALLERY_SEARCH_LAST20', 16);
 define('QF_GALLERY_SEARCH_NONEMPTY', 32);
 
 
+#[AllowDynamicProperties]
 class QF_Gallery
 {
     var $items  = Array();
@@ -26,7 +27,7 @@ class QF_Gallery
     var $al_tid = Array();
     var $my_folder = false;
 
-    function QF_Gallery()
+    function __construct()
     {
         global $QF;
         $QF->Run_Module('Files');

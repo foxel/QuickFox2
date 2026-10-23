@@ -9,6 +9,7 @@ if ( defined('FOX_GOOGLEADDS_LOADED') )
 
 define('FOX_GOOGLEADDS_LOADED', True);
 
+#[AllowDynamicProperties]
 class Fox2_GoogleAdds
 {
     function PostPage()

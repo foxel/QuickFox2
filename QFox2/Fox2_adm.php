@@ -4,6 +4,7 @@
 if ( !defined('QF_STARTED') )
         die('Hacking attempt');
 
+#[AllowDynamicProperties]
 class Fox2_adm
 {
     function _Start()
@@ -73,7 +74,7 @@ class Fox2_adm
                 $QF->Run_Module($data['module']);
                 $admp_subtitle = '';
                 $admd_result = false; // not implemented
-                $pg_node = qf_func_call_arr(Array(&$QF->$data['module'], $data['method']), Array(&$admp_subtitle, &$admd_result));
+                $pg_node = qf_func_call_arr(Array(&$QF->{$data['module']}, $data['method']), Array(&$admp_subtitle, &$admd_result));
                 if ($pg_node)
                     $QF->VIS->Append_Node($pg_node, 'ADM_FRAME', $ADM_FRAME);
                 if ($admp_subtitle)

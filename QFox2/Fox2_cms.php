@@ -23,6 +23,7 @@ define('QF_CMS_PGS_DIR', QF_DATA_ROOT.'cms_pgs/');
 // some consts
 define('QF_CMS_INDEXPAGE', 'index');
 
+#[AllowDynamicProperties]
 class Fox2_CMS
 {
     var $cur_page = null;
@@ -30,7 +31,7 @@ class Fox2_CMS
     var $pgs_tree = Array();
     var $pgs_pars = Array();
 
-    function Fox2_CMS()
+    function __construct()
     {
         $this->cur_page = null;
     }

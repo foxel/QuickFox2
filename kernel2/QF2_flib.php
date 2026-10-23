@@ -460,7 +460,7 @@ function qf_full_url($url, $with_amps = false, $force_host = '')
     if (strcasecmp(get_class($QF), 'QuickFox_kernel2') != 0)
         return $url;
 
-    if ($url{0} == '#')
+    if ($url[0] == '#')
         return $url;
 
     $url_p = parse_url($url);
@@ -498,7 +498,7 @@ function qf_full_url($url, $with_amps = false, $force_host = '')
             $url.= ':'.$QF->HTTP->SrvPort;
         if (isset($url_p['path']))
         {
-            if ($url_p['path']{0} != '/')
+            if ($url_p['path'][0] != '/')
                 $url_p['path'] = '/'.$QF->HTTP->RootDir.'/'.$url_p['path'];
         }
         else

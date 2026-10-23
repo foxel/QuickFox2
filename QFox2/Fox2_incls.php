@@ -6,6 +6,7 @@ if ( !defined('QF_STARTED') )
 
 define('QF_FOX2_HTC_CACHEPREFIX', 'HTC.');
 
+#[AllowDynamicProperties]
 class Fox2_incls
 {
     var $per_page = 15;
@@ -36,7 +37,7 @@ class Fox2_incls
 
             for ($i = 0; $i < $count; $i++)
             {
-                $id = (int) hexdec($code{$i}) + rand(0,3)*16;
+                $id = (int) hexdec($code[$i]) + rand(0,3)*16;
 
                 $sx = ($id%8) * 24;
                 $sy = floor($id/8) * 32;
@@ -308,7 +309,7 @@ class Fox2_incls
             $QF->Run_Module($data['module']);
             $ucabp_subtitle = '';
             $ucabd_result = false; // not implemented
-            $pg_node = qf_func_call_arr(Array(&$QF->$data['module'], $data['method']), Array(&$ucabp_subtitle, &$ucabd_result));
+            $pg_node = qf_func_call_arr(Array(&$QF->{$data['module']}, $data['method']), Array(&$ucabp_subtitle, &$ucabd_result));
             if ($pg_node)
                 $QF->VIS->Append_Node($pg_node, 'UCAB_FRAME', $ucab_frame);
             if ($p_subtitle)

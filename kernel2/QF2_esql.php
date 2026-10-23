@@ -12,6 +12,7 @@ if ( defined('QF_KERNEL_ESQL_LOADED') )
 
 define('QF_KERNEL_ESQL_LOADED', True);
 
+#[AllowDynamicProperties]
 class QF_SQL_Dumper
 {
     var $struct = Array();
@@ -20,7 +21,7 @@ class QF_SQL_Dumper
     var $tblsinfo = Array();
     var $dbase;
 
-    function QF_SQL_Dumper()
+    function __construct()
     {
 
     }
@@ -368,12 +369,13 @@ class QF_SQL_Dumper
 
 }
 
+#[AllowDynamicProperties]
 class QF_SQL_Importer
 {
     var $status = Array();
     var $errlog = Array();
 
-    function QF_SQL_Importer()
+    function __construct()
     {
 
     }
@@ -438,14 +440,14 @@ class QF_SQL_Importer
                 $cur_sql.= $char;
                 if ($char == $in_str)
                 {
-                    if ($in_str == '`' || $dchar{0} != '\\')
+                    if ($in_str == '`' || $dchar[0] != '\\')
                         $in_str = '';
                     else // one or more Backslashes before the presumed end of string...
                     {
                         // ... first checks for escaped backslashes
                         $j = strlen($cur_sql) - 3;
                         $escaped_backslash = false;
-                        while ($j >= 0 && $cur_sql{$j} == '\\')
+                        while ($j >= 0 && $cur_sql[$j] == '\\')
                         {
                             $escaped_backslash = !$escaped_backslash;
                             $j--;

@@ -4,11 +4,12 @@
 if ( !defined('QF_STARTED') )
         die('Hacking attempt');
 
+#[AllowDynamicProperties]
 class Fox2_MPlayer
 {
     var $fold_name = 'music';
 
-    function Fox2_MPlayer()
+    function __construct()
     {
         global $QF, $FOX;
 

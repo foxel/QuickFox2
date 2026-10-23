@@ -15,6 +15,7 @@ define('QF_DATASETS_LOADED', true);
 
 define('QF_DATASETS_CACHEPREFIX', 'DSET.');
 
+#[AllowDynamicProperties]
 class Fox2_DSets
 {
     var $datasets = Array();
@@ -24,7 +25,7 @@ class Fox2_DSets
     var $packages = Array();
 
 
-    function Fox2_DSets()
+    function __construct()
     {
 
     }

@@ -11,12 +11,13 @@ define('FOX_BLOGS_LOADED', True);
 
 define('FOX_BLOGS_CACHE_PREFIX', 'FOX_BLOGS.');
 
+#[AllowDynamicProperties]
 class QF_Blogs
 {
     var $per_page = 15;
     var $acc_lvl = 0;
 
-    function QF_Blogs()
+    function __construct()
     {
         global $QF, $FOX;
 

@@ -9,6 +9,7 @@ if ( defined('FOXADD_ANTIIE_LOADED') )
 
 define('FOXADD_ANTIIE_LOADED', True);
 
+#[AllowDynamicProperties]
 class Fox2_AntiIE
 {
     function PostPage()

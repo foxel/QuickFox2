@@ -27,6 +27,7 @@ define('QF_FILES_IDIMS_PREVIEW', 2);
 
 define('FOX_ERR_FILES_DUPLICATE', 0x20);
 
+#[AllowDynamicProperties]
 class Fox2_Files
 {
 
@@ -35,7 +36,7 @@ class Fox2_Files
     var $f_tids = Array();
     var $fconts = Array();
 
-    function Fox2_Files()
+    function __construct()
     {
 
     }

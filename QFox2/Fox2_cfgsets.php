@@ -16,11 +16,12 @@ define('QF_CONFIGURER_LOADED', true);
 // cache prefix
 define('QF_CFGSETS_CACHE_PREFIX', 'CFGSETS.');
 
+#[AllowDynamicProperties]
 class Fox2_cfgsets
 {
     var $filter   = Array();
 
-    function Fox2_cfgsets()
+    function __construct()
     {
 
     }

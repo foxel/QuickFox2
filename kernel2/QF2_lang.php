@@ -19,6 +19,7 @@ define('QF_KERNEL_LANG_DEFLLOCALE', 'ru_RU.CP1251');
 define('QF_KERNEL_LANG_COMMON', 'kernel');
 define('QF_LANGS_DIR', QF_DATA_ROOT.'langs/');
 
+#[AllowDynamicProperties]
 class QF_Lang
 {
     var $lang       = Array();
@@ -28,7 +29,7 @@ class QF_Lang
     var $bsize_tr   = null;
 
 
-    function QF_Lang()
+    function __construct()
     {
         if (defined('QF_LANG_CREATED'))
             trigger_error('Duplicate language manager creation!', E_USER_ERROR);
