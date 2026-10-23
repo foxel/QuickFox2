@@ -460,12 +460,12 @@ function qf_full_url($url, $with_amps = false, $force_host = '')
     if (strcasecmp(get_class($QF), 'QuickFox_kernel2') != 0)
         return $url;
 
-    if ($url[0] == '#')
+    if (!strlen($url) || $url[0] == '#')
         return $url;
 
     $url_p = parse_url($url);
 
-    if (preg_match('#mailto#i', $url_p['scheme']))
+    if (isset($url_p['scheme']) && preg_match('#mailto#i', $url_p['scheme']))
         return $url;
 
 
@@ -496,7 +496,7 @@ function qf_full_url($url, $with_amps = false, $force_host = '')
         $url.= ($force_host) ? $force_host : $QF->HTTP->SrvName;
         if ($QF->HTTP->SrvPort != 80)
             $url.= ':'.$QF->HTTP->SrvPort;
-        if (isset($url_p['path']))
+        if (isset($url_p['path']) && strlen($url_p['path']))
         {
             if ($url_p['path'][0] != '/')
                 $url_p['path'] = '/'.$QF->HTTP->RootDir.'/'.$url_p['path'];
@@ -1036,7 +1036,7 @@ function IP_to_int($dotquad_ip)
 function IP_from_int($int_ip)
 {
     $int_ip = dechex($int_ip);
-    $hexipbang = explode('.', chunk_split($int_ip, 2, '.'));
+    $hexipbang = array_pad(explode('.', chunk_split($int_ip, 2, '.')), 4, '00');
     return hexdec($hexipbang[0]). '.' . hexdec($hexipbang[1]) . '.' . hexdec($hexipbang[2]) . '.' . hexdec($hexipbang[3]);
 }
 ?>

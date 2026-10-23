@@ -634,7 +634,7 @@ class QF_Visual
                   {
                       $key = strtoupper($key);
                       if (is_array($var))
-                          $var = implode(' ', $var);
+                          $var = implode(' ', array_filter($var, 'is_scalar'));
                       $this->node_vars[$id][$in][$key] = $var;
                   }
 

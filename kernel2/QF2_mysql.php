@@ -322,8 +322,9 @@ class QF_SQL_DBase
                     $qc_order[] = $tl.'.`'.$order.'`';
             }
 
-            if ($where = $this->_Where_Parse($params['where'], $flags, $tl))
+            if (isset($params['where']) && $where = $this->_Where_Parse($params['where'], $flags, $tl)) {
                 $qc_where[] = preg_replace('#^WHERE\s#i', '', $where);
+            }
             $ti++;
         }
 

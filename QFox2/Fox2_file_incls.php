@@ -421,7 +421,7 @@ class Fox2_file_incls
     {
         global $QF, $FOX;
 
-        $fold_id = $QF->GPC->Get_String('id', QF_GPC_GET, QF_GPC_WORD);
+        $fold_id = $QF->GPC->Get_String('id', QF_GPC_GET, QF_STR_WORD);
         if (!$fold_id)
             $fold_id = 0;
         if (($info = $QF->Files->Get_FolderInfo($fold_id)) && !$info['is_sys'] && ($my_acc = $QF->User->CheckAccess($info['r_level'], $info['w_level'], $info['acc_gr'])))
@@ -443,7 +443,7 @@ class Fox2_file_incls
                 'CAPTION'  => $info['name'],
                 'TIME'     => $QF->LNG->Time_Format($info['mtime']),
                 'ACC_LVL'  => $info['r_level'],
-                );
+            );
             if (!is_null($info['parent']) && $pinfo = $QF->Files->Get_FolderInfo($info['parent']))
             {
                 $PageInfo['PARENT_ID'] = ($pinfo['t_id']) ? $pinfo['t_id'] : $pinfo['id'];
@@ -484,7 +484,11 @@ class Fox2_file_incls
                 $conts = array_slice($conts, $start, $this->per_page);
             }
 
-            $QF->Files->Load_FileInfos($conts);
+            $fids = array_map(
+                function($f) { return is_array($f) ? $f['id'] : $f; },
+                $conts
+            );
+            $QF->Files->Load_FileInfos($fids);
             $i = 0;
             foreach ($conts as $cont_item)
             {

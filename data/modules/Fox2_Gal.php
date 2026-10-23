@@ -343,6 +343,7 @@ class QF_Gallery
 
         $quer = Array();
         $other = Array('order' => Array('lasttime' => 'DESC'));
+        $flags = 0;
 
         if ($mode & QF_GALLERY_SEARCH_LAST10)
             $other['limit'] = Array(0, 10);
@@ -511,7 +512,7 @@ class QF_Gallery
         if (count($ids) > 2)
             $cachename = QF_GALLERY_CACHE_PREFIX.'ITM_Qs.'.md5(implode('|', $ids));
 
-        if ($cachename && ($items = $QF->Cache->Get($cachename)) && is_array($items))
+        if (!empty($cachename) && ($items = $QF->Cache->Get($cachename)) && is_array($items))
         {
             $this->items += $items;
             $fids = qf_2darray_cols($items, 'file_id');
@@ -556,7 +557,7 @@ class QF_Gallery
 
             $this->items += $items;
 
-            if ($cachename)
+            if (!empty($cachename))
                 $QF->Cache->Set($cachename, $items);
             return true;
         }

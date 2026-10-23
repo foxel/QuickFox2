@@ -87,7 +87,7 @@ class Fox2_Files
             if (is_int($acc_lvl))
                 $where['r_level'] = '<= '.$acc_lvl;
 
-            if (isset($sorters[$finfo['sort_type']]))
+            if (isset($finfo['sort_type']) && isset($sorters[$finfo['sort_type']]))
                 $order_by = 'ORDER BY '.$sorters[$finfo['sort_type']][0].' '.(($sorters[$finfo['sort_type']][1]) ? 'DESC' : 'ASC');
             else
                 $order_by = 'ORDER BY time DESC';

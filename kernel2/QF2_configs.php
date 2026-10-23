@@ -174,7 +174,7 @@ class QF_Configs
 
             $this->val_upd[$scheme][$group][$name] = true;
 
-            if (is_array($this->listeners[$group]) && isset($this->listeners[$group][$name]))
+            if (isset($this->listeners[$group]) && is_array($this->listeners[$group]) && isset($this->listeners[$group][$name]))
                 foreach ($this->listeners[$group][$name] as $func_link)
                     call_user_func_array($func_link, Array($value, $name, $group, $scheme));
 

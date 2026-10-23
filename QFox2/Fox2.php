@@ -102,8 +102,9 @@ class Fox2
                 && ($basic_domain = $QF->Config->Get('basic_domain', 'fox2'))
                 && is_array($domains) && count($domains))
             {
-                list($link) = array_keys($domains, $domain);
-                if ($link)
+                $link_keys = array_keys($domains, $domain);
+                $link = (count($link_keys)) ? $link_keys[0] : false;
+                if ($link !== false)
                 {
                     $this->URL_domain = $basic_domain;
                     if ($rw_id && $rw_id != $link)
@@ -343,6 +344,7 @@ class Fox2
         if ($res_id = $QF->GPC->Get_String('showresult_id', QF_GPC_GET, QF_STR_HEX))
             $this->Draw_Result_Id($res_id, true);
 
+        $pg_node = false;
         if ((list($data, $pkg) = $QF->DSets->Get_DSet_Value('fox_pages', $pg, true)) && isset($data['module'], $data['method']))
         {
             // redirecting on multidomain redirection enabled
@@ -888,7 +890,9 @@ class Fox2
                     foreach ($data as $key => $val)
                     {
                         $cur_pkg = $pkgs[$key];
-                        list($cur_link, $cur_url) = explode('/', $val, 2);
+                        $url_parts = explode('/', $val, 2);
+                        $cur_link = $url_parts[0];
+                        $cur_url = isset($url_parts[1]) ? $url_parts[1] : '';
                         if ($cur_link && isset($ldomains[$cur_link]))
                         {
                             $domain = $ldomains[$cur_link];

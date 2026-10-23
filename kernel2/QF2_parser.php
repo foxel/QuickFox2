@@ -193,7 +193,7 @@ class QF_BB_Parser
         foreach ($struct as $part)
         {
 
-            if ($tagname = strtolower($part[1]))      // open tag
+            if (isset($part[1]) && ($tagname = strtolower($part[1])))      // open tag
             {
                 if ($tagname == $this->noparse_tag)
                 {
@@ -269,7 +269,7 @@ class QF_BB_Parser
 
                         if (!$tused || ($tmode & QF_BBTAG_SUBDUP))
                         {
-                            $tparam = ($part[2]) ? (($part[3]) ? $part[3] : $part[2]) : '';
+                            $tparam = (isset($part[2]) && $part[2]) ? ((isset($part[3]) && $part[3]) ? $part[3] : $part[2]) : '';
                             $this->_TStack_Add($tagname, $tparam);
 
                             if ($tmode & QF_BBTAG_NOSUB)
@@ -288,7 +288,7 @@ class QF_BB_Parser
                         $buffer.= $part[0];
                 }
             }
-            elseif ($tagname = strtolower($part[4]))  // close tag
+            elseif (isset($part[4]) && ($tagname = strtolower($part[4])))  // close tag
             {
                 if ($tagname == $this->noparse_tag)
                 {

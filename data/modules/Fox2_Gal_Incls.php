@@ -247,7 +247,7 @@ class QF_Gal_incls
                     }
                 }
 
-                if ($uinfo = $QF->UList->Get_UserInfo($album['owner_id']))
+                if (isset($album['owner_id']) && ($uinfo = $QF->UList->Get_UserInfo($album['owner_id'])))
                     $album['owner'] = $uinfo['nick'];
 
                 $album['SCAPTION'] = $QF->USTR->Str_SmartTrim($album['caption'], 32);
@@ -518,7 +518,7 @@ class QF_Gal_incls
                         }
                     }
 
-                    if ($uinfo = $QF->UList->Get_UserInfo($album['owner_id']))
+                    if (isset($album['owner_id']) && ($uinfo = $QF->UList->Get_UserInfo($album['owner_id'])))
                         $album['owner'] = $uinfo['nick'];
 
                     $album['SCAPTION'] = $QF->USTR->Str_SmartTrim($album['caption'], 32);
@@ -527,7 +527,7 @@ class QF_Gal_incls
                         $album['LTIME'] = $QF->LNG->Time_Format($album['lasttime']);
                     }
 
-                    if ($album['owner_id'] && !$personal)
+                    if (isset($album['owner_id']) && $album['owner_id'] && !$personal)
                         array_push($draw_palbums, $album);
                     else
                         array_push($draw_albums, $album);
@@ -668,7 +668,7 @@ class QF_Gal_incls
             $p_subtitle = sprintf(Lang('FOX_GALLERY_PAGE_USER'), $uinfo['nick']);
 
             $rss_url = $FOX->Gen_URL('FoxGal_rss_user', $uid, false, true);
-            $QF->VIS->Add_Data(0, 'META', '<link rel="alternate" href="'.qf_full_url($rss_url, true).'" type="application/rss+xml" title="'.qf_smart_htmlschars($info['caption']).'" />');
+            $QF->VIS->Add_Data(0, 'META', '<link rel="alternate" href="'.qf_full_url($rss_url, true).'" type="application/rss+xml" title="'.qf_smart_htmlschars($p_subtitle).'" />');
             $rss_url = $QF->Session->AddSID($rss_url);
 
             $items = $QF->Gallery->Get_Items(QF_GALLERY_SEARCH_USERID, $uid, $QF->User->acc_level);

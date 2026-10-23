@@ -145,7 +145,9 @@ class QF_Blogs
                 $QF->VIS->Add_Node('USER_INFO_MIN_DIV', 'AUTHOR_INFO', $itm_node, $uinfo + Array('HIDE_ACCESS' => 1));
             if (isset($texts[$id]))
             {
-                $p_text = preg_replace('#\<\!--\sBlogCut/([^\>]*?)\s--\>(.*?)\<\!--\s/BlogCut\s--\>#se', '\$this->_Private_Cut_Parse("$1", "'.$id.'")', $texts[$id]['p_text']);
+                $p_text = preg_replace_callback('#\<\!--\sBlogCut/([^\>]*?)\s--\>(.*?)\<\!--\s/BlogCut\s--\>#s', function($m) use ($id) {
+                    return $this->_Private_Cut_Parse($m[1], $id);
+                }, $texts[$id]['p_text']);
                 $QF->VIS->Add_Data($itm_node, 'text', $p_text);
             }
         }
@@ -208,7 +210,9 @@ class QF_Blogs
 
             if (isset($texts[$id]))
             {
-                $p_text = preg_replace('#\<\!--\sBlogCut/([^\>]*?)\s--\>(.*?)\<\!--\s/BlogCut\s--\>#se', '\$this->_Private_Cut_Parse("$1", "'.$id.'")', $texts[$id]['p_text']);
+                $p_text = preg_replace_callback('#\<\!--\sBlogCut/([^\>]*?)\s--\>(.*?)\<\!--\s/BlogCut\s--\>#s', function($m) use ($id) {
+                    return $this->_Private_Cut_Parse($m[1], $id);
+                }, $texts[$id]['p_text']);
                 $QF->VIS->Add_Data($itm_node, 'text', $p_text);
             }
         }
@@ -486,7 +490,7 @@ class QF_Blogs
             $cachename = FOX_BLOGS_CACHE_PREFIX.'Text_Qs.'.md5(implode('|', $ids));
 
         $got_data = Array();
-        if ($cachename && ($datas = $QF->Cache->Get($cachename)))
+        if (!empty($cachename) && ($datas = $QF->Cache->Get($cachename)))
         {
             $got_data = $datas;
         }
@@ -503,7 +507,9 @@ class QF_Blogs
 
                 $got_data[$data['id']] = $data;
             }
-            $QF->Cache->Set($cachename, $got_data);
+            if (!empty($cachename)) {
+                $QF->Cache->Set($cachename, $got_data);
+            }
         }
 
         foreach ($got_data as $id => $data)

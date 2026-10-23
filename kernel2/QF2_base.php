@@ -1249,7 +1249,7 @@ class QF_HTTP
             return false;
 
         $compress = false;
-        if ( strstr($this->SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') )
+        if ( strpos($this->SERVER['HTTP_ACCEPT_ENCODING'] ?? '', 'gzip') !== false )
             $compress = true;
 
         $level = abs(intval($level)) % 10;

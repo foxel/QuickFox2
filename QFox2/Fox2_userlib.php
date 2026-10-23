@@ -667,6 +667,7 @@ class Fox2_UserList
             $ids_arr = explode('|', $ids_arr);
 
         $ids_arr = array_unique($ids_arr);
+        $ids_arr = array_values($ids_arr);
 
         for ($i = count($ids_arr) - 1; $i >= 0; $i--)
             $ids_arr[$i] = (int) $ids_arr[$i];
@@ -708,12 +709,15 @@ class Fox2_UserList
             // reparsing loaded users
             foreach($add_users as $us_data)
             {
+                if (!is_array($us_data) || !isset($us_data['uid']))
+                    continue;
+
                 $cid = $us_data['uid'];
                 if (isset($this->users[$cid]))
                     continue;
 
-                $us_data['us_info'] = unserialize($us_data['us_info']);
-                $us_data['us_sets'] = unserialize($us_data['us_sets']);
+                $us_data['us_info'] = isset($us_data['us_info']) ? unserialize($us_data['us_info']) : Array();
+                $us_data['us_sets'] = isset($us_data['us_sets']) ? unserialize($us_data['us_sets']) : Array();
                 if (!is_array($us_data['us_info']))
                     $us_data['us_info'] = Array();
                 if (!is_array($us_data['us_sets']))
