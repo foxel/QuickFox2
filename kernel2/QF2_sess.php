@@ -79,7 +79,8 @@ class QF_Session
 
 
         if ($this->status & QF_SESSION_OK)
-        {            $this->started = true;
+        {
+            $this->started = true;
 
             // allows status changes and any special reactions
             $QF->Events->Call_Event_Ref('session_preopen', $this->status, $this->SID);
@@ -183,7 +184,8 @@ class QF_Session
             );
 
         if (!$QF->DBase->Check())
-        {            $q_arr['sid'] = $this->SID;
+        {
+            $q_arr['sid'] = $this->SID;
             return $QF->Cache->Set(QF_KERNEL_SESSION_CACHEPREFIX.$this->SID, $q_arr);
         }
         elseif ($this->status & QF_SESSION_LOADED)
@@ -206,7 +208,8 @@ class QF_Session
     }
 
     function Get_Status($check = 255)
-    {        return ($this->status & $check);
+    {
+        return ($this->status & $check);
     }
 
     // session variables control
@@ -255,7 +258,8 @@ class QF_Session
 
     // totally clears session data
     function Clear()
-    {        if (!$this->started)
+    {
+        if (!$this->started)
             return false;
 
         $this->sess_data = Array();

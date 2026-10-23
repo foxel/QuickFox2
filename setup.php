@@ -92,7 +92,8 @@ else
     ';
 
     if ($SET_act == 'GO')
-    {        $file = 'qf2_pack.tar.gz';
+    {
+        $file = 'qf2_pack.tar.gz';
         $ufile = 'upd_pack.tar.gz';
         if (file_exists($ufile) && (!file_exists($file) || (filemtime($ufile) > filemtime($file))))
             $file = $ufile;
@@ -108,7 +109,8 @@ else
                 $error='Error extracting pack';
         }
         elseif ($chmods = file('.qf_chmods'))
-        {            foreach ($chmods as $chmod)
+        {
+            foreach ($chmods as $chmod)
             {
                 $chmod = explode('|', $chmod);
                 if (file_exists($chmod[0]))
@@ -133,7 +135,8 @@ else
 
     }
     else
-    {        print '
+    {
+        print '
         <h3>Now We are ready to install QuickFox 2 on this server!</h3>
         <input type="hidden" name="action" value="GO" />
         First We must extract/prepare data. <br />

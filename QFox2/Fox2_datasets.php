@@ -103,7 +103,8 @@ class Fox2_DSets
         global $QF;
         $data = $QF->DBase->Do_Select_All('datasets', 'set_id', Array('package' => $this->filter), 'GROUP BY `set_id`');
         if (is_array($data) && count($data))
-        {            $data = array_unique(array_values($data));
+        {
+            $data = array_unique(array_values($data));
             return ($data);
         }
 
@@ -182,7 +183,8 @@ class Fox2_DSets
             {
                 $cont = $rec['scalar'] ? $rec['data'] : unserialize($rec['data']);
                 if (strlen($rec['lparse_sufx']))
-                {                    $lname = $rec['package'];
+                {
+                    $lname = $rec['package'];
                     $lname.= ($rec['lparse_sufx'] != '!') ? '_'.trim($rec['lparse_sufx']) : '';
                     if (!in_array($lname, $this->LNG_loaded))
                         $QF->LNG->Load_Language($name);

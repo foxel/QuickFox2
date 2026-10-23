@@ -116,7 +116,8 @@ class QF_Imager
         $this->GIF_IM = false; // use IMagick for GIF->GIF operations
 
         if ($this->IM_Acc && !is_null($im_conf = $QF->Config->Get('IM_Usage', 'imager')))
-        {            if ($im_conf < 0)
+        {
+            if ($im_conf < 0)
                 $this->GIF_IM = $this->use_IM = $this->IM_Acc = false; // totally blocked
             elseif ($im_conf == 1)
                 $this->GIF_IM = true; // only for GIF->GIF
@@ -150,7 +151,8 @@ class QF_Imager
 // ------------------ NEW PROCESING FUNCTIONS -------------- \\
 
     function LoadImage($filename)
-    {        if (!($from_info = getimagesize($file)))
+    {
+        if (!($from_info = getimagesize($file)))
             return false;
 
         $from_type = $from_info[2];
@@ -164,11 +166,13 @@ class QF_Imager
         $id = false;
         if (($this->use_IM && false)
             || (($from_type == IMAGETYPE_GIF) && $this->GIF_IM && false))
-        {            $id = count($this->images)+1;
+        {
+            $id = count($this->images)+1;
             $this->images[$id] = Array(0, $filename, 0, $new_img);
         }
         elseif ($img = $this->_gd_load($filename))
-        {            $id = count($this->images)+1;
+        {
+            $id = count($this->images)+1;
             $this->images[$id] = Array(1, $filename, &$img, $new_img);
         }
 
@@ -179,7 +183,8 @@ class QF_Imager
 // ---------------------- INTERNALS --------------------\\
 
     function _im_check($filename)
-    {
+    {
+
     }
 
 // ---------------------- CURRENT ONES ------------------- \\

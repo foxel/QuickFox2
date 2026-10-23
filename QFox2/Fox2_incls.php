@@ -92,14 +92,16 @@ class Fox2_incls
         if ($data = $QF->Cache->Get($cachename))
             $QF->HTTP->Write($data);
         elseif (file_exists($filename) && ($data = qf_file_get_contents($filename)))
-        {            $QF->Run_Module('VIS');
+        {
+            $QF->Run_Module('VIS');
             $repls = Array(
                 '{IMGS}' => qf_full_url(QF_IMAGES_DIR),
                 '{STATICS}' => qf_full_url(QF_STATICS_DIR),
                 );
 
             $data = strtr($data, $repls);
-            $FOX->On_EJS_Prep($data);
+            $FOX->On_EJS_Prep($data);
+
             $QF->Cache->Set($cachename, $data);
             $QF->HTTP->Write($data);
         }
@@ -186,7 +188,8 @@ class Fox2_incls
     }
 
     function Page_UserInfo(&$p_title, &$p_subtitle, &$d_result)
-    {        global $QF, $FOX;
+    {
+        global $QF, $FOX;
         $QF->Run_Module('UList');
 
         $uid = $QF->GPC->Get_Num('uid', QF_GPC_GET);
@@ -195,7 +198,8 @@ class Fox2_incls
         $p_title = $QF->LNG->Lang('UINFO_PAGE');
 
         if ($uid)
-        {            $uinfo = $QF->UList->Get_UserInfo($uid, false);
+        {
+            $uinfo = $QF->UList->Get_UserInfo($uid, false);
             if (!$uinfo)
             {
                 $d_result = Array(Lang('ERR_UINFO_NOUSER'), $FOX->Gen_URL('fox2_userinfo_list'), true);
@@ -224,7 +228,8 @@ class Fox2_incls
             $QF->VIS->Add_Data_Array($info_frame, $uinfo);
         }
         else
-        {            $ulist = $QF->UList->Get_List();
+        {
+            $ulist = $QF->UList->Get_List();
 
             $info_frame = $QF->VIS->Create_Node('USERS_PAGE_LIST');
 
@@ -258,7 +263,8 @@ class Fox2_incls
     }
 
     function Page_UserCabinet(&$p_title, &$p_subtitle, &$d_result)
-    {        global $QF, $FOX;
+    {
+        global $QF, $FOX;
         $QF->Run_Module('UList');
 
         $QF->VIS->Load_Templates('usercab');
@@ -320,7 +326,8 @@ class Fox2_incls
         $uinfo = $QF->UList->Get_UserInfo($QF->User->UID, true);
 
         foreach ($uinfo['auth_info'] as $a_key => $a_val)
-        {            $a_key = 'auth_'.$a_key;
+        {
+            $a_key = 'auth_'.$a_key;
             if (!isset($uinfo[$a_key]))
                 $uinfo[$a_key] = $a_val;
         }
@@ -375,7 +382,8 @@ class Fox2_incls
     }
 
     function Script_MySys()
-    {        global $QF, $FOX;
+    {
+        global $QF, $FOX;
 
         $QF->Run_Module('UList');
         $QF->LNG->Load_Language('usercab');
@@ -387,7 +395,8 @@ class Fox2_incls
             return Array($QF->LNG->lang('ERR_USERCAB_AUTH_WRONG'), $FOX->Gen_URL('fox2_user_cabinet'), true);
 
         if ($mode == 'auth')
-        {            $nlogin = substr($QF->GPC->Get_String('new_login', QF_GPC_POST, QF_STR_LINE), 0, 16);
+        {
+            $nlogin = substr($QF->GPC->Get_String('new_login', QF_GPC_POST, QF_STR_LINE), 0, 16);
             $npasssrc1 = $QF->GPC->Get_String('new_pass', QF_GPC_POST, QF_STR_LINE);
             $npasssrc2 = $QF->GPC->Get_String('new_pass_dup', QF_GPC_POST, QF_STR_LINE);
 
@@ -406,7 +415,8 @@ class Fox2_incls
             return Array($QF->LNG->lang('ERR_USERCAB_NOTMODIFIED'), $FOX->Gen_URL('fox2_usercab_panel', 'sys'), true);
         }
         elseif ($mode == 'email')
-        {            $nemail = substr($QF->GPC->Get_String('new_email', QF_GPC_POST, QF_STR_LINE), 0, 32);
+        {
+            $nemail = substr($QF->GPC->Get_String('new_email', QF_GPC_POST, QF_STR_LINE), 0, 32);
 
             if (!qf_str_is_email($nemail))
                 return Array($QF->LNG->lang('ERR_USERCAB_WRONG_EMAIL'), $FOX->Gen_URL('fox2_usercab_panel', 'sys'), true);
@@ -481,7 +491,8 @@ class Fox2_incls
                 rename($real_file, $new_av_file);
             }
             elseif ($QF->Imager->Parse_Image($real_file, $new_av_file, $out_type, QF_IMAGER_DO_RESIZE, $conf))
-            {                $o_av_file = $new_av_file;
+            {
+                $o_av_file = $new_av_file;
                 $iinfo = $QF->Imager->Check_IType($o_av_file);
                 $new_av.= '.'.$iinfo['def_ext'];
                 $new_av_file = QF_USERLIB_AVATARS_BASEPATH.$new_av;

@@ -24,13 +24,15 @@ class Fox2_PostTree
     var $max_t_level = 15;
 
     function Fox2_PostTree()
-    {        global $QF;
+    {
+        global $QF;
 
         $this->max_t_level = $QF->Config->Get('ptree_maxtlevel', 'fox2', 15);
     }
 
     function Render_Tree($tid, $open_answer = false, $allow_collapse = true)
-    {        global $QF, $FOX;
+    {
+        global $QF, $FOX;
 
         if (!is_numeric($tid))
             return false;
@@ -81,12 +83,14 @@ class Fox2_PostTree
         $del_serie = Array();
         $del_serie_lv = false;
         foreach($ptree as $pdata)
-        {            $pardata = isset($ptree[$pdata['parent']]) ? $ptree[$pdata['parent']] : false;
+        {
+            $pardata = isset($ptree[$pdata['parent']]) ? $ptree[$pdata['parent']] : false;
             $t_level = min($pdata['t_level'], $this->max_t_level);
 
 
             if ($del_serie_lv && (!$pdata['deleted'] || $pdata['valid_childs'] || $del_serie_lv > $t_level))
-            {                if (count($del_serie) > 1)
+            {
+                if (count($del_serie) > 1)
                 {
                     $cur_node = $QF->VIS->Add_Node('FOX_POSTTREE_DELPOSTS', 'SUB_POSTS', $par_nodes[$del_serie_lv], Array('posts_count' => count($del_serie)));
                     $QF->VIS->Add_Node_Array('FOX_POSTTREE_POSTMARK', 'SUB_POSTS_MARKS', $cur_node, $del_serie);
@@ -143,7 +147,8 @@ class Fox2_PostTree
     }
 
     function Modify_Tree($tid, $data = false, $params = null)
-    {        global $QF, $FOX;
+    {
+        global $QF, $FOX;
 
         if (!($tinfo = $this->Get_Tree($tid)))
             return false;
@@ -158,7 +163,8 @@ class Fox2_PostTree
         qf_array_modify($new_data, $params);
 
         if ($data)
-        {            $new_data['data'] = serialize($data);
+        {
+            $new_data['data'] = serialize($data);
             $new_data['hash'] = md5($new_data['data']);
         }
 
@@ -201,17 +207,20 @@ class Fox2_PostTree
         $new_data['w_level'] = max($new_data['w_level'], $new_data['r_level']);
 
         if ($tid = $QF->DBase->Do_Select('pt_roots', 'root_id', Array('hash' => $new_data['hash'])))
-        {
+        {
+
         }
         elseif ($tid = $QF->DBase->Do_Insert('pt_roots', $new_data))
-        {            $QF->Cache->Drop(QF_POSTTREE_CACHE_STATS);
+        {
+            $QF->Cache->Drop(QF_POSTTREE_CACHE_STATS);
             return $tid;
         }
         return false;
     }
 
     function Modify_Post($pid, $text, $params = null)
-    {        global $QF, $FOX;
+    {
+        global $QF, $FOX;
 
         $posts = $this->_Load_Posts($pid);
         if (!isset($posts[$pid]))
@@ -332,7 +341,8 @@ class Fox2_PostTree
     }
 
     function Get_Tree($tid)
-    {        global $QF, $FOX;
+    {
+        global $QF, $FOX;
         if (!is_numeric($tid))
             return false;
 
@@ -352,7 +362,8 @@ class Fox2_PostTree
         if (is_numeric($tids))
             return (isset($this->stats[$tids])) ? $this->stats[$tids] : null;
         elseif (is_array($tids))
-        {            $out = Array();
+        {
+            $out = Array();
             foreach ($tids as $tid)
                 $out[$tid] = (isset($this->stats[$tid])) ? $this->stats[$tid] : null;
             return $out;
@@ -376,7 +387,8 @@ class Fox2_PostTree
     }
 
     function _Load_Posts($pids)
-    {        global $QF, $FOX;
+    {
+        global $QF, $FOX;
         if (!is_array($pids))
             $pids = explode('|', $pids);
 
@@ -385,11 +397,13 @@ class Fox2_PostTree
                        );
 
         if ($datas = $QF->DBase->Do_Multitable_Select($query, '', QF_SQL_SELECTALL))
-        {            $QF->Run_Module('Parser');
+        {
+            $QF->Run_Module('Parser');
             $QF->Parser->Init_Std_Tags();
             $got_data = Array();
             foreach ($datas as $data)
-            {                if (!$data['preparsed'])
+            {
+                if (!$data['preparsed'])
                 {
                     $data['p_text'] = $QF->Parser->Parse($data['o_text'], QF_BBPARSE_PREP);
                     $data['preparsed'] = 1;
@@ -405,22 +419,28 @@ class Fox2_PostTree
     }
 
     function _Load_Tree($tid)
-    {        global $QF, $FOX;        if (!is_numeric($tid))
+    {
+        global $QF, $FOX;
+        if (!is_numeric($tid))
             return false;
 
-        $tid = (int) $tid;        $cachename = QF_POSTTREE_CACHE_PREFIX.$tid;
+        $tid = (int) $tid;
+        $cachename = QF_POSTTREE_CACHE_PREFIX.$tid;
 
         if ($tdata = $QF->Cache->Get($cachename))
-        {            $this->ptrees[$tid] = $tdata;
+        {
+            $this->ptrees[$tid] = $tdata;
             return true;
         }
         elseif ($tinfo = $QF->DBase->Do_Select('pt_roots', '*', Array('root_id' => $tid)))
-        {            $pinfos = $QF->DBase->Do_Select_All('pt_posts', Array('post_id', 'parent', 'time', 'deleted'), Array('root_id' => $tid), 'ORDER BY `time` ASC' );
+        {
+            $pinfos = $QF->DBase->Do_Select_All('pt_posts', Array('post_id', 'parent', 'time', 'deleted'), Array('root_id' => $tid), 'ORDER BY `time` ASC' );
             $ptree = qf_2darray_tree($pinfos, 'post_id', 'parent', 0);
             $posts_count = 0;
 
             if (count($ptree))
-            {                $ids = array_keys($ptree);
+            {
+                $ids = array_keys($ptree);
                 $i = 1;
                 foreach ($ids as $id)
                 {
@@ -429,8 +449,10 @@ class Fox2_PostTree
                 }
 
                 $id = end($ids);
-                do {                    if ($pid = $ptree[$id]['parent'])
-                    {                        $ptree[$pid]['childs']+= 1+$ptree[$id]['childs'];
+                do {
+                    if ($pid = $ptree[$id]['parent'])
+                    {
+                        $ptree[$pid]['childs']+= 1+$ptree[$id]['childs'];
                         $ptree[$pid]['valid_childs']+= $ptree[$id]['valid_childs'] + (int) (!$ptree[$id]['deleted']);
                     }
                     if (!$ptree[$id]['deleted'])
@@ -440,7 +462,8 @@ class Fox2_PostTree
 
             $tinfo['ptree'] = $ptree;
             if ($tinfo['posts'] != $posts_count) // we'll need to repair this tree stats
-            {                $pid = max(array_keys($ptree));
+            {
+                $pid = max(array_keys($ptree));
                 $pdata = $QF->DBase->Do_Select('pt_posts', '*', Array('post_id' => $pid));
                 $t_data = Array(
                     'posts' => $posts_count,
@@ -462,7 +485,8 @@ class Fox2_PostTree
     }
 
     function _Load_Stats()
-    {        global $QF, $FOX;
+    {
+        global $QF, $FOX;
 
         $cachename = QF_POSTTREE_CACHE_STATS;
         if ($data = $QF->Cache->Get($cachename))
@@ -471,7 +495,8 @@ class Fox2_PostTree
             return true;
         }
         elseif ($tinfos = $QF->DBase->Do_Select_All('pt_roots', Array('root_id', 'class', 'posts', 'l_post_id', 'l_time', 'l_author_id')))
-        {            $stats = Array();
+        {
+            $stats = Array();
             list($tposts, $l_posts, $l_times) = qf_2darray_cols($tinfos, Array('posts', 'l_post_id', 'l_time'));
             $stats[0] = Array(
                 'posts' => array_sum($tposts),
@@ -490,13 +515,15 @@ class Fox2_PostTree
     }
 
     function _Parse_RootParams($params, $new_params)
-    {        static $my_params = Array('class', 'a_key', 'b_key1', 'b_key2', 'b_key3', 'caption', 'data');
+    {
+        static $my_params = Array('class', 'a_key', 'b_key1', 'b_key2', 'b_key3', 'caption', 'data');
         if (!is_array($params))
             return Array();
 
         $out_params = Array();
         foreach($my_params as $par_name)
-        {            if (isset($new_params[$par_name]))
+        {
+            if (isset($new_params[$par_name]))
                 $out_params[$par_name] = $new_params[$par_name];
         }
 

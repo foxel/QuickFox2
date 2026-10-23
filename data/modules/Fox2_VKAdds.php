@@ -27,7 +27,8 @@ class Fox2_VKAdds
         }
 
         /* if (in_array($pg_id, Array('pages', 'cms', 'gallery', 'blogs')))
-        {            $QF->VIS->Add_Data(0, 'JS_BLOCKS', '<script type="text/javascript" src="http://vkontakte.ru/js/api/share.js" ></script>');
+        {
+            $QF->VIS->Add_Data(0, 'JS_BLOCKS', '<script type="text/javascript" src="http://vkontakte.ru/js/api/share.js" ></script>');
             $QF->VIS->Add_Node('MISC_DIV', 'PAGE_CONT', 0, Array('id' => 'vk_share_btn'));
             $QF->VIS->Add_Data(0, 'BOTT_JS', 'try {qf_getbyid("vk_share_btn").innerHTML = VK.Share.button(false,{type: "round", text: "Сохранить"});} catch(err) {};');
         } */

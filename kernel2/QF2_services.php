@@ -14,19 +14,24 @@ if ( defined('QF_KERNEL_SERVICES_LOADED') )
 define('QF_KERNEL_SERVICES_LOADED', True);
 
 class QF_Services
-{    var $time_spent = 0;
+{
+    var $time_spent = 0;
 
     function QF_Services()
-    {
+    {
+
     }
 
     function _Start()
-    {        global $QF;
+    {
+        global $QF;
 
         if ($service = $QF->DBase->Do_Select('services', '*', 'active = 1 AND next_run <= '.$QF->Timer->time, 'ORDER BY next_run'))
-        {            $file = $service['run_php'];
+        {
+            $file = $service['run_php'];
             if (file_exists($file))
-            {                $srv_start_time = $QF->Timer->Get_MTime();
+            {
+                $srv_start_time = $QF->Timer->Get_MTime();
                 include($file);
                 $this->time_spent = $QF->Timer->Get_MTime() - $srv_start_time;
                 $QF->DBase->Do_Update('services', Array('next_run' => $QF->Timer->time + $service['run_period']), Array('name' => $service['name']));

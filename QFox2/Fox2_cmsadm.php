@@ -7,14 +7,16 @@ if ( !defined('QF_STARTED') )
 class Fox2_CMS_Adm
 {
     function _Start()
-    {        global $QF;
+    {
+        global $QF;
         $QF->Run_Module('CMS');
         $QF->LNG->Load_Language('admin');
         $QF->LNG->Load_Language('cms_spec');
     }
 
     function AdmP_CMS(&$p_subtitle)
-    {        global $QF, $FOX;
+    {
+        global $QF, $FOX;
 
         $f_types = Array(
             'bbc'  => Lang('CMS_INFO_TYPE_BBC'),
@@ -61,7 +63,8 @@ class Fox2_CMS_Adm
             }
 
             if ($data['is_sect'])
-            {                $elinks = array_values($QF->CMS->Get_List($data['id']));
+            {
+                $elinks = array_values($QF->CMS->Get_List($data['id']));
                 if (count($elinks))
                     $QF->VIS->Add_Node_Array('CMS_ILINK', 'SUBS', $cms_page, $elinks);
             }
@@ -87,7 +90,8 @@ class Fox2_CMS_Adm
                 );
 
             if ($data['id'] != 'index' && ($pgs = $QF->CMS->Get_Tree()))
-            {                $par_variants = Array('' => Array('VAL' => '', 'CAPT' => '---'));
+            {
+                $par_variants = Array('' => Array('VAL' => '', 'CAPT' => '---'));
                 $skipping = false;
                 foreach ($pgs as $pg)
                 {
@@ -201,7 +205,8 @@ class Fox2_CMS_Adm
                 $tree = $QF->CMS->Get_Tree();
                 $id = $lst[0]['parent'];
                 while ($id)
-                {                    array_unshift($plst, $tree[$id]);
+                {
+                    array_unshift($plst, $tree[$id]);
                     $id = $plst[0]['parent'];
                 }
 
@@ -217,7 +222,8 @@ class Fox2_CMS_Adm
     }
 
     function Page_PageEdit(&$p_title, &$p_subtitle, &$d_result)
-    {        global $QF, $FOX;
+    {
+        global $QF, $FOX;
 
         if (!$QF->User->UID || !$QF->User->adm_level)
         {
@@ -266,7 +272,8 @@ class Fox2_CMS_Adm
     }
 
     function AJX_Preview(&$AJAX_STATUS)
-    {        global $QF, $FOX;
+    {
+        global $QF, $FOX;
 
         $pg_id = $QF->GPC->Get_String('cms_id', QF_GPC_POST, QF_STR_WORD);
 
@@ -278,7 +285,8 @@ class Fox2_CMS_Adm
             return Lang('ADMPANEL_ERR_NOADMIN');
         }
         else
-        {            $new_type = $QF->GPC->Get_String('cms_type', QF_GPC_POST, QF_STR_WORD);
+        {
+            $new_type = $QF->GPC->Get_String('cms_type', QF_GPC_POST, QF_STR_WORD);
             $filedata = '';
             if ($filedata = $QF->GPC->Get_String('contents', QF_GPC_POST)) // let's get contents
             {
@@ -325,7 +333,8 @@ class Fox2_CMS_Adm
         elseif ($QF->GPC->Get_Bin('force_create', QF_GPC_POST))
         {
             if (!$QF->CMS->Get_List_Item($pg_id))
-            {                $filename = QF_CMS_PGS_DIR.$pg_id.'.htf';
+            {
+                $filename = QF_CMS_PGS_DIR.$pg_id.'.htf';
                 qf_file_put_contents($filename, '<h2>'.$pg_id.'</h2> Empty CMS page.');
                 $ins_data = Array(
                     'id'        => $pg_id,
@@ -354,7 +363,8 @@ class Fox2_CMS_Adm
                 $to_del = $QF->DBase->Do_Select_All('cms_pgs', Array('id', 'file_id'), Array('id' => $got_pgs));
                 $dels = Array();
                 foreach ($to_del as $data)
-                {                    if ($data['id'] == QF_CMS_INDEXPAGE) // we can't drop index
+                {
+                    if ($data['id'] == QF_CMS_INDEXPAGE) // we can't drop index
                         continue;
 
                     $filename = QF_CMS_PGS_DIR.$data['file_id'].'.htf';
@@ -470,7 +480,8 @@ class Fox2_CMS_Adm
 
             }
             elseif ($QF->GPC->Get_Bin('force_upload', QF_GPC_POST)) // uploading a new file
-            {                if (!($file = $QF->GPC->Get_File('cms_file')))
+            {
+                if (!($file = $QF->GPC->Get_File('cms_file')))
                     return Array($QF->LNG->lang('ERR_CMS_UPLOAD_NOFILE'), $FOX->Gen_URL('fox2_cms_edit_page', Array($pg_id)), true);
                 elseif (!$file['error'] && ($filedata = qf_file_get_contents($file['tmp_name']))) // it's OK now
                 {
@@ -498,7 +509,8 @@ class Fox2_CMS_Adm
                     $filename = $odata['file_name'];
 
                     if (qf_file_put_contents($filename, $filedata))
-                    {                        $upd_data = Array(
+                    {
+                        $upd_data = Array(
                             'file_type' => $new_type,
                             'mod_date'  => $QF->Timer->time,
                             );
@@ -521,7 +533,8 @@ class Fox2_CMS_Adm
 
             }
             else // reconfigs only
-            {                $new_capt = $QF->GPC->Get_String('cms_capt', QF_GPC_POST, QF_STR_LINE);
+            {
+                $new_capt = $QF->GPC->Get_String('cms_capt', QF_GPC_POST, QF_STR_LINE);
                 $mylen = $QF->USTR->Str_Len($new_capt);
                 if ($mylen > 255)
                     $new_capt = $QF->USTR->Str_Substr($new_capt, 0, 255);
@@ -579,7 +592,8 @@ class Fox2_CMS_Adm
                     );
 
                 if ($QF->DBase->Do_Update('cms_pgs', $upd_data, Array('id' => $pg_id)))
-                {                    if ($QF->GPC->Get_Bin('cms_reset', QF_GPC_POST))
+                {
+                    if ($QF->GPC->Get_Bin('cms_reset', QF_GPC_POST))
                         $QF->DBase->Do_Delete('csm_stats', Array('id' => $pg_id));
 
                     $cachename = QF_CMS_CACHE_PREFIX.$pg_id;

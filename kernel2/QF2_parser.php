@@ -114,7 +114,8 @@ class QF_BB_Parser
     }
 
     function Add_Preg($mask, $data, $func = null)
-    {        static $preg_lk = null;
+    {
+        static $preg_lk = null;
         if (!$preg_lk)
             $preg_lk = (PHP_VERSION >= '4.3.0') ? '${0}' : '$0$99'; // ${n} was added only in PHP 4.3.0 so this is a trick
 
@@ -154,10 +155,12 @@ class QF_BB_Parser
     }
 
     function Pregs_Parse($input, $style = 0)
-    {        if (!is_array($this->pregs))
+    {
+        if (!is_array($this->pregs))
             return $input;
         foreach ($this->pregs as $preg)
-        {            $input = preg_replace($preg['mask'], $preg['data'], $input);
+        {
+            $input = preg_replace($preg['mask'], $preg['data'], $input);
         }
 
         return $input;
@@ -426,7 +429,8 @@ class QF_BB_Parser
     }
 
     Function XML_Check($input, $use_html_specs = false)
-    {        $stime = explode(' ',microtime());
+    {
+        $stime = explode(' ',microtime());
         $start_time=$stime[1]+$stime[0];
 
         $state_strip = false;
@@ -461,7 +465,8 @@ class QF_BB_Parser
         $output = '';
 
         foreach ($struct as $part)
-        {            if ($part[1] == 'CDATA' || $part[2] == '!--') // CDATA & comments
+        {
+            if ($part[1] == 'CDATA' || $part[2] == '!--') // CDATA & comments
                 $output.= $part[0];
             elseif ($tag = strtolower($part[3])) // open tag or full tag
             {
@@ -476,10 +481,12 @@ class QF_BB_Parser
                 }
 
                 if (isset($t_pars[$tag]) && ($ptags = explode('|', $t_pars[$tag])))
-                {                    $ptused = false;
+                {
+                    $ptused = false;
                     foreach ($ptags as $ptag)
                         if (isset($used_tags[$ptag]) && $used_tags[$ptag])
-                        {                            $ptused = true;
+                        {
+                            $ptused = true;
                             break;
                         }
 
@@ -490,7 +497,8 @@ class QF_BB_Parser
                             if (in_array($suptag, $ptags))
                                 break;
                             else
-                            {                                $this->_TStack_Get();
+                            {
+                                $this->_TStack_Get();
                                 if (isset($used_tags[$suptag]))
                                     $used_tags[$suptag]--;
                                 $output.= '</'.$suptag.'>';
@@ -502,14 +510,16 @@ class QF_BB_Parser
                 }
 
                 if ($pstr = trim($pstr))
-                {                    if (substr($pstr, -1) == '/')
+                {
+                    if (substr($pstr, -1) == '/')
                         $is_full = true;
                     if ($pstr = $this->_XML_Check_Params($tag, $pstr))
                     	$pstr = ' '.$pstr;
                 }
 
                 if (!$is_full)
-                {                    $this->_TStack_Add($tag);
+                {
+                    $this->_TStack_Add($tag);
                     if (isset($used_tags[$tag]))
                         $used_tags[$tag]++;
                     else
@@ -519,7 +529,8 @@ class QF_BB_Parser
                 $output.= '<'.$tag.$pstr.(($is_full) ? ' /' : '').'>';
             }
             elseif ($tag = strtolower($part[5]))
-            {                $tused = isset($used_tags[$tag]) ? $used_tags[$tag] : 0;
+            {
+                $tused = isset($used_tags[$tag]) ? $used_tags[$tag] : 0;
                 if ($tused)
                     while ($tdata = $this->_TStack_Get())
                     {
@@ -534,7 +545,8 @@ class QF_BB_Parser
                     }
             }
             else
-            {                $output.= qf_smart_htmlschars($part[0]);
+            {
+                $output.= qf_smart_htmlschars($part[0]);
             }
         }
 
@@ -549,12 +561,15 @@ class QF_BB_Parser
     }
 
     function _XML_Check_Params($tag, $param_str)
-    {        preg_match_all('#([\w\-]+)(\s*=\s*(?:\"([^\"]*)\"|\'([^\']*)\'|([^\s]+)))?#', $param_str, $struct, PREG_SET_ORDER);
+    {
+        preg_match_all('#([\w\-]+)(\s*=\s*(?:\"([^\"]*)\"|\'([^\']*)\'|([^\s]+)))?#', $param_str, $struct, PREG_SET_ORDER);
         $params = Array();
         foreach ($struct as $part)
-        {            $val = $par = strtolower($part[1]);
+        {
+            $val = $par = strtolower($part[1]);
             if (isset($part[2]))
-            {                $val = (isset($part[5]))
+            {
+                $val = (isset($part[5]))
                     ? $part[5]
                     : ((isset($part[4]))
                         ? $part[4]
@@ -732,7 +747,8 @@ class QF_BB_Parser
         $list = explode('['.$this->tagbreaker.']', $buffer);
         $buffer = '';
         foreach ($list as $item)
-        {            $item = preg_replace('#^\s*\<br\s?/?\>\r?\n?#', '', $item);
+        {
+            $item = preg_replace('#^\s*\<br\s?/?\>\r?\n?#', '', $item);
             if (strlen($item))
                 $buffer.= '<li>'.$prefix.$item.'</li>';
         }

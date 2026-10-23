@@ -15,9 +15,11 @@ if ( defined('QF_KERNEL_TARLIB_LOADED') )
 define('QF_KERNEL_TARLIB_LOADED', True);
 
 class QF_RSA
-{    // constructor
+{
+    // constructor
     function QF_RSA()
-    {        list($usec, $sec) = explode(' ', microtime());
+    {
+        list($usec, $sec) = explode(' ', microtime());
         mt_srand($sec + $usec * 100000);
 
         if (extension_loaded('big_int'))
@@ -146,8 +148,10 @@ class QF_RSA
 
     // Checks if the given binary string is prime
     function Is_Prime($bs_p)
-    {        if (defined('QF_RSA_USEBC'))
-        {            return $this->bc_isprime($this->bs2bc($bs_p));
+    {
+        if (defined('QF_RSA_USEBC'))
+        {
+            return $this->bc_isprime($this->bs2bc($bs_p));
         }
         elseif (defined('QF_RSA_USEBI'))
         {
@@ -159,15 +163,18 @@ class QF_RSA
 
     // converts hex string to binary string
     function Hex_Bs($h_a)
-    {        $bs = '';
+    {
+        $bs = '';
         $len = strlen($h_a);
         if ($len%2)
-        {            $h_a = '0'.$h_a;
+        {
+            $h_a = '0'.$h_a;
             $h_a++;
         }
         $i = $len;
         while ($i > 0)
-        {            $i -= 2;
+        {
+            $i -= 2;
             $bs.= chr(hexdec(substr($h_a, $i, 2)));
         }
         return $bs;
@@ -192,10 +199,12 @@ class QF_RSA
 
     // generates binary string randomly with given length
     function bs_rand($length)
-    {        $bs_a = chr(mt_rand(0, 127) | 128);
+    {
+        $bs_a = chr(mt_rand(0, 127) | 128);
         $i = 1;
         while ($i < $length)
-        {            $bs_a.= chr(mt_rand(0, 255));
+        {
+            $bs_a.= chr(mt_rand(0, 255));
             $i++;
         }
         return $bs_a;
@@ -216,11 +225,13 @@ class QF_RSA
 
     // converts binary string to BCMath string
     function bs2bc($bs_a)
-    {        $bc = '0';
+    {
+        $bc = '0';
         $len = strlen($bs_a);
         $i = $len;
         while ($i > 0)
-        {            $i--;
+        {
+            $i--;
             $bc = bcadd(bcmul($bc, 256), ord($bs_a{$i}));
         }
 
@@ -263,7 +274,8 @@ class QF_RSA
     // BCMath prime number checking
     // TODO: slow now
     function bc_isprime($p)
-    {        if (!extension_loaded('bcmath'))
+    {
+        if (!extension_loaded('bcmath'))
             return null;
 
         if ($p == 2)
@@ -276,21 +288,25 @@ class QF_RSA
         $q = $p1 = bcsub($p, 1);
         $t = 0;
         while (!bcmod($q, 2))
-        {            $q = bcdiv($q, 2);
+        {
+            $q = bcdiv($q, 2);
             $t++;
         }
 
         for ($i = 0; $i < 20; $i++)
-        {            $a = $this->bc_rand(mt_rand(1, $len-1));
+        {
+            $a = $this->bc_rand(mt_rand(1, $len-1));
             $a = $this->bc_powmod($a, $q, $p);
 
             if ($a == 1)
                 return false;
 
             if ($a != 1)
-            {                $j = 1;
+            {
+                $j = 1;
                 while ($a != $p1)
-                {                    if ($j >= $t)
+                {
+                    if ($j >= $t)
                         return false;
                     else
                     {
@@ -307,7 +323,8 @@ class QF_RSA
 
     // BCMath function finding the biggest common delimiter
     function bc_gcd($a, $b)
-    {        while ($b != 0) {
+    {
+        while ($b != 0) {
             $w = bcmod($a, $b);
             $a = $b;
             $b = $w;
@@ -351,11 +368,13 @@ class QF_RSA
 
     // generates RSA keys using BCMath
     function bc_genkeys($len)
-    {        $p_len = floor($len / 2) + 1;
+    {
+        $p_len = floor($len / 2) + 1;
         $q_len = $len - $p_len;
 
         $tries = 10000;
-        do {           $tries--;
+        do {
+           $tries--;
            $p = $this->bs2bc($this->bs_rand($p_len));
         } while (!$this->bc_isprime($p) || !$tries);
 
@@ -371,7 +390,8 @@ class QF_RSA
 
         $pi = bcmul(bcsub($p, 1), bcsub($q, 1));
 
-        do {            $e = $this->bs2bc($this->bs_rand($q_len));
+        do {
+            $e = $this->bs2bc($this->bs_rand($q_len));
         } while ($this->bc_gcd($e, $pi)!=1);
 
         $d = $this->bc_invmod($e, $pi);
@@ -384,14 +404,16 @@ class QF_RSA
 
     // BCMath based crypto
     function bc_crypto($bs_mess, $a, $m)
-    {        $mess = $this->bs2bc($bs_mess);
+    {
+        $mess = $this->bs2bc($bs_mess);
         return $this->bc2bs($this->bc_powmod($mess, $a, $m));
     }
 
 
     // Big_Int module usage functions (much faster but big_int is not so popular)
     function bi_genkeys($len)
-    {        $len = $len * 8;
+    {
+        $len = $len * 8;
         $p_len = floor($len / 2) + 1;
         $q_len = $len - $p_len;
 

@@ -20,19 +20,23 @@ define('QF_EFS_GZIP' , 2);
 define('QF_EFS_GZIP_TRY', 4);
 
 class QF_EFS
-{    var $streams = Array();
+{
+    var $streams = Array();
 
     function QF_EFS()
-    {        $this->streams = Array();
+    {
+        $this->streams = Array();
     }
 
     function Open($filename, $Try_mode = 0, $GZ_try_ext = '.gz')
-    {        static $stream_id = 0;
+    {
+        static $stream_id = 0;
         $new_mode = 0;
         $new_stream = null;
 
         if ($Try_mode & QF_EFS_WRITE)
-        {            $new_mode |= QF_EFS_WRITE;
+        {
+            $new_mode |= QF_EFS_WRITE;
 
             if ($Try_mode & QF_EFS_GZIP_TRY)
             {
@@ -43,14 +47,16 @@ class QF_EFS
                 }
             }
             elseif ($Try_mode & QF_EFS_GZIP)
-            {                if (extension_loaded('zlib'))
+            {
+                if (extension_loaded('zlib'))
                     $new_mode |= QF_EFS_GZIP;
                 else
                 {
                     trigger_error('EFS: can\'t start GZIP stream', E_USER_NOTICE);
                     return false;
                 }
-            }
+            }
+
             qf_mkdir_recursive(dirname($filename));
 
             if ($new_mode & QF_EFS_GZIP)
@@ -59,8 +65,10 @@ class QF_EFS
                 $new_stream = fopen($filename, 'wb');
         }
         else
-        {            if (!file_exists($filename))
-            {                trigger_error('EFS: file '.$filename.' does not exist', E_USER_NOTICE);
+        {
+            if (!file_exists($filename))
+            {
+                trigger_error('EFS: file '.$filename.' does not exist', E_USER_NOTICE);
                 return false;
             }
 
@@ -89,7 +97,8 @@ class QF_EFS
         }
 
         if ($new_stream)
-        {            $stream_id++;
+        {
+            $stream_id++;
             $this->streams[$stream_id] = Array($new_stream, $new_mode, $filename);
             return $stream_id;
         }
@@ -101,13 +110,15 @@ class QF_EFS
     }
 
     function Write($stream_id, $data, $length = null)
-    {        if (!isset($this->streams[$stream_id]))
+    {
+        if (!isset($this->streams[$stream_id]))
             return false;
 
         list($stream, $mode) = $this->streams[$stream_id];
 
         if (!($mode & QF_EFS_WRITE))
-        {            trigger_error('EFS: trying to write to stream opened for reading', E_USER_WARNING);
+        {
+            trigger_error('EFS: trying to write to stream opened for reading', E_USER_WARNING);
             return false;
         }
 
@@ -152,7 +163,8 @@ class QF_EFS
     }
 
     function Get_Cont($stream_id)
-    {        if (!isset($this->streams[$stream_id]))
+    {
+        if (!isset($this->streams[$stream_id]))
             return false;
 
         list($stream, $mode) = $this->streams[$stream_id];
@@ -188,7 +200,8 @@ class QF_EFS
     }
 
     function EOF($stream_id)
-    {        if (!isset($this->streams[$stream_id]))
+    {
+        if (!isset($this->streams[$stream_id]))
             return false;
 
         list($stream, $mode) = $this->streams[$stream_id];
@@ -240,7 +253,8 @@ class QF_EFS
         $curoff = ($mode & QF_EFS_GZIP) ? gztell($stream) : ftell($stream);
 
         if ($offset < $curoff)
-        {            if ($mode & QF_EFS_GZIP)
+        {
+            if ($mode & QF_EFS_GZIP)
                 gzrewind($stream);
             else
                 rewind($stream);
@@ -302,7 +316,8 @@ class QF_EFS
     }
 
     function CheckMode($stream_id)
-    {        if (!isset($this->streams[$stream_id]))
+    {
+        if (!isset($this->streams[$stream_id]))
             return false;
 
         list($stream, $mode) = $this->streams[$stream_id];
@@ -321,7 +336,8 @@ class QF_EFS
     }
 
     function ParseCallback($stream_id, $func, $by_length = 10240)
-    {        if (!isset($this->streams[$stream_id]))
+    {
+        if (!isset($this->streams[$stream_id]))
             return false;
 
         $by_length = (int) $by_length;
@@ -346,7 +362,8 @@ class QF_EFS
         $eof = ($mode & QF_EFS_GZIP) ? gzeof($stream) : feof($stream);
 
         while (!$eof)
-        {            if ($mode & QF_EFS_GZIP)
+        {
+            if ($mode & QF_EFS_GZIP)
                 $data_block = gzread($stream, $by_length);
             else
                 $data_block = fread($stream, $by_length);

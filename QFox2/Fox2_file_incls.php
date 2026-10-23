@@ -23,7 +23,8 @@ class Fox2_file_incls
     }
 
     function AJX_Deleter(&$AJAX_STATUS)
-    {        global $QF, $FOX;
+    {
+        global $QF, $FOX;
 
         if (!$QF->User->UID || ($QF->User->acc_level < $QF->Config->Get('upl_minlvl', 'files_cfg', 1)))
         {
@@ -152,7 +153,8 @@ class Fox2_file_incls
         global $QF, $FOX;
 
         if (!$for_ajax)
-        {            $FOX->Link_JScript('ajax');
+        {
+            $FOX->Link_JScript('ajax');
             $FOX->Link_JScript('swfobject');
             $FOX->Link_JScript('uploader');
         }
@@ -241,7 +243,8 @@ class Fox2_file_incls
             return Array(sprintf(Lang('ERR_FILES_NOTOWNER'), $info['caption']), $FOX->Gen_URL('fox2_files_viewrootdir'), true);
         }
         else
-        {            if ($QF->GPC->Get_Bin('do_delete', QF_GPC_POST))
+        {
+            if ($QF->GPC->Get_Bin('do_delete', QF_GPC_POST))
             {
                 if ($QF->Files->Drop_File($file_id))
                     return Array(Lang('RES_FILE_DELETE_OK'), $FOX->Gen_URL('fox2_files_openfolder', $info['folder']));
@@ -441,7 +444,8 @@ class Fox2_file_incls
                 'ACC_LVL'  => $info['r_level'],
                 );
             if (!is_null($info['parent']) && $pinfo = $QF->Files->Get_FolderInfo($info['parent']))
-            {                $PageInfo['PARENT_ID'] = ($pinfo['t_id']) ? $pinfo['t_id'] : $pinfo['id'];
+            {
+                $PageInfo['PARENT_ID'] = ($pinfo['t_id']) ? $pinfo['t_id'] : $pinfo['id'];
                 $PageInfo['PARENT_CAPT'] = $pinfo['name'];
             }
 
@@ -508,7 +512,8 @@ class Fox2_file_incls
                         $itm_info['WIDTH_HEIGHT'] = 'width: '.$wh[0].'px; height: '.$wh[1].'px;';
                 }
                 else
-                {                    $itm_info = Array(
+                {
+                    $itm_info = Array(
                         'FOLDID'   => ($cont_item['t_id']) ? $cont_item['t_id'] : $cont_item['id'],
                         'CAPTION'  => $cont_item['name'],
                         'SCAPTION' => $QF->USTR->Str_SmartTrim($cont_item['name'], 32),
@@ -542,11 +547,13 @@ class Fox2_file_incls
         if (($info = $QF->Files->Get_FileInfo($file_id)) && $info['file_link'])
         {
             if ($dcode = 'useSID')
-            {                $QF->Session->Open_Session(false, true);
+            {
+                $QF->Session->Open_Session(false, true);
                 $sessName = 'dcode_'.$file_id;
                 $dcode = $QF->Session->Get($sessName);
                 if (is_null($dcode) || $QF->Files->Check_DCode($file_id, $dcode))
-                {                    if ($dcode = $QF->Files->Gen_DCode($file_id))
+                {
+                    if ($dcode = $QF->Files->Gen_DCode($file_id))
                         $QF->Session->Set($sessName, $dcode);
                     else
                         $FOX->Set_Result(Lang('ERR_FILE_NOACCESS'), $FOX->Gen_URL('fox2_files_viewrootdir'), true);
@@ -853,7 +860,8 @@ class Fox2_file_incls
             }
 
             if (!$info['is_temp'] && ($finfo = $QF->Files->Get_FolderInfo($info['folder'])) && $finfo['is_sys'] == 0)
-            {                $PageInfo['PAR_FOLDER'] = ($finfo['t_id']) ? $finfo['t_id'] : $finfo['id'];
+            {
+                $PageInfo['PAR_FOLDER'] = ($finfo['t_id']) ? $finfo['t_id'] : $finfo['id'];
                 $PageInfo['PAR_FOLDER_NAME'] = $finfo['name'];
             }
 
@@ -895,7 +903,8 @@ class Fox2_file_incls
             {
                 $PageInfo['CAN_MODIFY'] = 'true';
                 $PageInfo['MAX_LVL'] = ($QF->User->UID && $QF->User->UID == $info['author_id']) ? max($QF->User->acc_level, $QF->User->mod_level) : $QF->User->mod_level;
-            }
+            }
+
 
             if ($info['mime'] == 'audio/mpeg')
             {

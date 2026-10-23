@@ -69,7 +69,8 @@ class QF_Cacher
 
         $this->chdata[$name] = null;
         if (substr($name, -1) == '.')
-        {            $keys = array_keys($this->chdata);
+        {
+            $keys = array_keys($this->chdata);
             foreach ($keys as $key)
                 if (strpos($key, $name) === 0)
                     $this->chdata[$key] = null;
@@ -151,7 +152,8 @@ class QF_Cacher
     }
 
     function Get_TempFile($name)
-    {        Global $QF;
+    {
+        Global $QF;
 
         if (!$name)
             return false;

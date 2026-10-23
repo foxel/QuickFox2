@@ -163,7 +163,8 @@ class Fox2_curuser
     }
 
     function CheckAuth($pass, $login = false)
-    {        global $QF;
+    {
+        global $QF;
 
         if ($this->UID && ($cuser = $QF->DBase->Do_Select('users_auth', '*', Array('uid' => $this->UID))))
         {
@@ -728,7 +729,8 @@ class Fox2_UserList
     }
 
     function Get_User_Auth($id)
-    {        global $QF;
+    {
+        global $QF;
         return $QF->DBase->Do_Select('users_auth', Array('uid', 'login', 'sys_email', 'lastauth'), Array('uid' => $id));
     }
 
@@ -845,11 +847,15 @@ class Fox2_UserList
     }
 
     function Set_Auth($uid, $params)
-    {        global $QF, $FOX;
-        if ($odata = $QF->DBase->Do_Select('users_auth', '*', Array('uid' => $uid)))
-        {            $ndata = Array();
+    {
+        global $QF, $FOX;
+
+        if ($odata = $QF->DBase->Do_Select('users_auth', '*', Array('uid' => $uid)))
+        {
+            $ndata = Array();
             if (isset($params['pass']) && $params['pass'])
-            {                if (strlen($params['pass']) < 5)
+            {
+                if (strlen($params['pass']) < 5)
                     return false;
 
                 $ndata['pass_salt'] = $new_salt = substr(md5(uniqid('QF_salt', true)), rand(0, 24), 7);
@@ -875,7 +881,8 @@ class Fox2_UserList
     }
 
     function Set_BaseInfo($uid, $params)
-    {        global $QF, $FOX;
+    {
+        global $QF, $FOX;
 
         if ($odata = $QF->DBase->Do_Select('users_auth', '*', Array('uid' => $uid)))
         {
@@ -895,7 +902,8 @@ class Fox2_UserList
                 $av_file = QF_USERLIB_AVATARS_BASEPATH.$params['avatar'];
                 $ndata['av_dims'] = '';
                 if ($params['avatar'])
-                {                    if (!is_file($av_file))
+                {
+                    if (!is_file($av_file))
                         return false;
                     $iinfo = getimagesize($av_file);
                     chmod($av_file, 0644);

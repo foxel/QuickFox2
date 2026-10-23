@@ -11,20 +11,23 @@ if ( !defined('QF_STARTED') )
 class Fox2_PTree_Incls
 {
     function Fox2_PTree_Incls()
-    {        global $QF, $FOX;
+    {
+        global $QF, $FOX;
         $QF->Run_Module('PTree');
         $QF->LNG->Load_Language('posttree');
     }
 
     function AJX_getpost(&$AJAX_STATUS)
-    {        global $QF, $FOX;
+    {
+        global $QF, $FOX;
         $pid = $QF->GPC->Get_Num('post_id', QF_GPC_POST);
         $pdata = $QF->PTree->Get_Post($pid);
         return $pdata;
     }
 
     function Script_PTManage()
-    {        global $QF, $FOX;
+    {
+        global $QF, $FOX;
         $mode = $QF->GPC->Get_String('action', QF_GPC_POST, QF_STR_WORD);
         $my_href = $QF->GPC->Get_String('return', QF_GPC_POST, QF_STR_LINE);
         $tid = $QF->GPC->Get_Num('tree_id', QF_GPC_POST);
@@ -68,7 +71,8 @@ class Fox2_PTree_Incls
     }
 
     function Page_PTManage(&$p_title, &$p_subtitle, &$d_result)
-    {        global $QF, $FOX;
+    {
+        global $QF, $FOX;
 
         $QF->Run_Module('UList');
 
@@ -87,11 +91,13 @@ class Fox2_PTree_Incls
         $tdata = $pdata = null;
         // let's load the data
         switch($mode)
-        {            case 'delpost':
+        {
+            case 'delpost':
             case 'editpost':
                 $pdata = $QF->PTree->Get_Post($tid);
                 if (!$pdata)
-                {                    $d_result = Array(Lang('ERR_PTREE_PTMANAGE_NOTFOUND'), $my_href, true);
+                {
+                    $d_result = Array(Lang('ERR_PTREE_PTMANAGE_NOTFOUND'), $my_href, true);
                     return false;
                 }
                 $pid = $tid;
@@ -133,7 +139,8 @@ class Fox2_PTree_Incls
 
         }
         elseif ($mode == 'editpost')
-        {            $p_title = Lang('FOX2_PTREE_PAGEEDIT');
+        {
+            $p_title = Lang('FOX2_PTREE_PAGEEDIT');
             if ($p_acc < 3)
             {
                 $d_result = Array(Lang('RES_PTREE_PTMANAGE_LOWLEVEL'), $my_href, true);
@@ -157,14 +164,16 @@ class Fox2_PTree_Incls
 
         }
         else // answer
-        {            $p_title = Lang('FOX2_PTREE_PAGENEW');
+        {
+            $p_title = Lang('FOX2_PTREE_PAGENEW');
             if ($t_acc < 2)
             {
                 $d_result = Array(Lang('RES_PTREE_PTMANAGE_LOWLEVEL'), $my_href, true);
                 return false;
             }
             if ($pdata)
-            {                $opost_node = $QF->VIS->Add_Node('FOX_POSTTREE_POST', 'POSTS', $page_node);
+            {
+                $opost_node = $QF->VIS->Add_Node('FOX_POSTTREE_POST', 'POSTS', $page_node);
                 $opost_info = $pdata + Array('PTEXT' => $pdata['p_text'], 'SHOW_ONLY' => '1');
                 if ($uinfo = $QF->UList->Get_UserInfo($pdata['author_id']))
                 {
@@ -181,7 +190,8 @@ class Fox2_PTree_Incls
                 'DO_NEW' => '1',
                 );
             if ($QF->User->UID)
-            {                $uinfo = $QF->UList->Get_UserInfo($QF->User->UID);
+            {
+                $uinfo = $QF->UList->Get_UserInfo($QF->User->UID);
                 $QF->VIS->Add_Node('USER_INFO_MIN_DIV', 'AUTHOR_INFO', $post_node, $uinfo /*+ Array('HIDE_ACCESS' => 1)*/);
                 $post_info['AUTHOR'] = $uinfo['nick'];
             }

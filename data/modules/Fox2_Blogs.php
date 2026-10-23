@@ -17,7 +17,8 @@ class QF_Blogs
     var $acc_lvl = 0;
 
     function QF_Blogs()
-    {        global $QF, $FOX;
+    {
+        global $QF, $FOX;
 
         $QF->Run_Module('PTree');
         $QF->Run_Module('UList');
@@ -29,7 +30,8 @@ class QF_Blogs
 
 
     function Page_Blogs(&$p_title, &$p_subtitle, &$d_result, &$d_status)
-    {        global $QF, $FOX;
+    {
+        global $QF, $FOX;
 
         $QF->VIS->Load_Templates('blogs');
         $mode = $QF->GPC->Get_String('mode', QF_GPC_GET, QF_STR_WORD);
@@ -38,7 +40,8 @@ class QF_Blogs
         $p_title = $QF->LNG->Lang('FOX_BLOGS_CAPTION');
 
         if (!$QF->User->CheckAccess($this->acc_lvl))
-        {            $d_result = Array(Lang($QF->User->UID ? 'FOX_BLOGS_MISC_NOACCESS_USER' : 'FOX_BLOGS_MISC_NOACCESS_GUEST'), false, true);
+        {
+            $d_result = Array(Lang($QF->User->UID ? 'FOX_BLOGS_MISC_NOACCESS_USER' : 'FOX_BLOGS_MISC_NOACCESS_GUEST'), false, true);
             return false;
         }
 
@@ -50,7 +53,8 @@ class QF_Blogs
             return $this->_Page_Index($p_subtitle, $d_result, $d_status);
 
         switch ($mode)
-        {            case 'entry':
+        {
+            case 'entry':
                 return $this->_Page_Entry($id, $p_subtitle, $d_result, $d_status);
             case 'user':
                 return $this->_Page_UserBlog($id, $p_subtitle, $d_result, $d_status);
@@ -90,7 +94,8 @@ class QF_Blogs
     }
 
     function _Page_Index(&$p_subtitle, &$d_result, &$d_status)
-    {        global $QF, $FOX;
+    {
+        global $QF, $FOX;
 
         $p_subtitle = $QF->LNG->Lang('FOX_BLOGS_CAPT_RECENT');
 
@@ -302,7 +307,8 @@ class QF_Blogs
     }
 
     function _Script_Entry_New()
-    {        global $QF, $FOX;
+    {
+        global $QF, $FOX;
 
         $new_capt = $QF->GPC->Get_String('entry_capt', QF_GPC_POST, QF_STR_LINE);
         $new_text = $QF->GPC->Get_String('entry_text', QF_GPC_POST);
@@ -336,7 +342,8 @@ class QF_Blogs
 
         if ($QF->DBase->Do_Insert('blog_entries', $data_ins)
             && $QF->DBase->Do_Insert('blog_texts', $text_ins))
-        {            if ($tid = $QF->PTree->Create_Tree('FOX_BLOG', Array($id), Array('r_level' => $data_ins['r_level'], 'w_level' => max($data_ins['r_level'], 1), 'author_id' => $data_ins['author_id'], 'author' => $data_ins['author'])))
+        {
+            if ($tid = $QF->PTree->Create_Tree('FOX_BLOG', Array($id), Array('r_level' => $data_ins['r_level'], 'w_level' => max($data_ins['r_level'], 1), 'author_id' => $data_ins['author_id'], 'author' => $data_ins['author'])))
                 $QF->DBase->Do_Update('blog_entries', Array('pt_root' => $tid), Array('id' => $id));
             $QF->Cache->Drop(FOX_BLOGS_CACHE_PREFIX);
             return Array(Lang('RES_BLOGS_ADDED'), $FOX->Gen_URL('FoxBlogs_entry', $id));
@@ -428,7 +435,8 @@ class QF_Blogs
     }
 
     function Load_Index($filter = 0, $filter_data = null)
-    {        global $QF;
+    {
+        global $QF;
 
         $where = Array();
         $other = Array('order' => Array('time' => 'DESC'));
@@ -436,7 +444,8 @@ class QF_Blogs
         if (!is_array($filter_data))
             $filter_data = Array($filter_data);
         switch ($filter)
-        {            case 1:
+        {
+            case 1:
                 $where['author_id'] = $filter_data;
                 $cachename = FOX_BLOGS_CACHE_PREFIX.'us-'.md5(implode('|', $filter_data));
                 break;
@@ -446,10 +455,12 @@ class QF_Blogs
         }
 
         if ($data = $QF->Cache->Get($cachename))
-        {            return $data;
+        {
+            return $data;
         }
         else if ($data = $QF->DBase->Do_Select_All('blog_entries', '*', $where, $other))
-        {            qf_2darray_keycol($data, 'id');
+        {
+            qf_2darray_keycol($data, 'id');
             $QF->Cache->Set($cachename, $data);
             return $data;
         }
@@ -458,7 +469,8 @@ class QF_Blogs
     }
 
     function Load_Texts($ids)
-    {        global $QF;
+    {
+        global $QF;
 
         if (!$ids)
             return false;
@@ -474,10 +486,12 @@ class QF_Blogs
 
         $got_data = Array();
         if ($cachename && ($datas = $QF->Cache->Get($cachename)))
-        {            $got_data = $datas;
+        {
+            $got_data = $datas;
         }
         else if ($datas = $QF->DBase->Do_Select_All('blog_texts', '*', Array('id' => $ids)))
-        {            foreach ($datas as $data)
+        {
+            foreach ($datas as $data)
             {
                 if (!$data['preparsed'])
                 {

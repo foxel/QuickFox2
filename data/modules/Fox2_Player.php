@@ -9,7 +9,8 @@ class Fox2_MPlayer
     var $fold_name = 'music';
 
     function Fox2_MPlayer()
-    {        global $QF, $FOX;
+    {
+        global $QF, $FOX;
 
         $this->fold_name = $QF->Config->Get('play_folder', 'fox_player', 'music');
     }
@@ -23,7 +24,8 @@ class Fox2_MPlayer
     }
 
     function PostPage($pg, $pg_node)
-    {        global $QF, $FOX;
+    {
+        global $QF, $FOX;
 
         if (!$QF->Config->Get('show_in_panels', 'fox_player', 1))
             return;
@@ -33,7 +35,8 @@ class Fox2_MPlayer
     }
 
     function _OnFolderPageDraw($finfo_page, $fold_id, $conts)
-    {        global $QF, $FOX;
+    {
+        global $QF, $FOX;
 
         $got_mus = $got_mp3 = false;
         foreach ($conts as $cont_id)
@@ -62,10 +65,12 @@ class Fox2_MPlayer
     }
 
     function DPage()
-    {        global $QF, $FOX;
+    {
+        global $QF, $FOX;
         $p_type = $QF->GPC->Get_String('p_type', QF_GPC_GET, QF_STR_WORD);
         switch($p_type)
-        {            case 'playlist':
+        {
+            case 'playlist':
                 return $this->DPage_PL();
             case 'm3u':
                 return $this->DPage_PL(true);
@@ -77,7 +82,8 @@ class Fox2_MPlayer
     }
 
     function DPage_PL($is_m3u = false)
-    {        global $QF, $FOX;
+    {
+        global $QF, $FOX;
         $QF->Run_Module('Files');
 
 
@@ -100,7 +106,8 @@ class Fox2_MPlayer
         $filename = null;
         $output = Array();
         if ($is_m3u)
-        {            $mime = 'audio/x-mpegurl';
+        {
+            $mime = 'audio/x-mpegurl';
             $filename = ($fold['t_id'] ? $fold['t_id'] : $fold['id']).'.m3u8';
             $output[] = '#EXTM3U';
             foreach ($conts as $cont_id)
@@ -135,7 +142,8 @@ class Fox2_MPlayer
     }
 
     function DPage_Player()
-    {        global $QF, $FOX;
+    {
+        global $QF, $FOX;
         $PLUrl = (($my_fold = $QF->GPC->Get_String('folder', QF_GPC_GET, QF_STR_WORD)) !== null)
                     ? $FOX->Gen_URL('fox2_player_plist_folder', $my_fold, false, true)
                     : $FOX->Gen_URL('fox2_player_playlist', null, false, true);

@@ -116,7 +116,8 @@ class QF_SQL_DBase
                 $this->cur_dbname = $database;
             }
             elseif (mysql_select_db($this->database))
-            {                $this->cur_dbname = $this->database;
+            {
+                $this->cur_dbname = $this->database;
             }
             else
                 return ($this->db_connect_id = false);
@@ -1081,7 +1082,8 @@ class QF_SQL_DBase
 
     // Maintenance functions
     function Optimize($dbase = '')
-    {        static $Got_Optimized = Array();
+    {
+        static $Got_Optimized = Array();
 
         if (!$dbase)
             $dbase = $this->database;

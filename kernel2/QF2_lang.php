@@ -47,7 +47,8 @@ class QF_Lang
     }
 
     function _Start()
-    {        $this->Load_Kernel_Defs();
+    {
+        $this->Load_Kernel_Defs();
     }
 
     function Select($lang)
@@ -70,7 +71,8 @@ class QF_Lang
     }
 
     function Ask()
-    {        return $this->lang_name;
+    {
+        return $this->lang_name;
     }
 
     function Load_Language($part = '')
@@ -142,7 +144,8 @@ class QF_Lang
     }
 
     function LangParse($data, $prefix = 'L_')
-    {        if (is_scalar($data))
+    {
+        if (is_scalar($data))
         {
             if (preg_match('#^'.preg_quote($prefix, '#').'\w+$#D', $data))
                 $data = $this->Lang(substr($data, strlen($prefix)));
@@ -162,7 +165,8 @@ class QF_Lang
     }
 
     function Time_Format($timestamp, $format = '', $tz = '', $force_no_rels = false)
-    {        global $QF;
+    {
+        global $QF;
 
         static $now, $correct, $today, $yesterday, $time_f, $last_tz = null, $no_rels;
 
@@ -178,7 +182,8 @@ class QF_Lang
             $this->Load_Language();
 
         if (!is_array($this->time_tr))
-        {            $keys = Array(
+        {
+            $keys = Array(
                 1 => Array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'),
                 2 => Array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'),
                 3 => Array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'),
@@ -196,7 +201,8 @@ class QF_Lang
             {
                 $lname = $lnames[$i];
                 if (isset($this->lang[$lname]))
-                {                    $part = explode('|', $this->lang[$lname]);
+                {
+                    $part = explode('|', $this->lang[$lname]);
                     $pkeys = $keys[$i];
                     if (count($part) == count($pkeys))
                         foreach ($pkeys as $id => $key)
@@ -259,7 +265,8 @@ class QF_Lang
     }
 
     function Size_Format($size, $bits = false)
-    {        if (!count($this->LNG_loaded))
+    {
+        if (!count($this->LNG_loaded))
             $this->Load_Language();
 
         $size = (int) $size;
@@ -271,11 +278,13 @@ class QF_Lang
             $this->bsize_tr = Array(0 => Array(1 => 'B'), 1 => Array(1 => 'b'));
             foreach ($bnames as $class => $cl_lang)
                 if (isset($this->lang[$cl_lang]) && $this->lang[$cl_lang])
-                {                    $parts = explode('|', $this->lang[$cl_lang]);
+                {
+                    $parts = explode('|', $this->lang[$cl_lang]);
                     $i = 1;
                     $this->bsize_tr[$class] = Array();
                     foreach ($parts as $part)
-                    {                        if (!$i)
+                    {
+                        if (!$i)
                             break;
                         $this->bsize_tr[$class][$i] = $part;
                         $i *= 1024;
@@ -295,7 +304,8 @@ class QF_Lang
                 break;
             }
             elseif ($size >= $bsize)
-            {                $size = $size/$bsize;
+            {
+                $size = $size/$bsize;
                 $out = sprintf('%01.2f %s', $size, $name);
                 break;
             }
@@ -305,10 +315,13 @@ class QF_Lang
     }
 
     function Translit($inp)
-    {        static $trans_arr = null;
+    {
+        static $trans_arr = null;
         if (is_null($trans_arr))
-        {            if (!isset($this->lang['__TRANSLIT_FROM']) || !isset($this->lang['__TRANSLIT_TO']))
-            {                $trans_arr = false;
+        {
+            if (!isset($this->lang['__TRANSLIT_FROM']) || !isset($this->lang['__TRANSLIT_TO']))
+            {
+                $trans_arr = false;
                 return preg_replace('#[\x80-\xFF]+#', '_', $inp);
             }
 
@@ -340,7 +353,8 @@ class QF_Lang
         static $K_lang = null;
 
         if (!is_null($K_lang))
-        {            $this->lang = $K_lang + $this->lang;
+        {
+            $this->lang = $K_lang + $this->lang;
             return true;
         }
 

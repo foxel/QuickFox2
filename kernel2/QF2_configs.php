@@ -93,7 +93,8 @@ class QF_Configs
     }
 
     function List_Schemes()
-    {        if (!$this->loaded)
+    {
+        if (!$this->loaded)
             $this->Load();
 
         return array_keys($this->values);

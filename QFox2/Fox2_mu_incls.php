@@ -8,7 +8,8 @@ if ( !defined('QF_STARTED') )
 class Fox2_mu_incls
 {
     function Fox2_mu_incls()
-    {        global $QF;
+    {
+        global $QF;
         $QF->Run_Module('MultiUser');
     }
 

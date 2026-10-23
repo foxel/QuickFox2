@@ -151,7 +151,8 @@ class Fox2_Files
     }
 
     function Get_ImageDims($fid, &$out_dims, $dims_type = QF_FILES_IDIMS_IMAGE)
-    {        $info = $this->Get_FileInfo($fid);
+    {
+        $info = $this->Get_FileInfo($fid);
         if (!$info || !$info['has_pics'])
             return false;
 
@@ -160,13 +161,15 @@ class Fox2_Files
 
         $wh = explode('|', $info['image_dims']);
         if (count($wh) >= 2)
-        {            $w = (int) $wh[0]; $h = (int) $wh[1];
+        {
+            $w = (int) $wh[0]; $h = (int) $wh[1];
         }
         else
             $w = $h = 200;
 
         switch ($dims_type)
-        {            case QF_FILES_IDIMS_THUMB: $w = min($w, $this->thb_w); $h = min($h, $this->thb_h); break;
+        {
+            case QF_FILES_IDIMS_THUMB: $w = min($w, $this->thb_w); $h = min($h, $this->thb_h); break;
             case QF_FILES_IDIMS_PREVIEW: $w = min($w, $this->prv_w); $h = min($h, $this->prv_h); break;
         }
 
@@ -261,7 +264,8 @@ class Fox2_Files
             : false;
 
         if ($cachename && (list($new_infos, $ch_time) = $QF->Cache->Get($cachename)) && is_array($new_infos))
-        {            // need to load statistics
+        {
+            // need to load statistics
             $where['last_dload'] = '>= '.$ch_time;
             if ($datas = $QF->DBase->Do_Select_All('files', Array('id', 'dloads', 'last_dload'), $where, '', QF_SQL_USEFUNCS))
                 foreach ($datas as $data)
@@ -725,7 +729,8 @@ class Fox2_Files
             );
         // we'll try to fing dcode by session or guest id
         if ($ddatas = $QF->DBase->Do_Select_All('file_dloads', Array('dl_id', 'sid', 'gid', 'active_till'), $selector + Array('active_till' => '>= '.$QF->Timer->time), '', QF_SQL_USEFUNCS))
-        {            qf_2darray_keycol($ddatas, 'dl_id');
+        {
+            qf_2darray_keycol($ddatas, 'dl_id');
             list($by_sid, $by_gid) = qf_2darray_cols($ddatas, Array('sid', 'gid'));
             if (($QF->Session->Get_Status(QF_SESSION_LOADED) && $dl_ids = array_keys($by_sid, $QF->Session->SID))
                 || $dl_ids = array_keys($by_gid, $QF->User->GID))

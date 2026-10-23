@@ -182,7 +182,8 @@ class QF_Visual
     }
 
     function Set_VConsts($consts, $no_replace = false)
-    {        if (!is_array($consts))
+    {
+        if (!is_array($consts))
             return false;
 
         if ($no_replace)
@@ -250,7 +251,8 @@ class QF_Visual
     }
 
     function Load_EJS($name = '')
-    {        Global $QF;
+    {
+        Global $QF;
 
         if (!$name)
             $name = QF_KERNEL_VIS_COMMON;
@@ -801,18 +803,21 @@ class QF_Visual
             if (isset($part[2]) && ($tag = strtoupper($part[2])))
             {
                 $got_a = ($part[1]) ? true : false;
-                $params = Array();
+
+                $params = Array();
                 if (isset($part[3]) && ($got = preg_match_all('#((?>\w+))(?:([\!=\>\<]{1,2})(\w+|\"[^\"]*\"))?#', $part[3], $params, PREG_PATTERN_ORDER)))
                     for ($i = 0; $i < $got; $i++)
                         $params[1][$i] = strtoupper($params[1][$i]);
 
                 if ($tag == 'WRITE')
-                {                    if (isset($params[1]) && count($params[1]) && ($var = $params[1][0]) && !is_numeric($var[0]))
+                {
+                    if (isset($params[1]) && count($params[1]) && ($var = $params[1][0]) && !is_numeric($var[0]))
                         $var = '$'.$var;
                     else
                         $var = '$OUT';
                     if ($var != $writes_to)
-                    {                        $writes_to = $var;
+                    {
+                        $writes_to = $var;
                         $text.= VIS_BR.'QFT;'.VIS_BR.$writes_to.(($got_a) ? '' : '.').'= <<<QFT'.VIS_BR;
                     }
                 }
@@ -850,11 +855,13 @@ class QF_Visual
                     }
                 }
                 elseif ($tag == 'SET')
-                {                    if ($pars = count($params[1]))
+                {
+                    if ($pars = count($params[1]))
                     {
                         $sets = '';
                         for($i = 0; $i < $pars; $i++)
-                        {                            $var = $params[1][$i];
+                        {
+                            $var = $params[1][$i];
                             if (is_numeric($var[0]) || !isset($params[3][$i]) || !strlen($params[3][$i]))
                                 continue;
                             $val = $params[3][$i];
@@ -884,7 +891,8 @@ class QF_Visual
                     }
                 }
                 elseif ($tag == 'FOR')
-                {                    if (!isset($params[1]) || !count($params[1]) || $in_for)
+                {
+                    if (!isset($params[1]) || !count($params[1]) || $in_for)
                         continue;
                     $params = $params[1];
                     $p1 = array_shift($params);
@@ -941,7 +949,8 @@ class QF_Visual
                             elseif ($val[0] == '"')
                                 $text.= '<<<QFT'.VIS_BR.qf_heredoc_addslashes(substr($val, 1, -1), 'QFT').VIS_BR.'QFT'.VIS_BR.',';
                             else
-                            {                                $val = strtoupper($val);
+                            {
+                                $val = strtoupper($val);
                                 if (substr($val, 0, 2) == 'L_')
                                     $text.= '<<<QFT'.VIS_BR.qf_heredoc_addslashes($this->_Templ_Lang_CB(Array(1 => substr($val, 2))), 'QFT').VIS_BR.'QFT'.VIS_BR.',';
                                 elseif (isset($consts[$val]))
@@ -1052,8 +1061,10 @@ class QF_Visual
     }
 
     function ____PreReplace_VISes($VISes) //RAW VISes including... TODO
-    {        foreach ($VISes as $id => $text)
-        {            preg_match_all('#\{\!?VIS(?:\:((?:(?>\w+)(?:[\!=\>\<]{1,2}(?:\w+|\"[^\"]*\"))?|\||)*))?\}|[^\{]+|\{#', $text, $struct, PREG_SET_ORDER);
+    {
+        foreach ($VISes as $id => $text)
+        {
+            preg_match_all('#\{\!?VIS(?:\:((?:(?>\w+)(?:[\!=\>\<]{1,2}(?:\w+|\"[^\"]*\"))?|\||)*))?\}|[^\{]+|\{#', $text, $struct, PREG_SET_ORDER);
 
             $text = '';
             $keys = array_keys($struct);

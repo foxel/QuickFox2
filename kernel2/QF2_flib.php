@@ -223,7 +223,8 @@ function qf_2darray_cols($array, $fields)
 }
 
 function qf_2darray_tree($array, $by_id = 'id', $by_par = 'parent', $root_id = 0, $by_lvl = 't_level')
-{    $itm_pars = $itm_tmps = Array();
+{
+    $itm_pars = $itm_tmps = Array();
 
     foreach ($array as $item) // temporary data dividing
     {
@@ -423,7 +424,8 @@ function qf_url_add_param($url, $pname, $pdata, $with_amps = false, $replace = f
 }
 
 function qf_url_drop_param($url, $pname)
-{    $url = preg_replace('#(\?|&amp;|&)'.preg_quote($pname, '#').'=[^&\#\?]*#', '', $url);
+{
+    $url = preg_replace('#(\?|&amp;|&)'.preg_quote($pname, '#').'=[^&\#\?]*#', '', $url);
 
     return $url;
 }
