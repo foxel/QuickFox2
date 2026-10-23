@@ -1,0 +1,5 @@
+.pack.sh         export-ignore
+setup.php        export-ignore
+.gitignore       export-ignore
+.gitattributes   export-ignore
+.editorconfig    export-ignore
